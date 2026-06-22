@@ -17,7 +17,7 @@ Read `harness-kit/adapters/trae/trae-quick-ref.md`
 
 ## 按 routing 加载
 
-与 `routing.md` § 阶段指定 skill 必用 相同。
+与 `intent-routing.md` § 阶段指定 skill 必用 相同。
 
 Trae Skill 路径：
 

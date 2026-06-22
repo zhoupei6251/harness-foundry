@@ -1,6 +1,6 @@
 # Harness bootstrap (Windows PowerShell)
 param(
-    [ValidateSet('all','cursor','trae','codex')]
+    [ValidateSet('all','cursor','trae','codex','mimocode')]
     [string]$Target = 'all',
     [switch]$Force
 )

@@ -1,6 +1,6 @@
 # Trae Harness 路由
 
-与 `harness-kit/core/routing.md` 保持一致。差异仅在物理绑定。
+与 `harness-kit/core/intent-routing.md` 保持一致。差异仅在物理绑定。
 
 ## 路由表
 

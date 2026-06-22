@@ -1,80 +1,345 @@
-# Skills Index
+# Skill 索引
 
-> 20 个 Skill 的一览表。所有 skill 统一目录结构（`SKILL.md` + 可选附属文件）。
+> Harness Kit 总计 **271 个 ECC cherry-pick skill** + 16 个 harness 自有 + 4 个 Superpowers 第三方 = **291 个**
 
-## 总览
+## 快速入口
 
-| # | Slug | Layer | 来源 | 适用平台 | 主要用途 |
-|---|------|-------|------|---------|---------|
-| 1 | `test-driven-development` | wu | harness | All | TDD 流程（先写测试） |
-| 2 | `systematic-debugging` | wu | harness | All | 系统化调试流程 |
-| 3 | `requesting-code-review` | wu | harness | All | 发起 code review |
-| 4 | `receiving-code-review` | wu | harness | All | 接收 review 反馈 |
-| 5 | `agent-browser` | wu | harness | All | 浏览器自动化 |
-| 6 | `verification-before-completion` | wu | harness | All | 完成前验证 |
-| 7 | `ui-ux-pro-max` | wu | harness | All | UI/UX 设计智能 |
-| 8 | `frontend-design` | wu | harness | All | 前端页面设计 |
-| 9 | `ruoyi-aigc-backend-developer` | project | harness | All | RuoYi 后端规范 |
-| 10 | `backend-doc-generator` | project | harness | All | 后端文档生成 |
-| 11 | `architecture-patterns` | project | harness | All | 架构模式 |
-| 12 | `security-auditor` | project | harness | All | 安全审计 |
-| 13 | `refactor-safely` | project | harness | All | 安全重构 |
-| 14 | `code-review` | project | harness | All | Code review 流程 |
-| 15 | `cursor-orchestration` | cursor_only | harness | Cursor | 子 Agent 编排 |
-| 16 | `document-review` | cursor_only | harness | Cursor | 文档审查 |
-| 17 | `subagent-driven-development` | — | Superpowers@6.0.3 | All | SDD 核心流程 |
-| 18 | `dispatching-parallel-agents` | — | Superpowers@6.0.3 | All | 并行派兵判断 |
-| 19 | `using-git-worktrees` | — | Superpowers@6.0.3 | All | Worktree 工作流 |
-| 20 | `executing-plans` | — | Superpowers@6.0.3 | All | 跨 session 执行 plan |
+| 索引 | 说明 |
+|------|------|
+| [INDEX-by-language.md](./INDEX-by-language.md) | 按 **语言 / 框架** 分组（C++ / Python / Java / Go / Rust / JS 等 35+ 类）|
+| [INDEX-by-category.md](./INDEX-by-category.md) | 按 **用途** 分组（架构 / 安全 / 测试 / 运维 / AI / 前端 / 业务 等 13 类）|
 
-## 按触发关键词检索
+## Skill 来源
 
-| 关键词 | 推荐 skill |
-|--------|----------|
-| TDD、写测试、先测后码 | `test-driven-development` |
-| debug、报错、修 bug、crash | `systematic-debugging` |
-| review、审查、看代码、CR | `requesting-code-review` / `code-review` |
-| 改代码、改反馈、收到意见 | `receiving-code-review` |
-| 浏览器、截图、抓网页 | `agent-browser` |
-| 完成、收尾、最后检查、提交 | `verification-before-completion` |
-| 设计、UI、UX、组件库 | `ui-ux-pro-max` |
-| 前端、HTML、CSS、页面 | `frontend-design` |
-| 后端、controller、service、RuoYi | `ruoyi-aigc-backend-developer` |
-| 写文档、生成文档、Mermaid | `backend-doc-generator` |
-| 架构、Clean、Hexagonal、DDD | `architecture-patterns` |
-| 安全、漏洞、审计、OWASP | `security-auditor` |
-| 重构、改进、清理、tidy | `refactor-safely` |
-| 文档审查、spec 审查、plan 审查 | `document-review` |
-| 子 agent、派发、orchestration | `cursor-orchestration` |
-| SDD、派 implementer、终审 | `subagent-driven-development` |
-| 并行、多任务、同时 | `dispatching-parallel-agents` |
-| worktree、隔离工作区 | `using-git-worktrees` |
-| 跨 session、plan、执行 | `executing-plans` |
+| Source | 数量 | 路径 |
+|--------|------|------|
+| harness 自有 | 16 | [`skills/harness/`](./harness/) |
+| Superpowers 第三方 | 4 | [`skills/third-party/superpowers/`](./third-party/superpowers/) |
+| ECC 第三方 cherry-pick | 271 | [`skills/third-party/ecc/`](./third-party/ecc/) |
+| **总计** | **291** | - |
 
-## 按平台可用性
+## ECC Cherry-Pick 速查（按前缀）
 
-| Slug | Trae | Cursor | Claude | Codex |
-|------|------|--------|--------|-------|
-| harness 自有（14）| ✅ | ✅ | ✅ | ✅ (直读 AGENTS.md) |
-| `cursor-orchestration` | ❌ | ✅ | ❌ | ❌ |
-| `document-review` | ❌ | ✅ | ❌ | ❌ |
-| 第三方 4 个 | ✅ | ✅ | ✅ | ✅ |
+| 前缀 | 数量 | 含义 |
+|------|------|------|
+| `cpp-*` | 2 | C / C++ |
+| `csharp-*` | 1 | C# |
+| `dart-*` / `flutter-*` | 2 | Dart / Flutter |
+| `django-*` | 5 | Python / Django |
+| `fastapi-*` | 1 | Python / FastAPI |
+| `fsharp-*` | 1 | F# |
+| `golang-*` | 2 | Go |
+| `java-*` / `jpa-*` | 2 | Java / JPA |
+| `kotlin-*` | 5 | Kotlin |
+| `laravel-*` | 5 | PHP / Laravel |
+| `nestjs-*` / `nodejs-*` | 2 | Node.js |
+| `nextjs-*` / `nuxt*` | 2 | Next.js / Nuxt |
+| `perl-*` | 3 | Perl |
+| `postgres-*` / `mysql-*` / `redis-*` / `clickhouse-*` / `database-*` | 5 | 数据库 |
+| `prisma-*` | 1 | Prisma |
+| `python-*` / `pytorch-*` | 2 | Python / PyTorch |
+| `quarkus-*` | 4 | Java / Quarkus |
+| `react-*` | 3 | React |
+| `rust-*` | 2 | Rust |
+| `springboot-*` | 4 | Java / Spring Boot |
+| `swift*` / `swiftui-*` | 4 | Swift / SwiftUI |
+| `vite-*` / `vue-*` / `angular-*` | 3 | 前端框架 |
+| `docker-*` / `kubernetes-*` / `deployment-*` | 3 | 运维 |
+| `agent*` / `agentic-*` / `ai-*` / `mcp-*` | 12+ | AI / Agent |
+| `security-*` / `healthcare-*` / `hipaa-*` | 6+ | 安全 / 合规 |
+| 其他业务/媒体/科学 | 100+ | 详见 `INDEX-by-category.md` |
 
-## 按 Layer 分组（manifest）
+## 完整列表（271 个，按字母）
 
-| Layer | 数量 | 说明 |
-|-------|------|------|
-| `wu` | 8 | 子 Agent WU 级，每个 Task 派发时可选 |
-| `project` | 6 | 项目级常用，每次开发都用 |
-| `cursor_only` | 2 | 仅 Cursor（其他平台不投影） |
-| 第三方 | 4 | 不进 manifest，由 `sync-third-party.sh` 单独管理 |
+<details>
+<summary>点击展开完整列表</summary>
 
-manifest 真相源：`.agents/skills/_manifest.yaml`
+- accessibility
+- agent-architecture-audit
+- agent-eval
+- agent-harness-construction
+- agentic-engineering
+- agentic-os
+- agent-introspection-debugging
+- agent-payment-x402
+- agent-self-evaluation
+- agent-sort
+- ai-first-engineering
+- ai-regression-testing
+- android-clean-architecture
+- angular-developer
+- api-connector-builder
+- api-design
+- architecture-decision-records
+- article-writing
+- automation-audit-ops
+- autonomous-agent-harness
+- autonomous-loops
+- backend-patterns
+- benchmark
+- benchmark-methodology
+- benchmark-optimization-loop
+- blender-motion-state-inspection
+- blueprint
+- brand-discovery
+- brand-voice
+- browser-qa
+- bun-runtime
+- canary-watch
+- carrier-relationship-management
+- cisco-ios-patterns
+- ck
+- claude-devfleet
+- clickhouse-io
+- click-path-audit
+- codebase-onboarding
+- codehealth-mcp
+- code-tour
+- coding-standards
+- competitive-platform-analysis
+- competitive-report-structure
+- compose-multiplatform-patterns
+- config-gc
+- configure-ecc
+- connections-optimizer
+- content-engine
+- content-hash-cache-pattern
+- context-budget
+- continuous-agent-loop
+- continuous-learning
+- continuous-learning-v2
+- cost-aware-llm-pipeline
+- cost-tracking
+- council
+- cpp-coding-standards
+- cpp-testing
+- crosspost
+- csharp-testing
+- customer-billing-ops
+- customs-trade-compliance
+- dart-flutter-patterns
+- dashboard-builder
+- database-migrations
+- data-scraper-agent
+- data-throughput-accelerator
+- deep-research
+- defi-amm-security
+- deployment-patterns
+- design-system
+- django-celery
+- django-patterns
+- django-security
+- django-tdd
+- django-verification
+- dmux-workflows
+- docker-patterns
+- documentation-lookup
+- dotnet-patterns
+- dynamic-workflow-mode
+- e2e-testing
+- ecc-guide
+- ecc-tools-cost-audit
+- email-ops
+- energy-procurement
+- enterprise-agent-ops
+- error-handling
+- eval-harness
+- evm-token-decimals
+- exa-search
+- fal-ai-media
+- fastapi-patterns
+- finance-billing-ops
+- flox-environments
+- flutter-dart-code-review
+- foundation-models-on-device
+- frontend-a11y
+- frontend-design-direction
+- frontend-patterns
+- frontend-slides
+- fsharp-testing
+- gan-style-harness
+- gateguard
+- generating-python-installer
+- github-ops
+- git-workflow
+- golang-patterns
+- golang-testing
+- google-workspace-ops
+- healthcare-cdss-patterns
+- healthcare-emr-patterns
+- healthcare-eval-harness
+- healthcare-phi-compliance
+- hermes-imports
+- hexagonal-architecture
+- hipaa-compliance
+- homelab-network-readiness
+- homelab-network-setup
+- homelab-pihole-dns
+- homelab-vlan-segmentation
+- homelab-wireguard-vpn
+- hookify-rules
+- inherit-legacy-style
+- intent-driven-development
+- inventory-demand-planning
+- investor-materials
+- investor-outreach
+- ios-icon-gen
+- iterative-retrieval
+- ito-basket-compare
+- ito-data-atlas-agent
+- ito-market-intelligence
+- ito-trade-planner
+- java-coding-standards
+- jira-integration
+- jpa-patterns
+- knowledge-ops
+- kotlin-coroutines-flows
+- kotlin-exposed-patterns
+- kotlin-ktor-patterns
+- kotlin-patterns
+- kotlin-testing
+- kubernetes-patterns
+- laravel-patterns
+- laravel-plugin-discovery
+- laravel-security
+- laravel-tdd
+- laravel-verification
+- latency-critical-systems
+- lead-intelligence
+- liquid-glass-design
+- llm-trading-agent-security
+- logistics-exception-management
+- make-interfaces-feel-better
+- manim-video
+- marketing-campaign
+- market-research
+- mcp-server-patterns
+- messages-ops
+- ml-adoption-playbook
+- mle-workflow
+- motion-advanced
+- motion-foundations
+- motion-patterns
+- motion-ui
+- mysql-patterns
+- nanoclaw-repl
+- nestjs-patterns
+- netmiko-ssh-automation
+- network-bgp-diagnostics
+- network-config-validation
+- network-interface-health
+- nextjs-turbopack
+- nodejs-keccak256
+- nutrient-document-processing
+- nuxt4-patterns
+- openclaw-persona-forge
+- opensource-pipeline
+- orch-add-feature
+- orch-build-mvp
+- orch-change-feature
+- orch-fix-defect
+- orch-pipeline
+- orch-refine-code
+- parallel-execution-optimizer
+- perl-patterns
+- perl-security
+- perl-testing
+- plankton-code-quality
+- plan-orchestrate
+- postgres-patterns
+- prediction-market-oracle-research
+- prediction-market-risk-review
+- prisma-patterns
+- product-capability
+- production-audit
+- production-scheduling
+- product-lens
+- project-flow-ops
+- prompt-optimizer
+- python-patterns
+- python-testing
+- pytorch-patterns
+- quality-nonconformance
+- quarkus-patterns
+- quarkus-security
+- quarkus-tdd
+- quarkus-verification
+- ralphinho-rfc-pipeline
+- react-patterns
+- react-performance
+- react-testing
+- recsys-pipeline-architect
+- recursive-decision-ledger
+- redis-patterns
+- regex-vs-llm-structured-text
+- remotion-video-creation
+- repo-scan
+- research-ops
+- returns-reverse-logistics
+- rules-distill
+- rust-patterns
+- rust-testing
+- safety-guard
+- santa-method
+- scientific-db-pubmed-database
+- scientific-db-uspto-database
+- scientific-pkg-gget
+- scientific-thinking-literature-review
+- scientific-thinking-scholar-evaluation
+- search-first
+- security-bounty-hunter
+- security-review
+- security-scan
+- seo
+- skill-comply
+- skill-scout
+- skill-stocktake
+- social-graph-ranker
+- social-publisher
+- springboot-patterns
+- springboot-security
+- springboot-tdd
+- springboot-verification
+- strategic-compact
+- swift-actor-persistence
+- swift-concurrency-6-2
+- swift-protocol-di-testing
+- swiftui-patterns
+- taste
+- tdd-workflow
+- team-agent-orchestration
+- team-builder
+- terminal-ops
+- tinystruct-patterns
+- token-budget-advisor
+- ui-demo
+- ui-to-vue
+- uncloud
+- unified-notifications-ops
+- verification-loop
+- videodb
+- video-editing
+- visa-doc-translate
+- vite-patterns
+- vue-patterns
+- windows-desktop-e2e
+- workspace-surface-audit
+- x-api
 
-## 更新与扩展
+</details>
 
-详见 [`README.md` § 重新同步](README.md#重新同步)。
+## 升级流程
 
----
+```bash
+# 临时克隆上游 ECC
+git clone --depth 1 https://github.com/affaan-m/ECC.git /tmp/ecc
 
-**入口：** [`README.md`](../README.md) · [`README.md`](README.md) · [`agents/README.md`](../agents/README.md)
+# 比对
+diff -r /tmp/ecc/skills/<slug> harness-kit/third-party/ecc/skills/<slug>
+
+# 同步变更
+# 更新 third-party/ecc/.skill-slugs.txt 与 _meta.json 的 source_version
+
+# 跑 sync 投影
+bash harness-kit/scripts/sync-third-party.sh
+```

@@ -1,0 +1,71 @@
+platform: trae
+matrix_version: 1
+capabilities:
+  routing.stage-gate:
+    status: supported
+    binding: ".trae/rules/harness-routing.md + core/intent-routing.md 阶段门禁"
+  routing.harness-declare:
+    status: supported
+    binding: "首句 Harness 声明（强制）"
+  orchestration.dispatch:
+    status: supported
+    binding: "harness-orchestration skill → core/orchestration/dispatcher-workflow.md"
+  orchestration.leader:
+    status: supported
+    binding: "主 Agent 调度 + Task 派发"
+  orchestration.parallel-wu:
+    status: supported
+    binding: "并行 Task(general_purpose_task); max 5"
+  orchestration.dispatch-track:
+    status: supported
+    binding: "DISPATCH-TRACK append-only"
+  orchestration.worktree-sandbox:
+    status: not-supported
+    binding: "Trae 无原生 worktree 沙箱；主 checkout 直接改"
+    fallback: "git worktree 命令手工隔离；CI/测试隔离靠分支 + PR"
+  orchestration.collective-closeout:
+    status: supported
+    binding: "collective-test + harness-reviewer + code-review"
+  orchestration.continuous-loop:
+    status: supported
+    binding: "orchestration/continuous-loop.md opt-in"
+  roles.coder:
+    status: supported
+    binding: "Task(general_purpose_task) + harness-coder.md"
+  roles.implementer:
+    status: supported
+    binding: "Task(general_purpose_task) + harness-implementer.md"
+  roles.reviewer:
+    status: supported
+    binding: "Task(general_purpose_task) + harness-reviewer.md（readonly）"
+  roles.test-engineer:
+    status: supported
+    binding: "Task(general_purpose_task) + harness-test-engineer.md + TDD skill"
+  roles.explorer:
+    status: supported
+    binding: "Task(search) 或 Task(general_purpose_task) + harness-explorer.md"
+  roles.debugger:
+    status: supported
+    binding: "Task(general_purpose_task) + harness-debugger.md"
+  roles.web-investigator:
+    status: supported
+    binding: "Task(search) + agent-browser skill + harness-web-investigator.md"
+  artifacts.runtime-layout:
+    status: supported
+    binding: ".ai-runtime-artifacts/"
+  artifacts.verification-lite:
+    status: supported
+    binding: "Tier 1 Leader 直做 → harness-kit/artifact-templates/verification-lite.md"
+  skills.stage-load:
+    status: supported
+    binding: "Skill 工具加载 SKILL.md；投影目录 .trae/skills/"
+  interaction.structured-ask:
+    status: supported
+    binding: "AskUserQuestion"
+  hooks.session-lifecycle:
+    status: not-supported
+    binding: "Trae 无 hooks.json 机制"
+    fallback: "会话开始首句 Harness 声明 + Skill 工具按需加载"
+  git.worktree-script:
+    status: degraded
+    binding: "git worktree 命令手工；harness-kit/scripts/harness-worktree.sh 可用但非平台原生"

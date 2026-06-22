@@ -1,0 +1,38 @@
+# Third-Party Cherry-Pick: Superpowers (obra/superpowers)
+
+本目录 `third-party/superpowers/` 下的所有 skill 来源于上游开源项目 **obra/superpowers**。
+
+## 上游来源
+
+| 项目 | 版本 | 仓库 |
+|------|------|------|
+| obra/superpowers | v6.0.3 (2026-06 cherry-pick) | https://github.com/obra/superpowers |
+
+## 上游许可证
+
+上游 Superpowers 项目使用 **MIT License**。完整 LICENSE 文本需随本目录一同分发。
+
+由于 cherry-pick 时未保留完整 LICENSE 文件，**首次使用本目录前请执行**：
+
+```bash
+# 临时克隆上游获取 LICENSE
+git clone --depth 1 https://github.com/obra/superpowers.git /tmp/sp-license
+cp /tmp/sp-license/LICENSE third-party/superpowers/LICENSE.upstream
+rm -rf /tmp/sp-license
+
+# 验证
+head -3 third-party/superpowers/LICENSE.upstream  # 应看到 MIT 标识
+```
+
+## 合规义务
+
+1. **保留版权声明**：所有 cherry-pick 的 skill 不得删除上游版权头
+2. **保留 LICENSE**：本目录必须包含 `LICENSE.upstream`
+3. **修改标注**：fork 修改应记录在 `THIRD_PARTY_NOTES.md`
+
+## 维护说明
+
+详见：
+
+- [`harness-kit/docs/superpowers/specs/2026-06-22-three-layer-harness-integration-design.md`](../../docs/superpowers/specs/2026-06-22-three-layer-harness-integration-design.md)
+- [`harness-kit/README.md` § 致谢](../../README.md#致谢)

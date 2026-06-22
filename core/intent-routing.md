@@ -19,6 +19,10 @@ tags: [Rules, Runbook]
 | 计划、拆分、列出任务、WBS、排期 | plan | `/writing-plans` → 写 plan → **暂停等确认** |
 | OK、可以、开始、做吧、执行、就按这个、批准了 | implement | 拆 WU → 并行派兵 |
 | 修、bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵 |
+| 审查、review、code review | review | `/requesting-code-review` |
+| 测试、单测、E2E、写test、补测试 | test | `/test-driven-development` |
+| commit、merge、rebase、push、MR | git | `/git-xywh` |
+| 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
 
 ## Never 清单
 
@@ -42,10 +46,6 @@ Read `harness-kit/core/NEVER.md` — 所有禁止项的详细说明。
 2. 本文件（intent-routing）— 决定接下来读什么
 
 **不要**在会话开始预读所有文件。只读当前任务需要的。
-| 审查、review、code review | review | `/requesting-code-review` |
-| 测试、单测、E2E、写test、补测试 | test | `/test-driven-development` |
-| commit、merge、rebase、push、MR | git | `/git-xywh` |
-| 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
 
 ## 阶段门禁（不可跳过）
 

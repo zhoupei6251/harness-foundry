@@ -40,7 +40,7 @@ tags: [Reference]
 
 | 文件 | 内容 |
 |------|------|
-| `references/traps.md` | 14 个已知陷阱 |
+| `references/traps.md` | 25 条精简 + 160 条完整（见 `traps-archive/00-all.md`） |
 | `references/README.md` | 代码范例索引 |
 
 ### Standard（标准定义）

@@ -17,6 +17,31 @@ tags: [Memory]
 2. 对齐的是**节奏感**：方法长度、私有方法拆分粒度、注释密度、异常处理方式、日志位置
 3. 不是照抄代码，是匹配风格
 
+## 仓库路径
+
+所有 `canvas/` 范例（参考与反面教材除外）位于：
+
+```
+ruoyi-modules/ruoyi-aigc/src/main/java/org/xywh/aigc/canvas/
+├── controller/   ← Controller 范例
+├── service/impl/ ← Service 实现范例
+├── mapper/       ← Mapper 范例（含 .xml）
+├── domain/       ← Entity / VO / BO 范例
+├── redis/        ← RedisService / KeyBuilder 范例
+├── notifier/     ← WebSocket 推送范例
+└── enums/        ← 错误码枚举范例
+```
+
+其他模块的反面教材：
+
+| 反面教材 | 路径 |
+|---------|------|
+| `AigcChatController.java`、`AigcNovelController.java` 等 | `ruoyi-modules/ruoyi-aigc/src/main/java/org/xywh/aigc/basic/controller/` |
+| `AigcNovelServiceImpl.java`、`AigcDramaServiceImpl.java` | `ruoyi-modules/ruoyi-aigc/src/main/java/org/xywh/aigc/{basic,drama}/service/impl/` |
+| `GlobalExceptionHandler.java`（框架层） | `ruoyi-common/ruoyi-common-web/src/main/java/org/xywh/common/web/handler/` |
+
+`Grep "XxxController.java"` 可快速定位；找不到时用 Glob。
+
 ---
 
 ## 路由表
