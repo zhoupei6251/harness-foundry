@@ -1,0 +1,19 @@
+---
+description: 网页搜索与浏览 MCP 使用规范
+globs:
+alwaysApply: false
+---
+
+# MCP 网页搜索 / 浏览
+
+调研类任务（`Harness：research`）须先 Load `web-tools-guide` skill。
+
+## 优先级
+
+1. 项目已配置的 MCP（bocha / bing / web_reader / playwright）
+2. `web-tools-guide` 中的 fallback 链
+3. `harness-web-investigator` 子 Agent（Cursor）或 Task（Trae）
+
+## 产物
+
+调研结论写入 `.ai-runtime-artifacts/research/`，附来源 URL。

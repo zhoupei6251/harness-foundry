@@ -1,0 +1,38 @@
+---
+description: 统一 AI 入口 — Cursor 专用
+globs:
+alwaysApply: true
+---
+
+# Cursor 统一入口
+
+## 规范优先级
+
+1. `harness-kit/adapters/agents/AGENTS.md` — 统一行为准则 R1-R8（所有平台强制）
+2. `harness-kit/core/intent-routing.md` — 意图路由 + 阶段门禁
+3. 本文件 — Cursor 平台专属规则
+4. `.cursor/rules/cursor-subagent-routing.mdc` — subagent 委派（仅 Cursor）
+
+## 核心禁令（Cursor 专属强化）
+
+- **禁止 shell 写文本文件：** `Set-Content`、`Out-File`、`echo >`、`cat >` 全禁。文本改动用 `Write` / `Edit`。Shell 仅：测试、lint、构建、git、只读查询。
+- **禁止同轮实现：** Write 了 `specs/` / `plans/` / `decisions/` → 本轮结束，不改业务代码。
+- **禁止未读就改：** 没 Read 过的文件不输出代码。
+
+## 每任务
+
+1. 首行：`「Harness：<route 或 Tier>」`
+2. 次行（Tier 1+）：`Skills: <slug> loaded|skipped`
+3. 非 Tier 0：Read `intent-routing.md` 按判定追加加载
+
+## 按路由判定加载（勿预读）
+
+| 判定 | 加载 |
+|------|------|
+| 设计/spec | brainstorming skill → 写 spec |
+| 计划 | writing-plans skill → 写 plan |
+| 实现/派兵 | cursor-orchestration skill → dispatcher-workflow.md |
+| 尾盘 | verification-before-completion → collective-test → code-review |
+| Git | git-xywh skill |
+| 小改动 | karpathy-guidelines.md → 自己改 |
+| 改 Java | ruoyi-aigc-backend-developer skill |

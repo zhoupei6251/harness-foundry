@@ -1,0 +1,71 @@
+platform: mimocode
+matrix_version: 1
+capabilities:
+  routing.stage-gate:
+    status: supported
+    binding: "routing.md 阶段门禁"
+  routing.harness-declare:
+    status: supported
+    binding: "首句 Harness 声明"
+  orchestration.dispatch:
+    status: supported
+    binding: "mimocode-orchestration → core dispatcher"
+  orchestration.leader:
+    status: supported
+    binding: "主会话 Leader"
+  orchestration.parallel-wu:
+    status: supported
+    binding: "并行 actor; max 3"
+  orchestration.dispatch-track:
+    status: supported
+    binding: "DISPATCH-TRACK append-only"
+  orchestration.worktree-sandbox:
+    status: supported
+    binding: "同 harness-worktree / git worktree"
+  orchestration.collective-closeout:
+    status: supported
+    binding: "collective-test + actor reviewer + code-review"
+  orchestration.continuous-loop:
+    status: manual
+    binding: "HANDOFF 人工衔接多会话"
+    notes: "见 continuous-loop 文档 opt-in"
+  roles.coder:
+    status: supported
+    binding: "actor + agents/coder.md"
+  roles.implementer:
+    status: supported
+    binding: "actor + agents/implementer.md"
+  roles.reviewer:
+    status: supported
+    binding: "新 actor readonly + agents/reviewer.md"
+  roles.test-engineer:
+    status: supported
+    binding: "actor + agents/test-engineer.md"
+  roles.explorer:
+    status: supported
+    binding: "actor explore 或 generalPurpose readonly"
+  roles.debugger:
+    status: supported
+    binding: "actor + agents/debugger.md"
+  roles.web-investigator:
+    status: supported
+    binding: "actor + agents/web-investigator.md"
+  artifacts.runtime-layout:
+    status: supported
+    binding: ".ai-runtime-artifacts/"
+  artifacts.verification-lite:
+    status: supported
+    binding: "Tier 1 → verification-lite.md"
+  skills.stage-load:
+    status: supported
+    binding: "skill tool 加载 SKILL.md"
+  interaction.structured-ask:
+    status: degraded
+    binding: "对话式单选"
+    degraded_reason: "无 AskQuestion 工具"
+  hooks.session-lifecycle:
+    status: manual
+    binding: "用户本地 hook"
+  git.worktree-script:
+    status: supported
+    binding: "git worktree 共用脚本"

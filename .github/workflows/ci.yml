@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: Verify Harness Kit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run verify script
+        run: bash scripts/verify.sh
+
+  shellcheck:
+    name: Shell Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+
+      - name: Lint shell scripts
+        run: |
+          shellcheck scripts/*.sh
+          # 如果未来引入，需要 lint 这里的 bootstrap 和 sync 脚本
+          # 已修复 Windows CRLF / SKIP_FROM_SYNC / inline manifest 等问题
+
+  metadata:
+    name: Check Repository Metadata
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Required files
+        run: |
+          test -f README.md && echo "[ok] README.md"
+          test -f LICENSE && echo "[ok] LICENSE"
+          test -f CHANGELOG.md && echo "[ok] CHANGELOG.md"
+          test -d skills && echo "[ok] skills/"
+          test -d agents && echo "[ok] agents/"
+
+      - name: Skill count
+        run: |
+          count=$(find skills/harness -name "SKILL.md" | wc -l)
+          echo "harness skills: $count"
+          [[ $count -ge 16 ]] || { echo "expected >= 16 harness skills"; exit 1; }
+
+          count_sp=$(find skills/third-party/superpowers -name "SKILL.md" | wc -l)
+          echo "third-party skills: $count_sp"
+          [[ $count_sp -ge 4 ]] || { echo "expected >= 4 third-party skills"; exit 1; }

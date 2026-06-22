@@ -1,0 +1,25 @@
+---
+description: RuoYi AIGC 后端开发规范（项目级）
+globs:
+  - "ruoyi-modules/ruoyi-aigc/**"
+  - "ruoyi-admin/**"
+  - "ruoyi-common/**"
+alwaysApply: false
+---
+
+# 后端开发规范
+
+实现 `ruoyi-aigc` 相关业务时：
+
+1. Load `ruoyi-aigc-backend-developer` skill
+2. Read `harness-kit/project.profile.md`、`harness-kit/context-map.md`（跨模块时）
+
+## 要点
+
+- 分层：controller → service → domain → mapper
+- 命名：`XxxController`、`IXxxService`、`XxxServiceImpl`
+- JDK21 虚拟线程处理 IO
+- 关键路径加日志与中文注释
+- 禁止：Controller 写业务、循环 SQL、空 catch、泄露敏感信息
+
+验证命令见 `harness-kit/project.verification.md`。

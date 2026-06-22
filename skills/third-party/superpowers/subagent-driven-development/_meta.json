@@ -1,0 +1,11 @@
+{
+  "source": "superpowers",
+  "source_version": "6.0.3",
+  "source_path": "skills/subagent-driven-development",
+  "imported_at": "2026-06-22",
+  "cherry_picked": true,
+  "integration_layer": "L2-auxiliary",
+  "skip_from_sync": true,
+  "purpose": "Subagent-Driven Development (SDD) 核心流程，每个 Task 派发新 implementer + 任务级审查 + 终局大审查",
+  "compatibility": "与 harness-orchestration 互补，本 skill 强调 SDD 单 session 内连续执行"
+}
