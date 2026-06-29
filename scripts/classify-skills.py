@@ -21,6 +21,13 @@ from typing import Dict, List, Set
 
 import yaml
 
+# 强制 core 层白名单（人工审核兜底，详见 _must_core_skills.py）
+try:
+    from _must_core_skills import must_core as _must_core_set
+    MUST_CORE: Set[str] = _must_core_set()
+except ImportError:  # pragma: no cover - 单独运行时不依赖
+    MUST_CORE = set()
+
 ROOT = Path(__file__).parent.parent
 SKILLS_DIR = ROOT / "skills"
 ROUTING_FILE = ROOT / "core" / "orchestration" / "skill-preferences.md"
@@ -71,7 +78,15 @@ def load_routing_slugs() -> Set[str]:
 
 
 def classify_one(slug: str, skill_dir: Path, routing: Set[str]) -> str:
-    """核心分类规则 P1-P5（见 spec §5.3）"""
+    """核心分类规则 P0-P5（见 spec §5.3）
+
+    P0: 强制 core 白名单（人工审核，最高优先级，覆盖任何后续规则）
+    P1: 路由表引用 → stable (core)
+    P2: frontmatter + _meta 完整 + 内容 > 500 字 → core 候选
+    P3: 任何 meta + 内容 > 200 字 → peripheral
+    P4: 启发式生成（source=generated）或内容 < 100 字 → archived
+    P5: 其余 → peripheral（保守）
+    """
     skill_md = skill_dir / "SKILL.md"
     fm = parse_frontmatter(skill_md) if skill_md.exists() else {}
     meta = load_meta(skill_dir)
@@ -79,6 +94,10 @@ def classify_one(slug: str, skill_dir: Path, routing: Set[str]) -> str:
     has_fm = bool(fm)
     has_meta = bool(meta)
     has_any_meta = has_fm or has_meta
+
+    # P0: 强制 core 白名单（人工审核兜底，覆盖任何后续规则）
+    if slug in MUST_CORE:
+        return "stable"
 
     # P1: 路由表引用 → stable (core)
     if slug in routing:
@@ -103,16 +122,25 @@ def classify_one(slug: str, skill_dir: Path, routing: Set[str]) -> str:
 def apply_caps(layers: Dict[str, List[str]]) -> Dict[str, List[str]]:
     """三层数量守恒：core ≤80, peripheral ≤120
 
-    优先级削减：experimental → requires 链长 → body_length 小。
-    核心层溢出先降到外围层，外围层再溢出再降到归档层。
+    优先级削减规则：
+    1. MUST_CORE 白名单内的 slug 永远不能从 stable 被降级
+    2. 其他 stable 超出 CORE_LIMIT 时按字母序靠后的先降级
+    3. peripheral 超出 PERIPHERAL_LIMIT 时按字母序靠后的先降级
     """
+    # 必须保证 MUST_CORE 不被降级
     if len(layers["stable"]) > CORE_LIMIT:
-        overflow = layers["stable"][CORE_LIMIT:]
+        must_in_core = [s for s in layers["stable"] if s in MUST_CORE]
+        others = [s for s in layers["stable"] if s not in MUST_CORE]
+        # 排序后从尾部开始截断
+        others_sorted = sorted(others)
+        overflow_count = len(layers["stable"]) - CORE_LIMIT
+        overflow = others_sorted[-overflow_count:] if overflow_count > 0 else []
         for slug in overflow:
             layers["stable"].remove(slug)
             layers["peripheral"].append(slug)
     if len(layers["peripheral"]) > PERIPHERAL_LIMIT:
-        overflow = layers["peripheral"][PERIPHERAL_LIMIT:]
+        overflow_count = len(layers["peripheral"]) - PERIPHERAL_LIMIT
+        overflow = sorted(layers["peripheral"])[-overflow_count:] if overflow_count > 0 else []
         for slug in overflow:
             layers["peripheral"].remove(slug)
             layers["archived"].append(slug)
