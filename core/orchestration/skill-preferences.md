@@ -6,7 +6,7 @@ tags: [Standard]
 
 # Skill 使用偏好说明（WU 级，按需加载）
 
-> **范围：** 本文档仅 **子 Agent / WU**（`wu_skills: auto`）。**Leader 阶段 skill**（`brainstorming`、`writing-plans`、`verification-before-completion`、`git-xywh`）见 `harness-foundry/core/intent-routing.md` § 阶段指定 skill 必用 — **必 Load**，不适用下文「按需」。
+> **范围：** 本文档仅 **子 Agent / WU**（`wu_skills: auto`）。**Leader 阶段 skill**（`brainstorming`、`writing-plans`、`verification-before-completion`、`「git-xywh」`）见 `harness-foundry/core/intent-routing.md` § 阶段指定 skill 必用 — **必 Load**，不适用下文「按需」。
 
 本文档是 Harness **子 Agent 应加载哪些 skill** 的**唯一维护入口**（文档维护，**不是** skill 文件）。
 
@@ -51,7 +51,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 
 ## 全局禁止（不得传给子 Agent）
 
-`brainstorming`, `writing-plans`, `cursor-orchestration`, `claude-orchestration`, `using-superpowers`, `git-xywh`, `dispatching-parallel-agents`, `subagent-driven-development`
+`brainstorming`, `writing-plans`, `cursor-orchestration`, `claude-orchestration`, `using-superpowers`, 「git-xywh」, `dispatching-parallel-agents`, `subagent-driven-development`
 
 ---
 
