@@ -42,6 +42,27 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# === Layer filtering (per spec 2026-06-29-skill-engineering-frontmatter-and-meta) ===
+LAYER_FILE="${LAYER_FILE:-skills/_layer.yaml}"
+SKIP_ARCHIVED="${SKIP_ARCHIVED:-true}"
+ALLOWED_SLUGS=""
+if [[ "$SKIP_ARCHIVED" == "true" && -f "$LAYER_FILE" ]]; then
+  # 用 Python 解析 _layer.yaml（避免 yq 路径问题 + trailing newline 问题）
+  ALLOWED_SLUGS=$(python3 -c "
+import yaml
+with open('$LAYER_FILE') as f:
+    data = yaml.safe_load(f)
+print(' '.join(sorted(set(data.get('core', []) + data.get('peripheral', [])))))
+" 2>/dev/null || echo "")
+  if [[ -n "$ALLOWED_SLUGS" ]]; then
+    echo "==> Layer filter: $(echo $ALLOWED_SLUGS | tr ' ' '\n' | grep -c .) allowed slugs (core + peripheral) from $LAYER_FILE"
+  else
+    echo "Warn: $LAYER_FILE exists but failed to parse; SKIP_ARCHIVED disabled" >&2
+    SKIP_ARCHIVED="false"
+  fi
+fi
+# === End layer filtering ===
+
 # ---- 基于 manifest 的平台同步 ----
 sync_from_manifest() {
   if [[ ! -f "$MANIFEST" ]]; then
@@ -162,6 +183,7 @@ sync_from_manifest() {
     mkdir -p "$dst"
     mapfile -t skills < <(build_target_list "$platform")
     local s
+    local kept=()
     for s in "${skills[@]}"; do
       local is_skip=0
       for skip in "${SKIP_FROM_SYNC[@]}"; do
@@ -171,12 +193,23 @@ sync_from_manifest() {
           break
         fi
       done
-      [[ "$is_skip" -eq 1 ]] && continue
+      # Layer 过滤：archived skill 不投影到 IDE（除非 SKIP_ARCHIVED=false）
+      if [[ "$is_skip" -eq 0 && "$SKIP_ARCHIVED" == "true" && -n "$ALLOWED_SLUGS" ]]; then
+        if [[ " $ALLOWED_SLUGS " != *" $s "* ]]; then
+          echo "  [skip-archived] ${s} — 归档层不投影"
+          is_skip=1
+        fi
+      fi
+      if [[ "$is_skip" -eq 1 ]]; then
+        continue
+      fi
+      kept+=("$s")
       copy_skill "$s" "$dst"
     done
-    local allowed=("${skills[@]}" "${SKIP_FROM_SYNC[@]}")
+    # prune_extra 使用「最终要保留的 slugs」= 实际同步的 + 第三方保留
+    local allowed=("${kept[@]}" "${SKIP_FROM_SYNC[@]}")
     prune_extra "$dst" "${allowed[@]}"
-    echo "==> ${platform}: ${#skills[@]} skills (含 ${#SKIP_FROM_SYNC[@]} 第三方 skip)"
+    echo "==> ${platform}: kept=${#kept[@]} of ${#skills[@]} (含 ${#SKIP_FROM_SYNC[@]} 第三方 skip)"
   }
 
   case "$TARGET" in
