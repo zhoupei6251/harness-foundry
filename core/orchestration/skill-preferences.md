@@ -51,7 +51,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 
 ## 全局禁止（不得传给子 Agent）
 
-`brainstorming`, `writing-plans`, `cursor-orchestration`, `claude-orchestration`, `using-superpowers`, 「git-xywh」, `dispatching-parallel-agents`, `subagent-driven-development`
+`brainstorming`, `writing-plans`, `cursor-orchestration`, 「claude-orchestration」, `using-superpowers`, 「git-xywh」, `dispatching-parallel-agents`, `subagent-driven-development`
 
 ---
 
