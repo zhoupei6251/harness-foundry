@@ -47,7 +47,8 @@ for skill_dir in skills/*/; do
   fi
 
   content=$(cat "$skill_md")
-  if [[ ! "$content" =~ ^---[[:space:]]*$ ]]; then
+  # 检查文件是否以 "---" 开头（frontmatter 分隔符）
+  if [[ ! "$content" =~ ^---[[:space:]] ]]; then
     if [[ "$is_core" == true ]]; then
       echo "[FAIL] $slug: frontmatter missing (core layer requires)"
       FAILED=$((FAILED + 1))

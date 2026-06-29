@@ -51,7 +51,15 @@ def infer_domain(text: str) -> str:
 
 
 def fill_one(skill_dir: Path, dry_run: bool) -> bool:
-    """补全单个 Skill 的 frontmatter，返回是否变更"""
+    """补全单个 Skill 的 frontmatter，返回是否变更
+
+    Wave 5 强化：
+    - name 强制等于目录名（覆盖任何不一致值）
+    - description 强制 ≤200 字符
+    - version 强制 semver（X.Y.Z）
+    - tags 强制非空数组
+    - status 强制 enum
+    """
     skill_md = skill_dir / "SKILL.md"
     if not skill_md.exists():
         return False
@@ -81,44 +89,78 @@ def fill_one(skill_dir: Path, dry_run: bool) -> bool:
     body_text = content[body_start:] if body_start > 0 else content
     first_para = extract_first_paragraph(content)
 
-    # 补全 name
-    if "name" not in fm:
+    # 强制 name == slug（覆盖第三方不一致值）
+    if fm.get("name") != skill_dir.name:
         fm["name"] = skill_dir.name
         changed = True
 
-    # 补全 description（取第一段，截断到 200）
-    if "description" not in fm:
-        fm["description"] = first_para[:200].strip() or f"Skill for {skill_dir.name}"
+    # 强制 description ≤200 字符（覆盖任何超长值）
+    desc = fm.get("description") or first_para[:200].strip() or f"Skill for {skill_dir.name}"
+    desc = str(desc).replace("\n", " ").strip()
+    if len(desc) > 200:
+        desc = desc[:197] + "..."
+    if fm.get("description") != desc:
+        fm["description"] = desc
         changed = True
 
-    # 补全 version
-    if "version" not in fm:
-        fm["version"] = meta.get("version", "1.0.0")
+    # 强制 version 是 semver（X.Y.Z）
+    ver = fm.get("version") or meta.get("version") or "1.0.0"
+    ver = str(ver).strip()
+    import re as _re
+    if not _re.match(r"^\d+\.\d+\.\d+$", ver):
+        # 提取主要数字，转换为 semver
+        m = _re.search(r"(\d+)\.(\d+)(?:\.(\d+))?", ver)
+        if m:
+            major = m.group(1)
+            minor = m.group(2)
+            patch = m.group(3) or "0"
+            ver = f"{major}.{minor}.{patch}"
+        else:
+            ver = "1.0.0"
+    if fm.get("version") != ver:
+        fm["version"] = ver
         changed = True
 
-    # 补全 when_to_use（用 description 衍生）
-    if "when_to_use" not in fm:
-        fm["when_to_use"] = f"调用 {skill_dir.name} 时"
+    # 强制 when_to_use 存在
+    wtu = fm.get("when_to_use") or f"调用 {skill_dir.name} 时"
+    wtu = str(wtu)
+    if len(wtu) > 300:
+        wtu = wtu[:297] + "..."
+    if fm.get("when_to_use") != wtu:
+        fm["when_to_use"] = wtu
         changed = True
 
-    # 补全 status（以 _meta.status 为准）
-    if "status" not in fm:
-        fm["status"] = meta.get("status", "peripheral")
+    # 强制 status 是 enum
+    valid_status = {"stable", "peripheral", "archived", "experimental"}
+    cur_status = fm.get("status") or meta.get("status") or "peripheral"
+    if cur_status not in valid_status:
+        cur_status = "peripheral"
+    if fm.get("status") != cur_status:
+        fm["status"] = cur_status
         changed = True
 
-    # 补全 tags
-    if "tags" not in fm or not fm["tags"]:
-        fm["tags"] = meta.get("tags", [infer_domain(first_para)])
+    # 强制 tags 是非空数组
+    tags = fm.get("tags") or meta.get("tags") or []
+    if not isinstance(tags, list) or not tags:
+        tags = [infer_domain(first_para or skill_dir.name)]
+    # 过滤非字符串
+    tags = [str(t) for t in tags if t]
+    if not tags:
+        tags = ["shared"]
+    if fm.get("tags") != tags:
+        fm["tags"] = tags
         changed = True
 
-    # 补全 domain
-    if "domain" not in fm:
-        fm["domain"] = meta.get("domain", infer_domain(first_para))
+    # 强制 domain 存在
+    domain = fm.get("domain") or meta.get("domain") or infer_domain(first_para or skill_dir.name)
+    if fm.get("domain") != domain:
+        fm["domain"] = domain
         changed = True
 
-    # 补全 category
-    if "category" not in fm:
-        fm["category"] = meta.get("category", "workflow")
+    # 强制 category 存在
+    category = fm.get("category") or meta.get("category") or "workflow"
+    if fm.get("category") != category:
+        fm["category"] = category
         changed = True
 
     if not changed:
