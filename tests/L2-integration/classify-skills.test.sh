@@ -40,8 +40,8 @@ fi
 if [[ "$arch_count" -lt 100 ]]; then
   echo "  [FAIL] archived=$arch_count < 100"; exit 1
 fi
-if [[ "$total" -ne 328 ]]; then
-  echo "  [FAIL] total=$total != 328"; exit 1
+if [[ "$total" -ne 331 ]]; then
+  echo "  [FAIL] total=$total != 331"; exit 1
 fi
 echo "  [ok] core=$core_count, peripheral=$peri_count, archived=$arch_count"
 
