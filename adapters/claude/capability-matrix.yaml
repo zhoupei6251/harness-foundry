@@ -1,5 +1,5 @@
 platform: claude
-matrix_version: 1
+matrix_version: 2
 capabilities:
   routing.stage-gate:
     status: supported
@@ -21,7 +21,8 @@ capabilities:
     binding: "DISPATCH-TRACK append-only"
   orchestration.worktree-sandbox:
     status: supported
-    binding: "同 harness-worktree / git worktree"
+    binding: "execution-context worktree provider — git worktree 隔离"
+    notes: "P0-1: 由 execution-context Provider 协议统一管理"
   orchestration.collective-closeout:
     status: supported
     binding: "collective-test + reviewer Task + code-review"
@@ -65,6 +66,21 @@ capabilities:
   hooks.session-lifecycle:
     status: supported
     binding: ".claude/settings.json PostLogin hook"
-  git.worktree-script:
+  # P0-1 新增: execution-context 相关
+  orchestration.provision-context:
     status: supported
-    binding: "git worktree 共用脚本"
+    binding: "execution-context Provider 协议 — Provision/Activate/Deactivate/Destroy"
+  orchestration.destroy-context:
+    status: supported
+    binding: "git worktree remove + 分支清理"
+
+cross_cutting:
+  parallel_agents:
+    max: 5
+    mechanism: "subagent"
+  worktree_sandbox:
+    supported: true
+  guardrail_support:
+    input: true
+    output: true
+    notes: "P0-2: Claude Code 支持 hook 层面拦截"

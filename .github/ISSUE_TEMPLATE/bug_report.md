@@ -34,7 +34,7 @@ assignees: ''
 - **Harness Kit 版本**: [e.g. v0.1.0 / commit hash]
 - **IDE 平台**: [Trae / Cursor / Claude Code / Codex / Mimocode]
 - **Shell**: [bash / zsh / PowerShell]
-- **涉及脚本**: [e.g. bootstrap.sh / sync-skills.sh / sync-third-party.sh]
+- **涉及脚本**: [e.g. bootstrap.sh / sync-skills.sh]
 
 ## 日志 / 输出
 

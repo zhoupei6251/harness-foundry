@@ -1,135 +1,64 @@
-# Trae IDE Harness 开发者快速参考
+# Trae 快速参考
 
-> 本文件面向在 Trae IDE 中使用 Harness Kit 的开发者，提供一站式速查。
+## Bootstrap
 
-## 一句话启动
-
-在对话中输入：**`Harness：<路由>`**
-
-| 你想做 | 输入 |
-|--------|------|
-| 设计方案/架构 | `Harness：design` |
-| 写任务计划 | `Harness：plan` |
-| 写代码/实现功能 | `Harness：implement` |
-| 验证/调试 Bug | `Harness：verify` |
-| 代码审查 | `Harness：review` |
-| 小修小改 | `Harness：小改动，直接处理` |
-| 初始化 Harness | `Harness：bootstrap` |
-| 查看帮助 | `Harness：help` |
-
-## 开发流程速览
-
-```
-design → plan → implement → verify → review
-  ↓        ↓        ↓         ↓        ↓
- spec    plan    代码实现    测试通过   审查通过
+```bash
+bash harness-foundry/scripts/bootstrap.sh --target trae
 ```
 
-- 每个阶段产物写入 `.ai-runtime-artifacts/` 对应目录
-- spec / plan 阶段完成后需用户确认才进入下一阶段
-- 小改动可跳过 design/plan 直接实现
+## 核心文件
 
-## 子 Agent 委派
+| 文件 | 用途 |
+|------|------|
+| `ENTRY.md` | 统一入口（每任务必读） |
+| `harness-foundry/core/intent-routing.md` | 意图路由表 |
+| `harness-foundry/core/NEVER.md` | 禁止清单 |
+| `harness-foundry/core/orchestration/dispatcher-workflow.md` | 多 WU 并行调度 |
 
-在实现阶段，主 Agent 会自动委派子 Agent 并行工作：
+## 意图路由速查
 
-| 子 Agent | 用途 | Trae 实现方式 |
-|----------|------|---------------|
-| harness-coder | 写代码 | `Task(subagent_type="general_purpose_task")` |
-| harness-reviewer | 代码审查 | `Skill(name="code-review")` |
-| harness-test-engineer | 测试/E2E | `Skill(name="test-driven-development")` / `agent-browser` |
-| harness-implementer | 文档/配置 | `Task(general_purpose_task)` |
-| harness-web-investigator | 调研取证 | `Task(search)` + `web-tools-guide` |
-| harness-debugger | 调试 Bug | `Skill(name="systematic-debugging")` |
-| harness-explorer | 探索代码 | `Task(subagent_type="search")` |
+| 你说 | Harness 做 |
+|------|--------|
+| "设计方案" | brainstorming → 写 spec |
+| "写计划" | writing-plans → 写 plan |
+| "开始实现" | dispatcher 拆 WU → 并行派兵 |
+| "修 bug" | Leader 直做 或 debugger |
+| "代码审查" | reviewer 五轴审查 |
+| "小改动" | Leader 直做，不派兵 |
+| "收尾" | verification → review → 记忆同步 |
 
-## Skill 路由（自动匹配）
+## 平台限制
 
-主 Agent 会根据任务类型自动加载对应 Skill：
+- **无 worktree 沙箱** — 主 checkout 直接改，用 git 分支隔离
+- **hooks.json** — 项目钩子配置（prompt 类型）
+- **并行上限** — Task ≤ 5
 
-| 任务类型 | 自动加载的 Skill |
-|----------|------------------|
-| 写新功能 / 修 Bug | `test-driven-development` → `requesting-code-review` |
-| UI 实现 | `ui-ux-pro-max` → `frontend-design` → `test-driven-development` → `requesting-code-review` |
-| 按审查意见修改 | `receiving-code-review` → `test-driven-development` → `requesting-code-review` |
-| 调查 Bug | `systematic-debugging` |
-| 编写测试 | `test-driven-development` |
-| 代码审查 | `requesting-code-review` |
+## Skill 路径
 
-## Trae 工具映射
+1. `.trae/skills/<slug>/SKILL.md`（项目级）
+2. `~/.trae/skills/<slug>/SKILL.md`（用户全局）
+3. `.agents/skills/<slug>/SKILL.md`（真相源）
 
-| 做什么 | 使用工具 |
-|--------|----------|
-| 语义搜索代码 | `SearchCodebase` |
-| 按文件名查找 | `Glob` |
-| 按内容搜索 | `Grep` |
-| 读取文件 | `Read` |
-| 编辑文件 | `Edit` / `Write` |
-| 执行命令 | `RunCommand` |
-| 诊断错误 | `GetDiagnostics` |
-| 任务追踪 | `TodoWrite` |
-| 调用 Skill | `Skill` |
-| 委派子任务 | `Task` |
+## 7 角色
 
-## Skill 发现路径
+| 角色 | 说明 |
+|------|------|
+| coder | 代码实现 |
+| implementer | 轻量执行（文档/配置） |
+| reviewer | 代码审查 |
+| test-engineer | 测试/E2E |
+| explorer | 只读探索 |
+| debugger | 缺陷调查 |
+| web-investigator | 调研取证 |
 
-Trae 会自动扫描以下目录的 Skill：
+## 强制声明
 
-| 优先级 | 路径 | 说明 |
-|--------|------|------|
-| 1 | `.trae/skills/` | 项目级 Skill |
-| 2 | `~/.trae/skills/` | 用户全局 Skill |
+每任务首句：`「Route: <code|novel|news>」` 或 `「Route: 小改动，直接处理」`（见 `core/intent-routing.md`）
 
-> 项目已有 60+ Skill，覆盖后端开发、文档生成、小说创作等场景。
+## 运行时产物
 
-## 项目专属 Skill
-
-| Skill | 用途 |
-|-------|------|
-| `ruoyi-aigc-backend-developer` | RuoYi-Vue-Plus AIGC 平台后端开发指导 |
-| `backend-doc-generator` | 生成后端技术文档（含 Mermaid 图） |
-| `architecture-patterns` | 架构模式参考（Clean/Hexagonal/DDD） |
-| `harness-orchestration` | Harness 编排器（路由解析 + 阶段管理） |
-
-## 开发规范提醒
-
-- **中文输出**：所有注释、文档、回复使用简体中文
-- **TDD 流程**：写完业务代码后 → 自动生成测试 → 代码审查
-- **记忆管理**：跨会话自动加载 `MEMORY.md`，保持上下文连贯
-- **产物规范**：所有 plan/spec/decision 写入 `.ai-runtime-artifacts/`
-
-## 目录结构
-
-```
-项目根目录/
-├── .trae/
-│   ├── rules/          # 规则文件（harness-entry.md, harness-routing.md）
-│   ├── agents/         # 7 角色（与 Cursor 对齐）
-│   ├── skills/         # 投影 Skill（~14，bootstrap 生成）
-│   └── mcp/            # MCP 配置
-├── .agents/
-│   └── skills/         # 通用 Skill 目录（与 .trae/skills/ 内容一致）
-├── .ai-runtime-artifacts/  # Harness 产物目录
-│   ├── specs/          # 设计文档
-│   ├── plans/          # 任务计划
-│   ├── decisions/      # 决策记录
-│   └── verifications/  # 验证记录
-└── harness-kit/        # Harness Kit 核心
-    ├── adapters/trae/  # Trae 适配配置
-    ├── core/orchestration/  # 编排核心
-    └── artifact-templates/  # 产物模板
-```
-
-## 常见问题
-
-**Q: 如何跳过 plan 直接写代码？**
-A: 使用 `Harness：小改动，直接处理`
-
-**Q: 子 Agent 执行失败怎么办？**
-A: 查看返回的 `blocker` 字段，根据阻塞原因调整任务描述或解决依赖
-
-**Q: 如何查看当前 Harness 状态？**
-A: 输入 `Harness：help` 查看可用路由和当前阶段
-
-**Q: 能否并行执行多个任务？**
-A: 可以，`Harness：implement` 会自动将 plan 拆分为并行 WU（最多 3 个并行，硬顶 5 个）
+- `.ai-runtime-artifacts/specs/` — 设计文档
+- `.ai-runtime-artifacts/plans/` — 任务计划
+- `.ai-runtime-artifacts/decisions/` — 决策记录
+- `.ai-runtime-artifacts/verifications/` — 验证记录
+- `.ai-runtime-artifacts/execution-logs/` — 执行日志

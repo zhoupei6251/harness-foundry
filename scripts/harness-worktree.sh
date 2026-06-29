@@ -91,7 +91,15 @@ EOF
     require "repo" "$repo"
     require "worktree" "$worktree"
     git_ok || err "not a git repo: $repo"
+    if [[ ! -d "$worktree" ]]; then
+      err "worktree does not exist: $worktree"
+    fi
+    echo "WARNING: 即将强制删除 worktree: $worktree"
+    echo "  确认删除？(y/N)"
+    read -r confirm
+    [[ "$confirm" = "y" || "$confirm" = "Y" ]] || err "取消删除"
     git -C "$repo" worktree remove -f "$worktree" >/dev/null
+    echo "已删除: $worktree"
     ;;
 
   list)

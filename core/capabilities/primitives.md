@@ -13,12 +13,14 @@ tags: [Standard]
 | `DetectPlatform()` | 返回 `cursor \| claude \| codex \| generic` | execution-log FM `platform` |
 | `LoadCapability(id)` | 按 routing 加载 core 文档 / stage skill | 回复次行 `Skills:` |
 | `StageGate(phase)` | 写入 specs/plans/decisions 后暂停 | 模板 `## Next` |
+| `ProvisionContext(spec)` | 按 execution-context 模型创建隔离执行环境 | ctx.id, tracking `CTX-INIT` |
 | `SpawnWorker(role, wu, context)` | 隔离上下文；不得继承 Leader 全历史 | WU 返回 `wu_status` + `### Skills 使用` |
 | `ParallelBatch(workers[])` | 仅当 WU 文件集不相交；上限可配置 | DISPATCH-TRACK `Sub-agents: N` |
-| `WorktreeInit(batch)` | 委派写代码类 WU 前执行 | tracking `WORKTREE-INIT` |
+| `WorktreeInit(batch)` | **[已废弃]** 由 `ProvisionContext(worktree)` 替代 | tracking `WORKTREE-INIT`（向后兼容） |
 | `Integrate(results[])` | Leader 合并；禁止子 Agent 自声称批次完成 | plan 勾选、execution-log |
 | `CollectiveTest()` | 按 `project.verification.md` | `*-collective-test.md` |
 | `CollectiveReview()` | 审查实例 ≠ 任一实现实例 | `*-code-review.md` |
+| `DestroyContext(ctx)` | 销毁执行环境，释放资源 | ctx.state → closed, tracking `CTX-CLOSE` |
 | `StructuredAsk(question)` | 一次一问；优先选择题 | 无文件 |
 | `EmitHook(event)` | 可选；失败不阻断主路径 | 本地 hook 日志 |
 

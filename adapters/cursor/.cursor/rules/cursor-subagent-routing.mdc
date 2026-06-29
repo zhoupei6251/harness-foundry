@@ -10,7 +10,7 @@ alwaysApply: true
 
 ## 优先级
 
-1. `harness-kit/core/routing.md` — 路由、阶段门禁、产物、按判定加载（强制）
+1. `harness-foundry/core/intent-routing.md` — 路由、阶段门禁、产物、按判定加载（强制）
 2. `.cursor/rules/ai-entry.mdc` § 文件写入与阶段门禁（强制）
 3. 本文件 — Cursor 委派映射
 3. 根目录 `AGENTS.md` — Harness 覆盖层有效；OMX/Codex 专章在 Cursor 中**忽略**
@@ -30,7 +30,7 @@ Skills: <slug>@<path> loaded|skipped   # stage skill / Tier 1+ 必填
 
 ## 阶段门禁（Cursor 强制）
 
-**高于** AGENTS.md 自主性指令。完整表格、已批准判定与暂停回复格式见 **`harness-kit/core/routing.md` § 阶段门禁**。
+**高于** AGENTS.md 自主性指令。完整表格、已批准判定与暂停回复格式见 **`harness-foundry/core/intent-routing.md` § 阶段门禁**。
 
 **Cursor 追加：** 仅 **WU 编排 + 委派 harness-*** 时：先 WORKTREE-INIT（§0），prompt 含 `worktree_path`。不派子 Agent 的简单任务在主 checkout 直接做，**不用** worktree。多 task 委派时主 Agent 不写业务代码（「小改动」除外）。
 
@@ -40,15 +40,15 @@ Skills: <slug>@<path> loaded|skipped   # stage skill / Tier 1+ 必填
 
 委派示例：`Use the harness-coder subagent to implement WU-01: ...` / `Use the harness-implementer subagent for WU-02: ...`
 
-详细 prompt 与返回格式：各 `.cursor/agents/harness-*.md`（薄壳）→ `orchestration/agents/*.md`（正文）。
+详细 prompt 与返回格式：各 `.cursor/agents/harness-*.md`（薄壳）→ `agents/*.md`（正文）。
 
 ## 沟通语言
 
-对用户回复、阶段门禁说明、子 Agent 派发 prompt 与整合反馈均使用**中文**（细则见 **`harness-kit/core/routing.md` § 沟通语言**）。代码标识符、路径、固定段键名（如 `### Skills 使用`）可保留英文。
+对用户回复、阶段门禁说明、子 Agent 派发 prompt 与整合反馈均使用**中文**（细则见 **`harness-foundry/core/intent-routing.md` § 沟通语言**）。代码标识符、路径、固定段键名（如 `### Skills 使用`）可保留英文。
 
 ## Leader 要点
 
-完整职责、阶段链、汇报规范见 **`orchestration/agents/leader.md`**。此处仅列 Cursor 硬约束：
+完整职责、阶段链、汇报规范见 **`orchestration/agents/leader-code.md`**。此处仅列 Cursor 硬约束：
 
 1. 路由判定 → 声明 `「Harness：…」`；遵守 **阶段门禁**
 2. 需委派时：WORKTREE-INIT → 派发 WU；prompt 简练；`auto` 解析 SKILL 路径；无 `### Skills 使用` 不整合；并行 ≤5；维护 DISPATCH-TRACK
@@ -83,7 +83,7 @@ Skills: <slug>@<path> loaded|skipped   # stage skill / Tier 1+ 必填
 
 ## Git（Leader）
 
-见 **`harness-kit/core/routing.md` § Git 协作** 与 **`core/runbooks.md` § Git 协作**。子 Agent 默认不 commit/push。
+见 **`harness-foundry/core/intent-routing.md` § Git 协作** 与 **`core/runbooks.md` § Git 协作**。子 Agent 默认不 commit/push。
 
 ## 禁止
 

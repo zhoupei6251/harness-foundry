@@ -1,36 +1,55 @@
 # 陷阱归档
 
-完整版陷阱库（160 条），按需查询。
+按工作域分类。不同域的陷阱不同，写代码时查代码域，写小说时查小说域。
 
-## 文件索引
+## 按域索引
+
+| 工作域 | 目录 | 总数 | 精简版 |
+|--------|------|------|--------|
+| **代码** | `traps-archive/code/` | 160 条 | `references/traps.md`（代码域部分） |
+| **小说** | `traps-archive/novel/` | 47 条 | `references/traps.md`（小说域部分） |
+| **新闻** | `traps-archive/news/` | 34 条 | `references/traps.md`（新闻域部分） |
+
+## 代码域
 
 | 文件 | 内容 | 条数 |
 |------|------|------|
-| `00-all.md` | 完整陷阱库（所有章节汇总） | 160 条 |
-| `01-spring-boot.md` | Spring Boot / RuoYi 特有陷阱 | 16 条 |
-| `02-virtual-thread.md` | 虚拟线程陷阱（JDK21） | 7 条 |
-| `03-tenant.md` | 租户上下文陷阱 | 8 条 |
-| `04-performance.md` | 性能陷阱 | 15 条 |
-| `05-security.md` | 安全陷阱 | 14 条 |
-| `06-redis.md` | Redis 陷阱 | 12 条 |
-| `07-distributed-lock.md` | 分布式锁陷阱 | 8 条 |
-| `08-sql.md` | SQL 优化陷阱 | 11 条 |
-| `09-websocket.md` | WebSocket 陷阱 | 11 条 |
-| `10-observability.md` | 日志与可观测性陷阱 | 17 条 |
-| `11-container.md` | 容器 / DevOps 陷阱 | 27 条 |
+| `code/00-all.md` | 完整代码陷阱库（所有章节汇总） | 160 条 |
+| *(可按需细分：Spring Boot、并发、Redis 等)* | | |
+
+## 小说域
+
+| 文件 | 内容 | 条数 |
+|------|------|------|
+| `novel/00-all.md` | 完整小说写作陷阱库 | 47 条 |
+| | AI 痕迹 / 套路化表达 | 15 条 |
+| | 人设崩塌 / 声音趋同 | 6 条 |
+| | 节奏失控 / 过渡生硬 | 6 条 |
+| | 逻辑漏洞 / 伏笔不回收 | 6 条 |
+| | 章节结构 / 悬念设计 | 7 条 |
+| | 题材特定 | 7 条 |
+
+## 新闻域
+
+| 文件 | 内容 | 条数 |
+|------|------|------|
+| `news/00-all.md` | 完整新闻采编陷阱库 | 34 条 |
+| | 事实核查 / 信源 | 8 条 |
+| | 标题 / 夸大 | 6 条 |
+| | 时效性 / 更新 | 4 条 |
+| | 伦理 / 法律 | 6 条 |
+| | 写作质量 | 6 条 |
+| | 热点追踪 | 4 条 |
 
 ## 使用方式
 
 | 场景 | 查什么 |
 |------|--------|
-| 写代码时快速参考 | `references/traps.md`（精简版 25 条） |
-| 排查特定问题 | `traps-archive/XX-<topic>.md` |
-| Code Review 前复习 | `traps-archive/00-all.md` |
-
-## 精简版（daily driver）
-
-`references/traps.md` — ~25 条核心陷阱，每天写代码时参考。
-
-## 陷阱总数
-
-160 条，分 11 大类。
+| 写代码前 | `contexts/code.md` + `references/traps.md`（代码域） |
+| 写小说前 | `contexts/novel.md` + `references/traps.md`（小说域） |
+| 写新闻前 | `contexts/news.md` + `references/traps.md`（新闻域） |
+| 审稿/审查前 | `contexts/review.md` + 对应域的 `traps-archive/` |
+| 排查代码问题 | `traps-archive/code/00-all.md` |
+| Code Review 前复习 | `traps-archive/code/00-all.md` |
+| 小说审稿前复习 | `traps-archive/novel/00-all.md` |
+| 新闻审稿前复核 | `traps-archive/news/00-all.md` |

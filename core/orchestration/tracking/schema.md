@@ -1,25 +1,25 @@
-# 编排追踪日志 Schema
-
-状态保存在仓库文件中，**不**依赖上下文窗口。改编自 harness-engineer `runtime/status-management.md`。
-
-**根目录：** `.ai-runtime-artifacts/execution-logs/tracking/`
-
 ---
+name: tracking-schema
+description: "执行追踪数据格式，code / novel / news 域共用。"
+tags: [Orchestration, Schema]
+---
+
+# 追踪数据 Schema
+
+状态保存在仓库文件中，**不**依赖上下文窗口。
 
 ## 文件层级
 
 | 文件 | 用途 | 写入者 |
 | --- | --- | --- |
-| `DISPATCH-TRACK-<YYYY-MM-DD>-<topic>.md` | 并行 WU / ITR 逐步追踪 | Leader |
-| `CHECKLIST-<topic>-WU-<id>.md` | 单 WU done criteria | Leader 创建；勾选由 **Leader** 更新（见 `runtime/plan-progress-sync.md`） |
+| `DISPATCH-TRACK-<YYYY-MM-DD>-<topic>.md` | 并行 WU 逐步追踪 | Leader |
+| `CHECKLIST-<topic>-WU-<id>.md` | 单 WU done criteria | Leader 创建 |
 | `../HANDOFF.md` | 上下文重置检查点（覆盖写） | Leader |
 | `../PROGRESS.md` | 周期级紧凑摘要（可选） | Leader |
 
-模板见 `dispatch-track.md`、`handoff.md`、`progress.md`、`wu-checklist.md`；plan 配对执行图见 `dispatch.harness-overlay.md`（`.ai-runtime-artifacts/plans/*-dispatch.md`）。
-
 ---
 
-## 通用条目格式（append-only）
+## 执行日志格式
 
 每条追踪**追加**到文件末尾，**禁止**改删历史行：
 
@@ -36,22 +36,56 @@ Next: <下一步>
 | 字段 | 说明 |
 | --- | --- |
 | PHASE-STEP | 如 `DISPATCH-GROUP-1`、`WU-02-implement` |
-| AGENT | `Leader` / `Implementer` / `Reviewer` / `Debugger` |
+| AGENT | `Leader` / `Writer` / `Reviewer` / `Humanizer` / `Editor` / `Implementer` / `Debugger` |
 | Status | started → completed；blocked 需人工或 Leader 决策 |
-
----
 
 ## DISPATCH 专用字段
 
 并行编排时在 Detail 后可选追加：
 
 ```text
-GROUP: <N> | WU: <id> | ITER: <n> | STEP: implement|test|review|done
-WorktreeId: wt-<stem> | WorktreePath: <abs-path> | Branch: harness/wt-<stem> | Base: <sha>
-Tests: <pass/fail 摘要>
+GROUP: <N> | WU: <id> | ITER: <n> | STEP: <step_name>
+Domain: code|novel|news
+Tests: <测试通过或字数统计>
 Queue-remaining: WU-03, WU-04
 Reviewer: separate-task | pending
-Worktree: <path or n/a> | Branch: <name or n/a> | Title(zh): <wu_title_zh>
+Title(zh): <wu_title_zh>
+Worktree: <path or n/a> | Branch: <name or n/a>
+```
+
+---
+
+## YAML 执行记录格式（用于阶段门禁 & 状态导出）
+
+```yaml
+timestamp: 2026-06-24T10:30:00Z
+domain: novel
+intent: novel:write
+route: code|novel|news
+agents:
+  - name: writer
+    status: success|failed|retried
+    output: path/to/output.md
+skills:
+  - name: junli-ai-novel
+    status: loaded|skipped
+stage_gates:
+  - name: planning
+    confirmed: true
+  - name: implementation
+    confirmed: true
+```
+
+## 内存状态格式
+
+```json
+{
+  "domain": "novel",
+  "current_book": "我的小说",
+  "last_chapter": 3,
+  "last_updated": "2026-06-24",
+  "pending_tasks": ["第4章", "审稿第1-3章"]
+}
 ```
 
 ---
@@ -61,9 +95,8 @@ Worktree: <path or n/a> | Branch: <name or n/a> | Title(zh): <wu_title_zh>
 1. 打开当前 `DISPATCH-TRACK-*.md`
 2. 找最后一条 `Status: completed` 的 WU/步骤
 3. 对无 `completed` 的 WU，从其最后 `started` 步骤继续
-4. 若存在 `HANDOFF.md` 且比 track 新 → 先读 HANDOFF 再恢复（含 § Git 沙箱 `worktree_path`）
-5. **不要**重跑已有 `APPROVE` 审查的 WU
-6. 曾 WORKTREE-INIT 的批次：写代码类 WU 在 `worktree_path` 继续；未 INIT 则在主 checkout
+4. 若存在 `HANDOFF.md` 且比 track 新 → 先读 HANDOFF 再恢复
+5. **不要**重跑已有确认的 WU
 
 ### Leader 恢复话术
 

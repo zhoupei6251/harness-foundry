@@ -3,7 +3,7 @@
 | 原语 | MiMo Code 绑定 |
 | --- | --- |
 | `DetectPlatform()` | MiMo Code 会话 + Skill 工具 → `mimocode` |
-| `SpawnWorker(role)` | actor(subagent_type=generalPurpose) + `core/orchestration/agents/<role>.md` 作 prompt 正文 |
+| `SpawnWorker(role)` | actor(subagent_type=generalPurpose) + `agents/<role>.md` 作 prompt 正文 |
 | `SpawnWorker(reviewer)` | 新 actor 实例 + readonly 约束 |
 | `ParallelBatch` | 并行 actor（对齐 `dispatching-parallel-agents`）；不传 Leader 全历史 |
 | `WorktreeInit` | 同 `scripts/harness-worktree.sh` / git worktree |

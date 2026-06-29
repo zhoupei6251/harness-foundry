@@ -5,7 +5,7 @@
 ## 接入
 
 1. 根目录 `CLAUDE.md` 自动加载（见项目根 `CLAUDE.md`）
-2. 统一行为准则来自 `harness-kit/adapters/agents/AGENTS.md`
+2. 统一行为准则来自 `harness-foundry/adapters/agents/AGENTS.md`
 3. 多 task 实现：Load `claude-orchestration` → `core/orchestration/dispatcher-workflow.md`
 
 ## 平台差异

@@ -12,7 +12,7 @@ description: MiMo Code 多 actor 并行编排，等价 omx ultrawork。已批准
 ## 激活后
 
 1. 声明 `「Harness：mimocode-orchestration:dispatcher-workflow」`
-2. Read **`harness-kit/core/orchestration/dispatcher-workflow.md`**（唯一步骤源）
+2. Read **`harness-foundry/core/orchestration/dispatcher-workflow.md`**（唯一步骤源）
 3. Read `tracking/schema.md`、已批准 plan、`project.verification.md`
 4. 将委派写代码 WU：**WORKTREE-INIT** → 并行 actor
 
@@ -20,7 +20,7 @@ description: MiMo Code 多 actor 并行编排，等价 omx ultrawork。已批准
 
 | agent_role | actor |
 | --- | --- |
-| coder / implementer / test-engineer / debugger / web-investigator | `generalPurpose` + `core/orchestration/agents/<role>.md` |
+| coder / implementer / test-engineer / debugger / web-investigator | `generalPurpose` + `agents/<role>.md` |
 | reviewer | 新 actor + readonly |
 | explorer | `explore` 或 readonly actor |
 
@@ -36,4 +36,4 @@ description: MiMo Code 多 actor 并行编排，等价 omx ultrawork。已批准
 - 实现与审查同 actor 实例；跳过 DISPATCH-TRACK / 尾盘产物
 - 末 WU 返回即声称完成；Leader 自动 push
 
-绑定详情：`harness-kit/adapters/mimocode/bindings.md`
+绑定详情：`harness-foundry/adapters/mimocode/bindings.md`

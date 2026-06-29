@@ -26,7 +26,7 @@ tags: [Rules, Runbook]
 
 ## Never 清单
 
-Read `harness-kit/core/NEVER.md` — 所有禁止项的详细说明。
+Read `harness-foundry/core/NEVER.md` — 所有禁止项的详细说明。
 
 ## Token 节流策略
 

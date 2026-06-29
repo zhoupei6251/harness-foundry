@@ -34,7 +34,6 @@ assignees: ''
 - [ ] `adapters/` — 平台适配器
 - [ ] `skills/` — Skill 集合
 - [ ] `agents/` — Agent 集合
-- [ ] `third-party/` — 第三方 cherry-pick
 - [ ] `scripts/` — 同步脚本
 - [ ] `docs/` — 文档
 - [ ] 其它: ___

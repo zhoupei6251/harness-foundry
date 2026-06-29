@@ -20,7 +20,7 @@ tags: [Standard]
 ### routing.harness-declare
 
 - **Requires:** 每个任务
-- **Produces:** 首句 `「Harness：…」` + 可选 `Skills:`
+- **Produces:** 首句 `「Route: <code|novel|news>」`（见 `core/intent-routing.md`）+ 可选 `Skills:`
 - **Forbidden:** 无声明即交付
 - **Degraded:** 无
 

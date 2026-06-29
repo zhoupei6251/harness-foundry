@@ -6,11 +6,11 @@ tags: [Standard]
 
 # Skill 使用偏好说明（WU 级，按需加载）
 
-> **范围：** 本文档仅 **子 Agent / WU**（`wu_skills: auto`）。**Leader 阶段 skill**（`brainstorming`、`writing-plans`、`verification-before-completion`、`git-xywh`）见 `harness-kit/core/routing.md` § 阶段指定 skill 必用 — **必 Load**，不适用下文「按需」。
+> **范围：** 本文档仅 **子 Agent / WU**（`wu_skills: auto`）。**Leader 阶段 skill**（`brainstorming`、`writing-plans`、`verification-before-completion`、`git-xywh`）见 `harness-foundry/core/intent-routing.md` § 阶段指定 skill 必用 — **必 Load**，不适用下文「按需」。
 
 本文档是 Harness **子 Agent 应加载哪些 skill** 的**唯一维护入口**（文档维护，**不是** skill 文件）。
 
-- 项目内置**能力副本**在 `.cursor/skills/`（TDD、verification 等），由 Cursor 发现；升级用 `bash harness-kit/scripts/sync-cursor-skills.sh`。
+- 项目内置**能力副本**在 `.cursor/skills/`（TDD、verification 等），由 Cursor 发现；升级用 `bash harness-foundry/scripts/sync-cursor-skills.sh`。
 - **编排步骤**见 `core/orchestration/dispatcher-workflow.md`。
 
 ---
@@ -24,7 +24,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 3. 得到 skill slug 列表（顺序即加载顺序）
 4. 应用 `overrides` 追加、`exclude` 删除
 5. 剔除 **§ 全局禁止**
-6. 对列表中每一项 **按需** invoke / Read `.cursor/skills/<slug>/SKILL.md`（不存在则 `skipped`，不硬套）
+6. 对列表中每一项 **按需** invoke / Read skill（路径见 § 加载顺序，不存在则 `skipped`，不硬套）
 
 **Leader 派发：** 将解析出的 **slug + 路径** 抄入 prompt（**禁**只写 `auto`）。子 Agent 须返回 `### Skills 使用`。
 
@@ -57,14 +57,14 @@ Leader 或子 Agent 看到 **`auto`** 时：
 
 ## 内置能力副本
 
-| slug | 用途 | Cursor 路径 | Trae 路径 |
-| --- | --- | --- | --- |
-| test-driven-development | 先测后实现 | `.cursor/skills/` | `.trae/skills/` |
-| systematic-debugging | 根因调查 | `.cursor/skills/` | `.trae/skills/` |
-| requesting-code-review | 独立审查 | `.cursor/skills/` | `.trae/skills/` |
-| receiving-code-review | 按审查意见改代码 | `.cursor/skills/` | `.trae/skills/` |
-| ui-ux-pro-max | UI/UX 设计系统 | `~/.trae/skills/` | `~/.trae/skills/` |
-| frontend-design | UI 实现审美 | 全局复制 | `~/.trae/skills/` |
+| slug | 用途 | Cursor 路径 | Trae 路径 | Claude Code 路径 |
+| --- | --- | --- | --- | --- |
+| test-driven-development | 先测后实现 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
+| systematic-debugging | 根因调查 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
+| requesting-code-review | 独立审查 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
+| receiving-code-review | 按审查意见改代码 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
+| ui-ux-pro-max | UI/UX 设计系统 | `~/.trae/skills/` | `~/.trae/skills/` | `harness-foundry/skills/` |
+| frontend-design | UI 实现审美 | 全局复制 | `~/.trae/skills/` | `harness-foundry/skills/` |
 
 副本来源登记：`adapters/cursor/.cursor/skills/_vendor-sources.yaml`。
 
@@ -96,9 +96,9 @@ Leader 或子 Agent 看到 **`auto`** 时：
 
 ## 测试工程师 E2E
 
-`wu_type: e2e` 且 `auto` 时：**必须先 Read** `.cursor/skills/agent-browser/SKILL.md`（再按 skill 执行）。
+`wu_type: e2e` 且 `auto` 时：**必须先 Read** skill 文件（路径见 § 加载顺序，再按 skill 执行）。
 
-执行优先级：Playwright MCP → `agent-browser`（`infsh`）→ 项目 CLI。返回 `e2e_via: playwright-mcp | agent-browser | cli | n/a`。
+执行优先级：Playwright → `agent-browser`（`infsh`）→ 项目 CLI。返回 `e2e_via: playwright | agent-browser | cli | n/a`。
 
 ---
 
@@ -148,7 +148,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 > Trae 的 Skill 工具调用会自动发现 `.trae/skills/` 目录下的 skill，无需手动指定路径。
 
 ### MiMo Code
-1. `harness-kit/adapters/mimocode/.agents/skills/<slug>/SKILL.md`（项目级）
+1. `harness-foundry/adapters/mimocode/.agents/skills/<slug>/SKILL.md`（项目级）
 2. `.cursor/skills/<slug>/SKILL.md`（共享 Cursor 副本）
 3. `~/.agents/skills/<slug>/SKILL.md`（用户全局）
 
@@ -157,5 +157,5 @@ Leader 或子 Agent 看到 **`auto`** 时：
 ## 维护
 
 - 改路由：**只改本文档** § 默认路由表；plan 执行图见 `artifact-templates/dispatch.harness-overlay.md`。
-- 升级能力副本：`bash harness-kit/scripts/sync-cursor-skills.sh`。
+- 升级能力副本：`bash harness-foundry/scripts/sync-cursor-skills.sh`。
 - 项目专有 skill：放在 `.cursor/skills/<name>/`，在 plan 的 `wu_skills` 手写或 `overrides` 追加。

@@ -8,7 +8,7 @@ platform: claude
 # DISPATCH-TRACK — <topic>
 
 > Append-only。禁止改删历史行。
-> 格式规范：`harness-kit/core/orchestration/tracking/schema.md`
+> 格式规范：`harness-foundry/core/orchestration/tracking/schema.md`
 
 ---
 

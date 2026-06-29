@@ -8,7 +8,7 @@ context_version: <n>
 # HANDOFF — <topic>
 
 > 上下文重置检查点。覆盖写。Leader 在派发前创建，恢复时读。
-> 规范：`harness-kit/core/orchestration/tracking/schema.md` § 中断恢复协议。
+> 规范：`harness-foundry/core/orchestration/tracking/schema.md` § 中断恢复协议。
 
 ---
 

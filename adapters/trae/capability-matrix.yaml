@@ -1,15 +1,15 @@
 platform: trae
-matrix_version: 1
+matrix_version: 2
 capabilities:
   routing.stage-gate:
     status: supported
-    binding: ".trae/rules/harness-routing.md + core/intent-routing.md 阶段门禁"
+    binding: "ENTRY.md + harness-foundry/core/intent-routing.md 阶段门禁"
   routing.harness-declare:
     status: supported
     binding: "首句 Harness 声明（强制）"
   orchestration.dispatch:
     status: supported
-    binding: "harness-orchestration skill → core/orchestration/dispatcher-workflow.md"
+    binding: "harness-orchestration skill → harness-foundry/core/orchestration/dispatcher-workflow.md"
   orchestration.leader:
     status: supported
     binding: "主 Agent 调度 + Task 派发"
@@ -22,40 +22,47 @@ capabilities:
   orchestration.worktree-sandbox:
     status: not-supported
     binding: "Trae 无原生 worktree 沙箱；主 checkout 直接改"
-    fallback: "git worktree 命令手工隔离；CI/测试隔离靠分支 + PR"
+    fallback: "git branch 隔离"
+    notes: "P0-1: execution-context worktree provider 不可用，降级为 local"
+  orchestration.provision-context:
+    status: degraded
+    binding: "P0-1: local provider 始终可用，worktree provider 不支持"
+  orchestration.destroy-context:
+    status: degraded
+    binding: "P0-1: local provider no-op destroy"
   orchestration.collective-closeout:
     status: supported
     binding: "collective-test + harness-reviewer + code-review"
   orchestration.continuous-loop:
     status: supported
-    binding: "orchestration/continuous-loop.md opt-in"
+    binding: "harness-foundry/core/orchestration/continuous-loop.md opt-in"
   roles.coder:
     status: supported
-    binding: "Task(general_purpose_task) + harness-coder.md"
+    binding: "Task(general_purpose_task) + harness-foundry/agents/coder.md"
   roles.implementer:
     status: supported
-    binding: "Task(general_purpose_task) + harness-implementer.md"
+    binding: "Task(general_purpose_task) + harness-foundry/agents/implementer.md"
   roles.reviewer:
     status: supported
-    binding: "Task(general_purpose_task) + harness-reviewer.md（readonly）"
+    binding: "Task(general_purpose_task) + harness-foundry/agents/reviewer.md（readonly）"
   roles.test-engineer:
     status: supported
-    binding: "Task(general_purpose_task) + harness-test-engineer.md + TDD skill"
+    binding: "Task(general_purpose_task) + harness-foundry/agents/test-engineer.md + TDD skill"
   roles.explorer:
     status: supported
-    binding: "Task(search) 或 Task(general_purpose_task) + harness-explorer.md"
+    binding: "Task(search) 或 Task(general_purpose_task) + harness-foundry/agents/explorer.md"
   roles.debugger:
     status: supported
-    binding: "Task(general_purpose_task) + harness-debugger.md"
+    binding: "Task(general_purpose_task) + harness-foundry/agents/debugger.md"
   roles.web-investigator:
     status: supported
-    binding: "Task(search) + agent-browser skill + harness-web-investigator.md"
+    binding: "Task(search) + harness-foundry/agents/web-investigator.md"
   artifacts.runtime-layout:
     status: supported
     binding: ".ai-runtime-artifacts/"
   artifacts.verification-lite:
     status: supported
-    binding: "Tier 1 Leader 直做 → harness-kit/artifact-templates/verification-lite.md"
+    binding: "Tier 1 Leader 直做 → harness-foundry/artifact-templates/verification-lite.md"
   skills.stage-load:
     status: supported
     binding: "Skill 工具加载 SKILL.md；投影目录 .trae/skills/"
@@ -66,6 +73,14 @@ capabilities:
     status: not-supported
     binding: "Trae 无 hooks.json 机制"
     fallback: "会话开始首句 Harness 声明 + Skill 工具按需加载"
-  git.worktree-script:
-    status: degraded
-    binding: "git worktree 命令手工；harness-kit/scripts/harness-worktree.sh 可用但非平台原生"
+
+cross_cutting:
+  parallel_agents:
+    max: 5
+    mechanism: "Task"
+  worktree_sandbox:
+    supported: false
+  guardrail_support:
+    input: false
+    output: false
+    notes: "Trae 无 hook 机制，guardrail 依赖 prompt 内规则"

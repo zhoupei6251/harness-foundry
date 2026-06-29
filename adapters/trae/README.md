@@ -24,12 +24,12 @@
 
 ## 投影规则
 
-从 `harness-kit/adapters/trae/` 投影到项目根目录：
+从 `harness-foundry/adapters/trae/` 投影到项目根目录：
 
-- `harness-kit/adapters/trae/.trae/agents/` → `.trae/agents/`
-- `harness-kit/adapters/trae/.trae/rules/` → `.trae/rules/`
+- `harness-foundry/adapters/trae/.trae/agents/` → `.trae/agents/`
+- `harness-foundry/adapters/trae/.trae/rules/` → `.trae/rules/`
 
-`harness-kit/adapters/trae/orchestration/` **不投影**，保留在 harness-kit 内供 AI 读取。
+`harness-foundry/adapters/trae/orchestration/` **不投影**，保留在 harness-foundry 内供 AI 读取。
 
 ## Subagent 角色
 

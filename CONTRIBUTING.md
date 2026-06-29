@@ -11,11 +11,11 @@
 ### 1. 新增 Skill
 
 ```bash
-# 1. 在 skills/harness/ 下创建新 skill
-mkdir -p skills/harness/my-new-skill
+# 1. 在 skills/ 下创建新 skill 目录
+mkdir -p skills/my-new-skill
 
 # 2. 写 SKILL.md（含 YAML frontmatter）
-cat > skills/harness/my-new-skill/SKILL.md <<'EOF'
+cat > skills/my-new-skill/SKILL.md <<'EOF'
 ---
 name: my-new-skill
 description: 简短描述这个 skill 的用途（AI 自动用此触发）
@@ -27,7 +27,7 @@ description: 简短描述这个 skill 的用途（AI 自动用此触发）
 EOF
 
 # 3. 写 _meta.json
-cat > skills/harness/my-new-skill/_meta.json <<'EOF'
+cat > skills/my-new-skill/_meta.json <<'EOF'
 {
   "source": "harness",
   "tags": ["wu"],
@@ -35,13 +35,13 @@ cat > skills/harness/my-new-skill/_meta.json <<'EOF'
 }
 EOF
 
-# 4. 更新 skills/INDEX.md
+# 4. 更新 skills/INDEX.md（运行 gen-skill-index.sh）
 ```
 
 ### 2. 新增 Agent
 
 ```bash
-# 1. 在 agents/harness/ 下创建 agent 定义
+# 1. 在 agents/ 下创建 agent 定义
 # 2. 写 agent 定义（含 YAML frontmatter + Markdown）
 # 3. 更新 agents/README.md
 ```
@@ -52,26 +52,15 @@ EOF
 - 至少 1 个 reviewer 批准
 - 必须通过 CI（`bash scripts/verify.sh`）
 
-### 4. 升级第三方 Skill
+### 4. 升级 Skill
 
-详见 [`README.md` § 升级上游 Skill](README.md#升级上游第三方-skill)。
+所有 Skill 已整合到 `skills/` 主池，不再有第三方目录。
 
 ```bash
-# 1. 临时克隆上游
-git clone --depth 1 https://github.com/obra/superpowers.git /tmp/sp
-git clone --depth 1 https://github.com/affaan-m/ECC.git /tmp/ecc
-
-# 2. diff 比对
-diff -r /tmp/sp/skills/<slug> third-party/superpowers/skills/<slug>
-
-# 3. 手工同步变更
-# 4. 更新 _meta.json 的 source_version
-# 5. 跑 sync 投影
-bash scripts/sync-third-party.sh
-
-# 6. 提交 + 描述升级内容
-# 7. 清理
-rm -rf /tmp/sp /tmp/ecc
+# 1. 直接在 skills/<slug>/ 下修改
+# 2. 更新 SKILL.md 和 _meta.json（如有）
+# 3. 更新 skills/INDEX.md
+# 4. 提交 + 描述升级内容
 ```
 
 ## PR 流程
@@ -123,5 +112,5 @@ rm -rf /tmp/sp /tmp/ecc
 
 ## 联系方式
 
-- GitHub Issues：https://github.com/zhoupei6251/harness-kit/issues
-- GitHub Pull Requests：https://github.com/zhoupei6251/harness-kit/pulls
+- GitHub Issues：https://github.com/zhoupei6251/harness-foundry/issues
+- GitHub Pull Requests：https://github.com/zhoupei6251/harness-foundry/pulls

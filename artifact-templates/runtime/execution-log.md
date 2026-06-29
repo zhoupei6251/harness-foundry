@@ -9,7 +9,7 @@ status: in-progress
 # Execution Log — <topic>
 
 > 执行摘要。完成编排后 `status: completed`。
-> 对应 `harness-kit/core/orchestration/dispatcher-workflow.md`。
+> 对应 `harness-foundry/core/orchestration/dispatcher-workflow.md`。
 
 ---
 

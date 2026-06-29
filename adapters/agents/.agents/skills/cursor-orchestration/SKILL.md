@@ -12,7 +12,7 @@ description: Cursor 多 subagent 并行编排，等价 omx ultrawork。已批准
 ## 激活后
 
 1. 声明 `「Harness：cursor-orchestration:dispatcher-workflow」`
-2. Read **`harness-kit/core/orchestration/dispatcher-workflow.md`**
+2. Read **`harness-foundry/core/orchestration/dispatcher-workflow.md`**
 3. Read `tracking/schema.md`、已批准 plan、`project.verification.md`
 4. 委派写代码 WU：**WORKTREE-INIT** → 并行 subagent
 

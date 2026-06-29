@@ -1,5 +1,5 @@
 platform: codex
-matrix_version: 1
+matrix_version: 2
 capabilities:
   routing.stage-gate:
     status: supported
@@ -23,6 +23,13 @@ capabilities:
     status: degraded
     binding: "git worktree 或跳过"
     degraded_reason: "omx 默认路径可能无 worktree"
+    notes: "P0-1: execution-context worktree provider degraded → 降级为 local"
+  orchestration.provision-context:
+    status: degraded
+    binding: "P0-1: worktree 需手动执行，local provider 始终可用"
+  orchestration.destroy-context:
+    status: degraded
+    binding: "P0-1: manual git worktree remove"
   orchestration.collective-closeout:
     status: supported
     binding: "verify/fix + reviewer 路由"
@@ -66,6 +73,14 @@ capabilities:
   hooks.session-lifecycle:
     status: manual
     binding: "无标准 hook"
-  git.worktree-script:
-    status: degraded
-    binding: "manual git worktree"
+
+cross_cutting:
+  parallel_agents:
+    max: 5
+    mechanism: "omx ultrawork"
+  worktree_sandbox:
+    supported: degraded
+  guardrail_support:
+    input: false
+    output: false
+    notes: "Codex guardrail 依赖 omx prompt 规则，无 hook 层面拦截"

@@ -1,6 +1,6 @@
 # Trae Harness 路由
 
-与 `harness-kit/core/intent-routing.md` 保持一致。差异仅在物理绑定。
+与 `harness-foundry/core/intent-routing.md` 保持一致。差异仅在物理绑定。
 
 ## 路由表
 
@@ -28,7 +28,7 @@
 
 ## WU Skill 自动路由
 
-见 `harness-kit/core/orchestration/skill-preferences.md` § 默认路由表。
+见 `harness-foundry/core/orchestration/skill-preferences.md` § 默认路由表。
 
 ## 阶段门禁
 

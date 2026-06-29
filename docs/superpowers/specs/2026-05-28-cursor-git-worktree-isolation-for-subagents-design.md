@@ -6,9 +6,9 @@ status: draft
 platform: cursor
 route: superpowers:brainstorming
 related:
-  - harness-kit/adapters/cursor/orchestration/dispatcher-workflow.md
-  - harness-kit/adapters/cursor/orchestration/tracking/schema.md
-  - harness-kit/core/routing.md
+  - harness-foundry/adapters/cursor/orchestration/dispatcher-workflow.md
+  - harness-foundry/adapters/cursor/orchestration/tracking/schema.md
+  - harness-foundry/core/intent-routing.md
 ---
 
 # 在 Cursor 编排中引入 Git worktree 隔离（子 Agent 可回滚）

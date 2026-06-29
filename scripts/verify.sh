@@ -7,6 +7,22 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
+# Platform-adaptive temp dir
+if [[ -n "${RUNNER_TEMP:-}" ]]; then
+  # GitHub Actions / Gitee Go
+  TMP_DIR="$RUNNER_TEMP"
+elif [[ -n "${TMPDIR:-}" ]]; then
+  TMP_DIR="$TMPDIR"
+elif [[ -d /tmp ]]; then
+  TMP_DIR=/tmp
+else
+  TMP_DIR="${ROOT}/tmp"
+  mkdir -p "$TMP_DIR"
+fi
+
+BOOTSTRAP_LOG="${TMP_DIR}/bootstrap-dryrun.log"
+SYNC_LOG="${TMP_DIR}/sync-skills-dryrun.log"
+
 # 1. 验证 bash 脚本语法
 echo "==> [1/4] 验证 bash 脚本语法"
 for script in scripts/*.sh; do
@@ -16,21 +32,21 @@ done
 # 2. 验证 dry-run（不会真实修改文件）
 echo ""
 echo "==> [2/4] bootstrap dry-run"
-bash scripts/bootstrap.sh --target all --dry-run > /tmp/bootstrap-dryrun.log 2>&1 && \
+bash scripts/bootstrap.sh --target all --dry-run > "$BOOTSTRAP_LOG" 2>&1 && \
   echo "  [ok] bootstrap --target all --dry-run" || \
-  { echo "  [FAIL] bootstrap --dry-run"; cat /tmp/bootstrap-dryrun.log; exit 1; }
+  { echo "  [FAIL] bootstrap --dry-run"; cat "$BOOTSTRAP_LOG"; exit 1; }
 
 echo ""
 echo "==> [3/4] sync-skills dry-run"
-bash scripts/sync-skills.sh --target all --dry-run > /tmp/sync-skills-dryrun.log 2>&1 && \
+bash scripts/sync-skills.sh --target all --dry-run > "$SYNC_LOG" 2>&1 && \
   echo "  [ok] sync-skills --target all --dry-run" || \
-  { echo "  [FAIL] sync-skills --dry-run"; cat /tmp/sync-skills-dryrun.log; exit 1; }
+  { echo "  [FAIL] sync-skills --dry-run"; cat "$SYNC_LOG"; exit 1; }
 
 # 3. 验证 skill 目录结构
 echo ""
 echo "==> [4/4] 验证 skill 目录结构（每个 skill 必须有 SKILL.md）"
 missing=0
-for skill_dir in skills/harness/*/ skills/third-party/superpowers/*/; do
+for skill_dir in skills/*/; do
   if [[ -d "$skill_dir" ]]; then
     if [[ -f "${skill_dir}SKILL.md" ]]; then
       echo "  [ok] ${skill_dir}"

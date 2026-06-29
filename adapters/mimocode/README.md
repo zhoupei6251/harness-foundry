@@ -5,7 +5,7 @@
 ## 接入
 
 1. 根目录 `CLAUDE.md` + `AGENTS.md`
-2. 投影 skill：`bash harness-kit/scripts/sync-skills.sh --target mimocode`
+2. 投影 skill：`bash harness-foundry/scripts/sync-skills.sh --target mimocode`
 3. 多 task 实现：Load **`mimocode-orchestration`** → `core/orchestration/dispatcher-workflow.md`
 
 ## 平台检测

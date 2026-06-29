@@ -1,5 +1,5 @@
 platform: cursor
-matrix_version: 1
+matrix_version: 2
 capabilities:
   routing.stage-gate:
     status: supported
@@ -21,7 +21,8 @@ capabilities:
     binding: "DISPATCH-TRACK append-only"
   orchestration.worktree-sandbox:
     status: supported
-    binding: "dispatcher §0 WORKTREE-INIT"
+    binding: "execution-context worktree provider — dispatcher §0 WORKTREE-INIT"
+    notes: "P0-1: 由 execution-context Provider 协议统一管理"
   orchestration.collective-closeout:
     status: supported
     binding: "collective-test + harness-reviewer + code-review"
@@ -64,6 +65,21 @@ capabilities:
   hooks.session-lifecycle:
     status: supported
     binding: ".cursor/hooks.json"
-  git.worktree-script:
+  # P0-1 新增: execution-context 相关
+  orchestration.provision-context:
     status: supported
-    binding: "git worktree + harness-worktree.sh"
+    binding: "execution-context Provider 协议 — Provision/Activate/Deactivate/Destroy"
+  orchestration.destroy-context:
+    status: supported
+    binding: "git worktree remove + 分支清理"
+
+cross_cutting:
+  parallel_agents:
+    max: 5
+    mechanism: "subagent"
+  worktree_sandbox:
+    supported: true
+  guardrail_support:
+    input: true
+    output: true
+    notes: "P0-2: Cursor 支持 hooks.json guardrail"

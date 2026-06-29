@@ -1,120 +1,113 @@
-# Agents — 项目用到的 Agent 集合
+# Agents — 全局 Agent 池
 
-> 10 个 Agent，分两类：7 个 **harness 角色**（编排核心） + 3 个 **ECC 专项 agent**（按需调用）。
+> 三域共用（code / novel / news）。通过 `core/orchestration/domain-config.yaml` 按域加载主次 Agent。
+> 共 30 个 Agent 文件（含 3 个 .meta.json 元数据文件）。
 
 ## 目录结构
 
 ```
 agents/
 ├── README.md                    # 本文件
-├── harness/                     # 7 个 harness 角色
-│   ├── leader.md                # Leader：意图路由 + 派发
-│   ├── coder.md                 # Coder：写代码
-│   ├── implementer.md           # Implementer：单点实现
-│   ├── reviewer.md              # Reviewer：五轴审查
-│   ├── test-engineer.md         # Test Engineer：TDD 测试
-│   ├── debugger.md              # Debugger：bug 排查
-│   └── web-investigator.md      # Web Investigator：联网调研
-└── third-party/                 # 3 个 ECC 专项 agent（按需）
-    └── ecc/
-        ├── ecc-java-reviewer.md
-        ├── ecc-security-reviewer.md
-        └── ecc-database-reviewer.md
+├── leader-*.md                  # 三域主编（3 个）
+├── coder.md                     # 编码者（完整代码实现）
+├── implementer.md               # 轻量实现者（文档/配置）
+├── reviewer.md                  # 代码审查者
+├── test-engineer.md             # 测试工程师（TDD）
+├── debugger.md                  # 调试者（系统化 debug）
+├── explorer.md                  # 只读探查者（代码库导航）
+├── architect.md                 # 架构师
+├── code-simplifier.md           # 代码精简/优化
+├── code-reviewer.md             # 独立代码审查
+├── tech-writer.md               # 技术文档撰写
+├── web-investigator.md          # 联网搜索取证
+├── novel-*.md                   # 小说域专属 agent（5 个）
+├── news-*.md                    # 新闻域专属 agent（3 个）
+├── ecc-*.md                     # ECC 专属审查 agent（3 个 + 3 .meta.json）
+├── humanizer.md                 # AI 文风清洗
+├── editor.md                    # 文字校对排版
+├── shared-researcher.md         # 通用调研
+├── ceo.md                       # CEO 统筹入口
+└── memory-keeper.md             # 记忆同步
 ```
 
-## Harness 角色（7 个，编排核心）
+---
 
-| 角色 | 文件 | 触发 | 主要能力 |
-|------|------|------|---------|
-| **leader** | [leader.md](harness/leader.md) | 收到任意请求 | 意图路由、阶段门禁、派发 subagent |
-| **coder** | [coder.md](harness/coder.md) | 派发 "写代码" WU | 写代码实现（中等复杂度） |
-| **implementer** | [implementer.md](harness/implementer.md) | 派发 "实现" WU | 单点实现（复杂度低） |
-| **reviewer** | [reviewer.md](harness/reviewer.md) | 派发 "review" WU | 五轴审查（功能/可读/可维护/性能/安全）|
-| **test-engineer** | [test-engineer.md](harness/test-engineer.md) | 派发 "测试" WU | TDD 测试 + 覆盖率 |
-| **debugger** | [debugger.md](harness/debugger.md) | 派发 "debug" WU | 系统化调试（重现→最小化→假设→插桩）|
-| **web-investigator** | [web-investigator.md](harness/web-investigator.md) | 派发 "调研" WU | 联网搜索 + 资料整理 |
+## 主编 / Leader（3 个）
 
-## ECC 专项 agent（3 个，按需调用）
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **leader-code** | 收到任意代码请求 | 意图路由、阶段门禁、派发 subagent、整合结果 |
+| **leader-novel** | 收到小说创作请求 | 统筹全流程、阶段门禁、质量把控 |
+| **leader-news** | 收到新闻写作请求 | 统筹新闻流程、选题确认、发布审核 |
 
-| Agent | 文件 | 触发时机 | 适用场景 |
-|-------|------|---------|---------|
-| **ecc-java-reviewer** | [ecc-java-reviewer.md](third-party/ecc/ecc-java-reviewer.md) | review 阶段对 Java 代码显式调用 | Java/Spring Boot 评审（分层架构、JPA、安全、并发）|
-| **ecc-security-reviewer** | [ecc-security-reviewer.md](third-party/ecc/ecc-security-reviewer.md) | 写完 user input/auth/API endpoint/sensitive data 后 | 安全漏洞扫描（OWASP Top 10、secrets、SSRF、injection）|
-| **ecc-database-reviewer** | [ecc-database-reviewer.md](third-party/ecc/ecc-database-reviewer.md) | 写 SQL/migration/schema/DB 性能排查 | 数据库评审（query 优化、schema 设计、PostgreSQL 实践）|
+## code 域核心 Agent（11 个）
 
-### 与 harness-reviewer 的关系
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **coder** | 实现功能 / 修 bug / 重构 | 完整代码实现、单测、自测、轻量审查 |
+| **implementer** | 文档 / 配置 / 轻量改动 | 单点实现，不写业务代码 |
+| **reviewer** | 代码审查 | 五轴审查（功能/可读/可维护/性能/安全） |
+| **debugger** | 修 bug / 排查问题 | 系统化 debug（重现→最小化→假设→插桩→修复） |
+| **test-engineer** | 写测试 / TDD | 单元测试、E2E 测试、覆盖率保障 |
+| **architect** | 架构设计 / 技术选型 | 架构方案、技术选型、依赖分析 |
+| **code-architect** | ~~废弃，请用 architect~~ | 已移除 |
+| **code-simplifier** | 精简/优化代码 | 代码可读性提升、去除冗余、扁平化嵌套 |
+| **tech-writer** | 写技术文档（领域文档、API 文档） | API 文档、用户指南、架构说明 |
+| **explorer** | 代码探索 | 代码库导航、依赖分析 |
+| **code-reviewer** | 代码审查（独立） | 独立审查 subagent |
 
-**互补关系**。harness-reviewer 做通用 review；ecc-* 做专项深扫。
+## novel 域（7 个）
 
-```
-推荐串联：
-1. harness-reviewer   → 通用五轴审查（功能/可读/可维护/性能/安全）
-2. ecc-java-reviewer  → Java/Spring 专项深扫（按需）
-3. ecc-security-reviewer → 安全专项深扫（按需）
-4. ecc-database-reviewer → 数据库专项深扫（按需）
-```
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **novel-writer** | 写章节 / 续写 / 扩写 | 正文创作、情节推进、人物塑造、返修落地 |
+| **novel-planner** | 写大纲 / 分卷 / 规划 | 故事大纲、分卷结构、章节规划 |
+| **novel-reviewer** | 审稿 / 评分 / 检查 | 小说审稿（情节/人物/文笔/世界观/情感/创新） |
+| **novel-researcher** | 查资料 / 考据 | 历史考据、素材整理 |
+| **editor** | 排版 / 校对 | 文字校对、排版优化 |
+| **humanizer** | 润色 / 去 AI 味 | 中文润色、消除 AI 痕迹 |
+| **memory-keeper** | 记忆同步 | 维护 MEMORY.md、状态追踪 |
 
-调用方式：
+## news 域（4 个）
 
-```markdown
-Task(
-  subagent_type="general-purpose",
-  prompt="以 ecc-java-reviewer 角色审查 src/main/java/.../UserService.java，重点关注：..."
-)
-```
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **news-writer** | 写新闻 / 快讯 / 报道 | 新闻稿撰写、事实准确、语言规范 |
+| **fact-checker** | 事实核查 / 查证 | 事实核查、辟谣、来源验证 |
+| **news-editor** | 润色 / 审校 | 新闻审校、格式规范、敏感内容审查 |
+| **shared-researcher** | 调研 | 资料搜集、热点追踪 |
 
-## 使用方式
+## 通用 Agent（3 个）
 
-### 通过 Leader 派发
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **explorer** | 只读探查 | 代码库导航、依赖分析 |
+| **shared-researcher** | 通用调研需求 | 跨领域调研、资料整理 |
+| **web-investigator** | 联网搜索 / 截图 | 网页抓取、截图取证、资料整理 |
 
-```yaml
-# Leader 收到"设计并实现用户认证"的请求
-intent: implement
-role: leader
-dispatch:
-  - wu: implement-auth
-    role: coder
-    skills: [ruoyi-aigc-backend-developer, test-driven-development]
-  - wu: review-auth
-    role: reviewer
-    skills: [requesting-code-review, code-review]
-    on_demand:
-      - ecc-security-reviewer  # 按需补充
-```
+---
 
-### 手动指定 agent role
+## ECC 专属审查 Agent（3 个 + 3 .meta.json）
 
-```bash
-# 直接以 ecc-security-reviewer 身份审查
-claude --agent ecc-security-reviewer "审查 src/ 下的所有 auth 代码"
-```
+| Agent | 说明 |
+|-------|------|
+| **ecc-database-reviewer** | ECC 数据库审查 |
+| **ecc-java-reviewer** | ECC Java 审查 |
+| **ecc-security-reviewer** | ECC 安全审查 |
+
+---
+
+## 加载方式
+
+路由到某域后，按 `core/orchestration/domain-config.yaml` 加载：
+
+- **primary_agents**：路由确定后立即加载
+- **secondary_agents**：任务需要时按需加载
 
 ## 真相源
 
-| 角色/Agent | 真相源 |
-|---------|-------|
-| 7 个 harness 角色 | [`harness-kit/core/orchestration/agents/<role>.md`](../core/orchestration/agents/) |
-| 3 个 ECC agent | [`harness-kit/third-party/ecc/agents/<name>.md`](../third-party/ecc/agents/) |
-
-本目录是**分发快照**，真相源改动后需重新复制。
-
-## 重新同步
-
-```bash
-# 7 个 harness 角色（来自 core/orchestration/agents/）
-cp harness-kit/core/orchestration/agents/*.md harness-kit/agents/harness/
-
-# 3 个 ECC agent（来自 third-party/ecc/agents/）
-cp harness-kit/third-party/ecc/agents/*.md harness-kit/agents/third-party/ecc/
-
-# 自动化
-bash harness-kit/scripts/sync-third-party.sh
-```
+所有 Agent 文件即为真相源，不再从其他目录同步。
 
 ## License
 
 MIT
-
----
-
-**入口：** [`README.md`](../README.md) · [`skills/README.md`](../skills/README.md) · [`skills/INDEX.md`](../skills/INDEX.md)

@@ -1,6 +1,6 @@
 # Harness 项目内置 Skills（`.cursor/skills/`）
 
-Bootstrap 将 `harness-kit/adapters/cursor/.cursor/` 投影到项目根 `.cursor/`，本目录由 **Cursor 自动发现**。
+Bootstrap 将 `harness-foundry/adapters/cursor/.cursor/` 投影到项目根 `.cursor/`，本目录由 **Cursor 自动发现**。
 
 ## 内容
 
@@ -11,7 +11,7 @@ Bootstrap 将 `harness-kit/adapters/cursor/.cursor/` 投影到项目根 `.cursor
 ## 同步
 
 ```bash
-bash harness-kit/scripts/sync-cursor-skills.sh
+bash harness-foundry/scripts/sync-cursor-skills.sh
 ```
 
 登记见 `_vendor-sources.yaml`。

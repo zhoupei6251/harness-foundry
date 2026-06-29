@@ -6,7 +6,7 @@
 
 ```text
 Use the harness-reviewer subagent to review <WU-id | GROUP batch>.
-Follow harness-kit/core/orchestration/agents/reviewer.md.
+Follow harness-foundry/agents/reviewer.md.
 You did not implement this code. Readonly. Do not modify files.
 ```
 
