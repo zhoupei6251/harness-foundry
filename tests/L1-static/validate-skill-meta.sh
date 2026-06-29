@@ -8,9 +8,15 @@ cd "$ROOT"
 
 LAYER_FILE="skills/_layer.yaml"
 if [[ -f "$LAYER_FILE" ]]; then
-  CORE_SLUGS=$(yq '.core | .[]' "$LAYER_FILE" 2>/dev/null || true)
-  PERI_SLUGS=$(yq '.peripheral | .[]' "$LAYER_FILE" 2>/dev/null || true)
-  ARCH_SLUGS=$(yq '.archived | .[]' "$LAYER_FILE" 2>/dev/null || true)
+  # 用 Python 解析 _layer.yaml（避免 yq 路径问题 + trailing newline 问题）
+  read -r CORE_SLUGS PERI_SLUGS ARCH_SLUGS < <(python3 -c "
+import yaml
+with open('$LAYER_FILE') as f:
+    data = yaml.safe_load(f)
+print(' '.join(data.get('core', [])))
+print(' '.join(data.get('peripheral', [])))
+print(' '.join(data.get('archived', [])))
+" 2>/dev/null || echo " ")
 else
   CORE_SLUGS=""; PERI_SLUGS=""; ARCH_SLUGS=""
 fi
@@ -101,7 +107,28 @@ from pathlib import Path
 routing = Path("core/orchestration/skill-preferences.md").read_text(encoding="utf-8")
 referenced = set(re.findall(r"`([a-z0-9][a-z0-9-]*[a-z0-9])`", routing))
 
-existing = {p.parent.name for p in Path("skills").iterdir()
+# 排除非 skill 标识符：字段名、状态、wu_type 值、平台名
+# 这些出现在文档中作为代码片段，但不是 skill slug 引用
+NON_SLUG = {
+    "auto",        # wu_skills: auto（字段值）
+    "overrides",   # overrides 字段
+    "exclude",     # exclude 字段
+    "skipped",     # skipped 状态
+    "ui-bug",      # wu_type 值
+    "infsh",       # 平台名
+    "wu_type",     # 字段名
+    "wu_skills",   # 字段名
+    "agent_role",  # 字段名
+    "include_layers",  # manifest 字段
+    "project",     # manifest layer 名
+    "core",        # manifest layer 名
+    "peripheral",  # manifest layer 名
+    "archived",    # manifest layer 名
+}
+referenced -= NON_SLUG
+
+# 修复 p.parent.name -> p.name（path 为 skills/<slug> 时，p.parent.name 是 skills）
+existing = {p.name for p in Path("skills").iterdir()
             if p.is_dir() and not p.name.startswith("_")}
 missing = referenced - existing
 if missing:

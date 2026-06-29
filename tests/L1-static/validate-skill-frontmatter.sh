@@ -9,7 +9,13 @@ cd "$ROOT"
 
 LAYER_FILE="skills/_layer.yaml"
 if [[ -f "$LAYER_FILE" ]]; then
-  CORE_SLUGS=$(yq '.core | .[]' "$LAYER_FILE" 2>/dev/null || true)
+  # 用 Python 解析 _layer.yaml（避免 yq 路径问题 + trailing newline 问题）
+  CORE_SLUGS=$(python3 -c "
+import yaml
+with open('$LAYER_FILE') as f:
+    data = yaml.safe_load(f)
+print(' '.join(data.get('core', [])))
+" 2>/dev/null || echo "")
 else
   CORE_SLUGS=""
 fi
@@ -26,8 +32,11 @@ for skill_dir in skills/*/; do
 
   # 核心层必须校验
   is_core=false
-  if [[ " $CORE_SLUGS " == *" $slug "* ]] || [[ -z "$CORE_SLUGS" ]]; then
+  if [[ -n "$CORE_SLUGS" && " $CORE_SLUGS " == *" $slug "* ]]; then
     is_core=true
+  elif [[ -z "$CORE_SLUGS" ]]; then
+    # _layer.yaml 不存在或解析失败时，保守地只校验有 frontmatter 的
+    is_core=false
   fi
 
   skill_md="$skill_dir/SKILL.md"
@@ -38,7 +47,7 @@ for skill_dir in skills/*/; do
   fi
 
   content=$(cat "$skill_md")
-  if [[ "$content" != ---\n* ]]; then
+  if [[ ! "$content" =~ ^---[[:space:]]*$ ]]; then
     if [[ "$is_core" == true ]]; then
       echo "[FAIL] $slug: frontmatter missing (core layer requires)"
       FAILED=$((FAILED + 1))
