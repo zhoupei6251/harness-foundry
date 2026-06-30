@@ -30,22 +30,32 @@ Leader 或子 Agent 看到 **`auto`** 时：
 
 ---
 
-## 默认路由表
+## 默认路由表（已集成 Intelligence Layer）
 
-| agent_role | wu_type | 建议加载的 skill（按序） |
-| --- | --- | --- |
-| coder | feature, bugfix, refactor | test-driven-development, requesting-code-review |
-| coder | ui | ui-ux-pro-max, frontend-design, test-driven-development, requesting-code-review |
-| coder | review-fix | receiving-code-review, test-driven-development, requesting-code-review |
-| implementer | docs, config, chore | **无** |
-| explorer | explore, * | **无** |
-| explorer | investigate | systematic-debugging |
-| debugger | bugfix, * | systematic-debugging |
-| debugger | ui-bug | systematic-debugging |
-| web-investigator | research, * | agent-browser |
-| reviewer | review, * | requesting-code-review |
-| test-engineer | test | test-driven-development |
-| test-engineer | e2e | agent-browser |
+| agent_role | wu_type | 建议加载的 skill（按序） | Intelligence |
+| --- | --- | --- | --- |
+| **leader-code** | plan | understand-project, analyze-architecture | ✅ 战略层 |
+| **leader-code** | implement | understand-chat | ✅ 战略层 |
+| coder | feature, bugfix, refactor | test-driven-development, requesting-code-review | ✅ 战术层 |
+| coder | feature, bugfix, refactor | query-symbol | ✅ 战术层 |
+| coder | ui | ui-ux-pro-max, frontend-design, test-driven-development, requesting-code-review | ✅ 战术层 |
+| coder | review-fix | receiving-code-review, test-driven-development, requesting-code-review | ✅ 战术层 |
+| implementer | docs, config, chore | **无** | ❌ |
+| **explorer** | explore, * | understand-chat | ✅ 战略层 |
+| explorer | investigate | systematic-debugging | ✅ 战术层 |
+| **debugger** | bugfix, * | systematic-debugging, query-symbol | ✅ 战术层 |
+| debugger | ui-bug | systematic-debugging, query-symbol | ✅ 战术层 |
+| web-investigator | research, * | agent-browser | ❌ |
+| **reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
+| **code-reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
+| test-engineer | test | test-driven-development, analyze-impact | ✅ 战术层 |
+| test-engineer | e2e | agent-browser | ❌ |
+
+### Intelligence Layer Skills 自动注入说明
+
+> Intelligence Skills（以 ✅ 标记）**自动注入**，无需手动声明
+> - 战略层：understand-project, understand-chat, analyze-architecture
+> - 战术层：query-symbol, get-callers, analyze-impact
 
 ---
 
@@ -69,6 +79,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 | coder | feature | get-callers, analyze-impact | 重构前 |
 | debugger | bugfix | query-symbol, get-callers | 定位 bug 时 |
 | reviewer | review | analyze-impact | review 前 |
+| code-reviewer | review | analyze-impact | review 前 |
 | test-engineer | test | analyze-impact | 评估测试范围 |
 
 ### Intelligence Skills 路由配置
@@ -181,7 +192,61 @@ intelligence:
 
 ---
 
-## 按 Harness 角色（速查）
+## Novel 域路由表
+
+> Novel 域没有 Intelligence Layer，Skill 均为显式声明。
+
+| agent_role | wu_type | 建议加载的 skill |
+| --- | --- | --- |
+| **leader-novel** | plan | brainstorming, writing-plans |
+| **leader-novel** | implement | novel-orchestrator |
+| novel-writer | chapter-write, chapter-continue | junli-ai-novel, humanizer-zh |
+| novel-writer | rewrite | junli-ai-novel, humanizer-zh |
+| novel-planner | outline, volume-plan | brainstorming, junli-ai-novel |
+| novel-reviewer | review | novel-evaluator |
+| humanizer | polish | humanizer-zh |
+| humanizer | deep-clean | novel-ai-wash |
+| editor | cross-chapter-check | memory-manager, junli-ai-novel |
+| memory-keeper | sync, resume | memory-manager |
+| shared-researcher | research | web-tools-guide |
+
+### Novel 域角色速查
+
+| 角色 | Agent 文件 | 典型 wu_type | auto 默认 |
+| --- | --- | --- | --- |
+| 写手 | `novel-writer.md` | chapter-write / chapter-continue | junli-ai-novel + humanizer-zh |
+| 规划师 | `novel-planner.md` | outline / volume-plan | brainstorming + junli-ai-novel |
+| 审稿人 | `novel-reviewer.md` | review | novel-evaluator |
+| 润色师 | `humanizer.md` | polish / deep-clean | humanizer-zh / novel-ai-wash |
+| 统稿编辑 | `editor.md` | cross-chapter-check | memory-manager + junli-ai-novel |
+| 记忆管理 | `memory-keeper.md` | sync / resume | memory-manager |
+| 调研员 | `shared-researcher.md` | research | web-tools-guide |
+
+### Novel 域 wu_type 枚举
+
+| wu_type | 含义 | 触发场景 |
+| --- | --- | --- |
+| chapter-write | 写新章 | 续写下一章 |
+| chapter-continue | 承接续写 | 承接上一章结尾续写 |
+| rewrite | 返修重写 | 根据 reviewer 意见修改 |
+| outline | 大纲规划 | 产出整体大纲 |
+| volume-plan | 分卷规划 | 产出某一卷的详细规划 |
+| review | 审稿评分 | 7 维评分 + 逐条原文举证 |
+| polish | 轻量润色 | 单章 humanizer-zh 润色 |
+| deep-clean | 深度清洗 | 批量 novel-ai-wash 深度清洗 |
+| cross-chapter-check | 跨章统稿 | editor 一致性检查 |
+| sync | 记忆同步 | 更新双轨记忆 |
+| resume | 会话恢复 | 从上次中断处恢复 |
+
+## 派发字段 (novel 域)
+
+| 字段 | 含义 |
+| --- | --- |
+| wu_type | chapter-write \| chapter-continue \| rewrite \| outline \| volume-plan \| review \| polish \| deep-clean \| cross-chapter-check \| sync \| resume \| research |
+| wu_skills | 逗号分隔 slug，或 **`auto`**（查本文档 § Novel 域路由表） |
+| agent_role | novel-writer \| novel-planner \| novel-reviewer \| humanizer \| editor \| memory-keeper \| shared-researcher |
+
+---
 
 | 角色 | Subagent | 典型 wu_type | auto 默认 |
 | --- | --- | --- | --- |
@@ -191,7 +256,8 @@ intelligence:
 | 轻量执行 | harness-implementer | docs / chore / config | 无 |
 | 探查者 | harness-explorer | explore | 无 |
 | 调试者 | harness-debugger | bugfix | systematic-debugging |
-| 审查者 | harness-reviewer | review | requesting-code-review |
+| 审查者 (通用) | harness-reviewer | review | requesting-code-review |
+| 审查者 (代码专项) | harness-reviewer | review | requesting-code-review + analyze-impact |
 | 测试工程师 | harness-test-engineer | test | TDD |
 | 测试工程师 | harness-test-engineer | e2e | agent-browser |
 | 网探 | harness-web-investigator | research | agent-browser |
@@ -231,6 +297,8 @@ intelligence:
 | wu_type | feature \| bugfix \| ui \| chore \| refactor \| **review-fix** \| docs \| config \| test \| e2e \| explore \| review \| investigate \| ui-bug \| **research** |
 | wu_skills | 逗号分隔 slug，或 **`auto`**（查本文档 § 默认路由表） |
 | agent_role | coder \| implementer \| explorer \| debugger \| reviewer \| test-engineer \| **web-investigator** |
+
+> **Novel 域：** wu_type / agent_role 枚举见上文 § Novel 域路由表；Leader 按 novel 域路由表解析 `auto`。
 
 ---
 

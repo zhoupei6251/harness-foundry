@@ -85,7 +85,7 @@ domains:
       - technical-writer       # 写技术文档
       - humanizer-zh           # 文档去 AI 味
       - web-tools-guide        # 查资料
-      - playwright             # 前端调试
+      - playwright             # E2E 测试 / 浏览器自动化（test-engineer E2E 主工具）
 
   novel:
     # 执行环境（P0-1: Harness/Compute 分离）
@@ -99,6 +99,7 @@ domains:
     leader: leader-novel
     workers:
       - novel-writer
+      - novel-planner
       - novel-reviewer
       - humanizer
 
@@ -115,10 +116,9 @@ domains:
       - memory-keeper            # 记忆同步时
 
     primary_skills:
-      - brainstorming
-      - junli-ai-novel
       - novel-orchestrator
       - novel-evaluator
+      - junli-ai-novel
       - humanizer-zh
 
     secondary_skills:
@@ -126,6 +126,7 @@ domains:
       - web-tools-guide        # 查资料
       - summarize              # 总结内容
       - memory-manager         # 记忆同步
+      - novel-generator        # 爽文自动生成 (third-party, 按需)
 
   news:
     # 执行环境（P0-1: Harness/Compute 分离）
