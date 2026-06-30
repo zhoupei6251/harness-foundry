@@ -1,8 +1,8 @@
 {
   "slug": "novel-evaluator",
-  "category": "novel.creation",
+  "category": "novel.review",
   "domain": "novel",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "6维量化评分系统，基于情节/人物/文笔/世界观/情感/创新进行质量审查"
+  "tags": ["review", "evaluation", "scoring", "quality"],
+  "auto_classified": false,
+  "purpose": "6维量化小说评分系统，基于情节/人物/文笔/世界观/情感/创新进行质量审查，联动47条陷阱检测"
 }

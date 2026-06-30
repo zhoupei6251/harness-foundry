@@ -1,8 +1,8 @@
 {
   "slug": "novel-ai-wash",
-  "category": "novel.creation",
+  "category": "novel.polish",
   "domain": "novel",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "深度文风清洗，四层清洗体系：词级替换→句式重构→叙事重写→人物声音分化"
+  "tags": ["polish", "humanize", "deep-clean", "batch"],
+  "auto_classified": false,
+  "purpose": "深度文风清洗引擎，四层清洗体系（词级→句式→叙事→人物声音），用于批量深度去AI味"
 }

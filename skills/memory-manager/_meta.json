@@ -1,8 +1,8 @@
 {
   "slug": "memory-manager",
-  "category": "code.architecture",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "长期记忆管理，双轨记忆架构（全局记忆+单书记忆），跨会话恢复协议"
+  "category": "novel.memory",
+  "domain": "novel",
+  "tags": ["memory", "state", "persistence", "long-form", "mem0", "handoff"],
+  "auto_classified": false,
+  "purpose": "小说项目记忆管理引擎，双轨架构+Mem0增强模式，伏笔状态机，Agent交接压缩协议"
 }
