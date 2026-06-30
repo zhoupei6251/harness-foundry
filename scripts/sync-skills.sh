@@ -13,6 +13,9 @@ TRAE_DST="${ROOT}/.trae/skills"
 MIMOCODE_DST="${ROOT}/adapters/mimocode/.agents/skills"
 KIT_CURSOR_SKILLS="${ROOT}/adapters/cursor/.cursor/skills"
 
+# Intelligence Layer Skills 源目录
+INTELLIGENCE_SRC="${ROOT}/core/intelligence"
+
 TARGET="all"
 DRY_RUN=0
 
@@ -234,14 +237,72 @@ sync_shared() {
   echo "==> [skip] sync_shared: Skills 已扁平化，不再使用 shared 子目录"
 }
 
+# ---- Intelligence Layer Skills 同步 ----
+# 同步 strategic 层 (Understand-Anything) 和 tactical 层 (CodeGraph) Skills
+sync_intelligence() {
+  if [[ ! -d "$INTELLIGENCE_SRC" ]]; then
+    echo "Warn: Intelligence layer not found: $INTELLIGENCE_SRC"
+    return 0
+  fi
+
+  echo "==> Syncing Intelligence Layer Skills..."
+
+  # Strategic 层 Skills (Understand-Anything)
+  local strategic_src="${INTELLIGENCE_SRC}/strategic"
+  local strategic_dst
+
+  # Tactical 层 Skills (CodeGraph)
+  local tactical_src="${INTELLIGENCE_SRC}/tactical"
+  local tactical_dst
+
+  for platform in cursor trae; do
+    case "$platform" in
+      cursor)
+        strategic_dst="${CURSOR_DST}/../rules/intelligence/strategic"
+        tactical_dst="${CURSOR_DST}/../rules/intelligence/tactical"
+        ;;
+      trae)
+        strategic_dst="${TRAE_DST}/../intelligence/strategic"
+        tactical_dst="${TRAE_DST}/../intelligence/tactical"
+        ;;
+    esac
+
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo "  [dry] ${platform}: strategic -> ${strategic_dst}"
+      echo "  [dry] ${platform}: tactical -> ${tactical_dst}"
+      continue
+    fi
+
+    # 同步 Strategic 层
+    if [[ -d "$strategic_src" ]]; then
+      mkdir -p "$(dirname "$strategic_dst")"
+      rm -rf "$strategic_dst"
+      cp -a "$strategic_src" "$strategic_dst"
+      echo "  [ok] ${platform}: strategic layer (Understand-Anything)"
+    fi
+
+    # 同步 Tactical 层
+    if [[ -d "$tactical_src" ]]; then
+      mkdir -p "$(dirname "$tactical_dst")"
+      rm -rf "$tactical_dst"
+      cp -a "$tactical_src" "$tactical_dst"
+      echo "  [ok] ${platform}: tactical layer (CodeGraph)"
+    fi
+  done
+}
+
 # ---- 主流程 ----
 case "$TARGET" in
   shared)
     sync_shared
     ;;
+  intelligence)
+    sync_intelligence
+    ;;
   all)
     sync_from_manifest
     sync_shared
+    sync_intelligence
     ;;
   cursor|trae|mimocode)
     sync_from_manifest

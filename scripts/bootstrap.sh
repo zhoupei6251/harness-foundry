@@ -194,6 +194,17 @@ bootstrap_agents() {
   echo "[ok] AGENTS.md"
 }
 
+# ---- MCP 配置同步 (Intelligence Layer) ----
+bootstrap_mcp() {
+  local src="${KIT}/mcp-config"
+  local dst="${ROOT}/.mcp-config"
+  if [[ -d "$src" ]]; then
+    mkdir -p "$dst"
+    copy_tree "$src" "$dst" "MCP Config (Intelligence Layer)"
+    echo "[hint] MCP configs: Understand-Anything.json, CodeGraph.json"
+  fi
+}
+
 # ---- 运行时目录（按域） ----
 create_runtime_dirs() {
   case "$ROUTE" in
@@ -327,6 +338,7 @@ case "$TARGET" in
     bootstrap_claude
     bootstrap_codex
     bootstrap_mimocode
+    bootstrap_mcp
     ;;
   *)
     echo "Unknown target: $TARGET" >&2

@@ -1,0 +1,55 @@
+---
+name: tactical-config
+description: "战术层配置 - CodeGraph MCP 连接配置"
+version: "1.0.0"
+---
+
+# Tactical Layer Configuration
+
+## MCP Server
+
+### CodeGraph
+
+```json
+{
+  "mcpServers": {
+    "codegraph": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@colbymchenry/codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "env": {
+        "CODEGRAPH_DB_PATH": ".codegraph"
+      }
+    }
+  }
+}
+```
+
+## 配置说明
+
+| 配置项 | 说明 |
+|--------|------|
+| `command` | 启动命令 |
+| `args` | 启动参数 |
+| `env` | 环境变量 |
+
+## 索引存储
+
+索引数据存储在项目的 `.codegraph/` 目录：
+
+```
+/path/to/project/.codegraph/
+├── graph.db           # SQLite 索引数据库
+├── symbols.json       # 符号映射
+└── watch-list.json    # 监视文件列表
+```
+
+## 使用前提
+
+1. 安装 CodeGraph: `npm install -g @colbymchenry/codegraph`
+2. 在项目目录运行 `codegraph init` 初始化
+3. 运行 `codegraph index` 建立索引
