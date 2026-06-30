@@ -1,8 +1,0 @@
-{
-  "slug": "rules-distill",
-  "category": "shared.workflow",
-  "domain": "shared",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files"
-}

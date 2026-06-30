@@ -1,8 +1,0 @@
-{
-  "slug": "codehealth-mcp",
-  "category": "code.review",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Real-time structural Code Health via CodeScene MCP — review before edits, verify score deltas after changes, gate commits and PRs. Use when reviewing code quality, refactoring, checking if AI changes "
-}

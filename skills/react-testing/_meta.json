@@ -1,8 +1,0 @@
-{
-  "slug": "react-testing",
-  "category": "shared.docs",
-  "domain": "shared",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "React component testing with React Testing Library, Vitest/Jest, MSW for network mocking, accessibility assertions with axe, and the decision boundary between component tests and Playwright/Cypress en"
-}

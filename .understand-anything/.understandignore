@@ -1,0 +1,92 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+# Lines below are suggestions — uncomment to activate.
+# Use ! prefix to force-include something excluded by defaults.
+#
+# Built-in defaults (always excluded unless negated):
+#   node_modules/, .git/, dist/, build/, obj/, *.lock, *.min.js, etc.
+#
+
+# --- From .gitignore (uncomment to exclude) ---
+
+# core/security/canary-tokens.yaml
+# .env
+# .env.local
+# .env.*.local
+# *.key
+# *.pem
+# secrets.json
+# .secrets
+# .ai-runtime-artifacts/
+# .claude/settings.local.json
+# .claude/worktrees/
+# .claude/scheduled_tasks.lock
+# .claude/skills/
+# .cursor/skills/
+# .trae/skills/
+# .codex/skills/
+# .opencode/skills/
+# .DS_Store
+# .DS_Store?
+# ._*
+# .Spotlight-V100
+# .Trashes
+# ehthumbs.db
+# Thumbs.db
+# Desktop.ini
+# .vscode/*
+# !.vscode/settings.json
+# *.swp
+# *.swo
+# *~
+# .project
+# .classpath
+# .settings/
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+# *.tgz
+# *.tsbuildinfo
+# .nyc_output/
+# logs/
+# *.pyc
+# tmp/
+# temp/
+# *.tmp
+# *.bak
+# *.backup
+# .factory/
+# .kiro/
+# .opencode/
+# .slate/
+# .hermes/
+# .gbrain/
+# .aider*
+# reference_github/
+# *.local.*
+
+# --- Detected directories (uncomment to exclude) ---
+
+# docs/
+# examples/
+# scripts/
+# tests/
+
+# --- Test file patterns (uncomment to exclude) ---
+
+# JS / TS
+# *.test.*
+# *.spec.*
+# *.snap
+# C# / .NET
+# **/*Tests.cs
+# **/*Test.cs
+# **/*Fixture.cs
+# **/*.Tests.csproj
+# Java / Kotlin
+# **/src/test/**
+# **/*Test.java
+# **/*IT.java
+# **/*Spec.kt
+# Go
+# **/*_test.go

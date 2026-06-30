@@ -1,8 +1,0 @@
-{
-  "slug": "product-lens",
-  "category": "code.testing",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Use this skill to validate the \"why\" before building, run product diagnostics, and pressure-test product direction before the request becomes an implementation contract."
-}

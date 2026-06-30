@@ -1,8 +1,0 @@
-{
-  "slug": "postgres-patterns",
-  "category": "code.architecture",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "PostgreSQL database patterns for query optimization, schema design, indexing, and security. Based on Supabase best practices."
-}

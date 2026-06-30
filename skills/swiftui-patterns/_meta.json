@@ -1,8 +1,0 @@
-{
-  "slug": "swiftui-patterns",
-  "category": "code.architecture",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "SwiftUI architecture patterns, state management with @Observable, view composition, navigation, performance optimization, and modern iOS/macOS UI best practices."
-}

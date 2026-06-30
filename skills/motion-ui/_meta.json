@@ -1,8 +1,0 @@
-{
-  "slug": "motion-ui",
-  "category": "code.architecture",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Production-ready UI motion system for React/Next.js. Use when implementing animations, transitions, or motion patterns."
-}

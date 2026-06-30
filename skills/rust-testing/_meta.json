@@ -1,8 +1,0 @@
-{
-  "slug": "rust-testing",
-  "category": "code.architecture",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Rust testing patterns including unit tests, integration tests, async testing, property-based testing, mocking, and coverage. Follows TDD methodology."
-}

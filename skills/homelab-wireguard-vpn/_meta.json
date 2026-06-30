@@ -1,8 +1,0 @@
-{
-  "slug": "homelab-wireguard-vpn",
-  "category": "code.ops",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "WireGuard VPN server setup, peer configuration, key generation, split tunneling vs full tunnel routing, and remote access to a home network from mobile and laptop clients."
-}

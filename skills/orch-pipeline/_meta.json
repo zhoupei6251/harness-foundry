@@ -1,8 +1,0 @@
-{
-  "slug": "orch-pipeline",
-  "category": "code.review",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Shared orchestration engine for the orch-* skill family. Defines the gated Research-Plan-TDD-Review-Commit pipeline, the size classifier, the agent map, and the two human gates that the orch-* operati"
-}

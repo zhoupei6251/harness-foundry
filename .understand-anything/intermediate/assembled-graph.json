@@ -1,0 +1,1126 @@
+{
+  "metadata": {
+    "projectName": "Harness Foundry",
+    "projectNameCn": "Harness Foundry 多智能体编排框架",
+    "description": "跨多 IDE 平台的多智能体 AI 工作流编排框架，支持 code / novel / news 三个领域",
+    "gitCommit": "1cbb9ad46371e0f85ff84cb2d11cde1e1b85d547",
+    "analysisDate": "2026-06-30",
+    "version": "1.0.0",
+    "language": "zh-CN",
+    "totalFiles": 8375,
+    "totalLines": 104766
+  },
+  "architecture": {
+    "layers": [
+      {
+        "id": "layer-1-entry",
+        "name": "入口层 (Entry Layer)",
+        "nameCn": "入口层",
+        "description": "平台入口、路由判定、阶段门禁",
+        "level": 1,
+        "components": [
+          {
+            "id": "comp-intent-routing",
+            "name": "意图路由表",
+            "filePath": "core/intent-routing.md",
+            "description": "所有平台共用，听到同样的话做同样的事"
+          },
+          {
+            "id": "comp-entry-rules",
+            "name": "入口规则",
+            "filePath": "adapters/claude/.claude/rules/ENTRY.md",
+            "description": "Claude Code 入口规则"
+          }
+        ]
+      },
+      {
+        "id": "layer-2-core-orchestration",
+        "name": "核心编排层 (Core Orchestration)",
+        "nameCn": "核心编排层",
+        "description": "意图路由、调度器、域配置、技能偏好",
+        "level": 2,
+        "components": [
+          {
+            "id": "comp-domain-config",
+            "name": "域配置",
+            "filePath": "core/orchestration/domain-config.yaml",
+            "description": "code/novel/news 三域编排配置"
+          },
+          {
+            "id": "comp-dispatcher",
+            "name": "调度器",
+            "filePath": "core/orchestration/dispatcher-workflow.md",
+            "description": "统一调度器工作流"
+          },
+          {
+            "id": "comp-skill-preferences",
+            "name": "技能偏好",
+            "filePath": "core/orchestration/skill-preferences.md",
+            "description": "WU 级技能路由表"
+          },
+          {
+            "id": "comp-execution-context",
+            "name": "执行上下文",
+            "filePath": "core/orchestration/execution-context/",
+            "description": "worktree/local provider 协议"
+          },
+          {
+            "id": "comp-principles",
+            "name": "核心原则",
+            "filePath": "core/principles.md",
+            "description": "10条核心原则"
+          },
+          {
+            "id": "comp-never",
+            "name": "禁止清单",
+            "filePath": "core/NEVER.md",
+            "description": "160+ 条禁止项"
+          },
+          {
+            "id": "comp-multi-leader",
+            "name": "多 Leader 协议",
+            "filePath": "core/multi-leader-protocol.md",
+            "description": "多域并发 Leader 协调"
+          }
+        ]
+      },
+      {
+        "id": "layer-3-agent-pool",
+        "name": "Agent 池层 (Agent Pool)",
+        "nameCn": "Agent 池层",
+        "description": "30 个 Agent 定义，覆盖三域",
+        "level": 3,
+        "components": [
+          {
+            "id": "comp-agents-readme",
+            "name": "Agent 池概览",
+            "filePath": "agents/README.md",
+            "description": "30 个 Agent 完整列表"
+          },
+          {
+            "id": "comp-leader-code",
+            "name": "代码域 Leader",
+            "filePath": "agents/leader-code.md",
+            "description": "leader-code: 路由判定、派发 subagent"
+          },
+          {
+            "id": "comp-leader-novel",
+            "name": "小说域 Leader",
+            "filePath": "agents/leader-novel.md",
+            "description": "leader-novel: 统筹全流程"
+          },
+          {
+            "id": "comp-leader-news",
+            "name": "新闻域 Leader",
+            "filePath": "agents/leader-news.md",
+            "description": "leader-news: 统筹新闻流程"
+          },
+          {
+            "id": "comp-ceo",
+            "name": "CEO 入口",
+            "filePath": "agents/ceo.md",
+            "description": "全局协调入口"
+          },
+          {
+            "id": "comp-coder",
+            "name": "编码者",
+            "filePath": "agents/coder.md",
+            "description": "完整代码实现"
+          },
+          {
+            "id": "comp-reviewer",
+            "name": "审查者",
+            "filePath": "agents/reviewer.md",
+            "description": "五轴代码审查"
+          },
+          {
+            "id": "comp-debugger",
+            "name": "调试者",
+            "filePath": "agents/debugger.md",
+            "description": "系统化调试"
+          },
+          {
+            "id": "comp-novel-writer",
+            "name": "小说写手",
+            "filePath": "agents/novel-writer.md",
+            "description": "章节正文创作"
+          }
+        ]
+      },
+      {
+        "id": "layer-4-skill-system",
+        "name": "Skill 系统层 (Skill System)",
+        "nameCn": "Skill 系统层",
+        "description": "328+ Skills 扁平化结构",
+        "level": 4,
+        "components": [
+          {
+            "id": "comp-skills-dir",
+            "name": "Skills 目录",
+            "filePath": "skills/",
+            "description": "328+ Skills 扁平化存储"
+          },
+          {
+            "id": "comp-intelligence-layer",
+            "name": "Intelligence Layer",
+            "filePath": "core/intelligence/",
+            "description": "战略层(Understand-Anything) + 战术层(CodeGraph)"
+          },
+          {
+            "id": "comp-skill-manifest",
+            "name": "Skill 清单",
+            "filePath": ".agents/skills/_manifest.yaml",
+            "description": "Skill 同步清单"
+          }
+        ]
+      },
+      {
+        "id": "layer-5-security",
+        "name": "安全防护层 (Security)",
+        "nameCn": "安全防护层",
+        "description": "Hooks、Guardrails、金丝雀令牌",
+        "level": 5,
+        "components": [
+          {
+            "id": "comp-hooks",
+            "name": "Hooks 配置",
+            "filePath": "hooks/hooks.json",
+            "description": "PreToolUse/PostToolUse/Stop hooks"
+          },
+          {
+            "id": "comp-guardrail-config",
+            "name": "Guardrail 配置",
+            "filePath": "hooks/guardrails/guardrail-config.json",
+            "description": "P0-2 Guardrail 双层防护"
+          },
+          {
+            "id": "comp-canary-protocol",
+            "name": "金丝雀令牌协议",
+            "filePath": "core/security/canary-token-protocol.md",
+            "description": "Prompt 泄露检测"
+          }
+        ]
+      },
+      {
+        "id": "layer-6-adapters",
+        "name": "平台适配层 (Adapters)",
+        "nameCn": "平台适配层",
+        "description": "Trae/Cursor/Claude/Codex/MiMo 五平台适配",
+        "level": 6,
+        "components": [
+          {
+            "id": "comp-trae-adapter",
+            "name": "Trae 适配器",
+            "filePath": "adapters/trae/",
+            "description": "Trae IDE 适配"
+          },
+          {
+            "id": "comp-cursor-adapter",
+            "name": "Cursor 适配器",
+            "filePath": "adapters/cursor/",
+            "description": "Cursor IDE 适配"
+          },
+          {
+            "id": "comp-claude-adapter",
+            "name": "Claude Code 适配器",
+            "filePath": "adapters/claude/",
+            "description": "Claude Code 适配"
+          },
+          {
+            "id": "comp-codex-adapter",
+            "name": "Codex 适配器",
+            "filePath": "adapters/codex/",
+            "description": "Codex/OMX 适配"
+          },
+          {
+            "id": "comp-mimocode-adapter",
+            "name": "MiMo Code 适配器",
+            "filePath": "adapters/mimocode/",
+            "description": "MiMo Code 适配"
+          }
+        ]
+      },
+      {
+        "id": "layer-7-scripts",
+        "name": "工具脚本层 (Scripts)",
+        "nameCn": "工具脚本层",
+        "description": "Bootstrap、Sync、Verify 脚本",
+        "level": 7,
+        "components": [
+          {
+            "id": "comp-bootstrap",
+            "name": "Bootstrap 脚本",
+            "filePath": "scripts/bootstrap.sh",
+            "description": "一键初始化：投影 adapters、创建运行时目录"
+          },
+          {
+            "id": "comp-sync-skills",
+            "name": "同步 Skills 脚本",
+            "filePath": "scripts/sync-skills.sh",
+            "description": "Skills 同步到各 IDE"
+          },
+          {
+            "id": "comp-verify",
+            "name": "验证脚本",
+            "filePath": "scripts/verify.sh",
+            "description": "CI 验证"
+          }
+        ]
+      }
+    ]
+  },
+  "nodes": {
+    "modules": [
+      {
+        "id": "module-core",
+        "name": "core",
+        "nameCn": "核心模块",
+        "type": "module",
+        "filePath": "core/",
+        "description": "平台无关核心规则、编排逻辑、安全协议"
+      },
+      {
+        "id": "module-core-orchestration",
+        "name": "core/orchestration",
+        "nameCn": "编排模块",
+        "type": "module",
+        "filePath": "core/orchestration/",
+        "description": "意图路由、调度器、域配置、技能偏好"
+      },
+      {
+        "id": "module-agents",
+        "name": "agents",
+        "nameCn": "Agent 池",
+        "type": "module",
+        "filePath": "agents/",
+        "description": "30 个 Agent 定义"
+      },
+      {
+        "id": "module-skills",
+        "name": "skills",
+        "nameCn": "技能系统",
+        "type": "module",
+        "filePath": "skills/",
+        "description": "328+ Skills 扁平化存储"
+      },
+      {
+        "id": "module-hooks",
+        "name": "hooks",
+        "nameCn": "Hooks 系统",
+        "type": "module",
+        "filePath": "hooks/",
+        "description": "PreToolUse/PostToolUse/Stop hooks"
+      },
+      {
+        "id": "module-adapters",
+        "name": "adapters",
+        "nameCn": "平台适配器",
+        "type": "module",
+        "filePath": "adapters/",
+        "description": "5 个 IDE 平台适配器"
+      },
+      {
+        "id": "module-scripts",
+        "name": "scripts",
+        "nameCn": "工具脚本",
+        "type": "module",
+        "filePath": "scripts/",
+        "description": "Bootstrap、Sync、Verify 脚本"
+      },
+      {
+        "id": "module-intelligence",
+        "name": "core/intelligence",
+        "nameCn": "Intelligence Layer",
+        "type": "module",
+        "filePath": "core/intelligence/",
+        "description": "战略层 + 战术层代码理解"
+      }
+    ],
+    "domains": [
+      {
+        "id": "domain-code",
+        "name": "code",
+        "nameCn": "代码域",
+        "type": "domain",
+        "description": "代码开发领域",
+        "stageGates": ["spec", "plan", "implement", "verify"],
+        "executionProvider": "worktree",
+        "primaryAgents": ["leader-code", "coder", "debugger", "reviewer", "test-engineer"],
+        "secondaryAgents": ["architect", "implementer", "planner", "code-simplifier", "tech-writer", "explorer", "web-investigator", "shared-researcher"],
+        "primarySkills": ["brainstorming", "architecture-patterns", "test-driven-development", "code-review", "refactor-safely"]
+      },
+      {
+        "id": "domain-novel",
+        "name": "novel",
+        "nameCn": "小说域",
+        "type": "domain",
+        "description": "小说创作领域",
+        "stageGates": ["outline", "chapter", "revision", "publish"],
+        "executionProvider": "local",
+        "primaryAgents": ["leader-novel", "novel-writer", "novel-planner", "novel-reviewer", "humanizer"],
+        "secondaryAgents": ["shared-researcher", "editor", "memory-keeper"],
+        "primarySkills": ["brainstorming", "junli-ai-novel", "novel-orchestrator", "novel-evaluator", "humanizer-zh"]
+      },
+      {
+        "id": "domain-news",
+        "name": "news",
+        "nameCn": "新闻域",
+        "type": "domain",
+        "description": "新闻写作领域",
+        "stageGates": ["angle", "draft", "fact-check", "polish", "publish"],
+        "executionProvider": "local",
+        "primaryAgents": ["leader-news", "news-writer", "fact-checker"],
+        "secondaryAgents": ["news-editor", "shared-researcher"],
+        "primarySkills": ["news-generator", "fact-check", "news-polish"]
+      }
+    ],
+    "adapters": [
+      {
+        "id": "adapter-trae",
+        "name": "Trae",
+        "nameCn": "Trae IDE 适配器",
+        "type": "adapter",
+        "filePath": "adapters/trae/",
+        "description": "Trae IDE 适配，使用 Skill 工具调用",
+        "subagents": ["harness-coder", "harness-reviewer", "harness-tester", "harness-debugger", "harness-explorer"],
+        "rulesPath": ".trae/rules/",
+        "agentsPath": ".trae/agents/"
+      },
+      {
+        "id": "adapter-cursor",
+        "name": "Cursor",
+        "nameCn": "Cursor IDE 适配器",
+        "type": "adapter",
+        "filePath": "adapters/cursor/",
+        "description": "Cursor IDE 适配，使用 Task 工具",
+        "subagents": ["harness-coder", "harness-reviewer", "harness-tester", "harness-debugger", "harness-explorer", "harness-web-investigator", "harness-implementer"],
+        "rulesPath": ".cursor/rules/",
+        "agentsPath": ".cursor/agents/",
+        "hooksPath": ".cursor/hooks/"
+      },
+      {
+        "id": "adapter-claude",
+        "name": "Claude Code",
+        "nameCn": "Claude Code 适配器",
+        "type": "adapter",
+        "filePath": "adapters/claude/",
+        "description": "Claude Code 适配，使用 Agent 工具",
+        "capabilities": {
+          "structured-ask": "degraded",
+          "session-lifecycle": "manual",
+          "continuous-loop": "manual"
+        }
+      },
+      {
+        "id": "adapter-codex",
+        "name": "Codex/OMX",
+        "nameCn": "Codex 适配器",
+        "type": "adapter",
+        "filePath": "adapters/codex/",
+        "description": "Codex/OMX CLI 适配，使用 omx worker",
+        "entrypoint": "adapters/codex/entrypoints/AGENTS.harness.md"
+      },
+      {
+        "id": "adapter-mimocode",
+        "name": "MiMo Code",
+        "nameCn": "MiMo Code 适配器",
+        "type": "adapter",
+        "filePath": "adapters/mimocode/",
+        "description": "MiMo Code 适配，使用 actor 工具"
+      }
+    ],
+    "agents": [
+      {
+        "id": "agent-leader-code",
+        "name": "leader-code",
+        "nameCn": "代码域主编",
+        "type": "agent",
+        "domain": "code",
+        "role": "leader",
+        "filePath": "agents/leader-code.md",
+        "description": "路由判定、阶段门禁、派发 subagent"
+      },
+      {
+        "id": "agent-leader-novel",
+        "name": "leader-novel",
+        "nameCn": "小说域主编",
+        "type": "agent",
+        "domain": "novel",
+        "role": "leader",
+        "filePath": "agents/leader-novel.md",
+        "description": "统筹全流程、阶段门禁、质量把控"
+      },
+      {
+        "id": "agent-leader-news",
+        "name": "leader-news",
+        "nameCn": "新闻域主编",
+        "type": "agent",
+        "domain": "news",
+        "role": "leader",
+        "filePath": "agents/leader-news.md",
+        "description": "统筹新闻流程、选题确认、发布审核"
+      },
+      {
+        "id": "agent-ceo",
+        "name": "ceo",
+        "nameCn": "CEO 入口",
+        "type": "agent",
+        "domain": "global",
+        "role": "coordinator",
+        "filePath": "agents/ceo.md",
+        "description": "全局协调入口"
+      },
+      {
+        "id": "agent-coder",
+        "name": "coder",
+        "nameCn": "编码者",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/coder.md",
+        "description": "完整代码实现、单测、自测"
+      },
+      {
+        "id": "agent-implementer",
+        "name": "implementer",
+        "nameCn": "轻量实现者",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/implementer.md",
+        "description": "文档/配置/轻量改动"
+      },
+      {
+        "id": "agent-reviewer",
+        "name": "reviewer",
+        "nameCn": "代码审查者",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/reviewer.md",
+        "description": "五轴审查（功能/可读/可维护/性能/安全）"
+      },
+      {
+        "id": "agent-debugger",
+        "name": "debugger",
+        "nameCn": "调试者",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/debugger.md",
+        "description": "系统化 debug（重现→最小化→假设→插桩→修复）"
+      },
+      {
+        "id": "agent-test-engineer",
+        "name": "test-engineer",
+        "nameCn": "测试工程师",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/test-engineer.md",
+        "description": "单元测试、E2E 测试、覆盖率保障"
+      },
+      {
+        "id": "agent-architect",
+        "name": "architect",
+        "nameCn": "架构师",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/architect.md",
+        "description": "架构方案、技术选型、依赖分析"
+      },
+      {
+        "id": "agent-code-reviewer",
+        "name": "code-reviewer",
+        "nameCn": "独立代码审查",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/code-reviewer.md",
+        "description": "独立审查 subagent"
+      },
+      {
+        "id": "agent-code-simplifier",
+        "name": "code-simplifier",
+        "nameCn": "代码精简/优化",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/code-simplifier.md",
+        "description": "代码可读性提升、去除冗余"
+      },
+      {
+        "id": "agent-tech-writer",
+        "name": "tech-writer",
+        "nameCn": "技术文档撰写",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/tech-writer.md",
+        "description": "API 文档、用户指南、架构说明"
+      },
+      {
+        "id": "agent-explorer",
+        "name": "explorer",
+        "nameCn": "只读探查者",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/explorer.md",
+        "description": "代码库导航、依赖分析"
+      },
+      {
+        "id": "agent-web-investigator",
+        "name": "web-investigator",
+        "nameCn": "联网搜索取证",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/web-investigator.md",
+        "description": "网页抓取、截图取证"
+      },
+      {
+        "id": "agent-novel-writer",
+        "name": "novel-writer",
+        "nameCn": "小说写手",
+        "type": "agent",
+        "domain": "novel",
+        "role": "worker",
+        "filePath": "agents/novel-writer.md",
+        "description": "正文创作、情节推进、人物塑造"
+      },
+      {
+        "id": "agent-novel-planner",
+        "name": "novel-planner",
+        "nameCn": "小说规划师",
+        "type": "agent",
+        "domain": "novel",
+        "role": "worker",
+        "filePath": "agents/novel-planner.md",
+        "description": "故事大纲、分卷结构、章节规划"
+      },
+      {
+        "id": "agent-novel-reviewer",
+        "name": "novel-reviewer",
+        "nameCn": "小说审稿",
+        "type": "agent",
+        "domain": "novel",
+        "role": "worker",
+        "filePath": "agents/novel-reviewer.md",
+        "description": "6维评分（情节/人物/文笔/世界观/情感/创新）"
+      },
+      {
+        "id": "agent-humanizer",
+        "name": "humanizer",
+        "nameCn": "AI 文风清洗",
+        "type": "agent",
+        "domain": "novel",
+        "role": "worker",
+        "filePath": "agents/humanizer.md",
+        "description": "中文润色、消除 AI 痕迹"
+      },
+      {
+        "id": "agent-editor",
+        "name": "editor",
+        "nameCn": "文字校对",
+        "type": "agent",
+        "domain": "novel",
+        "role": "worker",
+        "filePath": "agents/editor.md",
+        "description": "文字校对、排版优化"
+      },
+      {
+        "id": "agent-memory-keeper",
+        "name": "memory-keeper",
+        "nameCn": "记忆同步",
+        "type": "agent",
+        "domain": "novel",
+        "role": "worker",
+        "filePath": "agents/memory-keeper.md",
+        "description": "维护 MEMORY.md、状态追踪"
+      },
+      {
+        "id": "agent-shared-researcher",
+        "name": "shared-researcher",
+        "nameCn": "通用调研",
+        "type": "agent",
+        "domain": "shared",
+        "role": "worker",
+        "filePath": "agents/shared-researcher.md",
+        "description": "跨领域调研、资料整理"
+      },
+      {
+        "id": "agent-news-writer",
+        "name": "news-writer",
+        "nameCn": "新闻写手",
+        "type": "agent",
+        "domain": "news",
+        "role": "worker",
+        "filePath": "agents/news-writer.md",
+        "description": "新闻稿撰写、事实准确、语言规范"
+      },
+      {
+        "id": "agent-fact-checker",
+        "name": "fact-checker",
+        "nameCn": "事实核查",
+        "type": "agent",
+        "domain": "news",
+        "role": "worker",
+        "filePath": "agents/fact-checker.md",
+        "description": "事实核查、辟谣、来源验证"
+      },
+      {
+        "id": "agent-news-editor",
+        "name": "news-editor",
+        "nameCn": "新闻审校",
+        "type": "agent",
+        "domain": "news",
+        "role": "worker",
+        "filePath": "agents/news-editor.md",
+        "description": "新闻审校、格式规范"
+      },
+      {
+        "id": "agent-planner",
+        "name": "planner",
+        "nameCn": "规划师",
+        "type": "agent",
+        "domain": "code",
+        "role": "worker",
+        "filePath": "agents/planner.md",
+        "description": "代码域规划（plan 拆分）"
+      },
+      {
+        "id": "agent-ecc-database-reviewer",
+        "name": "ecc-database-reviewer",
+        "nameCn": "ECC 数据库审查",
+        "type": "agent",
+        "domain": "code",
+        "role": "specialist",
+        "filePath": "agents/ecc-database-reviewer.md",
+        "description": "ECC 数据库审查"
+      },
+      {
+        "id": "agent-ecc-java-reviewer",
+        "name": "ecc-java-reviewer",
+        "nameCn": "ECC Java 审查",
+        "type": "agent",
+        "domain": "code",
+        "role": "specialist",
+        "filePath": "agents/ecc-java-reviewer.md",
+        "description": "ECC Java 审查"
+      },
+      {
+        "id": "agent-ecc-security-reviewer",
+        "name": "ecc-security-reviewer",
+        "nameCn": "ECC 安全审查",
+        "type": "agent",
+        "domain": "code",
+        "role": "specialist",
+        "filePath": "agents/ecc-security-reviewer.md",
+        "description": "ECC 安全审查"
+      }
+    ],
+    "files": [
+      {
+        "id": "file-intent-routing",
+        "name": "intent-routing.md",
+        "nameCn": "意图路由表",
+        "type": "file",
+        "category": "core",
+        "filePath": "core/intent-routing.md",
+        "lines": 68,
+        "description": "意图路由表、阶段门禁、各平台调用方式"
+      },
+      {
+        "id": "file-never",
+        "name": "NEVER.md",
+        "nameCn": "禁止清单",
+        "type": "file",
+        "category": "core",
+        "filePath": "core/NEVER.md",
+        "lines": 111,
+        "description": "160+ 条禁止项"
+      },
+      {
+        "id": "file-principles",
+        "name": "principles.md",
+        "nameCn": "核心原则",
+        "type": "file",
+        "category": "core",
+        "filePath": "core/principles.md",
+        "lines": 80,
+        "description": "10条核心原则"
+      },
+      {
+        "id": "file-domain-config",
+        "name": "domain-config.yaml",
+        "nameCn": "域配置",
+        "type": "file",
+        "category": "orchestration",
+        "filePath": "core/orchestration/domain-config.yaml",
+        "lines": 169,
+        "description": "code/novel/news 三域编排配置"
+      },
+      {
+        "id": "file-dispatcher-workflow",
+        "name": "dispatcher-workflow.md",
+        "nameCn": "调度器工作流",
+        "type": "file",
+        "category": "orchestration",
+        "filePath": "core/orchestration/dispatcher-workflow.md",
+        "lines": 223,
+        "description": "统一调度器工作流"
+      },
+      {
+        "id": "file-skill-preferences",
+        "name": "skill-preferences.md",
+        "nameCn": "技能偏好",
+        "type": "file",
+        "category": "orchestration",
+        "filePath": "core/orchestration/skill-preferences.md",
+        "lines": 265,
+        "description": "WU 级技能路由表"
+      },
+      {
+        "id": "file-hooks-json",
+        "name": "hooks.json",
+        "nameCn": "Hooks 配置",
+        "type": "file",
+        "category": "security",
+        "filePath": "hooks/hooks.json",
+        "lines": 171,
+        "description": "PreToolUse/PostToolUse/Stop hooks"
+      },
+      {
+        "id": "file-guardrail-config",
+        "name": "guardrail-config.json",
+        "nameCn": "Guardrail 配置",
+        "type": "file",
+        "category": "security",
+        "filePath": "hooks/guardrails/guardrail-config.json",
+        "lines": 195,
+        "description": "P0-2 Guardrail 双层防护配置"
+      },
+      {
+        "id": "file-bootstrap-sh",
+        "name": "bootstrap.sh",
+        "nameCn": "Bootstrap 脚本",
+        "type": "file",
+        "category": "script",
+        "filePath": "scripts/bootstrap.sh",
+        "lines": 356,
+        "description": "一键初始化脚本"
+      },
+      {
+        "id": "file-sync-skills-sh",
+        "name": "sync-skills.sh",
+        "nameCn": "同步 Skills 脚本",
+        "type": "file",
+        "category": "script",
+        "filePath": "scripts/sync-skills.sh",
+        "lines": 317,
+        "description": "Skills 同步到各 IDE"
+      }
+    ]
+  },
+  "edges": {
+    "contains": [
+      {
+        "id": "edge-core-contains-orchestration",
+        "source": "module-core",
+        "target": "module-core-orchestration",
+        "relation": "contains",
+        "description": "core 包含 orchestration"
+      },
+      {
+        "id": "edge-core-contains-intelligence",
+        "source": "module-core",
+        "target": "module-intelligence",
+        "relation": "contains",
+        "description": "core 包含 intelligence"
+      },
+      {
+        "id": "edge-core-contains-security",
+        "source": "module-core",
+        "target": "module-hooks",
+        "relation": "contains",
+        "description": "core 包含 hooks"
+      },
+      {
+        "id": "edge-root-contains-adapters",
+        "source": "root",
+        "target": "module-adapters",
+        "relation": "contains",
+        "description": "根目录包含 adapters"
+      },
+      {
+        "id": "edge-root-contains-agents",
+        "source": "root",
+        "target": "module-agents",
+        "relation": "contains",
+        "description": "根目录包含 agents"
+      },
+      {
+        "id": "edge-root-contains-skills",
+        "source": "root",
+        "target": "module-skills",
+        "relation": "contains",
+        "description": "根目录包含 skills"
+      },
+      {
+        "id": "edge-root-contains-scripts",
+        "source": "root",
+        "target": "module-scripts",
+        "relation": "contains",
+        "description": "根目录包含 scripts"
+      }
+    ],
+    "configures": [
+      {
+        "id": "edge-domain-config-configures-code",
+        "source": "file-domain-config",
+        "target": "domain-code",
+        "relation": "configures",
+        "description": "域配置定义 code 域"
+      },
+      {
+        "id": "edge-domain-config-configures-novel",
+        "source": "file-domain-config",
+        "target": "domain-novel",
+        "relation": "configures",
+        "description": "域配置定义 novel 域"
+      },
+      {
+        "id": "edge-domain-config-configures-news",
+        "source": "file-domain-config",
+        "target": "domain-news",
+        "relation": "configures",
+        "description": "域配置定义 news 域"
+      },
+      {
+        "id": "edge-skill-preferences-configures-coder",
+        "source": "file-skill-preferences",
+        "target": "agent-coder",
+        "relation": "configures",
+        "description": "技能偏好定义 coder 的 skill 路由"
+      },
+      {
+        "id": "edge-skill-preferences-configures-debugger",
+        "source": "file-skill-preferences",
+        "target": "agent-debugger",
+        "relation": "configures",
+        "description": "技能偏好定义 debugger 的 skill 路由"
+      },
+      {
+        "id": "edge-hooks-json-configures-security",
+        "source": "file-hooks-json",
+        "target": "module-hooks",
+        "relation": "configures",
+        "description": "hooks 配置定义安全防护"
+      }
+    ],
+    "dispatches": [
+      {
+        "id": "edge-leader-code-dispatches-coder",
+        "source": "agent-leader-code",
+        "target": "agent-coder",
+        "relation": "dispatches",
+        "description": "leader-code 派发给 coder"
+      },
+      {
+        "id": "edge-leader-code-dispatches-reviewer",
+        "source": "agent-leader-code",
+        "target": "agent-reviewer",
+        "relation": "dispatches",
+        "description": "leader-code 派发给 reviewer"
+      },
+      {
+        "id": "edge-leader-code-dispatches-debugger",
+        "source": "agent-leader-code",
+        "target": "agent-debugger",
+        "relation": "dispatches",
+        "description": "leader-code 派发给 debugger"
+      },
+      {
+        "id": "edge-leader-novel-dispatches-writer",
+        "source": "agent-leader-novel",
+        "target": "agent-novel-writer",
+        "relation": "dispatches",
+        "description": "leader-novel 派发给 novel-writer"
+      },
+      {
+        "id": "edge-leader-news-dispatches-writer",
+        "source": "agent-leader-news",
+        "target": "agent-news-writer",
+        "relation": "dispatches",
+        "description": "leader-news 派发给 news-writer"
+      },
+      {
+        "id": "edge-ceo-dispatches-leader-code",
+        "source": "agent-ceo",
+        "target": "agent-leader-code",
+        "relation": "dispatches",
+        "description": "ceo 派发给 leader-code"
+      }
+    ],
+    "routes": [
+      {
+        "id": "edge-intent-routing-routes-code",
+        "source": "file-intent-routing",
+        "target": "domain-code",
+        "relation": "routes_to",
+        "description": "意图路由指向 code 域"
+      },
+      {
+        "id": "edge-intent-routing-routes-novel",
+        "source": "file-intent-routing",
+        "target": "domain-novel",
+        "relation": "routes_to",
+        "description": "意图路由指向 novel 域"
+      },
+      {
+        "id": "edge-intent-routing-routes-news",
+        "source": "file-intent-routing",
+        "target": "domain-news",
+        "relation": "routes_to",
+        "description": "意图路由指向 news 域"
+      }
+    ],
+    "aligns": [
+      {
+        "id": "edge-trae-aligns-cursor",
+        "source": "adapter-trae",
+        "target": "adapter-cursor",
+        "relation": "aligns",
+        "description": "Trae 与 Cursor 平台对齐"
+      },
+      {
+        "id": "edge-cursor-aligns-claude",
+        "source": "adapter-cursor",
+        "target": "adapter-claude",
+        "relation": "aligns",
+        "description": "Cursor 与 Claude Code 平台对齐"
+      },
+      {
+        "id": "edge-all-adapters-align",
+        "source": "module-adapters",
+        "target": "module-core",
+        "relation": "aligns",
+        "description": "所有适配器与核心层对齐"
+      }
+    ],
+    "implements": [
+      {
+        "id": "edge-bootstrap-implements-projection",
+        "source": "file-bootstrap-sh",
+        "target": "module-adapters",
+        "relation": "implements",
+        "description": "bootstrap 脚本实现投影机制"
+      },
+      {
+        "id": "edge-sync-skills-implements-skill-system",
+        "source": "file-sync-skills-sh",
+        "target": "module-skills",
+        "relation": "implements",
+        "description": "sync-skills 实现技能同步"
+      },
+      {
+        "id": "edge-guardrail-config-implements-security",
+        "source": "file-guardrail-config",
+        "target": "module-hooks",
+        "relation": "implements",
+        "description": "guardrail 配置实现安全防护"
+      }
+    ]
+  },
+  "tours": [
+    {
+      "id": "tour-1-overview",
+      "step": 1,
+      "title": "项目概览",
+      "titleCn": "项目概览",
+      "description": "了解 Harness Foundry 是什么",
+      "filePath": "README.md",
+      "keywords": ["概述", "多智能体", "编排框架", "IDE 适配"]
+    },
+    {
+      "id": "tour-2-intent-routing",
+      "step": 2,
+      "title": "意图路由",
+      "titleCn": "意图路由",
+      "description": "理解核心路由机制",
+      "filePath": "core/intent-routing.md",
+      "keywords": ["意图", "路由", "code", "novel", "news", "阶段门禁"]
+    },
+    {
+      "id": "tour-3-domain-config",
+      "step": 3,
+      "title": "域编排配置",
+      "titleCn": "域编排配置",
+      "description": "了解三域的编排规则",
+      "filePath": "core/orchestration/domain-config.yaml",
+      "keywords": ["code", "novel", "news", "Leader", "Worker", "Agent"]
+    },
+    {
+      "id": "tour-4-agents",
+      "step": 4,
+      "title": "Agent 系统",
+      "titleCn": "Agent 系统",
+      "description": "了解 30 个 Agent 的角色定义",
+      "filePath": "agents/README.md",
+      "keywords": ["coder", "reviewer", "debugger", "novel-writer", "news-writer"]
+    },
+    {
+      "id": "tour-5-skills",
+      "step": 5,
+      "title": "Skill 系统",
+      "titleCn": "Skill 系统",
+      "description": "了解 328+ Skills 的路由机制",
+      "filePath": "core/orchestration/skill-preferences.md",
+      "keywords": ["skill", "路由", "wu_skills", "auto"]
+    },
+    {
+      "id": "tour-6-security",
+      "step": 6,
+      "title": "安全防护",
+      "titleCn": "安全防护",
+      "description": "了解 Hooks 和 Guardrail",
+      "filePath": "hooks/hooks.json",
+      "keywords": ["PreToolUse", "PostToolUse", "Guardrail", "金丝雀令牌"]
+    },
+    {
+      "id": "tour-7-adapters",
+      "step": 7,
+      "title": "平台适配",
+      "titleCn": "平台适配",
+      "description": "了解五平台适配机制",
+      "filePath": "adapters/trae/README.md",
+      "keywords": ["Trae", "Cursor", "Claude Code", "Codex", "MiMo"]
+    },
+    {
+      "id": "tour-8-quickstart",
+      "step": 8,
+      "title": "快速开始",
+      "titleCn": "快速开始",
+      "description": "运行 bootstrap 脚本初始化",
+      "filePath": "scripts/bootstrap.sh",
+      "keywords": ["bootstrap", "sync-skills", "初始化", "投影"]
+    }
+  ],
+  "statistics": {
+    "totalModules": 8,
+    "totalDomains": 3,
+    "totalAdapters": 5,
+    "totalAgents": 30,
+    "totalSkills": 328,
+    "totalKeyFiles": 10,
+    "totalEdges": 27,
+    "totalTours": 8,
+    "stageGates": {
+      "code": ["spec", "plan", "implement", "verify"],
+      "novel": ["outline", "chapter", "revision", "publish"],
+      "news": ["angle", "draft", "fact-check", "polish", "publish"]
+    }
+  }
+}

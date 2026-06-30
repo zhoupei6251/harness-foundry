@@ -1,8 +1,0 @@
-{
-  "slug": "springboot-verification",
-  "category": "code.review",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Verification loop for Spring Boot projects: build, static analysis, tests with coverage, security scans, and diff review before release or PR."
-}

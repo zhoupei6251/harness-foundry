@@ -1,8 +1,0 @@
-{
-  "slug": "unified-notifications-ops",
-  "category": "code.tooling",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Operate notifications as one ECC-native workflow across GitHub, Linear, desktop alerts, hooks, and connected communication surfaces. Use when the real problem is alert routing, deduplication, escalati"
-}

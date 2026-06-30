@@ -1,8 +1,0 @@
-{
-  "slug": "quarkus-verification",
-  "category": "code.review",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Verification loop for Quarkus projects: build, static analysis, tests with coverage, security scans, native compilation, and diff review before release or PR."
-}

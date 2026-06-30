@@ -1,8 +1,0 @@
-{
-  "slug": "quarkus-security",
-  "category": "code.security",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Quarkus Security best practices for authentication, authorization, JWT/OIDC, RBAC, input validation, CSRF, secrets management, and dependency security."
-}

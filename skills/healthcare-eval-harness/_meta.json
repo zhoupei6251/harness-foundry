@@ -1,8 +1,0 @@
-{
-  "slug": "healthcare-eval-harness",
-  "category": "code.testing",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Patient safety evaluation harness for healthcare application deployments. Automated test suites for CDSS accuracy, PHI exposure, clinical workflow integrity, and integration compliance. Blocks deploym"
-}

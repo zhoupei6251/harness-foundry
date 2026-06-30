@@ -1,8 +1,0 @@
-{
-  "slug": "perl-security",
-  "category": "code.security",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Comprehensive Perl security covering taint mode, input validation, safe process execution, DBI parameterized queries, web security (XSS/SQLi/CSRF), and perlcritic security policies."
-}

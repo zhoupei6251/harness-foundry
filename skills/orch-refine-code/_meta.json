@@ -1,8 +1,0 @@
-{
-  "slug": "orch-refine-code",
-  "category": "code.review",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Orchestrate a behavior-preserving refactor — confirm tests are green, restructure without changing behavior, keep tests green, review, and gated commit. Use when the structure should improve but behav"
-}

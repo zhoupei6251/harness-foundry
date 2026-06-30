@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harness Foundry — 交互式知识图谱</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-orange: #d29922;
+            --accent-red: #f85149;
+            --border: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        nav {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 1rem;
+            z-index: 100;
+            border: 1px solid var(--border);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            background: var(--bg-tertiary);
+        }
+
+        section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+        }
+
+        h2 {
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            color: var(--accent-purple);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .mermaid {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+
+        .card h4 {
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+
+        .tag-core {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--accent-green);
+        }
+
+        .tag-peripheral {
+            background: rgba(210, 153, 34, 0.2);
+            color: var(--accent-orange);
+        }
+
+        .tag-code {
+            background: rgba(88, 166, 255, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .tag-novel {
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .tag-news {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--accent-red);
+        }
+
+        .command {
+            background: var(--bg-primary);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 0.5rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .command::before {
+            content: '$ ';
+            color: var(--accent-green);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .toc {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .toc h3 {
+            margin-top: 0;
+        }
+
+        .toc ol {
+            padding-left: 1.5rem;
+        }
+
+        .toc li {
+            margin: 0.5rem 0;
+        }
+
+        .toc a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin: 0.25rem;
+        }
+
+        .badge-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .stats {
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Harness Foundry</h1>
+            <p class="subtitle">AI 编码工作流框架 — 跨 IDE 多智能体编排系统</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-number">336</div>
+                    <div class="stat-label">Skills</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">33</div>
+                    <div class="stat-label">Agents</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">IDE 平台</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">241</div>
+                    <div class="stat-label">Traps 规则</div>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem;">
+                <span class="badge">
+                    <span class="badge-icon">🎯</span> Trae
+                </span>
+                <span class="badge">
+                    <span class="badge-icon">🤖</span> Claude Code
+                </span>
+                <span class="badge">
+                    <span class="badge-icon">💡</span> Cursor
+                </span>
+                <span class="badge">
+                    <span class="badge-icon">⚡</span> Codex
+                </span>
+                <span class="badge">
+                    <span class="badge-icon">🔮</span> MimoCode
+                </span>
+            </div>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#architecture">架构</a></li>
+                <li><a href="#routing">路由</a></li>
+                <li><a href="#domains">三大域</a></li>
+                <li><a href="#dispatcher">派发器</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#security">安全</a></li>
+                <li><a href="#intelligence">智能层</a></li>
+                <li><a href="#commands">命令</a></li>
+            </ul>
+        </nav>
+
+        <div class="toc">
+            <h3>📑 目录</h3>
+            <ol>
+                <li><a href="#architecture">1. 整体架构</a></li>
+                <li><a href="#routing">2. 路由决策</a></li>
+                <li><a href="#domains">3. 三大领域</a></li>
+                <li><a href="#code">4. Code 域详情</a></li>
+                <li><a href="#dispatcher">5. Dispatcher 工作流</a></li>
+                <li><a href="#skills">6. Skill 系统</a></li>
+                <li><a href="#security">7. 安全机制</a></li>
+                <li><a href="#intelligence">8. Intelligence Layer</a></li>
+                <li><a href="#commands">9. 命令速查</a></li>
+            </ol>
+        </div>
+
+        <section id="architecture">
+            <h2>🏗️ 1. 整体架构</h2>
+            <pre class="mermaid">
+flowchart TB
+    subgraph IDE["🖥️ IDE 层"]
+        Trae["Trae IDE"]
+        Claude["Claude Code"]
+        Cursor["Cursor"]
+        Codex["Codex"]
+        Mimo["MimoCode"]
+    end
+
+    subgraph Adapters["📦 Adapters (平台适配)"]
+        TA["trae/ .trae/"]
+        CA["claude/ .claude/"]
+        CUA["cursor/ .cursor/"]
+        CXA["codex/"]
+        MA["mimocode/"]
+    end
+
+    subgraph Core["⚙️ Core (真相源)"]
+        RT["intent-routing.md"]
+        NV["NEVER.md"]
+        PR["principles.md"]
+        OR["orchestration/"]
+        SC["security/"]
+        CP["capabilities/"]
+        INT["intelligence/"]
+    end
+
+    subgraph Exec["🚀 执行层"]
+        SK["Skills (336)"]
+        AG["Agents (33)"]
+        HK["Hooks"]
+        TP["Traps (241)"]
+    end
+
+    IDE --> Adapters
+    Adapters -->|"bootstrap"| Core
+    Core --> OR
+    OR --> SK
+    OR --> AG
+    HK --> TP
+    INT --> SK
+            </pre>
+            <p style="color: var(--text-secondary); margin-top: 1rem;">
+                <strong>核心原则：</strong>Truth Source + Projection Model — 只修改 <code>core/</code> 和 <code>adapters/</code>，
+                IDE 适配器通过 <code>bootstrap.sh</code> 重建投影目录。
+            </p>
+        </section>
+
+        <section id="routing">
+            <h2>🔀 2. 路由决策流程</h2>
+            <pre class="mermaid">
+flowchart TD
+    Start["👤 用户请求"] --> Read["读取 intent-routing.md"]
+    Read --> Match["匹配路由规则"]
+
+    Match --> Domain{域?}
+    Domain -->|✅ code| Code["Code 域"]
+    Domain -->|✅ novel| Novel["Novel 域"]
+    Domain -->|✅ news| News["News 域"]
+    Domain -->|❓ multiple| Ask["询问用户确认"]
+    Domain -->|❓ low| Clarify["置信度<0.7，询问澄清"]
+
+    Code --> Stage["Stage Gate"]
+    Novel --> Stage
+    News --> Stage
+
+    Stage --> Plan["1. Plan"]
+    Plan --> Pause["⏸️ PAUSE"]
+    Pause --> |确认| Split["拆分 WU"]
+    Pause --> |拒绝| Revise["修订规格"]
+    Revise --> Plan
+
+    Split --> Dispatch["并行派发"]
+    Dispatch --> Workers["Worker 执行"]
+    Workers --> Verify["Verify"]
+    Verify --> Done["整合汇报"]
+            </pre>
+        </section>
+
+        <section id="domains">
+            <h2>🌐 3. 三大领域</h2>
+            <div class="grid">
+                <div class="card">
+                    <h4>💻 Code 域</h4>
+                    <p>代码开发、调试、测试、审查</p>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="tag tag-code">feature</span>
+                        <span class="tag tag-code">bugfix</span>
+                        <span class="tag tag-code">refactor</span>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                        阶段：spec → plan → implement → verify<br/>
+                        隔离：worktree（完整隔离）
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📚 Novel 域</h4>
+                    <p>小说创作、润色、发布</p>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="tag tag-novel">outline</span>
+                        <span class="tag tag-novel">chapter</span>
+                        <span class="tag tag-novel">revision</span>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                        阶段：outline → chapter → revision → publish<br/>
+                        隔离：无
+                    </p>
+                </div>
+                <div class="card">
+                    <h4>📰 News 域</h4>
+                    <p>新闻写作、事实核查、发布</p>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="tag tag-news">angle</span>
+                        <span class="tag tag-news">draft</span>
+                        <span class="tag tag-news">polish</span>
+                    </div>
+                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                        阶段：angle → draft → fact-check → polish<br/>
+                        隔离：无
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="code">
+            <h2>💻 4. Code 域 Agent 池</h2>
+            <pre class="mermaid">
+flowchart LR
+    subgraph Leaders["Leader"]
+        LC["leader-code"]
+    end
+
+    subgraph Primary["Primary Agents (必加载)"]
+        C["coder"]
+        D["debugger"]
+        CR["code-reviewer"]
+        R["reviewer"]
+        TE["test-engineer"]
+    end
+
+    subgraph Secondary["Secondary Agents (按需)"]
+        AR["architect"]
+        IM["implementer"]
+        PL["planner"]
+        CS["code-simplifier"]
+        TW["tech-writer"]
+        EX["explorer"]
+        WI["web-investigator"]
+    end
+
+    LC --> Primary
+    LC --> Secondary
+            </pre>
+            <h3>Primary Skills</h3>
+            <table>
+                <tr>
+                    <th>Skill</th>
+                    <th>用途</th>
+                    <th>标签</th>
+                </tr>
+                <tr>
+                    <td>brainstorming</td>
+                    <td>头脑风暴</td>
+                    <td><span class="tag tag-core">core</span></td>
+                </tr>
+                <tr>
+                    <td>architecture-patterns</td>
+                    <td>架构模式</td>
+                    <td><span class="tag tag-core">core</span></td>
+                </tr>
+                <tr>
+                    <td>test-driven-development</td>
+                    <td>TDD 测试驱动</td>
+                    <td><span class="tag tag-core">core</span></td>
+                </tr>
+                <tr>
+                    <td>code-review</td>
+                    <td>代码审查</td>
+                    <td><span class="tag tag-core">core</span></td>
+                </tr>
+                <tr>
+                    <td>refactor-safely</td>
+                    <td>安全重构</td>
+                    <td><span class="tag tag-core">core</span></td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="dispatcher">
+            <h2>⚡ 5. Dispatcher 工作流</h2>
+            <h3>触发条件</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>✅ 满足任一即可</h4>
+                    <ul style="color: var(--text-secondary); padding-left: 1.2rem;">
+                        <li>Plan 包含 ≥2 个 WU</li>
+                        <li>用户说「开始实现」</li>
+                        <li>用户说「并行实现」</li>
+                        <li>连续执行：≥2 章节/小说/功能</li>
+                    </ul>
+                </div>
+            </div>
+            <h3>执行流程</h3>
+            <pre class="mermaid">
+flowchart TB
+    Trigger["🔔 触发"] --> Split["📋 拆分 WU"]
+    Split --> Parallel["⚡ ≤5 Worker 并行"]
+
+    subgraph Workers["Worker 类型"]
+        W1["harness-coder<br/>(feature/bugfix)"]
+        W2["harness-debugger<br/>(bugfix)"]
+        W3["harness-reviewer<br/>(review)"]
+        W4["harness-test-engineer<br/>(test/e2e)"]
+        W5["harness-explorer<br/>(explore)"]
+    end
+
+    subgraph Context["执行上下文"]
+        WT["worktree<br/>(隔离)"]
+        LC["local"]
+    end
+
+    Parallel --> Workers
+    Workers --> Context
+            </pre>
+        </section>
+
+        <section id="skills">
+            <h2>📚 6. Skill 系统</h2>
+            <h3>分层架构</h3>
+            <pre class="mermaid">
+flowchart TB
+    subgraph Layers["Skill 分层"]
+        Core["⭐ Core Layer<br/>80个 (稳定)"]
+        Peri["🔸 Peripheral Layer<br/>120个 (辅助)"]
+        Arch["📦 Archived Layer<br/>(归档)"]
+    end
+
+    subgraph Priority["加载优先级"]
+        P1["项目本地 .xxx/skills/"]
+        P2["用户全局 ~/.xxx/skills/"]
+        P3["系统全局 ~/.agents/skills/"]
+    end
+
+    Core --> Priority
+    </pre>
+            <h3>路由表示例</h3>
+            <table>
+                <tr>
+                    <th>agent_role</th>
+                    <th>wu_type</th>
+                    <th>建议加载的 Skills</th>
+                </tr>
+                <tr>
+                    <td>coder</td>
+                    <td>feature, bugfix, refactor</td>
+                    <td>test-driven-development, requesting-code-review</td>
+                </tr>
+                <tr>
+                    <td>coder</td>
+                    <td>ui</td>
+                    <td>ui-ux-pro-max, frontend-design, TDD, requesting-code-review</td>
+                </tr>
+                <tr>
+                    <td>debugger</td>
+                    <td>bugfix, ui-bug</td>
+                    <td>systematic-debugging</td>
+                </tr>
+                <tr>
+                    <td>reviewer</td>
+                    <td>review</td>
+                    <td>requesting-code-review</td>
+                </tr>
+                <tr>
+                    <td>test-engineer</td>
+                    <td>test</td>
+                    <td>test-driven-development</td>
+                </tr>
+                <tr>
+                    <td>test-engineer</td>
+                    <td>e2e</td>
+                    <td>agent-browser</td>
+                </tr>
+            </table>
+            <h3>全局禁止列表</h3>
+            <p style="color: var(--text-secondary);">
+                以下 skills 不得传给子 Agent：
+                <code>brainstorming</code>, <code>writing-plans</code>, <code>cursor-orchestration</code>,
+                <code>claude-orchestration</code>, <code>git-xywh</code>, <code>dispatching-parallel-agents</code>,
+                <code>subagent-driven-development</code>
+            </p>
+        </section>
+
+        <section id="security">
+            <h2>🛡️ 7. 安全机制</h2>
+            <pre class="mermaid">
+flowchart TB
+    subgraph Pre["PreToolUse Hooks (并行)"]
+        P1["🔍 Prompt Injection"]
+        P2["💉 SQL Injection"]
+        P3["⚠️ Command Injection"]
+        P4["🎭 Prompt Override"]
+        P5["📁 Path Traversal"]
+    end
+
+    subgraph Post["PostToolUse Hooks (顺序)"]
+        O1["🔑 Secret 泄露"]
+        O2["🐦 Canary Token"]
+        O3["❌ NEVER.md 违规"]
+        O4["🤖 AI Writing 标记"]
+        O5["📝 Syntax 验证"]
+    end
+
+    subgraph Audit["审计"]
+        Log[".ai-runtime-artifacts/<br/>guardrail-audit.jsonl"]
+    end
+
+    Pre --> Post
+    Post --> Audit
+            </pre>
+            <h3>Traps Archive</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>💻 Code 域</h4>
+                    <p>160+ 条避坑规则</p>
+                    <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.85rem;">
+                        <li>使用 Write/Edit 工具</li>
+                        <li>Read before write</li>
+                        <li>No silent failures</li>
+                        <li>No loop SQL</li>
+                        <li>SELECT * forbidden</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h4>📚 Novel 域</h4>
+                    <p>47 条避坑规则</p>
+                    <ul style="color: var(--text-secondary); padding-left: 1.2rem; font-size: 0.85rem;">
+                        <li>Leader 不直接写正文</li>
+                        <li>必须在阶段门禁暂停</li>
+                        <li>必须使用 novel-orchestrator</li>
+                        <li>使用全角中文标点</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="intelligence">
+            <h2>🧠 8. Intelligence Layer</h2>
+            <pre class="mermaid">
+flowchart LR
+    subgraph Strategic["🎯 战略层 (Understand-Anything)"]
+        UP["/understand-project"]
+        AA["/analyze-architecture"]
+        KG["/query-knowledge-graph"]
+    end
+
+    subgraph Tactical["⚡ 战术层 (CodeGraph)"]
+        IP["/index-project"]
+        QS["/query-symbol"]
+        GC["/get-callers"]
+        GCL["/get-callees"]
+        AI["/analyze-impact"]
+    end
+
+    Strategic --> Dashboard["📊 可视化仪表盘"]
+    Tactical --> Query["🔍 快速定位"]
+            </pre>
+            <h3>使用场景</h3>
+            <table>
+                <tr>
+                    <th>场景</th>
+                    <th>推荐 Tool</th>
+                    <th>价值</th>
+                </tr>
+                <tr>
+                    <td>新项目接手</td>
+                    <td>understand-project</td>
+                    <td>5 分钟了解项目全貌</td>
+                </tr>
+                <tr>
+                    <td>架构评审</td>
+                    <td>analyze-architecture</td>
+                    <td>深入架构分析</td>
+                </tr>
+                <tr>
+                    <td>Bug 定位</td>
+                    <td>query-symbol + get-callers</td>
+                    <td>快速定位相关模块</td>
+                </tr>
+                <tr>
+                    <td>重构评估</td>
+                    <td>analyze-impact</td>
+                    <td>识别影响范围</td>
+                </tr>
+            </table>
+        </section>
+
+        <section id="commands">
+            <h2>⚙️ 9. 命令速查</h2>
+            <h3>Bootstrap</h3>
+            <div class="command">bash scripts/bootstrap.sh --target all --dry-run</div>
+            <div class="command">bash scripts/bootstrap.sh --target all</div>
+
+            <h3>Sync Skills</h3>
+            <div class="command">bash scripts/sync-skills.sh --target all --dry-run</div>
+            <div class="command">bash scripts/sync-skills.sh --target all</div>
+
+            <h3>CI 验证</h3>
+            <div class="command">bash scripts/verify.sh</div>
+
+            <h3>单独测试</h3>
+            <div class="command">bash tests/L1-static/validate-agent-format.sh</div>
+            <div class="command">bash tests/L1-static/validate-skill-meta.sh</div>
+            <div class="command">bash tests/L2-integration/validate-routing.sh</div>
+
+            <h3>Shell Lint</h3>
+            <div class="command">shellcheck scripts/*.sh</div>
+        </section>
+
+        <footer>
+            <p>Harness Foundry — 交互式知识图谱</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem;">
+                生成时间: 2026-06-30 | Powered by Mermaid.js + CodeGraph
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            themeVariables: {
+                primaryColor: '#58a6ff',
+                primaryTextColor: '#e6edf3',
+                primaryBorderColor: '#30363d',
+                lineColor: '#8b949e',
+                secondaryColor: '#21262d',
+                tertiaryColor: '#161b22',
+                background: '#0d1117',
+                mainBkg: '#161b22',
+                nodeBorder: '#30363d',
+                clusterBkg: '#21262d',
+                clusterBorder: '#30363d',
+                titleColor: '#e6edf3',
+                edgeLabelBackground: '#21262d',
+            },
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            }
+        });
+    </script>
+</body>
+</html>

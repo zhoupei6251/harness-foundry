@@ -1,8 +1,0 @@
-{
-  "slug": "springboot-patterns",
-  "category": "code.architecture",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Spring Boot architecture patterns, REST API design, layered services, data access, caching, async processing, and logging. Use for Java Spring Boot backend work."
-}

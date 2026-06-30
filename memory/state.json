@@ -1,0 +1,111 @@
+# Memory State Schema
+
+> 运行时状态文件，记录当前活跃的域、会话和 WU
+
+## 文件位置
+
+```
+memory/state.json
+```
+
+## 文件结构
+
+```json
+{
+  "version": "1.0.0",
+  "last_updated": "2026-06-30T10:00:00Z",
+  "active_domain": "code",
+  "active_phase": "implement",
+  "active_platforms": ["claude-code"],
+  "active_wus": [
+    {
+      "id": "WU-01",
+      "topic": "用户登录模块",
+      "agent": "coder",
+      "status": "in_progress",
+      "started_at": "2026-06-30T10:00:00Z"
+    }
+  ],
+  "sessions": [
+    {
+      "session_id": "session-xxx",
+      "started_at": "2026-06-30T09:00:00Z",
+      "domain": "code",
+      "platform": "claude-code"
+    }
+  ]
+}
+```
+
+## 字段说明
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `version` | string | 格式版本 |
+| `last_updated` | ISO 8601 | 最后更新时间 |
+| `active_domain` | string | 当前活跃域：code/novel/news |
+| `active_phase` | string | 当前阶段：idle/plan/implement/verify |
+| `active_platforms` | string[] | 当前活跃平台列表 |
+| `active_wus` | object[] | 当前活跃的 WU 列表 |
+| `sessions` | object[] | 活跃会话历史 |
+
+## WU 对象
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `id` | string | WU 唯一标识 |
+| `topic` | string | WU 主题 |
+| `agent` | string | 执行的 Agent |
+| `status` | string | 状态：pending/in_progress/completed/failed |
+| `started_at` | ISO 8601 | 开始时间 |
+
+## Session 对象
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| `session_id` | string | 会话 ID |
+| `started_at` | ISO 8601 | 会话开始时间 |
+| `domain` | string | 会话域 |
+| `platform` | string | 平台标识 |
+
+## 状态枚举
+
+| active_phase | 说明 |
+|--------------|------|
+| `idle` | 空闲，无活跃任务 |
+| `design` | 设计阶段 |
+| `plan` | 规划阶段 |
+| `implement` | 实现阶段 |
+| `verify` | 验证阶段 |
+
+## 使用场景
+
+### 读取
+Leader 派发前读取此文件，了解当前活跃状态。
+
+### 写入
+- WU 开始执行时
+- WU 状态变更时
+- 会话开始/结束时
+- 域切换时
+
+## 示例
+
+```json
+{
+  "version": "1.0.0",
+  "last_updated": "2026-06-30T10:00:00Z",
+  "active_domain": "code",
+  "active_phase": "implement",
+  "active_platforms": ["claude-code", "cursor"],
+  "active_wus": [],
+  "sessions": [
+    {
+      "session_id": "sess-abc123",
+      "started_at": "2026-06-30T09:00:00Z",
+      "domain": "code",
+      "platform": "claude-code"
+    }
+  ]
+}
+```

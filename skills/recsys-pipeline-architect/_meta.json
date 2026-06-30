@@ -1,8 +1,0 @@
-{
-  "slug": "recsys-pipeline-architect",
-  "category": "shared.docs",
-  "domain": "shared",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Design composable recommendation, ranking, and feed pipelines using the six-stage Source→Hydrator→Filter→Scorer→Selector→SideEffect framework popularized by xAI's open-sourced For You algorithm. Use t"
-}

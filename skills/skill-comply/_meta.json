@@ -1,8 +1,0 @@
-{
-  "slug": "skill-comply",
-  "category": "code.security",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Visualize whether skills, rules, and agent definitions are actually followed — auto-generates scenarios at 3 prompt strictness levels, runs agents, classifies behavioral sequences, and reports complia"
-}

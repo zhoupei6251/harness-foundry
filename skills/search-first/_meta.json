@@ -1,8 +1,0 @@
-{
-  "slug": "search-first",
-  "category": "shared.docs",
-  "domain": "shared",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Research-before-coding workflow. Search for existing tools, libraries, and patterns before writing custom code. Invokes the researcher agent."
-}

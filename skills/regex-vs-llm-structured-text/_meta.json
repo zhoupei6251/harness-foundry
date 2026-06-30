@@ -1,8 +1,0 @@
-{
-  "slug": "regex-vs-llm-structured-text",
-  "category": "code.ai-agent",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Decision framework for choosing between regex and LLM when parsing structured text — start with regex, add LLM only for low-confidence edge cases."
-}

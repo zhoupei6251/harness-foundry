@@ -1,8 +1,0 @@
-{
-  "slug": "recursive-decision-ledger",
-  "category": "shared.research",
-  "domain": "shared",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Use when the user asks for repeated rollouts, marked decision processes, high-dimensional search, stochastic optimization, local-optima exploration, ensemble comparison, or recursive reasoning with a "
-}

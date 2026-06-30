@@ -1,8 +1,0 @@
-{
-  "slug": "opensource-pipeline",
-  "category": "code.ai-agent",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Open-source pipeline: fork, sanitize, and package private projects for safe public release. Chains 3 agents (forker, sanitizer, packager). Triggers: '/opensource', 'open source this', 'make this publi"
-}

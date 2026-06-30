@@ -1,8 +1,0 @@
-{
-  "slug": "springboot-security",
-  "category": "code.security",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Spring Security best practices for authn/authz, validation, CSRF, secrets, headers, rate limiting, and dependency security in Java Spring Boot services."
-}

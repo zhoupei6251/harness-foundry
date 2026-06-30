@@ -1,8 +1,0 @@
-{
-  "slug": "plan-orchestrate",
-  "category": "code.frontend",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Read a plan document, decompose it into steps, design a per-step agent chain from the ECC catalogue, and emit ready-to-paste /orchestrate custom prompts. Generative only — never invokes /orchestrate i"
-}

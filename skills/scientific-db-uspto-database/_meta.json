@@ -1,8 +1,0 @@
-{
-  "slug": "scientific-db-uspto-database",
-  "category": "code.database",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "USPTO patent and trademark data workflow for official record lookup, PatentSearch queries, TSDR checks, assignment data, and reproducible IP research logs."
-}

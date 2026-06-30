@@ -1,8 +1,0 @@
-{
-  "slug": "repo-scan",
-  "category": "code.languages",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Cross-stack source code asset audit — classifies every file, detects embedded third-party libraries, and delivers actionable four-level verdicts per module with interactive HTML reports."
-}

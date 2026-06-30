@@ -1,8 +1,0 @@
-{
-  "slug": "homelab-pihole-dns",
-  "category": "code.ops",
-  "domain": "code",
-  "tags": [],
-  "auto_classified": true,
-  "purpose": "Pi-hole installation, blocklist management, DNS-over-HTTPS setup, DHCP integration, local DNS records, and troubleshooting broken DNS resolution on a home network."
-}
