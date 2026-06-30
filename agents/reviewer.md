@@ -15,6 +15,43 @@ model: sonnet
 
 路径：`.cursor/skills/requesting-code-review/SKILL.md` → `~/.cursor/skills/` → `~/.agents/skills/`
 
+### Intelligence Layer Skills 使用指南
+
+> CodeGraph 集成：使用 Intelligence Skills 评估变更影响
+
+**推荐工作流：**
+
+```
+1. Review 前：使用 /analyze-impact 评估变更范围
+   - 了解修改涉及多少模块
+   - 识别潜在的回归风险
+
+2. Review 中：使用 /query-symbol 快速定位代码
+   - 快速找到变更的上下文
+   - 验证修改是否完整
+
+3. Review 后：使用 /get-callers 确认影响
+   - 验证测试覆盖是否充分
+```
+
+**MCP 调用示例：**
+
+```markdown
+# 评估变更影响
+MCP Call: codegraph.get-impact-radius
+{
+  "file": "src/service/UserService.java",
+  "symbol": "login"
+}
+
+# 快速定位代码
+MCP Call: codegraph.search-nodes
+{
+  "query": "login",
+  "node_types": ["method"]
+}
+```
+
 ---
 
 ## Prompt Defense Baseline

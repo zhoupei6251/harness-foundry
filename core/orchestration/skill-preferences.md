@@ -49,6 +49,110 @@ Leader 或子 Agent 看到 **`auto`** 时：
 
 ---
 
+## Intelligence Layer Skills（代码理解层）
+
+> 阶段门禁：plan → implement → verify，Intelligence Skills 在各阶段按需调用
+
+### 战略层 (Understand-Anything)
+
+| agent_role | wu_type | 建议加载的 skill | 调用时机 |
+| --- | --- | --- | --- |
+| leader-code | plan | understand-project, analyze-architecture | plan 阶段开始时 |
+| coder | feature, bugfix, refactor | understand-project | 理解项目时 |
+| explorer | explore | understand-project, analyze-architecture | 探查项目时 |
+
+### 战术层 (CodeGraph)
+
+| agent_role | wu_type | 建议加载的 skill | 调用时机 |
+| --- | --- | --- | --- |
+| coder | feature, bugfix, refactor | index-project, query-symbol | 实现前 |
+| coder | feature | get-callers, analyze-impact | 重构前 |
+| debugger | bugfix | query-symbol, get-callers | 定位 bug 时 |
+| reviewer | review | analyze-impact | review 前 |
+| test-engineer | test | analyze-impact | 评估测试范围 |
+
+### Intelligence Skills 路由配置
+
+```yaml
+# Intelligence Layer Skill 路由
+intelligence:
+  # 战略层 - 项目理解
+  understand-project:
+    domains: [code]
+    stage: [plan, design]
+    agents: [leader-code, coder, explorer]
+    trigger: "新项目、不了解项目、需要全局理解"
+    priority: 1  # 优先于其他调研手段
+
+  analyze-architecture:
+    domains: [code]
+    stage: [design, implement]
+    agents: [leader-code, coder, explorer]
+    trigger: "架构问题、设计原因、技术选型"
+    priority: 1
+
+  query-knowledge-graph:
+    domains: [code]
+    stage: [plan, design, implement, verify]
+    agents: [leader-code, coder, explorer, reviewer]
+    trigger: "查询项目结构、模块关系"
+
+  # 战术层 - 代码索引
+  index-project:
+    domains: [code]
+    stage: [plan]
+    agents: [leader-code, coder]
+    trigger: "大型项目 (>100 文件)、需要精准定位"
+    auto_invoke: false  # 需要显式调用
+
+  query-symbol:
+    domains: [code]
+    stage: [implement, verify]
+    agents: [coder, debugger, reviewer]
+    trigger: "定位符号、查找定义、快速搜索"
+    auto_invoke: true  # 可自动调用
+
+  get-callers:
+    domains: [code]
+    stage: [implement, verify]
+    agents: [coder, debugger, reviewer]
+    trigger: "分析依赖、评估影响"
+    auto_invoke: false
+
+  get-callees:
+    domains: [code]
+    stage: [implement, verify]
+    agents: [coder, debugger]
+    trigger: "理解实现细节"
+    auto_invoke: false
+
+  analyze-impact:
+    domains: [code]
+    stage: [implement, verify]
+    agents: [coder, reviewer, test-engineer]
+    trigger: "重构前、修改核心方法、批量修改"
+    auto_invoke: false
+```
+
+### Intelligence Skills 使用建议
+
+```
+阶段: plan
+  ├─ /understand-project     → 获取项目全局理解
+  └─ /index-project          → 建立代码索引
+
+阶段: implement
+  ├─ /query-symbol          → 定位要修改的代码
+  ├─ /get-callers            → 查看调用方
+  └─ /analyze-impact         → 评估影响范围
+
+阶段: verify
+  ├─ /query-symbol          → 验证修改位置
+  └─ /analyze-impact         → 确认变更范围
+```
+
+---
+
 ## 全局禁止（不得传给子 Agent）
 
 `brainstorming`, `writing-plans`, `cursor-orchestration`, 「claude-orchestration」, 「using-superpowers」, 「git-xywh」, `dispatching-parallel-agents`, `subagent-driven-development`

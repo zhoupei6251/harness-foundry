@@ -83,6 +83,44 @@
 
 路径：`.cursor/skills/systematic-debugging/SKILL.md` → `~/.cursor/skills/` → `~/.agents/skills/`
 
+### Intelligence Layer Skills 使用指南
+
+> CodeGraph 集成：使用 Intelligence Skills 加速缺陷定位
+
+**推荐工作流：**
+
+```
+1. 定位阶段：使用 /query-symbol 快速找到相关代码
+   - 搜索异常信息中的类名
+   - 定位错误栈中的方法
+
+2. 分析阶段：使用 /get-callers 查看调用链
+   - 追踪 bug 的传入路径
+   - 找到数据来源
+
+3. 根因分析：使用 /get-callees 查看被调用方
+   - 追踪 bug 的传出路径
+   - 找到数据去向
+```
+
+**MCP 调用示例：**
+
+```markdown
+# 定位 NullPointerException 中的类
+MCP Call: codegraph.search-nodes
+{
+  "query": "UserService",
+  "node_types": ["class"]
+}
+
+# 查看方法调用链
+MCP Call: codegraph.get-callers
+{
+  "symbol": "UserService.process",
+  "depth": 2
+}
+```
+
 ---
 
 ## 产物

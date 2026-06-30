@@ -63,6 +63,22 @@ domains:
       - code-review
       - refactor-safely
 
+    # Intelligence Layer Skills（代码理解）
+    intelligence_skills:
+      # 战略层 - Understand-Anything
+      strategic:
+        - understand-project      # 项目理解
+        - analyze-architecture   # 架构分析
+        - query-knowledge-graph   # 图谱查询
+
+      # 战术层 - CodeGraph
+      tactical:
+        - index-project          # 索引建立
+        - query-symbol           # 符号定位
+        - get-callers           # 调用方分析
+        - get-callees           # 被调用方分析
+        - analyze-impact         # 影响评估
+
     # 次 Skill（按需加载）
     secondary_skills:
       - simplify               # /simplify 精简代码
