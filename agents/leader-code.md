@@ -70,3 +70,58 @@ brainstorming → [门禁：用户确认 spec]
 - 与 coder/implementer 共用同一 subagent 实例做审查
 - 未写 tracking 就并行派发多个 WU
 - 跳过 execution-log 完成声明
+
+---
+
+## Intelligence Layer 集成
+
+> Understand-Anything + CodeGraph 分层集成
+
+### 战略层使用 (Understand-Anything)
+
+在以下场景使用战略层 Skills：
+
+| 场景 | Skill | 时机 |
+|------|-------|------|
+| 新项目接手 | `/understand-project` | plan 阶段开始 |
+| 架构评审 | `/analyze-architecture` | design 阶段 |
+| 模块分析 | `/analyze-architecture` | 按需 |
+
+### 战术层使用 (CodeGraph)
+
+在以下场景使用战术层 Skills：
+
+| 场景 | Skill | 时机 |
+|------|-------|------|
+| 建立索引 | `/index-project` | plan 阶段 |
+| 定位代码 | `/query-symbol` | implement 阶段 |
+| 分析依赖 | `/get-callers` | implement 阶段 |
+| 评估影响 | `/analyze-impact` | verify 阶段 |
+
+### 协同流程
+
+```
+plan 阶段:
+  ├─ /understand-project    → 获取项目全局理解
+  └─ /index-project         → 建立代码索引
+
+implement 阶段:
+  ├─ /query-symbol          → 定位代码
+  └─ /get-callers          → 分析调用关系
+
+verify 阶段:
+  └─ /analyze-impact        → 评估变更影响
+```
+
+### Leader 派发建议
+
+当 Worker 需要理解代码时，在派发 prompt 中包含：
+
+```markdown
+## Intelligence 支持
+
+本项目已建立代码索引，可使用以下能力：
+- /query-symbol <符号名>  # 快速定位代码
+- /get-callers <符号名>   # 查看调用方
+- /analyze-impact <符号>   # 评估影响
+```
