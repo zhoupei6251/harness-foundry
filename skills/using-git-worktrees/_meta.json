@@ -1,0 +1,17 @@
+{
+  "slug": "using-git-worktrees",
+  "category": "code.tooling",
+  "domain": "code",
+  "tags": [
+    "git",
+    "worktree"
+  ],
+  "purpose": "Worktree 隔离工作流（优先使用平台原生工具，git worktree 作为 fallback）",
+  "source": "superpowers",
+  "source_version": "6.0.3",
+  "source_path": "skills/using-git-worktrees",
+  "cherry_picked": true,
+  "integration_layer": "L2-auxiliary",
+  "skip_from_sync": true,
+  "compatibility": "Trae 无原生 worktree 时启用；harness-worktree.sh 已是 fallback 实现"
+}

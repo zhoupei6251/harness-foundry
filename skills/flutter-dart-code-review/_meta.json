@@ -1,0 +1,8 @@
+{
+  "slug": "flutter-dart-code-review",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Library-agnostic Flutter/Dart code review checklist covering widget best practices, state management patterns (BLoC, Riverpod, Provider, GetX, MobX, Signals), Dart idioms, performance, accessibility, "
+}

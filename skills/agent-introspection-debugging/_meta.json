@@ -1,0 +1,8 @@
+{
+  "slug": "agent-introspection-debugging",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Structured self-debugging workflow for AI agent failures using capture, diagnosis, contained recovery, and introspection reports."
+}

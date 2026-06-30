@@ -1,0 +1,8 @@
+{
+  "slug": "knowledge-ops",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Knowledge base management, ingestion, sync, and retrieval across multiple storage layers (local files, MCP memory, vector stores, Git repos). Use when the user wants to save, organize, sync, deduplica"
+}

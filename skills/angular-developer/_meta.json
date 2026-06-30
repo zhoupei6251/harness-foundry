@@ -1,0 +1,8 @@
+{
+  "slug": "angular-developer",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Generates Angular code and provides architectural guidance. Trigger when creating projects, components, or services, or for best practices on reactivity (signals, linkedSignal, resource), forms, depen"
+}

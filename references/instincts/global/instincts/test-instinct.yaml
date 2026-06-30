@@ -1,0 +1,12 @@
+---
+id: test-instinct
+trigger: "test trigger"
+confidence: 0.5
+domain: code-style
+scope: global
+source: session
+project_id: aigc-verse
+created: 2026-06-26
+last_used: 2026-06-26
+usage_count: 0
+---

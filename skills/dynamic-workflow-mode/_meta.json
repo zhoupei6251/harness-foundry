@@ -1,0 +1,8 @@
+{
+  "slug": "dynamic-workflow-mode",
+  "category": "code.frontend",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Design task-local harnesses, eval gates, and reusable skill extraction for Claude dynamic workflow mode and other adaptive agent harnesses."
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "orch-fix-defect",
+  "category": "code.review",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Orchestrate fixing a bug — reproduce it as a failing regression test, fix to green, review, and gated commit — by delegating each phase to the matching ECC agent. Use when existing behavior is broken "
+}

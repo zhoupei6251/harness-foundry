@@ -1,0 +1,8 @@
+{
+  "slug": "connections-optimizer",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Reorganize the user's X and LinkedIn network with review-first pruning, add/follow recommendations, and channel-specific warm outreach drafted in the user's real voice. Use when the user wants to clea"
+}

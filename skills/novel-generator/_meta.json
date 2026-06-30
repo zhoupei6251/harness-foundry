@@ -1,0 +1,13 @@
+{
+  "slug": "novel-generator",
+  "category": "novel.creation",
+  "domain": "novel",
+  "tags": [
+    "爽文",
+    "生成"
+  ],
+  "complements": [
+    "novel-orchestrator",
+    "junli-ai-novel"
+  ]
+}

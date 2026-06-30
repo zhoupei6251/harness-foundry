@@ -1,0 +1,125 @@
+# Skill 分类映射
+# 命名规则：<domain>.<sub>
+# 域（domain）：code | novel | news | shared
+#
+# 用法：每个 skill 在 _meta.json 中通过 `category: <id>` 声明归属
+# 脚本 `gen-skill-index.sh` 会读此文件生成 INDEX.md 的"按功能分类"部分
+
+categories:
+
+  # ============ Code 域（11 类）============
+  - id: code.architecture
+    title: 架构与设计
+    description: 后端架构、API 设计、ADR、DDD
+
+  - id: code.review
+    title: 代码审查与重构
+    description: Code review、安全重构、simplify
+
+  - id: code.testing
+    title: 测试与 TDD
+    description: TDD、E2E、benchmark、验证
+
+  - id: code.debug
+    title: 调试与问题诊断
+    description: 系统调试、Agent 内省、搜索优先
+
+  - id: code.security
+    title: 安全与合规
+    description: 安全审计、漏洞扫描、合规检查
+
+  - id: code.standards
+    title: 编码标准与规范
+    description: 编码标准、规则提炼、Skill 合规
+
+  - id: code.languages
+    title: 语言 / 框架生态
+    description: 各语言/框架的模式、TDD、安全
+
+  - id: code.frontend
+    title: 前端开发
+    description: UI/UX 设计、动画、演示
+
+  - id: code.database
+    title: 数据库与存储
+    description: 关系型、NoSQL、缓存、数据管理
+
+  - id: code.ops
+    title: 运维与部署
+    description: 容器、网络、CI/CD、环境管理
+
+  - id: code.ai-agent
+    title: AI / Agent 系统
+    description: Agent 编排、LLM、Prompt、MCP、推荐
+
+  - id: code.tooling
+    title: 开发工具
+    description: Git、构建、依赖、命令行
+
+  # ============ Novel 域（4 类）============
+  - id: novel.creation
+    title: 小说创作
+    description: 生成、编排、写作、评估
+
+  - id: novel.polish
+    title: AI 文风处理
+    description: humanizer、文风清洗
+
+  - id: novel.publish
+    title: 小说发布与平台
+    description: 番茄、发布质检
+
+  - id: novel.transform
+    title: 小说衍生
+    description: 短剧、剧本
+
+  # ============ News 域（2 类）============
+  - id: news.creation
+    title: 新闻生成与润色
+    description: 自动生成、润色
+
+  - id: news.research
+    title: 新闻调研
+    description: 事实核查、热点
+
+  # ============ Shared 域（6 类）============
+  - id: shared.planning
+    title: 规划与编排
+    description: brainstorming、计划、SDD、并行
+
+  - id: shared.memory
+    title: 记忆与上下文
+    description: 记忆管理、上下文预算
+
+  - id: shared.docs
+    title: 文档与写作
+    description: Word、Excel、PDF、写作
+
+  - id: shared.media
+    title: 媒体与语音
+    description: TTS、视频、视觉
+
+  - id: shared.research
+    title: 搜索与研究
+    description: 深度研究、Exa、查找
+
+  - id: shared.workflow
+    title: 技能管理与自检
+    description: find-skills、vetter、stocktake、verify
+
+  # ============ 其他（4 类）============
+  - id: biz.finance
+    title: 财务与账单
+    description: 财务、账单、订阅
+
+  - id: biz.operations
+    title: 商业运营
+    description: 物流、营销、销售、合规
+
+  - id: science.research
+    title: 科学研究
+    description: 科学数据库、文献综述
+
+  - id: crypto.web3
+    title: 加密货币与区块链
+    description: DeFi、预测市场、EVM

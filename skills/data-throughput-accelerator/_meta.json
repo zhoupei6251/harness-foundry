@@ -1,0 +1,8 @@
+{
+  "slug": "data-throughput-accelerator",
+  "category": "biz.operations",
+  "domain": "biz",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use when large data ingestion, backfill, export, ETL, warehouse loading, manifest catch-up, or table synchronization needs to become much faster while preserving data correctness."
+}

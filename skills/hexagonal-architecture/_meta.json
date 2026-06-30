@@ -1,0 +1,8 @@
+{
+  "slug": "hexagonal-architecture",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Design, implement, and refactor Ports & Adapters systems with clear domain boundaries, dependency inversion, and testable use-case orchestration across TypeScript, Java, Kotlin, and Go services."
+}

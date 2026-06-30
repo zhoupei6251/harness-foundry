@@ -1,0 +1,8 @@
+{
+  "slug": "dart-flutter-patterns",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Production-ready Dart and Flutter patterns covering null safety, immutable state, async composition, widget architecture, popular state management frameworks (BLoC, Riverpod, Provider), GoRouter navig"
+}

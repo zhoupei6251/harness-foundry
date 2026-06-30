@@ -1,0 +1,8 @@
+{
+  "slug": "nutrient-document-processing",
+  "category": "code.languages",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Process, convert, OCR, extract, redact, sign, and fill documents using the Nutrient DWS API. Works with PDFs, DOCX, XLSX, PPTX, HTML, and images."
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "cost-aware-llm-pipeline",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Cost optimization patterns for LLM API usage — model routing by task complexity, budget tracking, retry logic, and prompt caching."
+}

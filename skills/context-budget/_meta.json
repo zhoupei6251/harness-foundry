@@ -1,0 +1,8 @@
+{
+  "slug": "context-budget",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces prioritized token-savings recommendations."
+}

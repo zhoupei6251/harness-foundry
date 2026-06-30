@@ -1,0 +1,13 @@
+{
+  "slug": "humanizer",
+  "category": "novel.polish",
+  "domain": "novel",
+  "tags": [
+    "humanizer",
+    "AI痕迹"
+  ],
+  "complements": [
+    "humanizer-zh",
+    "humanize-ai-text"
+  ]
+}

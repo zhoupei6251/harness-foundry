@@ -1,0 +1,8 @@
+{
+  "slug": "ck",
+  "category": "code.languages",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Persistent per-project memory for Claude Code. Auto-loads project context on session start, tracks sessions with git activity, and writes to native memory. Commands run deterministic Node.js scripts —"
+}

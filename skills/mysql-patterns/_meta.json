@@ -1,0 +1,8 @@
+{
+  "slug": "mysql-patterns",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "MySQL and MariaDB schema, query, indexing, transaction, replication, and connection-pool patterns for production backends."
+}

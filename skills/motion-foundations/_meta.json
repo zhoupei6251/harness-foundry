@@ -1,0 +1,8 @@
+{
+  "slug": "motion-foundations",
+  "category": "code.languages",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Motion tokens, spring presets, performance rules, device adaptation, accessibility enforcement, and SSR safety for React / Next.js using motion/react. Foundation layer — all other motion skills depend"
+}

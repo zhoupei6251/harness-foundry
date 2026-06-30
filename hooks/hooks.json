@@ -1,0 +1,171 @@
+{
+  "_guardrails": {
+    "description": "P0-2 Guardrail 双层防护 — 旧 prompt hook 降级为建议级别。Guardrail 配置见 guardrails/guardrail-config.json",
+    "config_path": "hooks/guardrails/guardrail-config.json",
+    "priority": "guardrail_first",
+    "transition_period_days": 30
+  },
+  "hooks": {
+    "code": {
+      "PreToolUse": [
+        {
+          "matcher": "Edit|Write",
+          "filePattern": "*.java|*.py|*.go|*.rs|*.ts|*.tsx|*.vue",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查修改后代码的语法正确性和编译可行性，确保逻辑通顺",
+              "description": "语法检查"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": "Edit|Write",
+          "filePattern": "*Test.java|*_test.py|*_test.go|*.test.ts|*.spec.ts",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "运行相关单元测试确保刚修改的测试文件通过",
+              "description": "单元测试验证"
+            }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "matcher": "Edit|Write",
+          "filePattern": "*.java|*.py|*.go|*.rs|*.ts|*.tsx|*.vue",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查修改后的代码格式是否统一，符合项目编码规范",
+              "description": "代码格式检查"
+            }
+          ]
+        },
+        {
+          "matcher": "",
+          "filePattern": "",
+          "hooks": [
+            {
+              "type": "command",
+              "command": "bash hooks/extract-instincts.sh",
+              "description": "Instinct 自动提取"
+            }
+          ]
+        }
+      ]
+    },
+    "novel": {
+      "PreToolUse": [
+        {
+          "matcher": "Write",
+          "filePattern": "章节正文/*.md",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查人物设定、大纲、已写章节摘要，确保新章节不违背已有设定",
+              "description": "设定一致性检查"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": "Write",
+          "filePattern": "章节正文/*.md",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查新写章节是否存在高频 AI 词汇和套路化表达",
+              "description": "AI 痕迹检测"
+            },
+            {
+              "type": "prompt",
+              "prompt": "检查章节结尾是否有悬念或转折，确保读者有继续阅读的动力",
+              "description": "钩子检查"
+            }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "matcher": "Write",
+          "filePattern": "章节正文/*.md",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "更新 MEMORY.md，记录本章要点，保持跨会话连贯性",
+              "description": "记忆同步"
+            }
+          ]
+        },
+        {
+          "matcher": "",
+          "filePattern": "",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查本次会话是否有值得学习的写作模式（人物塑造技巧、情节推进方法、避免的AI痕迹）。如果有，提取为 instinct 并保存到 references/instincts/project/{project-id}/instincts/，格式参考 hooks/continuous-learning.md",
+              "description": "Instinct 提取"
+            }
+          ]
+        }
+      ]
+    },
+    "news": {
+      "PreToolUse": [
+        {
+          "matcher": "Write",
+          "filePattern": "稿件/*.md",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查信源数量和可靠性，确保事实基础扎实",
+              "description": "信源验证提醒"
+            }
+          ]
+        }
+      ],
+      "PostToolUse": [
+        {
+          "matcher": "Write",
+          "filePattern": "稿件/*.md",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查导语是否包含 5W1H（谁/什么/何时/何地/为何/如何）",
+              "description": "5W1H 检查"
+            }
+          ]
+        }
+      ],
+      "Stop": [
+        {
+          "matcher": "Write",
+          "filePattern": "稿件/*.md",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "更新热点追踪记录，保持报道连贯性",
+              "description": "热点追踪"
+            }
+          ]
+        },
+        {
+          "matcher": "",
+          "filePattern": "",
+          "hooks": [
+            {
+              "type": "prompt",
+              "prompt": "检查本次会话是否有值得学习的新闻写作模式（信源验证方法、导语结构、避免的套路化表达）。如果有，提取为 instinct 并保存到 references/instincts/project/{project-id}/instincts/，格式参考 hooks/continuous-learning.md",
+              "description": "Instinct 提取"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

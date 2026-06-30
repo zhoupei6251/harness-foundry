@@ -1,0 +1,68 @@
+---
+description: Harness Foundry 入口规则 - 代码创作编排框架
+globs:
+  - "**/*.md"
+  - "**/*.txt"
+alwaysApply: false
+---
+
+# Harness Foundry 入口规则（Cursor）
+
+## 强制声明
+
+每任务首句必须输出：
+```
+「Harness：<route 或 "小改动，直接处理">」
+```
+
+## 意图路由
+
+加载 `harness-foundry/core/intent-routing.md` 确定当前任务类型。
+
+## 阶段门禁
+
+1. design 设计 → 写 spec → 暂停等用户确认
+2. plan 计划 → 写 plan → 暂停等用户确认
+3. 实现 → 拆 WU → 并行派兵
+4. 验证 → 测试通过
+5. 审查 → 五轴审查通过
+6. 小改动 → Leader 直做，不派兵
+
+## 角色定义
+
+7 角色：coder/implementer/reviewer/test-engineer/explorer/debugger/web-investigator
+
+定义位置：`harness-foundry/agents/*.md`
+
+## 技能加载
+
+按 `harness-foundry/core/orchestration/skill-preferences.md` 路由表加载。
+
+真相源路径：`harness-foundry/adapters/cursor/.cursor/skills/<slug>/SKILL.md`
+
+## 禁止项
+
+详见 `harness-foundry/core/NEVER.md`
+
+## 多 WU 并行
+
+满足任一条件走 dispatcher：
+- plan 包含 ≥2 个 WU
+- 用户说"开始实现"
+- 用户说"并行实现"
+
+调度流程：`harness-foundry/core/orchestration/dispatcher-workflow.md`
+
+## 记忆管理
+
+- 全局记忆：`~/.claude/GLOBAL-MEMORY.md`
+- 项目记忆：`MEMORY.md`（项目根目录）
+
+会话开始：读全局记忆 + 项目记忆
+会话结束：同步记忆
+
+## 平台限制
+
+- 并行上限：≤5
+- worktree 沙箱：支持（`harness-foundry/scripts/harness-worktree.sh`）
+- hooks.json：支持

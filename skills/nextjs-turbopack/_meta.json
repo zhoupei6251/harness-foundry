@@ -1,0 +1,8 @@
+{
+  "slug": "nextjs-turbopack",
+  "category": "code.languages",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Next.js 16+ and Turbopack — incremental bundling, FS caching, dev speed, and when to use Turbopack vs webpack."
+}

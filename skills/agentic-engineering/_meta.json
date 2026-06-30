@@ -1,0 +1,8 @@
+{
+  "slug": "agentic-engineering",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Operate as an agentic engineer using eval-first execution, decomposition, and cost-aware model routing."
+}

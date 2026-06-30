@@ -1,0 +1,8 @@
+{
+  "slug": "iterative-retrieval",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Pattern for progressively refining context retrieval to solve the subagent context problem"
+}

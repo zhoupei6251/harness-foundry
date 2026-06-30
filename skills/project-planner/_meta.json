@@ -1,0 +1,13 @@
+{
+  "slug": "project-planner",
+  "category": "shared.planning",
+  "domain": "shared",
+  "tags": [
+    "plan",
+    "project"
+  ],
+  "complements": [
+    "brainstorming",
+    "planning-with-files"
+  ]
+}

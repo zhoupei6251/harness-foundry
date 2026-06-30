@@ -69,12 +69,33 @@ def load_meta(skill_dir: Path) -> dict:
 
 
 def load_routing_slugs() -> Set[str]:
-    """从 skill-preferences.md 提取所有被路由的 slug"""
+    """两路提取路由表引用的 skill slug：
+
+    1) 反引号包裹的 slug（行内 ``xxx``）
+    2) 已知 skill 名作为独立 token 出现的 slug（解决路由表中
+       裸文本引用如 `brainstorming`、`writing-plans` 没被反引号
+       包裹导致 P1 路由规则失效的问题）
+
+    返回两类结果的并集。
+    """
     if not ROUTING_FILE.exists():
         return set()
     text = ROUTING_FILE.read_text(encoding="utf-8")
-    # 简单启发式：行内含 ``（反引号）的 slug 都视为路由引用
-    return set(re.findall(r"`([a-z0-9][a-z0-9-]*[a-z0-9])`", text))
+
+    # 路 1：反引号包裹
+    backtick_slugs = set(re.findall(r"`([a-z0-9][a-z0-9-]*[a-z0-9])`", text))
+
+    # 路 2：已知 skill 名（独立 token）
+    known_skills: Set[str] = set()
+    if SKILLS_DIR.exists():
+        for p in SKILLS_DIR.iterdir():
+            if p.is_dir() and not p.name.startswith("_"):
+                known_skills.add(p.name)
+
+    text_tokens = set(re.findall(r"\b([a-z0-9][a-z0-9-]*[a-z0-9])\b", text))
+    token_slugs = text_tokens & known_skills
+
+    return backtick_slugs | token_slugs
 
 
 def classify_one(slug: str, skill_dir: Path, routing: Set[str]) -> str:

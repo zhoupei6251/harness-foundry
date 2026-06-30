@@ -1,0 +1,24 @@
+{
+  "slug": "dispatching-parallel-agents",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [
+    "parallel",
+    "agent",
+    "dispatch"
+  ],
+  "purpose": "并行派发独立任务的判断准则与执行模式（2+ 独立任务时使用）",
+  "source": "superpowers",
+  "source_version": "6.0.3",
+  "source_path": "skills/dispatching-parallel-agents",
+  "cherry_picked": true,
+  "integration_layer": "L2-auxiliary",
+  "skip_from_sync": true,
+  "compatibility": "与 harness-orchestration § 3.5 并行 WU 阶段语义对齐",
+  "requires": [
+    "subagent-driven-development"
+  ],
+  "complements": [
+    "cursor-orchestration"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "requesting-code-review",
+  "category": "code.review",
+  "domain": "code",
+  "tags": [
+    "review",
+    "workflow"
+  ],
+  "complements": [
+    "code-review",
+    "verification-before-completion"
+  ]
+}

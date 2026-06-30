@@ -1,0 +1,8 @@
+{
+  "slug": "video-editing",
+  "category": "shared.docs",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "AI-assisted video editing workflows for cutting, structuring, and augmenting real footage. Covers the full pipeline from raw capture through FFmpeg, Remotion, ElevenLabs, fal.ai, and final polish in D"
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "token-budget-advisor",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Offers the user an informed choice about how much response depth to consume before answering. Use this skill when the user explicitly wants to control response length, depth, or token budget. TRIGGER "
+}

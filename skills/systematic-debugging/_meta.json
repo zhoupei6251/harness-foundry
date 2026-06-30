@@ -1,0 +1,8 @@
+{
+  "slug": "systematic-debugging",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes"
+}

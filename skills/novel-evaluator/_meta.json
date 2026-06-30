@@ -1,0 +1,8 @@
+{
+  "slug": "novel-evaluator",
+  "category": "novel.creation",
+  "domain": "novel",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "6维量化评分系统，基于情节/人物/文笔/世界观/情感/创新进行质量审查"
+}

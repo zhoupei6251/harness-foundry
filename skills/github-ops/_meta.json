@@ -1,0 +1,8 @@
+{
+  "slug": "github-ops",
+  "category": "code.security",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "GitHub repository operations, automation, and management. Issue triage, PR management, CI/CD operations, release management, and security monitoring using the gh CLI. Use when the user wants to manage"
+}

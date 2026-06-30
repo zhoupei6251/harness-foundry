@@ -1,0 +1,153 @@
+# 领域编排配置
+# 架构：用户 → Domain Leader → Worker
+#
+# - 用户：唯一的决策者。Leader 在阶段门禁处暂停等用户确认
+# - Domain Leader：当前会话 AI。路由判定 → 拆 WU → 派兵 → 整合 → 汇报
+# - Worker：子 Agent。执行具体任务（写代码/写章节/写稿件）
+#
+# 无需 handoff 文件传递，Leader 直接对用户负责。
+
+# === 全局 Leader ===
+# Leader 由当前会话 AI 担任，不通过 handoff 派发
+leader:
+  role: session-coordinator
+  agents:
+    - ceo
+  skills:
+    - ceo-orchestration
+
+# === 域层 ===
+domains:
+  code:
+    # 执行环境（P0-1: Harness/Compute 分离）
+    execution:
+      default_provider: worktree
+      fallback_provider: local
+      isolation_level: full
+      auto_cleanup: true
+
+    # CEO → Domain Leader 派发
+    leader: leader-code
+    workers:
+      - coder
+      - debugger
+      - code-reviewer
+      - reviewer
+      - test-engineer
+
+    # 主 Agent（必须加载）
+    primary_agents:
+      - leader-code
+      - coder
+      - debugger
+      - code-reviewer
+      - reviewer
+      - test-engineer
+
+    # 次 Agent（按需加载）
+    secondary_agents:
+      - architect              # 涉及架构设计时加载
+      - implementer            # 轻量实现（文档/配置）
+      - planner                # 代码域规划（plan 拆分）
+      - code-simplifier        # 精简/优化代码时
+      - tech-writer            # 写技术文档时
+      - explorer               # 只读探查代码库时
+      - web-investigator       # 需要调研时加载
+      - shared-researcher      # 通用调研时加载
+
+    # 主 Skill（必须加载）
+    primary_skills:
+      - brainstorming
+      - architecture-patterns
+      - test-driven-development
+      - code-review
+      - refactor-safely
+
+    # 次 Skill（按需加载）
+    secondary_skills:
+      - simplify               # /simplify 精简代码
+      - technical-writer       # 写技术文档
+      - humanizer-zh           # 文档去 AI 味
+      - web-tools-guide        # 查资料
+      - playwright             # 前端调试
+
+  novel:
+    # 执行环境（P0-1: Harness/Compute 分离）
+    execution:
+      default_provider: local
+      fallback_provider: local
+      isolation_level: none
+      auto_cleanup: false
+
+    # CEO → Domain Leader 派发
+    leader: leader-novel
+    workers:
+      - novel-writer
+      - novel-reviewer
+      - humanizer
+
+    primary_agents:
+      - leader-novel
+      - novel-writer
+      - novel-planner
+      - novel-reviewer
+      - humanizer
+
+    secondary_agents:
+      - shared-researcher        # 查资料时
+      - editor                   # 排版校对时
+      - memory-keeper            # 记忆同步时
+
+    primary_skills:
+      - brainstorming
+      - junli-ai-novel
+      - novel-orchestrator
+      - novel-evaluator
+      - humanizer-zh
+
+    secondary_skills:
+      - novel-ai-wash          # 批量深度清洗时（与 humanizer-zh 互补）
+      - web-tools-guide        # 查资料
+      - summarize              # 总结内容
+      - memory-manager         # 记忆同步
+
+  news:
+    # 执行环境（P0-1: Harness/Compute 分离）
+    execution:
+      default_provider: local
+      fallback_provider: local
+      isolation_level: none
+      auto_cleanup: false
+
+    # CEO → Domain Leader 派发
+    leader: leader-news
+    workers:
+      - news-writer
+      - fact-checker
+      - news-editor
+
+    primary_agents:
+      - leader-news
+      - news-writer
+      - fact-checker
+
+    secondary_agents:
+      - news-editor            # 审校时
+      - shared-researcher      # 调研时
+
+    primary_skills:
+      - news-generator
+      - fact-check
+      - news-polish
+
+    secondary_skills:
+      - hot-topic-research     # 追热点
+      - web-tools-guide        # 查资料
+      - summarize              # 生成简报
+      - humanizer-zh           # 稿件去 AI 味
+
+# === 运行时目录 ===
+# handoff 机制已移除。Leader 直接对用户负责。
+# 各域运行时产物路径见各域 artifacts 配置。
+runtime:
+  state_file: state.json

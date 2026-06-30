@@ -1,0 +1,8 @@
+{
+  "slug": "database-migrations",
+  "category": "code.languages",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Database migration best practices for schema changes, data migrations, rollbacks, and zero-downtime deployments across PostgreSQL, MySQL, and common ORMs (Prisma, Drizzle, Kysely, Django, TypeORM, gol"
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "ito-market-intelligence",
+  "category": "news.creation",
+  "domain": "news",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Research prediction-market events, venues, underliers, liquidity, and news context for Itô basket workflows. Use for read-only market intelligence, API-gated Itô exploration, and source-grounded predi"
+}

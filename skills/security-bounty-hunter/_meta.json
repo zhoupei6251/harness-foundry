@@ -1,0 +1,8 @@
+{
+  "slug": "security-bounty-hunter",
+  "category": "code.security",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Hunt for exploitable, bounty-worthy security issues in repositories. Focuses on remotely reachable vulnerabilities that qualify for real reports instead of noisy local-only findings."
+}

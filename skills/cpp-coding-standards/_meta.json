@@ -1,0 +1,8 @@
+{
+  "slug": "cpp-coding-standards",
+  "category": "shared.docs",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "C++ coding standards based on the C++ Core Guidelines (isocpp.github.io). Use when writing, reviewing, or refactoring C++ code to enforce modern, safe, and idiomatic practices."
+}

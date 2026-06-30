@@ -1,0 +1,14 @@
+{
+  "slug": "skill-vetter",
+  "category": "shared.workflow",
+  "domain": "shared",
+  "tags": [
+    "skill",
+    "vet",
+    "security"
+  ],
+  "complements": [
+    "find-skills",
+    "skill-comply"
+  ]
+}

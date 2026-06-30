@@ -1,0 +1,8 @@
+{
+  "slug": "safety-guard",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use this skill to prevent destructive operations when working on production systems or running agents autonomously."
+}

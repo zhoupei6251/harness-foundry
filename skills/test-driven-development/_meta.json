@@ -1,0 +1,8 @@
+{
+  "slug": "test-driven-development",
+  "category": "shared.docs",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use when implementing any feature or bugfix, before writing implementation code"
+}

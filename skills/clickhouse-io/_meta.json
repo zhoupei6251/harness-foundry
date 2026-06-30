@@ -1,0 +1,8 @@
+{
+  "slug": "clickhouse-io",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads."
+}

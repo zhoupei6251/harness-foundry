@@ -1,0 +1,8 @@
+{
+  "slug": "web-reader",
+  "category": "shared.workflow",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "网页抓取，从 URL 提取结构化正文内容"
+}

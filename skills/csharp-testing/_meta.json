@@ -1,0 +1,8 @@
+{
+  "slug": "csharp-testing",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "C# and .NET testing patterns with xUnit, FluentAssertions, mocking, integration tests, and test organization best practices."
+}

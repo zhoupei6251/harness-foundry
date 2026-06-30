@@ -1,0 +1,15 @@
+{
+  "slug": "executing-plans",
+  "category": "shared.planning",
+  "domain": "shared",
+  "tags": [
+    "plan",
+    "execute"
+  ],
+  "requires": [
+    "writing-plans"
+  ],
+  "complements": [
+    "subagent-driven-development"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "social-graph-ranker",
+  "category": "code.ops",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Weighted social-graph ranking for warm intro discovery, bridge scoring, and network gap analysis across X and LinkedIn. Use when the user wants the reusable graph-ranking engine itself, not the broade"
+}

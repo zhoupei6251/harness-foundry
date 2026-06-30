@@ -1,0 +1,8 @@
+{
+  "slug": "continuous-agent-loop",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Patterns for continuous autonomous agent loops with quality gates, evals, and recovery controls."
+}

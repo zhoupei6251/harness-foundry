@@ -1,0 +1,8 @@
+{
+  "slug": "content-hash-cache-pattern",
+  "category": "shared.docs",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Cache expensive file processing results using SHA-256 content hashes — path-independent, auto-invalidating, with service layer separation."
+}

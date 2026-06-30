@@ -1,0 +1,8 @@
+{
+  "slug": "latency-critical-systems",
+  "category": "code.database",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use for latency-sensitive systems such as realtime dashboards, market data, streaming agents, execution gateways, queues, caches, or HFT-like infrastructure where freshness and p95 latency matter."
+}

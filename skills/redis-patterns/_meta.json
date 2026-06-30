@@ -1,0 +1,8 @@
+{
+  "slug": "redis-patterns",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Redis data structure patterns, caching strategies, distributed locks, rate limiting, pub/sub, and connection management for production applications."
+}

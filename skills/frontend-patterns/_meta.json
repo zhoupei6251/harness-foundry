@@ -1,0 +1,8 @@
+{
+  "slug": "frontend-patterns",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Frontend development patterns for React, Next.js, state management, performance optimization, and UI best practices."
+}

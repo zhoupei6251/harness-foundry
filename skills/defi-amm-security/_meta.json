@@ -1,0 +1,8 @@
+{
+  "slug": "defi-amm-security",
+  "category": "code.security",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Security checklist for Solidity AMM contracts, liquidity pools, and swap flows. Covers reentrancy, CEI ordering, donation or inflation attacks, oracle manipulation, slippage, admin controls, and integ"
+}

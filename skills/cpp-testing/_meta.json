@@ -1,0 +1,8 @@
+{
+  "slug": "cpp-testing",
+  "category": "shared.docs",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use only when writing/updating/fixing C++ tests, configuring GoogleTest/CTest, diagnosing failing or flaky tests, or adding coverage/sanitizers."
+}

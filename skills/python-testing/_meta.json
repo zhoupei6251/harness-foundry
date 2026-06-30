@@ -1,0 +1,8 @@
+{
+  "slug": "python-testing",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Python testing strategies using pytest, TDD methodology, fixtures, mocking, parametrization, and coverage requirements."
+}

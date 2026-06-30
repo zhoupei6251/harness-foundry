@@ -1,0 +1,8 @@
+{
+  "slug": "make-interfaces-feel-better",
+  "category": "code.review",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Apply concrete design-engineering details that make interfaces feel polished. Use when reviewing or improving UI spacing, typography, borders, shadows, motion, hit areas, icons, text wrapping, and int"
+}

@@ -1,0 +1,8 @@
+{
+  "slug": "agent-harness-construction",
+  "category": "code.frontend",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Design and optimize AI agent action spaces, tool definitions, and observation formatting for higher completion rates."
+}

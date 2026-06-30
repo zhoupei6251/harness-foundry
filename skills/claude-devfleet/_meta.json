@@ -1,0 +1,8 @@
+{
+  "slug": "claude-devfleet",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Orchestrate multi-agent coding tasks via Claude DevFleet — plan projects, dispatch parallel agents in isolated worktrees, monitor progress, and read structured reports."
+}

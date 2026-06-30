@@ -1,0 +1,8 @@
+{
+  "slug": "homelab-network-setup",
+  "category": "code.ops",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Practical home and homelab network planning for gateways, switches, access points, IP ranges, DHCP reservations, DNS, cabling, and common beginner mistakes."
+}

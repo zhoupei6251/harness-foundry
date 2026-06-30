@@ -1,0 +1,8 @@
+{
+  "slug": "memory-manager",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "长期记忆管理，双轨记忆架构（全局记忆+单书记忆），跨会话恢复协议"
+}

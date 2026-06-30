@@ -1,0 +1,8 @@
+{
+  "slug": "strategic-compact",
+  "category": "shared.memory",
+  "domain": "shared",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction."
+}

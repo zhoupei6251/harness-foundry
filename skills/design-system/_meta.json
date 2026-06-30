@@ -1,0 +1,8 @@
+{
+  "slug": "design-system",
+  "category": "code.architecture",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use this skill to generate or audit design systems, check visual consistency, and review PRs that touch styling."
+}

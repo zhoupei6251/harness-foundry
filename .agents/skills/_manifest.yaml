@@ -1,0 +1,35 @@
+# Skill Manifest — 控制哪些 skill 投影到各 IDE 平台
+# 路径：.agents/skills/_manifest.yaml
+# 同步脚本：harness-foundry/scripts/sync-skills.sh / sync-skills.ps1
+# 格式：layers 分组 → projections 引用 include_layers
+#   layer 下每条 "- slug" 6 空格缩进，直接跟在 layer 声明下方
+
+layers:
+  core:
+    - test-driven-development
+    - systematic-debugging
+    - receiving-code-review
+    - requesting-code-review
+    - verification-before-completion
+    - agent-browser
+    - ui-ux-pro-max
+    - frontend-design
+    - git-xywh
+
+  project:
+    - architecture-patterns
+    - backend-doc-generator
+    - security-auditor
+    - refactor-safely
+    - code-review
+    - document-review
+
+projections:
+  cursor:
+    include_layers: [core, project]
+
+  trae:
+    include_layers: [core, project]
+
+  mimocode:
+    include_layers: [core]

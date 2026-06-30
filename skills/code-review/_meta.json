@@ -1,0 +1,13 @@
+{
+  "slug": "code-review",
+  "category": "code.review",
+  "domain": "code",
+  "tags": [
+    "review",
+    "quality"
+  ],
+  "complements": [
+    "refactor-safely",
+    "requesting-code-review"
+  ]
+}

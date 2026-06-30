@@ -1,0 +1,8 @@
+{
+  "slug": "browser-qa",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Use this skill to automate visual testing and UI interaction verification using browser automation after deploying features."
+}

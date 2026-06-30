@@ -1,0 +1,16 @@
+{
+  "slug": "writing-plans",
+  "category": "shared.planning",
+  "domain": "shared",
+  "tags": [
+    "plan",
+    "writing"
+  ],
+  "requires": [
+    "brainstorming"
+  ],
+  "complements": [
+    "executing-plans",
+    "planning-with-files"
+  ]
+}

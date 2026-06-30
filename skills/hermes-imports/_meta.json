@@ -1,0 +1,8 @@
+{
+  "slug": "hermes-imports",
+  "category": "code.tooling",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Convert local Hermes operator workflows into sanitized ECC skills and release-pack artifacts. Use when preparing a Hermes workflow for public ECC reuse without leaking private workspace state, credent"
+}

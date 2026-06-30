@@ -1,0 +1,8 @@
+{
+  "slug": "enterprise-agent-ops",
+  "category": "code.security",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Operate long-lived agent workloads with observability, security boundaries, and lifecycle management."
+}

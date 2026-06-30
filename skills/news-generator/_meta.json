@@ -1,0 +1,8 @@
+{
+  "slug": "news-generator",
+  "category": "news.creation",
+  "domain": "news",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "新闻生成 skill，根据选题和素材自动生成结构化新闻报道"
+}

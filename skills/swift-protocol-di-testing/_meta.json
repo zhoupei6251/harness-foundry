@@ -1,0 +1,8 @@
+{
+  "slug": "swift-protocol-di-testing",
+  "category": "code.testing",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Protocol-based dependency injection for testable Swift code — mock file system, network, and external APIs using focused protocols and Swift Testing."
+}

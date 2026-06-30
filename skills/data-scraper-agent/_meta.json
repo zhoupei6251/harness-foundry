@@ -1,0 +1,8 @@
+{
+  "slug": "data-scraper-agent",
+  "category": "news.creation",
+  "domain": "news",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Build a fully automated AI-powered data collection agent for any public source — job boards, prices, news, GitHub, sports, anything. Scrapes on a schedule, enriches data with a free LLM (Gemini Flash)"
+}

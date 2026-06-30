@@ -1,0 +1,96 @@
+{
+  "_comment": "Worker 绩效摘要 — CEO 自动维护，不要手动编辑",
+  "_last_updated": "2026-06-26",
+  "workers": {
+    "Coder": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "Reviewer": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "TestEngineer": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "Writer": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "NovelReviewer": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "Humanizer": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "NewsWriter": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "FactChecker": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    },
+    "NewsEditor": {
+      "total_wu": 0,
+      "success_count": 0,
+      "rework_count": 0,
+      "success_rate": 1.0,
+      "rework_rate": 0.0,
+      "tags": {},
+      "avg_cost_estimate": "$0.00",
+      "last_used": null
+    }
+  }
+}

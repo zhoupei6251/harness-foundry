@@ -1,0 +1,8 @@
+{
+  "slug": "laravel-security",
+  "category": "code.security",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Laravel security best practices — authentication, authorization, Eloquent safety, CSRF, XSS prevention, API security, and secure deployment configurations."
+}

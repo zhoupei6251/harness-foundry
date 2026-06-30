@@ -1,0 +1,9 @@
+{
+  "slug": "auto-updater",
+  "category": "shared.workflow",
+  "domain": "shared",
+  "tags": [
+    "update",
+    "cron"
+  ]
+}

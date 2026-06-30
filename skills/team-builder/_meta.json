@@ -1,0 +1,8 @@
+{
+  "slug": "team-builder",
+  "category": "code.ai-agent",
+  "domain": "code",
+  "tags": [],
+  "auto_classified": true,
+  "purpose": "Interactive agent picker for composing and dispatching parallel teams"
+}
