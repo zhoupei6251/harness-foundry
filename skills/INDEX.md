@@ -212,7 +212,7 @@ Remove signs of AI-generated writing from text. Use when editing or reviewing te
 | 201 | `nodejs-keccak256` | Prevent Ethereum hashing bugs in JavaScript and TypeScript. Node's sha3-256 is NIST SHA3, not Ethereum Keccak-256, and silently breaks selectors, signatures, storage slots, and address derivation. |
 | 202 | `novel-ai-wash` | 深度文风清洗，四层清洗体系：词级替换→句式重构→叙事重写→人物声音分化 |
 | 203 | `novel-evaluator` | 6维量化评分系统，基于情节/人物/文笔/世界观/情感/创新进行质量审查 |
-| 204 | `novel-generator` | 根据用户提供的内容方向自动生成提示词并创作爽文小说。适用场景：(1) 用户提供小说方向/题材/关键词，(2) 需要生成章节连贯的长篇爽文，(3) 需要维护角色、地点、情节的连续性，(4) 需要为关键情节生成图解，(5) 需要记录生成失败场景以优化后续创作。支持都市、修仙、玄幻、重生、系统流等多种题材。Use when user asks to write a novel, generate fiction, create stories, or mentions 爽文/小说/写作。 |
+| 204 | `novel-generator` | ⚠️ archived (third-party) — 爽文自动生成，曾是 third-party skill，当前未集成 |
 | 205 | `novel-orchestrator` | 小说创作总控调度器，协调 writer→planner→reviewer→humanizer→editor→memory-keeper 全链路 |
 | 206 | `novel-to-drama-script` | AI智能将小说/故事创意转化为短剧剧本。自动生成角色、分镜、对白、场景描述。基于Toonflow核心功能(3.8K Stars)。每次调用收取0.001 USDT。 |
 | 207 | `nutrient-document-processing` | Process, convert, OCR, extract, redact, sign, and fill documents using the Nutrient DWS API. Works with PDFs, DOCX, XLSX, PPTX, HTML, and images. |

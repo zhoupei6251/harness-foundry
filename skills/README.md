@@ -61,7 +61,7 @@ secondary_skills:
 | `memory-manager` | 小说项目记忆管理 |
 | `novel-ai-wash` | AI 文风清洗（深度） |
 | `novel-evaluator` | 小说质量评分 |
-| `novel-generator` | 爽文小说自动生成 |
+| `novel-generator` | ⚠️ archived (third-party) — 爽文自动生成，当前未集成 |
 | `novel-orchestrator` | 长篇网文协作编排 |
 | `novel-to-drama-script` | 小说转短剧剧本 |
 | `story-cog` | CellCog 创意写作 |

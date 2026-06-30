@@ -97,9 +97,15 @@ novel:
   # 审稿
   review:
     max_revisions: 2        # 单章最多返修次数
-    pass_threshold: 70      # 6维评分及格线（百分制）
+    pass_threshold: 70      # 7维评分及格线（百分制）
     required_dimensions:    # 必须评分的维度
-      - plot                # 情节
+      - plot                # 情节 (22%)
+      - character           # 人物 (18%)
+      - prose               # 文笔 (18%)
+      - worldbuilding       # 世界观 (12%)
+      - hook                # 钩子 (10%)
+      - emotion             # 情感 (10%)
+      - originality         # 创新 (10%)
       - character           # 人物
       - prose               # 文笔
       - worldbuilding       # 世界观
