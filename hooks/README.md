@@ -1,6 +1,6 @@
 # Hooks & Guardrails 自动化机制
 
-> **P0-2 升级**：参考 OpenAI Agents SDK 2026 双层 Guardrail 架构和 gstack 6 层 prompt injection 防御体系，将 hooks 升级为显式 Guardrail 双层防护。
+> **P0-2 双层 Guardrail 架构**：参考 OpenAI Agents SDK 双层防护和 gstack 6 层 prompt injection 防御体系。
 
 ## 架构总览
 
@@ -47,14 +47,16 @@ hooks/
 ├── hooks.json                          # Hook 配置（向后兼容旧 prompt hook）
 ├── continuous-learning.md              # 持续学习机制
 ├── observe.sh / observe.ps1            # 会话观察脚本
-├── guardrails/                         # P0-2 新增: Guardrail 体系
-│   ├── guardrail-config.json           # Guardrail 配置中心
-│   ├── audit-log-schema.json           # 审计日志结构定义
-│   └── rules/                          # Guardrail 规则库
-│       ├── prompt-injection.md         # Prompt 注入检测规则
-│       ├── sensitive-data.md           # 敏感数据检测规则
-│       ├── canary-check.md             # Canary Token 检测规则 (P2-8)
-│       └── instinct-hook.md            # Instinct 提取规则 (P1-3)
+├── memory-persistence/                 # 记忆持久化
+│   └── README.md
+└── guardrails/                         # Guardrail 体系
+    ├── guardrail-config.json           # Guardrail 配置中心
+    ├── audit-log-schema.json           # 审计日志结构定义
+    └── rules/                          # Guardrail 规则库
+        ├── prompt-injection.md         # Prompt 注入检测规则
+        ├── sensitive-data.md           # 敏感数据检测规则
+        ├── canary-check.md             # Canary Token 检测规则
+        └── instinct-hook.md            # Instinct 提取规则
 ```
 
 ## Guardrail 类型
@@ -77,7 +79,6 @@ hooks/
 - **Guardrail**（新）：Input + Output 双层，在 prompt/response 层面工作
 - **Hook**（旧）：PreToolUse + PostToolUse + Stop，在工具调用层面工作
 - **过渡策略**：Guardrail 先执行（可 block），旧 Hook 降级为"建议"级别（只能 warn）
-- **30 天后**：移除旧 prompt 类 Hook，只保留 command 类 Hook（如 observe.sh）和 Stop Hook
 
 ## 审计
 

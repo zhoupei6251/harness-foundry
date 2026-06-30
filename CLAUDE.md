@@ -13,8 +13,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Intent routing** — maps user requests to one of 3 domains: code / novel / news
 - **Stage gates** — spec → plan → implement → verify, with forced pauses for user confirmation
 - **Parallel dispatch** — up to 5 concurrent subagents via the dispatcher workflow
-- **Skill system** — 330+ skills organized in flat directories, auto-discovered
+- **Skill system** — 194 skills organized in flat directories, auto-discovered
 - **Agent pool** — 30 agents across 3 domains
+- **Intelligence Layer** — Understand-Anything + CodeGraph integration
 
 ## Architecture
 
@@ -26,11 +27,12 @@ core/                          # Platform-agnostic truth source
 ├── NEVER.md                   # Hard prohibitions + trap archive index
 ├── principles.md              # 10 core principles
 ├── capabilities/             # Capability ID registry
-├── orchestration/            # Dispatcher, roles, skill routing
-│   ├── domain-config.yaml    # Domain → agent/skill mapping
-│   ├── dispatcher-workflow.md # Parallel dispatch workflow (≤5 workers)
-│   └── skill-preferences.md  # WU-level skill routing
-└── security/                  # Canary token protocol
+├── intelligence/             # Intelligence Layer config
+├── memory/                   # Memory management protocol
+└── orchestration/            # Dispatcher, roles, skill routing
+    ├── domain-config.yaml    # Domain → agent/skill mapping
+    ├── dispatcher-workflow.md # Parallel dispatch workflow (≤5 workers)
+    └── skill-preferences.md  # WU-level skill routing
 
 adapters/                      # Platform-specific physical bindings
 ├── trae/ .trae/              # Trae IDE adapter + projection
@@ -39,11 +41,21 @@ adapters/                      # Platform-specific physical bindings
 ├── codex/                    # Codex adapter
 └── mimocode/                 # Mimocode adapter
 
-skills/                        # ★ 330+ skills (flat structure)
+skills/                        # ★ 194 skills (flat structure)
+├── INDEX.md                  # Auto-generated index
+├── categories.yaml           # 26 categories
+└── _layer.yaml              # Layer classification
+
 agents/                        # ★ 30 agents (flat structure)
-hooks/                         # PreToolUse/PostToolUse/Stop hooks
+├── leader-*.md               # Domain leaders (3)
+├── coder.md, debugger.md     # Code workers
+├── reviewer.md, code-reviewer.md # Reviewers
+└── novel-*, news-*          # Domain-specific agents
+
+hooks/                         # PreToolUse/PostToolUse/Stop + Guardrails
 scripts/                       # Bootstrap and sync scripts
-traps-archive/                # 241 traps by domain (code/novel/news)
+traps-archive/                # 402 traps by domain (code/novel/news)
+docs/                         # Documentation & guides
 ```
 
 ## Key Commands
@@ -67,6 +79,9 @@ bash tests/L1-static/validate-never.sh
 bash tests/L2-integration/validate-routing.sh
 bash tests/L2-integration/validate-domain-config.sh
 
+# Intelligence Layer installation
+bash scripts/install-intelligence-deps.sh
+
 # Shell lint
 shellcheck scripts/*.sh
 ```
@@ -85,7 +100,7 @@ Route: <code|novel|news>
 
 | Domain | Stage Gates | Workers |
 |--------|-------------|---------|
-| **code** | spec → plan → implement → verify | coder, debugger, reviewer, test-engineer, architect |
+| **code** | spec → plan → implement → verify | coder, debugger, reviewer, test-engineer, explorer |
 | **novel** | outline → chapter → revision → publish | novel-writer, novel-planner, novel-reviewer, humanizer |
 | **news** | angle → draft → fact-check → polish → publish | news-writer, fact-checker, news-editor |
 
@@ -118,11 +133,25 @@ Route: <code|novel|news>
 
 **Skill routing**: `core/orchestration/skill-preferences.md` maps `agent_role + wu_type → skill slugs`.
 
-**Third-party skills** (skip from sync): `subagent-driven-development`, `dispatching-parallel-agents`, `using-git-worktrees`, `executing-plans`
+**Skill categories**: 26 categories across code (11), novel (4), news (2), shared (6), biz (2), crypto (1), science (1)
+
+**Skill layers**: `_layer.yaml` classifies skills as `must-core` (~50) or `optional` (~140)
+
+## Intelligence Layer
+
+Integrates Understand-Anything (strategic) and CodeGraph (tactical) for smart code comprehension:
+- 5 min to understand unfamiliar projects
+- 57% token reduction
+- 71% tool call reduction
+
+```bash
+bash scripts/install-intelligence-deps.sh
+codegraph init && codegraph index  # Optional
+```
 
 ## Critical Rules from NEVER.md
 
-**Code domain** (160 traps in `traps-archive/code/00-all.md`):
+**Code domain** (251 traps in `traps-archive/code/00-all.md`):
 - Use `Write`/`Edit` tools — never `echo >` or `Set-Content` for text files
 - Read before write — never modify unseen files
 - No silent failures — empty catch blocks, null returns without exceptions
@@ -131,11 +160,15 @@ Route: <code|novel|news>
 - `SELECT *` forbidden — list required fields explicitly
 - Never auto-push or merge without review
 
-**Novel domain** (47 traps in `traps-archive/novel/00-all.md`):
+**Novel domain** (82 traps in `traps-archive/novel/00-all.md`):
 - Leader never writes main text directly — Tier 2+ must dispatch Workers
 - Must pause at stage gates — never skip confirmation
 - Novel must use `novel-orchestrator` — never `harness-orchestration`
 - Use full-width Chinese punctuation (，。？！……)
+
+**News domain** (69 traps in `traps-archive/news/00-all.md`):
+- Fact-checking mandatory before publication
+- Source verification required
 
 **Routing rules**:
 - Must declare Route in first output
