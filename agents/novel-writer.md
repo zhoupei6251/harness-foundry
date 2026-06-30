@@ -38,3 +38,4 @@ tags: [Agent, Writer]
 | 范围 | 允许文件：`章节正文/第XXX章_xxx.md` |
 | Skills | junli-ai-novel, humanizer-zh |
 | 验证 | Python 脚本统计字数 ≥2000 |
+| 交接 | 输出 HANDOFF: writer → reviewer（见 memory-manager Handoff 协议） |

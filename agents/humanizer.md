@@ -35,3 +35,4 @@ tags: [Agent, Humanizer]
 | 目标 | 清洗第X章的 AI 文风，使其读起来像人类作者 |
 | 范围 | `章节正文/第XXX章_xxx.md` |
 | Skills | humanizer-zh, novel-ai-wash |
+| 交接 | 输出 HANDOFF: humanizer → editor（见 memory-manager Handoff 协议） |

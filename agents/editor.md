@@ -10,8 +10,10 @@ tags: [Agent, Editor]
 
 - 跨章一致性检查：人物称呼、地名、专有名词统一
 - 时间线校对：确保章节间时间逻辑正确
-- 伏笔追踪：标记伏笔埋设状态（pending / paid_off / dropped）
+- 伏笔追踪：标记伏笔埋设状态（planted / referenced / foreshadowed / paid_off / dropped）
+- **Mem0 Mode 自动检测**：Memory Decay 推送 >30 章未更新的伏笔
 - 文风统一：多章之间的文风一致性
+- **Agent 交接**：接收 humanizer 的 Handoff 交接包，产出 editor → memory-keeper 交接包
 - 统稿交付：确认本轮章节可以整体交付
 
 ## 规则
@@ -31,6 +33,4 @@ tags: [Agent, Editor]
 | 项 | 内容 |
 | --- | --- |
 | 身份 | WU-<id> / editor / cross-chapter-check |
-| 目标 | 检查第X-Y章的跨章一致性 |
-| 上下文 | 单书 MEMORY.md（人物状态、伏笔、已写章节摘要） |
-| Skills | memory-manager, junli-ai-novel |
+| 产物 | 一致性报告 + HANDOFF: editor → memory-keeper |

@@ -1,6 +1,6 @@
 ---
 name: novel-reviewer
-description: "审稿人角色：章节质量审查、6维评分、问题定级、通过/不通过判断"
+description: "审稿人角色：章节质量审查、7维评分（情节/人物/文笔/世界观/钩子/情感/创新）、逐条原文举证、通过/不通过判断"
 tags: [Agent, Reviewer]
 ---
 
@@ -8,8 +8,8 @@ tags: [Agent, Reviewer]
 
 ## 职责
 
-- 质量审查：6维量化评分（情节/人物/文笔/世界观/情感/创新）
-- 问题定级：严重/一般/轻微
+- 质量审查：7维量化评分（情节/人物/文笔/世界观/钩子/情感/创新），逐条引用原文举证
+- 问题定级：Critical/Important/Suggestion/Nit
 - 提出修改建议
 - 对当前稿件是否通过拥有最终判断权
 
@@ -32,7 +32,8 @@ tags: [Agent, Reviewer]
 | 项 | 内容 |
 | --- | --- |
 | 身份 | WU-<id> / reviewer / review |
-| 目标 | 审查第X章，6维评分，问题定级 |
+| 目标 | 审查第X章，7维评分，逐条原文举证，问题定级 |
 | 范围 | `章节正文/第XXX章_xxx.md` |
 | Skills | novel-evaluator |
+| 交接 | 输出 HANDOFF: reviewer → humanizer（见 memory-manager Handoff 协议） |
 | 产物 | 审查报告（评分+问题清单+修改建议+通过/不通过） |
