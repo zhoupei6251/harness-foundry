@@ -34,6 +34,24 @@ Route: <code|novel|news>
 
 ---
 
+## Intelligence Layer（智能代码理解）
+
+Harness Foundry 集成了 **Understand-Anything** 和 **CodeGraph**，提供智能代码理解能力：
+
+| 层次 | 工具 | 能力 |
+|------|------|------|
+| **战略层** | Understand-Anything | 项目理解、架构分析、自然语言问答 |
+| **战术层** | CodeGraph | 索引查询、符号定位、影响分析 |
+
+**效果**：
+- 5 分钟理解陌生项目
+- 减少 57% Token 消耗
+- 减少 71% 工具调用
+
+详见: [用户指南](docs/intelligence-layer-user-guide.md)
+
+---
+
 ## 快速上手
 
 ```bash
@@ -244,6 +262,9 @@ bash tests/L1-static/validate-never.sh
 bash tests/L2-integration/validate-routing.sh
 bash tests/L2-integration/validate-domain-config.sh
 
+# Intelligence Layer 测试
+bash tests/validate-intelligence-layer.sh
+
 # Shell 脚本语法检查
 shellcheck scripts/*.sh
 ```
@@ -264,6 +285,7 @@ shellcheck scripts/*.sh
 | 全部 Agents | [`agents/README.md`](agents/README.md) |
 | Hook 与 Guardrail | [`hooks/README.md`](hooks/README.md) |
 | Trae 快速参考 | [`adapters/trae/trae-quick-ref.md`](adapters/trae/trae-quick-ref.md) |
+| **Intelligence Layer** | [`docs/intelligence-layer-user-guide.md`](docs/intelligence-layer-user-guide.md) |
 
 ---
 
