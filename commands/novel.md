@@ -1,4 +1,4 @@
-# 小说域命令
+# Novel 命令 — 小说创作入口
 
 > 统一入口，根据用户意图自动路由到合适的写作模式。
 > **第一句话必须声明 `Route: novel`**
@@ -16,6 +16,9 @@
 | `/novel outline` | 查看/编辑大纲 | `/novel outline` |
 | `/novel characters` | 查看人物 | `/novel characters` |
 | `/novel continue` | 继续上次进度 | `/novel continue` |
+| `/novel checkpoint` | 检查点管理 | `/novel checkpoint list` |
+| `/novel metrics` | 写作统计 | `/novel metrics` |
+| `/novel context` | 上下文一致性检查 | `/novel context` |
 | `/write` | 写章节 | `/write` |
 | `/outline` | 写大纲 | `/outline` |
 | `/evaluate` | 审稿评分 | `/evaluate` |
@@ -32,15 +35,17 @@
 ┌─────────────────────────────────────────┐
 │  复杂度评估                              │
 ├─────────────────────────────────────────┤
-│  IF 包含"继续"/"接着" → recovery 模式    │
-│  IF 包含"新书"/"从头"/"开始" → new 模式   │
-│  IF 包含"批量"/"到第X章" → batch 模式     │
-│  IF 包含"第X章" → quick 模式             │
-│  IF 包含"大纲"/"人物" → query 模式        │
+│  IF 包含"继续"/"接着" → novel-recovery  │
+│  IF 包含"新书"/"从头"/"开始" → novel-init │
+│  IF 包含"批量"/"到第X章" → novel-batch-write │
+│  IF 包含"第X章" → novel-quick-write    │
+│  IF 包含"进度"/"统计"/"指标" → novel-dashboard/novel-metrics │
+│  IF 包含"大纲"/"人物"/"世界观" → novel-contexts │
+│  IF 包含"检查点"/"checkpoint" → novel-checkpoint │
 │  ELSE → 交互询问                          │
 └─────────────────────────────────────────┘
     ↓
-执行对应模式
+执行对应 Skill
 ```
 
 ---
@@ -55,10 +60,6 @@
 │                                         │
 │  检测到：写第5章                          │
 │  前情提要：第4章已完成                    │
-│                                         │
-│  正在加载上下文...                        │
-│  - 读取 MEMORY.md ✓                     │
-│  - 加载人物设定 ✓                        │
 │                                         │
 │  ✓ 准备就绪，开始写作？                   │
 └─────────────────────────────────────────┘
@@ -92,14 +93,27 @@
 │  当前进度：第3章完成                      │
 │  目标：第10章                            │
 │                                         │
-│  章节规划：                               │
-│  - 第4-6章：冲突升级                     │
-│  - 第7-8章：伏笔回收                     │
-│  - 第9-10章：第一幕高潮                  │
-│                                         │
-│  ✓ 开始批量写作？                         │
+│  [开始批量写作]  [调整目标]  [查看规划] │
 └─────────────────────────────────────────┘
 ```
+
+---
+
+## Skill 索引
+
+| Skill | 说明 | 命令 |
+|-------|------|------|
+| `novel-quick-write` | 快速单章写作 | `/novel quick` |
+| `novel-init` | 新书创建向导 | `/novel new` |
+| `novel-batch-write` | 批量写作 | `/novel batch` |
+| `novel-recovery` | 会话恢复 | `/novel continue` |
+| `novel-dashboard` | 进度仪表板 | `/novel status` |
+| `novel-metrics` | 写作统计 | `/novel metrics` |
+| `novel-checkpoint` | 检查点管理 | `/novel checkpoint` |
+| `novel-contexts` | 上下文一致性 | `/novel context` |
+| `novel-evaluator` | 审稿评分 | `/evaluate` |
+| `novel-receiving-review` | 接收审稿反馈 | (自动触发) |
+| `humanizer-zh` | 润色去 AI 味 | `/polish` |
 
 ---
 
@@ -109,13 +123,12 @@
 - ❌ 跳过上下文加载直接写
 - ❌ 跳过字数检查交付
 - ❌ 未过门禁就进入下一阶段
+- ❌ 不验证上下文一致性就写
 
 ---
 
 ## 依赖
 
 - `contexts/novel.md` — 场景上下文
-- `skills/novel-quick-write/` — 快速写作 skill
-- `skills/novel-orchestrator/` — 完整编排 skill
-- `skills/novel-dashboard/` — 进度仪表板
-- `handoff/novel-handoff-protocol.md` — 交接协议
+- `rules/novel/` — 规则库
+- `traps-archive/novel/00-all.md` — 82 条陷阱

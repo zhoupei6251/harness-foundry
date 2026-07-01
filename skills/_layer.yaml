@@ -63,6 +63,10 @@ core:
   - novel-recovery      # novel core
   - novel-init          # novel core
   - novel-batch-write   # novel core
+  - novel-checkpoint     # novel core
+  - novel-metrics       # novel core
+  - novel-contexts       # novel core
+  - novel-receiving-review # novel core
   - planning-with-files
   - playwright
   - project-planner

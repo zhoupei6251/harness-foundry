@@ -123,22 +123,35 @@ domains:
       - /evaluate               # 审稿评分
       - /polish                 # 润色
 
+    # 编排与路由
     primary_skills:
+      # 核心路由
       - novel-orchestrator       # 完整编排（复杂任务）
-      - novel-evaluator         # 7维审稿评分
-      - novel-quick-write       # 快速写作（单章）
-      - novel-dashboard         # 进度仪表板
-      - novel-recovery          # 会话恢复
-      - novel-init              # 新书创建向导
-      - novel-batch-write       # 批量写作
-      - humanizer-zh            # 轻量润色
+      - novel-quick-write        # 快速写作（单章）
+      - novel-batch-write        # 批量写作
+
+      # 质量保障
+      - novel-evaluator          # 7维审稿评分
+      - novel-receiving-review    # 接收审稿反馈
+      - novel-contexts            # 上下文一致性
+      - humanizer-zh             # 轻量润色
+
+      # 进度与状态
+      - novel-dashboard          # 进度仪表板
+      - novel-checkpoint         # 检查点管理
+      - novel-metrics            # 写作统计
+
+      # 初始化
+      - novel-init               # 新书创建向导
+      - novel-recovery           # 会话恢复
 
     secondary_skills:
       - novel-ai-wash           # 深度文风清洗
-      - web-tools-guide         # 查资料
-      - summarize                # 总结内容
+      - web-tools-guide          # 查资料
+      - summarize               # 总结内容
       - memory-manager          # 记忆同步
       - inkos                   # InkOS 创作系统
+      - fanqie-novel-auto-publish # 番茄发布
 
   news:
     # 执行环境（P0-1: Harness/Compute 分离）
