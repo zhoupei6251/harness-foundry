@@ -67,6 +67,7 @@ core:
   - novel-metrics       # novel core
   - novel-contexts       # novel core
   - novel-receiving-review # novel core
+  - novel-voice-profile   # novel core
   - planning-with-files
   - playwright
   - project-planner
