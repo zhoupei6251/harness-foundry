@@ -10,8 +10,34 @@ rules/novel/
 ├── hooks.md           # 创作钩子规则
 ├── patterns.md        # 叙事模式与技巧
 ├── security.md        # 安全与合规
-└── testing.md         # 审稿测试规范
+├── testing.md         # 审稿测试规范
+└── templates/        # 模板文件
+    ├── memory-template.md      # MEMORY.md 模板
+    ├── outline-template.md      # 大纲模板
+    └── character-template.md    # 人物设定模板
 ```
+
+## 命令入口
+
+| 命令 | Skill | 说明 |
+|------|-------|------|
+| `/novel` | `novel` command | 统一入口，自动路由 |
+| `/novel quick` | `novel-quick-write` | 快速写作单章 |
+| `/novel new` | `novel-init` | 新书创建向导 |
+| `/novel batch` | `novel-batch-write` | 批量写作 |
+| `/novel status` | `novel-dashboard` | 进度仪表板 |
+| `/novel continue` | `novel-recovery` | 会话恢复 |
+
+## Skill 路由表
+
+| 用户意图 | Skill | 说明 |
+|---------|-------|------|
+| "写第X章" | `novel-quick-write` | 快速单章写作 |
+| "写到第N章" | `novel-batch-write` | 批量写作 |
+| "写小说" | `novel-init` | 新书创建 |
+| "继续" | `novel-recovery` | 会话恢复 |
+| "进度/状态" | `novel-dashboard` | 进度查看 |
+| 复杂任务 | `novel-orchestrator` | 完整编排 |
 
 ## 规则分类
 
@@ -69,12 +95,15 @@ rules/novel/
 | 节奏失控 / 过渡生硬 | 6 | #22-27 |
 | 逻辑漏洞 / 伏笔不回收 | 6 | #28-33 |
 | 章节结构 / 悬念设计 | 7 | #34-40 |
-| 题材特定 | 7 | #41-47 |
-| 其他 | 35 | #48-82 |
+| 题材特定 | 35 | #41-82 |
 
 ## 参考资料
 
 - [novel-orchestrator skill](../skills/novel-orchestrator/SKILL.md) — 完整编排流程
 - [novel-evaluator skill](../skills/novel-evaluator/SKILL.md) — 7 维评分系统
-- [junli-ai-novel skill](../skills/junli-ai-novel/SKILL.md) — 长篇写作引擎
+- [novel-quick-write skill](../skills/novel-quick-write/SKILL.md) — 快速写作
+- [novel-dashboard skill](../skills/novel-dashboard/SKILL.md) — 进度仪表板
+- [novel-recovery skill](../skills/novel-recovery/SKILL.md) — 会话恢复
+- [novel-init skill](../skills/novel-init/SKILL.md) — 新书创建
+- [novel-batch-write skill](../skills/novel-batch-write/SKILL.md) — 批量写作
 - [handoff 协议](../handoff/novel-handoff-protocol.md) — 角色交接规范

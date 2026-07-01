@@ -58,6 +58,11 @@ core:
   - junli-ai-novel  # novel core
   - novel-evaluator  # novel core
   - novel-orchestrator  # novel core
+  - novel-quick-write   # novel core
+  - novel-dashboard     # novel core
+  - novel-recovery      # novel core
+  - novel-init          # novel core
+  - novel-batch-write   # novel core
   - planning-with-files
   - playwright
   - project-planner

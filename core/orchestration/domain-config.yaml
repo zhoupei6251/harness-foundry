@@ -112,21 +112,33 @@ domains:
 
     secondary_agents:
       - shared-researcher        # 查资料时
-      - editor                   # 排版校对时
+      - editor                   # 统稿时
       - memory-keeper            # 记忆同步时
 
+    # 命令入口
+    commands:
+      - /novel                  # 小说创作命令入口
+      - /write                  # 写章节
+      - /outline                # 写大纲
+      - /evaluate               # 审稿评分
+      - /polish                 # 润色
+
     primary_skills:
-      - novel-orchestrator
-      - novel-evaluator
-      - junli-ai-novel
-      - humanizer-zh
+      - novel-orchestrator       # 完整编排（复杂任务）
+      - novel-evaluator         # 7维审稿评分
+      - novel-quick-write       # 快速写作（单章）
+      - novel-dashboard         # 进度仪表板
+      - novel-recovery          # 会话恢复
+      - novel-init              # 新书创建向导
+      - novel-batch-write       # 批量写作
+      - humanizer-zh            # 轻量润色
 
     secondary_skills:
-      - novel-ai-wash          # 批量深度清洗时（与 humanizer-zh 互补）
-      - web-tools-guide        # 查资料
-      - summarize              # 总结内容
-      - memory-manager         # 记忆同步
-      - novel-generator        # 爽文自动生成 (third-party, 按需)
+      - novel-ai-wash           # 深度文风清洗
+      - web-tools-guide         # 查资料
+      - summarize                # 总结内容
+      - memory-manager          # 记忆同步
+      - inkos                   # InkOS 创作系统
 
   news:
     # 执行环境（P0-1: Harness/Compute 分离）
