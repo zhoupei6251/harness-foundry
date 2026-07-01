@@ -20,6 +20,9 @@ tags: [Rules, Runbook]
 | OK、可以、开始、做吧、执行、就按这个、批准了 | implement | 拆 WU → 并行派兵 |
 | 修、bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵 |
 | 审查、review、code review | review | `/requesting-code-review` |
+| 写小说、写章节、续写、大纲、分卷 | novel | `/novel-orchestrator` |
+| 审稿、评分、评价小说 | novel-review | `/novel-evaluator` |
+| 润色、去AI味、文风清洗 | novel-polish | `/humanizer-zh` |
 | 测试、单测、E2E、写test、补测试 | test | `/test-driven-development` |
 | commit、merge、rebase、push、MR | git | `/git-xywh` |
 | 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
@@ -37,6 +40,7 @@ Read `harness-foundry/core/NEVER.md` — 所有禁止项的详细说明。
 | 小改动（修 typo、改一行） | `NEVER.md` | — | 所有其他 |
 | 写新代码 | `karpathy-guidelines.md` + `NEVER.md` | `references/traps.md` | orchestration 层 |
 | 改 Spring Boot | `karpathy-guidelines.md` + `NEVER.md` | `references/traps.md` | orchestration 层 |
+| 写小说章节 | `novel-orchestrator` + `NEVER.md` | `traps-archive/novel/00-all.md` | orchestration 层 |
 | 并行实现 | `dispatcher-workflow.md` | 按角色读 `agents/*.md` | 其他 |
 | 写 spec/plan | brainstorming / writing-plans skill | — | orchestration 层 |
 | Code Review | requesting-code-review skill | — | orchestration 层 |

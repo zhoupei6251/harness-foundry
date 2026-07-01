@@ -120,7 +120,7 @@ writer 写初稿
 
 - `core/intent-routing.md` — 意图路由（Route: novel）
 - `core/orchestration/dispatcher-workflow.md` — 通用调度器
-- `core/NEVER.md` — 禁止项（novel 域 47 条陷阱）
+- `core/NEVER.md` — 禁止项（novel 域 82 条陷阱）
 - `agents/leader-novel.md` — 主编角色定义
 - `agents/*.md` — 各 Worker 角色定义
 - `traps-archive/novel/00-all.md` — 小说域陷阱清单

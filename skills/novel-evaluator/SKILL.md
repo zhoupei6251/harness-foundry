@@ -175,6 +175,7 @@ category: novel.review
 
 ## 依赖
 
-- `traps-archive/novel/00-all.md` — 47 条小说域陷阱
+- `traps-archive/novel/00-all.md` — 82 条小说域陷阱
 - `agents/novel-reviewer.md` — 审稿人角色定义
 - `core/NEVER.md` — AI 写作禁忌
+- `handoff/novel-handoff-protocol.md` — 交接协议（H2: 通过、H3: 返修）

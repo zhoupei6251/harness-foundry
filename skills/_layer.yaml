@@ -55,6 +55,9 @@ core:
   - executing-plans
   - find-skills
   - frontend-design
+  - junli-ai-novel  # novel core
+  - novel-evaluator  # novel core
+  - novel-orchestrator  # novel core
   - planning-with-files
   - playwright
   - project-planner
@@ -172,7 +175,6 @@ peripheral:
   - java-coding-standards
   - jira-integration
   - jpa-patterns
-  - junli-ai-novel
   - knowledge-ops
   - kotlin-coroutines-flows
   - kotlin-exposed-patterns

@@ -35,5 +35,5 @@ tags: [Agent, Reviewer]
 | 目标 | 审查第X章，7维评分，逐条原文举证，问题定级 |
 | 范围 | `章节正文/第XXX章_xxx.md` |
 | Skills | novel-evaluator |
-| 交接 | 输出 HANDOFF: reviewer → humanizer（见 memory-manager Handoff 协议） |
+| 交接 | 输出 HANDOFF: reviewer → writer（不通过，返修）或 reviewer → humanizer（通过）（见 `handoff/novel-handoff-protocol.md` H2/H3 格式） |
 | 产物 | 审查报告（评分+问题清单+修改建议+通过/不通过） |
