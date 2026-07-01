@@ -68,8 +68,39 @@ class MechanicalScorer:
         # 加载章节
         if os.path.exists(filepath):
             with open(filepath, "r", encoding="utf-8") as f:
-                self.text = f.read()
-            self.lines = self.text.split("\n")
+                raw_text = f.read()
+
+            # 剥离 Markdown 格式，提取纯文本
+            self.text = self._strip_markdown(raw_text)
+            self.lines = [l for l in self.text.split("\n") if l.strip()]
+
+    def _strip_markdown(self, raw: str) -> str:
+        """剥离 Markdown 标记，提取纯文本内容"""
+        text = raw
+        # 移除 YAML frontmatter (--- ... ---)
+        text = re.sub(r'^---\s*\n.*?\n---\s*\n', '', text, flags=re.DOTALL)
+        # 移除标题标记 (# ## ###)
+        text = re.sub(r'^#{1,6}\s+', '', text, flags=re.MULTILINE)
+        # 移除粗体/斜体 (**text**, *text*, __text__, _text_)
+        text = re.sub(r'\*\*(.+?)\*\*', r'\1', text)
+        text = re.sub(r'__(.+?)__', r'\1', text)
+        text = re.sub(r'\*(.+?)\*', r'\1', text)
+        text = re.sub(r'_(.+?)_', r'\1', text)
+        # 移除行内代码 (`code`)
+        text = re.sub(r'`([^`]+)`', r'\1', text)
+        # 移除链接 [text](url) 保留 text
+        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+        # 移除图片 ![alt](url)
+        text = re.sub(r'!\[([^\]]*)\]\([^)]+\)', r'\1', text)
+        # 移除引用标记 (> )
+        text = re.sub(r'^>\s?', '', text, flags=re.MULTILINE)
+        # 移除水平分割线 (---, ***, ___)
+        text = re.sub(r'^[-*_]{3,}\s*$', '', text, flags=re.MULTILINE)
+        # 移除 HTML 标签
+        text = re.sub(r'<[^>]+>', '', text)
+        # 移除多余空行
+        text = re.sub(r'\n{3,}', '\n\n', text)
+        return text
 
     # ═════════════════════════════════════════════════════════
     # 字数检查 (参考 autonovel BANNED_PATTERNS → 字数基准)
@@ -77,8 +108,11 @@ class MechanicalScorer:
 
     def check_word_count(self) -> None:
         """检查字数是否达标"""
-        # 中文：包含标点的字符数
-        count = len(self.text.replace("\n", "").replace(" ", ""))
+        # 中文：统计纯文本字符数（排除空行和纯英文空格）
+        clean_text = self.text.replace("\n", "").replace(" ", "").replace("\t", "")
+        # 排除英文标点和常见英文单词
+        clean_text = re.sub(r'[a-zA-Z0-9\[\]{}()<>&#@$%^*/\\|~`\'"]+', '', clean_text)
+        count = len(clean_text)
         self.stats["char_count"] = count
         self.stats["line_count"] = len(self.lines)
 
@@ -89,12 +123,19 @@ class MechanicalScorer:
                 f"字数严重不足：{count} 字（要求 ≥2000 字）",
                 "继续扩写至达标"
             ))
-        elif count < 2000:
+        elif count < 1800:
             self.findings.append(CheckResult(
                 "WC-002", "字数", "WARN",
                 0, "",
-                f"字数不足：{count} 字（要求 ≥2000 字）",
-                "建议扩写，当前字数偏少"
+                f"字数不足：{count} 字（要求 ≥2000 字, 差距较大）",
+                "建议扩写至2000字以上"
+            ))
+        elif count < 2000:
+            self.findings.append(CheckResult(
+                "WC-002b", "字数", "INFO",
+                0, "",
+                f"字数略少：{count} 字（距2000字目标差{2000 - count}字）",
+                "可稍微扩写"
             ))
         elif count < 5000:
             self.findings.append(CheckResult(

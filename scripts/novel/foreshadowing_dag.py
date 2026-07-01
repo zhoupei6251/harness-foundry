@@ -82,7 +82,10 @@ class ForeshadowingDAG:
     def __init__(self, book_dir: str):
         self.book_dir = Path(book_dir)
         self.dag_file = self.book_dir / "foreshadowing_dag.json"
+        self.memory_file = self.book_dir / "MEMORY.md"
         self.dag = self._load_or_create()
+        # 自动从 MEMORY.md 导入伏笔（如 DAG 为空但有 MEMORY）
+        self._auto_import_from_memory()
 
     def _load_or_create(self) -> dict:
         """加载或创建 DAG 文件"""
@@ -105,6 +108,64 @@ class ForeshadowingDAG:
             "edges": [],
             "warnings": []
         }
+
+    def _auto_import_from_memory(self) -> None:
+        """从 MEMORY.md 自动导入伏笔（首次运行时 DAG 为空）"""
+        if self.dag["nodes"]:
+            return  # 已有数据，不覆盖
+
+        if not self.memory_file.exists():
+            return
+
+        with open(self.memory_file, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # 解析伏笔表格
+        # | 伏笔名 | 类型 | 埋设章 | 状态 |
+        f_pattern = re.compile(
+            r"\|\s*(.+?)\s*\|\s*(.+?)\s*\|\s*第?(\d+).*?\s*\|\s*(.+?)\s*\|"
+        )
+        in_f_table = False
+        imported = 0
+        for line in content.split("\n"):
+            if "伏笔" in line:
+                in_f_table = True
+                continue
+            if in_f_table and line.strip().startswith("|"):
+                match = f_pattern.match(line.strip())
+                if match and not match.group(1).strip().startswith("-"):
+                    name = match.group(1).strip()
+                    if name in ["伏笔", "名称"]:
+                        continue
+                    ftype = match.group(2).strip()
+                    planted = int(match.group(3))
+                    status = match.group(4).strip()
+
+                    # 映射状态
+                    node_status = "buried"
+                    if "回收" in status or "✓" in status or "已回收" in status:
+                        node_status = "resolved"
+                    elif "触发" in status:
+                        node_status = "triggered"
+
+                    # 对于从 MEMORY 导入的伏笔，如果状态是"待回收"应该是 buried 而非 resolved
+                    if "待回收" in status or "○" in status:
+                        node_status = "buried"
+
+                    target_chapter = None
+                    t_match = re.search(r"第(\d+)章", status)
+                    if t_match:
+                        target_chapter = int(t_match.group(1))
+
+                    self.add_node(name, ftype, f"从 MEMORY.md 自动导入",
+                                  planted, target_chapter)
+                    imported += 1
+
+        if imported > 0:
+            # 更新状态：对于 node_status 已经在 add_node 时设置，但需要通过修改节点状态来修正
+            for node_id, node in self.dag["nodes"].items():
+                node["status"] = "buried"  # 从 MEMORY 导入的统一为 buried（待回收）
+            self.save()
 
     def save(self) -> None:
         """保存 DAG"""

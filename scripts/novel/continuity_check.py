@@ -108,7 +108,15 @@ class ContinuityChecker:
         chapter_pattern = re.compile(
             r"第(\d+)章.*?(\d{4}-\d{2}-\d{2})?"
         )
+        lines = content.split("\n")
         for match in chapter_pattern.finditer(content):
+            line_num = content[:match.start()].count("\n")
+            full_line = lines[line_num] if line_num < len(lines) else ""
+
+            # 跳过标记为'待写'、'🔲'、'planned'、'进行中'的章节
+            if any(marker in full_line for marker in ["🔲待写", "🔲", "待写", "planned", "进行中", "🔄"]):
+                continue
+
             self.chapters.append({
                 "number": int(match.group(1)),
                 "date": match.group(2) if match.group(2) else None
