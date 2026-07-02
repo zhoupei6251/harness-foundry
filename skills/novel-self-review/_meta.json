@@ -1,0 +1,12 @@
+{
+  "slug": "novel-self-review",
+  "name": "novel-self-review",
+  "description": "写作自评机制，writer 写完后先进行5项轻量自检（字数/钩子/AI痕迹/人物一致/伏笔），达标后输出给 reviewer，减少 reviewer 负担",
+  "domain": "novel",
+  "category": "novel.review",
+  "priority": "P1",
+  "status": "core",
+  "tags": ["self-review", "quality-gate", "pre-review"],
+  "version": "1.0.0",
+  "layer": "core"
+}
