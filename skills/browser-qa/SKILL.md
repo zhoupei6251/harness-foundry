@@ -105,8 +105,8 @@ credentials/tokens/PII before saving any screenshot.
 ## Integration
 
 Works with any browser MCP:
-- `mChild__claude-in-chrome__*` tools (preferred — uses your actual Chrome)
-- Playwright via `mcp__browserbase__*`
+- `mcp__claude-in-chrome__*` tools (preferred — uses your actual Chrome)
+- Playwright via `mcp__playwright__*`
 - Direct Puppeteer scripts
 
 Pair with `/canary-watch` for post-deploy monitoring.

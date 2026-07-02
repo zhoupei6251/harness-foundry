@@ -29,8 +29,10 @@ Manage GitHub repositories with a focus on community health, CI reliability, and
 
 ## Tool Requirements
 
-- **gh CLI** for all GitHub API operations
-- Repository access configured via `gh auth login`
+- **GitHub MCP** (`mcp__github__*` tools) for Issue/PR operations
+- **gh CLI** for CI/CD, releases, and security monitoring (GitHub MCP does not cover these)
+
+> Prefer `mcp__github__*` tools for Issue and PR operations. Use `gh` CLI only when MCP tools are unavailable.
 
 ## Issue Triage
 
@@ -42,47 +44,56 @@ Classify each issue by type and priority:
 
 ### Triage Workflow
 
-1. Read the issue title, body, and comments
-2. Check if it duplicates an existing issue (search by keywords)
-3. Apply appropriate labels via `gh issue edit --add-label`
-4. For questions: draft and post a helpful response
+1. Read the issue details via `mcp__github__get_issue`
+2. Check if it duplicates an existing issue (search by keywords via `mcp__github__search_issues`)
+3. Apply appropriate labels via `mcp__github__update_issue`
+4. For questions: draft and post a helpful response via `mcp__github__add_issue_comment`
 5. For bugs needing more info: ask for reproduction steps
 6. For good first issues: add `good-first-issue` label
 7. For duplicates: comment with link to original, add `duplicate` label
 
-```bash
-# Search for potential duplicates
-gh issue list --search "keyword" --state all --limit 20
+```javascript
+// Search for potential duplicates
+mcp__github__search_issues({ query: "keyword", type: "issue" })
 
-# Add labels
-gh issue edit <number> --add-label "bug,high-priority"
+// Get issue details
+mcp__github__get_issue({ owner: "owner", repo: "repo", issue_number: 123 })
 
-# Comment on issue
-gh issue comment <number> --body "Thanks for reporting. Could you share reproduction steps?"
+// Update issue with labels
+mcp__github__update_issue({ owner: "owner", repo: "repo", issue_number: 123, labels: ["bug", "high-priority"] })
+
+// Add comment to issue
+mcp__github__add_issue_comment({ owner: "owner", repo: "repo", issue_number: 123, body: "Thanks for reporting. Could you share reproduction steps?" })
 ```
 
 ## PR Management
 
 ### Review Checklist
 
-1. Check CI status: `gh pr checks <number>`
-2. Check if mergeable: `gh pr view <number> --json mergeable`
+1. Check CI status via `mcp__github__get_pull_request_status`
+2. Check if mergeable via `mcp__github__get_pull_request`
 3. Check age and last activity
 4. Flag PRs >5 days with no review
 5. For community PRs: ensure they have tests and follow conventions
 
 ### Stale Policy
 
-- Issues with no activity in 14+ days: add `stale` label, comment asking for update
-- PRs with no activity in 7+ days: comment asking if still active
+- Issues with no activity in 14+ days: add `stale` label via `mcp__github__update_issue`, comment asking for update
+- PRs with no activity in 7+ days: comment asking if still active via `mcp__github__add_issue_comment`
 - Auto-close stale issues after 30 days with no response (add `closed-stale` label)
 
-```bash
-# Find stale issues (no activity in 14+ days)
-gh issue list --label "stale" --state open
+```javascript
+// List PRs filtered by state
+mcp__github__list_pull_requests({ owner: "owner", repo: "repo", state: "open" })
 
-# Find PRs with no recent activity
-gh pr list --json number,title,updatedAt --jq '.[] | select(.updatedAt < "2026-03-01")'
+// Get PR details including mergeable status
+mcp__github__get_pull_request({ owner: "owner", repo: "repo", pull_number: 123 })
+
+// Check PR CI/status
+mcp__github__get_pull_request_status({ owner: "owner", repo: "repo", pull_number: 123 })
+
+// Search issues to find duplicates
+mcp__github__search_issues({ query: "is:issue is:open duplicate", type: "issue" })
 ```
 
 ## CI/CD Operations
