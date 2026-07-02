@@ -3,7 +3,7 @@ name: novel-guardian
 description: 法医式事实核查 Agent — 借鉴 Novel-OS Guardian，专门检查角色/时间线/世界观/情节的连续性
 version: 1.0.0
 when_to_use: 章节完成、审稿时、统稿时自动触发
-status: core
+status: peripheral
 tags:
 - novel
 - guardian

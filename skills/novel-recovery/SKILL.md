@@ -3,7 +3,7 @@ name: novel-recovery
 description: 会话恢复，当用户重新打开会话时恢复小说写作进度
 version: 1.0.0
 when_to_use: 用户说"继续"、"接着上次"、"上次写到"
-status: core
+status: peripheral
 tags:
 - novel
 - recovery

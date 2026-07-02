@@ -36,7 +36,7 @@ tags: [Agent, Leader]
 | 阶段 | 必 Load 的 skill |
 |------|-----------------|
 | 开书 | `brainstorming` |
-| 规划 | `junli-ai-novel` |
+| 规划 | `inkos` |
 | 多章并行实现 | 平台编排 skill + `dispatcher-workflow.md` |
 | 审稿 | `novel-evaluator` |
 | 润色 | `humanizer-zh` / `novel-ai-wash` |

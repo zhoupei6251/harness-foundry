@@ -3,7 +3,7 @@ name: novel-foreshadowing-dag
 description: 伏笔有向无环图管理 — 借鉴 Openwrite 伏笔DAG系统，结构化管理和追踪所有伏笔的埋设、触发和回收
 version: 1.0.0
 when_to_use: 规划阶段、写作中、审稿后、发现伏笔逾期时
-status: core
+status: peripheral
 tags:
 - novel
 - foreshadowing

@@ -3,7 +3,7 @@ name: novel-metrics
 description: 写作指标追踪，统计字数、速度、质量趋势
 version: 1.0.0
 when_to_use: 用户询问写作统计、需要进度分析时
-status: core
+status: peripheral
 tags:
 - novel
 - metrics

@@ -3,7 +3,7 @@ name: novel-batch-write
 description: 批量写作模式，当用户说"写到第N章"时触发，自动并行/串行写作
 version: 1.0.0
 when_to_use: 用户说"写到第X章"、"批量写"、"连续写"
-status: core
+status: peripheral
 tags:
 - novel
 - batch

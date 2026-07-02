@@ -3,7 +3,7 @@ name: novel-dashboard
 description: 小说进度仪表板，显示当前书籍状态、章节进度、人物和伏笔状态
 version: 1.0.0
 when_to_use: 用户说"进度"、"状态"、"写了多少"、"查看小说"
-status: core
+status: peripheral
 tags:
 - novel
 - dashboard

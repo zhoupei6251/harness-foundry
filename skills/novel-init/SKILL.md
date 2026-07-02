@@ -3,7 +3,7 @@ name: novel-init
 description: 新书创作向导，帮助用户从零开始创建小说项目
 version: 1.0.0
 when_to_use: 用户说"写小说"、"新书"、"从头开始"
-status: core
+status: peripheral
 tags:
 - novel
 - init

@@ -3,7 +3,7 @@ name: novel-voice-profile
 description: 为小说角色建立可复用的声音档案（Voice Profile），借鉴 ECC brand-voice 的 Source-First 方法论
 version: 1.0.0
 when_to_use: 创建新角色时、写对话前、发现人物声音趋同时
-status: core
+status: peripheral
 tags:
 - novel
 - voice

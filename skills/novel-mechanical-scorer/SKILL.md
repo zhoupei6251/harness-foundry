@@ -3,7 +3,7 @@ name: novel-mechanical-scorer
 description: 无LLM的确定性章节质量评分器 — 借鉴 autonovel (NousResearch) 机械评分器，在LLM审稿前做纯规则检查
 version: 1.0.0
 when_to_use: 写章节后、提交LLM审稿前、作为质量门禁的第一道检查
-status: core
+status: peripheral
 tags:
 - novel
 - scoring

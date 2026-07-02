@@ -3,7 +3,7 @@ name: novel-receiving-review
 description: 接收审稿反馈，正确处理修改建议，不是盲目接受或机械执行
 version: 1.0.0
 when_to_use: 当 writer 收到 reviewer 的审稿反馈时
-status: core
+status: peripheral
 tags:
 - novel
 - review

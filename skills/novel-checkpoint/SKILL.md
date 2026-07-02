@@ -1,3 +1,22 @@
+---
+name: novel-checkpoint
+description: 创建、验证写作进度检查点，确保批量写作不丢失上下文
+metadata:
+  domain: novel
+  priority: P1
+  tags:
+  - checkpoint
+  - progress
+  - recovery
+version: 1.0.0
+when_to_use: 调用 novel-checkpoint 时
+status: peripheral
+tags:
+- novel
+domain: novel
+category: novel.progress
+---
+
 # Novel Checkpoint — 写作检查点
 
 > 创建、验证写作进度检查点，确保批量写作不丢失上下文。

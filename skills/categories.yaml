@@ -61,6 +61,10 @@ categories:
     title: 小说创作
     description: 生成、编排、写作、评估
 
+  - id: novel.structure
+    title: 小说结构
+    description: 大纲、节拍、伏笔、节奏
+
   - id: novel.polish
     title: AI 文风处理
     description: humanizer、文风清洗

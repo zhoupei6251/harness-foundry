@@ -128,7 +128,8 @@ domains:
       # 核心路由
       - novel-orchestrator       # 完整编排（复杂任务）
       - novel-quick-write        # 快速写作（单章）
-      - novel-batch-write        # 批量写作
+      - novel-batch-write        # 批量写作）
+      - novel-36-beats           # 结构化节拍框架（三幕式大纲）
 
       # 质量保障
       - novel-evaluator          # 7维审稿评分

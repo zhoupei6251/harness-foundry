@@ -3,7 +3,7 @@ name: novel-contexts
 description: 小说上下文管理，维护角色设定、世界观、时间线的全局一致性
 version: 1.0.0
 when_to_use: 写章节前检查一致性、发现矛盾时
-status: core
+status: peripheral
 tags:
 - novel
 - context

@@ -3,7 +3,7 @@ name: novel-quick-write
 description: 快速单章写作，无需完整编排流程。适用于"写第X章"类型的简单写作任务
 version: 1.0.0
 when_to_use: 用户说"写第X章"且无复杂需求时
-status: core
+status: peripheral
 tags:
 - novel
 - quick
