@@ -93,3 +93,4 @@ reference_github/
 
 # === Local development overrides ===
 *.local.*
+.test-novel/
