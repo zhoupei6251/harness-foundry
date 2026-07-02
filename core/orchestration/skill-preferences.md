@@ -48,6 +48,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 | web-investigator | research, * | agent-browser | ❌ |
 | **reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
 | **code-reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
+| **spec-compliance-reviewer** | review, * | two-stage-review | ❌ |
 | test-engineer | test | test-driven-development, analyze-impact | ✅ 战术层 |
 | test-engineer | e2e | agent-browser | ❌ |
 
@@ -202,6 +203,7 @@ intelligence:
 | **leader-novel** | implement | novel-orchestrator |
 | novel-writer | chapter-write, chapter-continue | junli-ai-novel, humanizer-zh |
 | novel-writer | rewrite | junli-ai-novel, humanizer-zh |
+| novel-writer | self-review | novel-self-review |
 | novel-planner | outline, volume-plan | brainstorming, junli-ai-novel |
 | novel-reviewer | review | novel-evaluator |
 | humanizer | polish | humanizer-zh |
@@ -229,6 +231,7 @@ intelligence:
 | chapter-write | 写新章 | 续写下一章 |
 | chapter-continue | 承接续写 | 承接上一章结尾续写 |
 | rewrite | 返修重写 | 根据 reviewer 意见修改 |
+| self-review | 自检自评 | writer 初稿后自检，达标提交 reviewer |
 | outline | 大纲规划 | 产出整体大纲 |
 | volume-plan | 分卷规划 | 产出某一卷的详细规划 |
 | review | 审稿评分 | 7 维评分 + 逐条原文举证 |
@@ -242,7 +245,7 @@ intelligence:
 
 | 字段 | 含义 |
 | --- | --- |
-| wu_type | chapter-write \| chapter-continue \| rewrite \| outline \| volume-plan \| review \| polish \| deep-clean \| cross-chapter-check \| sync \| resume \| research |
+| wu_type | chapter-write \| chapter-continue \| rewrite \| self-review \| outline \| volume-plan \| review \| polish \| deep-clean \| cross-chapter-check \| sync \| resume \| research |
 | wu_skills | 逗号分隔 slug，或 **`auto`**（查本文档 § Novel 域路由表） |
 | agent_role | novel-writer \| novel-planner \| novel-reviewer \| humanizer \| editor \| memory-keeper \| shared-researcher |
 
@@ -258,6 +261,7 @@ intelligence:
 | 调试者 | harness-debugger | bugfix | systematic-debugging |
 | 审查者 (通用) | harness-reviewer | review | requesting-code-review |
 | 审查者 (代码专项) | harness-reviewer | review | requesting-code-review + analyze-impact |
+| **审查者 (Spec 合规)** | harness-spec-compliance-reviewer | review | two-stage-review |
 | 测试工程师 | harness-test-engineer | test | TDD |
 | 测试工程师 | harness-test-engineer | e2e | agent-browser |
 | 网探 | harness-web-investigator | research | agent-browser |
@@ -282,6 +286,7 @@ intelligence:
 | 只读摸底 | harness-explorer | explorer |
 | 调查 bug | harness-debugger | debugger |
 | 实现后审查 | harness-reviewer | reviewer |
+| **Spec 合规审查** | harness-spec-compliance-reviewer | spec-review | two-stage-review |
 | 补测试 / 集成测试 | harness-test-engineer | test-engineer + test |
 | E2E 验收 | harness-test-engineer | test-engineer + e2e |
 | 信息调研 / 网页搜索 | harness-web-investigator | web-investigator + research |
@@ -294,9 +299,9 @@ intelligence:
 
 | 字段 | 含义 |
 | --- | --- |
-| wu_type | feature \| bugfix \| ui \| chore \| refactor \| **review-fix** \| docs \| config \| test \| e2e \| explore \| review \| investigate \| ui-bug \| **research** |
+| wu_type | feature \| bugfix \| ui \| chore \| refactor \| **review-fix** \| docs \| config \| test \| e2e \| explore \| review \| **spec-review** \| investigate \| ui-bug \| **research** |
 | wu_skills | 逗号分隔 slug，或 **`auto`**（查本文档 § 默认路由表） |
-| agent_role | coder \| implementer \| explorer \| debugger \| reviewer \| test-engineer \| **web-investigator** |
+| agent_role | coder \| implementer \| explorer \| debugger \| reviewer \| **spec-compliance-reviewer** \| test-engineer \| **web-investigator** |
 
 > **Novel 域：** wu_type / agent_role 枚举见上文 § Novel 域路由表；Leader 按 novel 域路由表解析 `auto`。
 

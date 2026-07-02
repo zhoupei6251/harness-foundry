@@ -118,17 +118,47 @@ Leader 解析 `auto` → 抄 slug+路径入 prompt；无 `### Skills 使用` **�
 
 单 WU 返回：验证字段 → Leader 更新 plan/tracking。**不写批次完成态。**
 
-### GROUP-2：串行审查
+### GROUP-2: 串行审查（两阶段）
 
-| 域 | 审查者 | 审查内容 |
+| 阶段 | 审查者 | 审查内容 |
 | --- | --- | --- |
-| **code** | reviewer（新实例，通用五轴审查） | 代码审查 + 测试验证 |
-| | code-reviewer（新实例，技术栈专项） | 涉及 React/Node/Java 等特定技术栈的深层审查 |
-| **novel** | reviewer + `novel-evaluator` | 章节质量审查 + 7维评分 |
-| **news** | fact-checker | 事实核查 + 合规审查 |
+| **阶段 1** | `spec-compliance-reviewer`（新实例） | Spec 合规 + Done criteria + 设计偏离检查 |
+| **阶段 2** | `reviewer`（新实例） | 代码质量 + 安全 + 测试 |
 
-审查不通过 → 返修给对应 writer/coder（最多 2 次）。
-2 次返修仍不通过 → 输出最终审查报告，提示用户介入。
+**两阶段审查流程：**
+
+```
+阶段 1: Spec 合规审查
+    ↓
+[PASS] → 进入阶段 2
+[PARTIAL] → 返修给 WU 实现者 → 重新阶段 1
+[FAIL] → 返修给 WU 实现者 → 重新阶段 1
+    ↓
+阶段 2: 代码质量审查
+    ↓
+[APPROVE] → 审查完成
+[BLOCK] → 返修给 WU 实现者 → 重新阶段 2
+```
+
+**返修规则：**
+- 每阶段最多 2 次返修
+- 2 次返修仍不通过 → 输出最终审查报告，提示用户介入
+- 返修只针对失败的阶段（阶段 1 失败不返修阶段 2）
+
+**协议文档：** `core/review/two-stage-protocol.md`
+
+**注意：** 原有 code-reviewer（技术栈专项审查）在两阶段审查完成后，Leader 可根据需要显式派发。
+
+**旧版（单一审查）：** ~~审查不通过 → 返修给对应 writer/coder（最多 2 次）~~ → 已升级为两阶段审查
+
+### GROUP-2-LEGACY（保留用于简单场景）
+
+对于简单 WU 或快速修复，可使用简化审查流程：
+
+| 审查者 | 适用场景 |
+| --- | --- |
+| `reviewer` | 单文件改动、简单修复 |
+| `code-reviewer` | 特定技术栈（React/Node/Java 等）深层审查 |
 
 ### 尾盘 Output Guardrail 检查（P0-2 新增）
 
@@ -171,6 +201,11 @@ Leader 解析 `auto` → 抄 slug+路径入 prompt；无 `### Skills 使用` **�
 - **shared-researcher**: 素材考据、世界观调研
 - **editor**: 跨章一致性检查、统稿
 - **memory-keeper**: 记忆同步、状态追踪
+
+**novel 域流程：**
+```
+writer 写初稿 → self-review 自检 → 修正循环（≤2轮）→ reviewer 7维审稿 → humanizer 润色
+```
 
 #### news 域
 - **news-writer**: 写新闻稿
