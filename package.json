@@ -1,0 +1,24 @@
+{
+  "name": "harness-foundry",
+  "version": "1.0.0",
+  "description": "AI coding workflow framework for Claude Code - multi-agent orchestration system",
+  "scripts": {
+    "dashboard": "python3 scripts/dashboard/dashboard.py",
+    "dashboard:win": "python scripts/dashboard/dashboard.py",
+    "verify": "bash scripts/verify.sh",
+    "bootstrap": "bash scripts/bootstrap.sh --target all",
+    "sync": "bash scripts/sync-skills.sh --target all"
+  },
+  "keywords": [
+    "claude-code",
+    "harness",
+    "orchestration",
+    "agents",
+    "skills"
+  ],
+  "author": "Harness Foundry",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}
