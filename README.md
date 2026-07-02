@@ -8,6 +8,67 @@
 
 ---
 
+## 🚀 快速集成到你的项目
+
+### 5 分钟开始
+
+```bash
+# 1. 克隆到你的项目根目录
+cd your-project/
+git clone https://github.com/your-org/harness-foundry.git
+
+# 2. 复制配置模板
+cp harness-foundry/docs/CLAUDE-TEMPLATE.md .claude/CLAUDE.md
+
+# 3. 在 Claude Code 中开始使用
+```
+
+### 立即可用
+
+```
+用户：请用 brainstorming 设计用户登录功能
+Claude：[触发设计流程，提问确认需求...]
+```
+
+### 常用命令
+
+```bash
+cd harness-foundry
+
+# Dashboard（可视化浏览）
+npm run dashboard
+
+# 安全扫描
+node scripts/security/scan.js
+
+# 测试 Skills
+node scripts/eval/run-skill-eval.js --all
+```
+
+### 核心功能
+
+| 功能 | 说明 |
+|------|------|
+| **强制设计门禁** | 实现前必须先设计并获得批准 |
+| **两阶段审查** | 先检查 Spec 合规，再检查代码质量 |
+| **连续学习** | 从会话中自动提取有用的模式 |
+| **Token 优化** | 模型选择策略 + 上下文压缩 |
+| **Eval 测试** | 验证 Skill 是否按预期工作 |
+| **安全审计** | 扫描配置安全问题 |
+
+---
+
+## 📖 详细文档
+
+| 文档 | 说明 |
+|------|------|
+| [快速开始](docs/QUICKSTART.md) | 5 分钟入门 |
+| [用户指南](docs/USER-GUIDE.md) | 完整使用说明 |
+| [CLI 参考](docs/CLI-REFERENCE.md) | 命令行速查 |
+| [CLAUDE 模板](docs/CLAUDE-TEMPLATE.md) | 项目集成模板 |
+
+---
+
 ## 它解决什么问题
 
 在 AI IDE 里，常见的困境是：要么 AI 各干各的（缺少流程约束），要么流程太重（强制太多、干预太频）。
@@ -325,25 +386,165 @@ shellcheck scripts/*.sh
 
 ---
 
+## 🔧 项目集成指南
+
+### 在你的项目中使用 Harness Foundry
+
+#### 1. 克隆到项目根目录
+
+```bash
+cd your-project/
+git clone https://github.com/your-org/harness-foundry.git
+```
+
+#### 2. 集成配置
+
+```bash
+# 复制 CLAUDE 模板（推荐）
+cp harness-foundry/docs/CLAUDE-TEMPLATE.md .claude/CLAUDE.md
+
+# 或手动创建 .claude/CLAUDE.md
+mkdir -p .claude
+```
+
+#### 3. 开始使用
+
+在 Claude Code 中直接对话：
+
+```markdown
+# 设计新功能
+用户：请用 brainstorming 设计用户认证模块
+Claude：[触发 brainstorming，提问确认需求，展示方案...]
+
+# 制定计划
+用户：设计已批准，请制定实施计划
+Claude：[拆分任务，写步骤...]
+
+# 开发
+用户：用 TDD 方式实现登录功能
+Claude：[RED → GREEN → REFACTOR...]
+
+# 调试
+用户：帮我调试这个空指针
+Claude：[根因分析，定位修复...]
+
+# 审查
+用户：请审查这段代码
+Claude：[两阶段审查，Spec合规 + 代码质量...]
+```
+
+### 常用对话模板
+
+| 场景 | 对话 |
+|------|------|
+| 设计功能 | "请用 brainstorming 设计 X" |
+| 制定计划 | "设计已批准，制定实施计划" |
+| TDD 开发 | "用 TDD 实现这个功能" |
+| 调试 | "帮我调试这个 bug" |
+| 审查 | "请审查这段代码" |
+| 小改动 | "直接改这个 bug" |
+| 扫描安全 | "运行安全扫描" |
+
+### 命令行工具
+
+```bash
+cd harness-foundry
+
+# Dashboard GUI（可视化浏览所有 Skills 和 Agents）
+npm run dashboard
+
+# 安全扫描
+node scripts/security/scan.js
+
+# Eval 测试（验证 Skills 是否工作）
+node scripts/eval/run-skill-eval.js --all
+
+# 可视化伴侣（brainstorming 时的 mockup 工具）
+node scripts/visual-companion/server.js --open
+```
+
+### 跳过/定制
+
+**只使用部分功能？**
+```markdown
+# 告诉 Claude
+我只用 brainstorming 和 requesting-code-review，其他不用
+```
+
+**跳过设计门禁？**
+```markdown
+这是单行配置变更，不需要设计，直接改
+```
+
+---
+
+## 核心 Skills 速查
+
+| Skill | 命令 | 何时用 | 功能 |
+|-------|------|--------|------|
+| `brainstorming` | `/skill brainstorming` | 设计新功能 | 提问、展示方案、分块确认 |
+| `writing-plans` | `/skill writing-plans` | 制定计划 | 拆分任务、写步骤 |
+| `test-driven-development` | `/skill test-driven-development` | 开发 | RED-GREEN-REFACTOR |
+| `systematic-debugging` | `/skill systematic-debugging` | 调试 | 根因分析、系统化调试 |
+| `requesting-code-review` | `/skill requesting-code-review` | 审查 | 两阶段审查 |
+| `two-stage-review` | `/skill two-stage-review` | 两阶段 | Spec 合规 → 代码质量 |
+| `continuous-learning` | `/skill continuous-learning` | 学习 | 从会话提取模式 |
+| `auto-compact` | `/skill auto-compact` | 压缩 | 上下文压缩建议 |
+
+### 工作流程
+
+```
+完整流程：
+想法 → brainstorming → 设计批准 → writing-plans → 实现 → 审查 → 完成
+
+快速流程（小改动）：
+想法 → brainstorming → 实现 → 简单审查 → 完成
+
+Debug 流程：
+问题 → systematic-debugging → 修复 → 回归测试
+```
+
+---
+
 ## 关键文件速查
 
 | 需求 | 文件 |
 |------|------|
+| **快速开始** | [`docs/QUICKSTART.md`](docs/QUICKSTART.md) |
+| **用户指南** | [`docs/USER-GUIDE.md`](docs/USER-GUIDE.md) |
+| **CLI 参考** | [`docs/CLI-REFERENCE.md`](docs/CLI-REFERENCE.md) |
+| **CLAUDE 模板** | [`docs/CLAUDE-TEMPLATE.md`](docs/CLAUDE-TEMPLATE.md) |
 | 本项目工作原理 | [`CLAUDE.md`](CLAUDE.md) |
 | 意图路由规则 | [`core/intent-routing.md`](core/intent-routing.md) |
 | 阶段门禁 | [`core/intent-routing.md` § 阶段门禁](core/intent-routing.md) |
+| 设计门禁规则 | [`core/rules/design-gate.md`](core/rules/design-gate.md) |
+| 两阶段审查协议 | [`core/review/two-stage-protocol.md`](core/review/two-stage-protocol.md) |
+| 连续学习协议 | [`core/memory/continuous-learning/protocol.md`](core/memory/continuous-learning/protocol.md) |
+| Token 优化策略 | [`core/optimization/token-strategy.md`](core/optimization/token-strategy.md) |
 | Skill 路由表 | [`core/orchestration/skill-preferences.md`](core/orchestration/skill-preferences.md) |
 | 调度器工作流 | [`core/orchestration/dispatcher-workflow.md`](core/orchestration/dispatcher-workflow.md) |
 | 域编排配置 | [`core/orchestration/domain-config.yaml`](core/orchestration/domain-config.yaml) |
 | 全部 Skills | [`skills/INDEX.md`](skills/INDEX.md) |
-| Skill 分类 | [`skills/categories.yaml`](skills/categories.yaml) |
-| Skill 元数据规范 | [`docs/skill-metadata-spec.md`](docs/skill-metadata-spec.md) |
-| 技能依赖图 | [`docs/skill-dependency-graph.md`](docs/skill-dependency-graph.md) |
 | 全部 Agents | [`agents/README.md`](agents/README.md) |
 | Hook 与 Guardrail | [`hooks/README.md`](hooks/README.md) |
 | **Intelligence Layer** | [`docs/intelligence-layer-user-guide.md`](docs/intelligence-layer-user-guide.md) |
-| 知识图谱 | [`docs/harness-foundry-knowledge-graph.md`](docs/harness-foundry-knowledge-graph.md) |
-| Trae 快速参考 | [`adapters/trae/trae-quick-ref.md`](adapters/trae/trae-quick-ref.md) |
+
+---
+
+## 新增功能（2026-07-02）
+
+本次更新新增以下功能，对齐 ECC 和 Superpowers 最佳实践：
+
+| 功能 | 文件 | 说明 |
+|------|------|------|
+| 连续学习系统 | `skills/continuous-learning/` | 从会话中自动提取模式 |
+| 强制设计门禁 | `core/rules/design-gate.md` | `<HARD-GATE>` 阻止未批准实现 |
+| 两阶段审查 | `core/review/two-stage-protocol.md` | Spec 合规 + 代码质量分离 |
+| Eval 框架 | `core/eval/` | Skill 行为测试 |
+| Token 优化 | `core/optimization/` | 模型选择 + 上下文压缩 |
+| Dashboard GUI | `scripts/dashboard/` | 可视化组件浏览 |
+| 视觉伴侣 | `scripts/visual-companion/` | brainstorming 时的 mockup 工具 |
+| AgentShield | `skills/agent-shield/` | 安全审计 |
 
 ---
 
