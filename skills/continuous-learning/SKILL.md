@@ -1,6 +1,6 @@
 ---
 name: continuous-learning
-version: 2.0.0
+version: 2.1.0
 description: 持续学习系统 — Session → instinct → cluster → Skill 进化闭环。P1-3 升级：confidence
   scoring 增强 + 时间衰减 + evolve 闭环。
 description_zh: 持续学习系统 — 从会话中提取 instinct 并进化为 skill。参考 ECC v2 Continuous Learning
@@ -13,17 +13,30 @@ triggers:
 - evolve
 - 持续学习
 - prune
+- /learn-status
+- /learn-evolve
+- /learn-prune
 when_to_use: 调用 continuous-learning 时
 status: peripheral
 tags:
 - shared
 domain: shared
 ---
+
 # 持续学习系统
 
 从会话中自动提取模式、陷阱、经验，通过置信度评分（含时间衰减）和进化机制，将高频有效模式转化为 skill/command/agent。
 
-> **P1-3 升级**：confidence scoring 算法增强、时间衰减模型、evolve 闭环对接 instinct YAML 格式。
+> **v2.1 升级**：新增 `core/memory/continuous-learning/protocol.md` 协议文档 + `core/memory/continuous-learning/extractor.js` 会话提取器 + `hooks/continuous-learning/evaluate-session.js` Stop Hook 实现。
+
+## 核心文件
+
+| File | Purpose |
+|------|---------|
+| `core/memory/continuous-learning/protocol.md` | 学习协议文档 |
+| `core/memory/continuous-learning/extractor.js` | 会话提取器（Node.js） |
+| `hooks/continuous-learning/evaluate-session.js` | Stop Hook 实现 |
+| `hooks/continuous-learning.md` | 跨域提取规则 |
 
 ## 核心概念
 
@@ -184,6 +197,56 @@ body: |
 - **精简**：去除冗余信息
 - **频率门禁**：同 trigger 类型 24h 内 ≥10 次 → 降低 0.1（防过拟合）
 - **域隔离**：code 域 instinct 不进入 novel/news 域
+
+## 本地存储（v2.1 新增）
+
+```
+~/.claude/memory/
+├── learned/                    # 学习到的技能（通用）
+│   ├── debugging/
+│   ├── project-patterns/
+│   ├── tool-tips/
+│   ├── error-handling/
+│   └── security/
+├── patterns/                   # 通用模式（跨项目）
+└── learned.json                # 学习统计
+```
+
+**更新 memory/state.json**：
+```json
+{
+  "learning": {
+    "last_extract": "2026-07-02T00:00:00Z",
+    "total_patterns": 0,
+    "active_patterns": [],
+    "by_type": {
+      "debugging": 0,
+      "project-pattern": 0,
+      "tool-tip": 0,
+      "error-handling": 0,
+      "security": 0
+    }
+  }
+}
+```
+
+## 与 ECC Instinct 对比
+
+| 特性 | 本系统 | ECC Instinct v2.1 |
+|------|--------|-------------------|
+| 存储位置 | `~/.claude/memory/` | `${XDG_DATA_HOME}/ecc-homunculus/` |
+| 作用域 | global / project | global / project |
+| 演化目标 | rules / skills | skills / commands / agents |
+| 置信度 | 0.3-0.9 | 0.3-0.9 |
+| 触发方式 | Stop hook | PreToolUse + PostToolUse |
+
+## 相关文件
+
+- `core/memory/continuous-learning/protocol.md` - 协议文档
+- `core/memory/continuous-learning/extractor.js` - 会话提取器
+- `hooks/continuous-learning/evaluate-session.js` - Stop Hook 实现
+- `hooks/continuous-learning.md` - 跨域提取规则
+- `memory/state.json` - 状态文件（含 learning 字段）
 
 ## 成功指标
 

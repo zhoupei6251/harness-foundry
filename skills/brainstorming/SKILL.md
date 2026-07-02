@@ -3,7 +3,7 @@ name: brainstorming
 description: You MUST use this before any creative work - creating features, building
   components, adding functionality, or modifying behavior. Explores user intent, requirements
   and design before implementation.
-version: 1.0.0
+version: 1.1.0
 when_to_use: 调用 brainstorming 时
 status: peripheral
 tags:
@@ -19,6 +19,20 @@ category: shared.planning
 Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design in small sections (200-300 words), checking after each section whether it looks right so far.
+
+<HARD-GATE>
+在设计被用户批准前，禁止：
+- 写任何代码
+- 创建任何文件（设计文档除外）
+- 执行构建命令
+- 调用实现类 skill
+
+违反将导致立即停止并输出门禁消息。详见 `core/rules/design-gate.md`
+</HARD-GATE>
+
+## Anti-Pattern: "This Is Too Simple To Need A Design"
+
+Every project goes through this process. A todo list, a single-function utility, a config change — all of them. "Simple" projects are where unexamined assumptions cause the most wasted work. The design can be short (a few sentences for truly simple projects), but you MUST present it and get approval.
 
 ## The Process
 
