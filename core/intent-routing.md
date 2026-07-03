@@ -33,7 +33,7 @@ tags: [Rules, Runbook]
 | 写新闻、写稿、新闻稿、报道 | news-write | `/news-generator` → fact-check → polish |
 | 事实核查、核实新闻、验证信息 | fact-check | `/fact-check`（新闻域必做） |
 | 新闻编辑、审校、排版 | news-edit | `/news-polish` → news-editor |
-| 卖给、产品化、大学生、前端页面、后端接口 | product | `/brainstorming` → 场景路由 → product 域 |
+| 卖给、产品化、大学生、前端页面、后端接口 | product | `/brainstorming` → 场景路由 → **code 域前端/后端交付** |
 
 ## Never 清单
 

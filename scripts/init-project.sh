@@ -316,7 +316,7 @@ bash harness-foundry/scripts/bootstrap-self.sh --target trae,claude
 | 写新闻、写稿、新闻稿、报道 | → 必须调用 `news-generator` skill |
 | 事实核查、核实新闻 | → 必须调用 `fact-check` skill |
 | 新闻编辑、审校、排版 | → 必须调用 `news-polish` skill |
-| 卖给、产品化、大学生、前端页面 | → 必须调用 `brainstorming` → product 域 |
+| 卖给、产品化、大学生、前端页面 | → 必须调用 `brainstorming` → **code 域前端/后端交付** |
 
 **应用流程：**
 1. 检查用户输入是否包含关键词

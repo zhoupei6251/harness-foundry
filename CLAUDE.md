@@ -117,7 +117,7 @@ Before ANY response, check if the user's input matches the routing table keyword
 | 写新闻、写稿、新闻稿、报道 | → MUST invoke `news-generator` skill |
 | 事实核查、核实新闻、验证信息 | → MUST invoke `fact-check` skill |
 | 新闻编辑、审校、排版 | → MUST invoke `news-polish` skill |
-| 卖给、产品化、大学生、前端页面、后端接口 | → MUST invoke `brainstorming` → 场景路由 → product 域 |
+| 卖给、产品化、大学生、前端页面、后端接口 | → MUST invoke `brainstorming` → 场景路由 → **code 域前端/后端交付** |
 
 ### Code Domain Default Baseline
 
@@ -141,9 +141,9 @@ Test-green → Small-step → Verify-each → Commit-atomic → Rollback-ready
 
 **Every news task MUST start with `news-generator`.** Follow with `fact-check` (mandatory), then `news-polish`.
 
-### Product Domain Default Baseline
+### Product Domain Default Baseline (merged into Code)
 
-**Every product task MUST start with `brainstorming`**, then route to scenario-specific skills (frontend-design / backend-doc-generator) per `domain-config.yaml` § scenarios.
+**Product delivery tasks (卖给大学生、前端页面、后端接口) are code domain.** Start with `brainstorming`, then route to scenario-specific skills (frontend-design / backend-doc-generator).
 
 **How to apply:**
 1. Read `core/intent-routing.md` at session start

@@ -193,8 +193,9 @@ domains:
       - summarize              # 生成简报
       - humanizer-zh           # 稿件去 AI 味
 
+  # product 场景已合并到 code 域。本段保留为内部配置复用。
+  # 路由：brainstorming → frontend-design / backend-doc-generator
   product:
-    # 执行环境：产品交付，不需要 worktree 隔离
     execution:
       default_provider: local
       fallback_provider: local
