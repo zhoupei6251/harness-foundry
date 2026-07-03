@@ -288,3 +288,4 @@ codegraph init && codegraph index  # Optional
 - Execution context providers (worktree/local) defined but not fully wired
 - Three planned domains (essay/math/academic) are stubs in `domain-config.yaml`
 - CI only runs on Linux (shell scripts); Windows uses PowerShell equivalents
+- **Intent routing depends on LLM instruction-following** — Claude Code has no PreMessage hook for automatic input interception. See [Intent Routing Architecture](docs/intent-routing-architecture.md) for details and roadmap.
