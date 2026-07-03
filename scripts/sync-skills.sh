@@ -1,17 +1,15 @@
 #!/usr/bin/env bash
 # Route: code|novel|news
-# 技能同步：从 .agents/skills 按 _manifest.yaml 投影到各 IDE（Skills 已扁平化，无 shared 子目录）
+# 技能同步：从 skills/ 投影到各 IDE（Trae、Claude Code）
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 MANIFEST="${ROOT}/.agents/skills/_manifest.yaml"
-SRC="${ROOT}/.agents/skills"
-# Skills 已扁平化，不再使用 shared 子目录
-# SHARED_SRC="${ROOT}/skills/shared"  # 已废弃
-CURSOR_DST="${ROOT}/.cursor/skills"
+SRC="${ROOT}/skills"
+
+# 投影目标目录
+CLAUDE_DST="${ROOT}/.claude/skills"
 TRAE_DST="${ROOT}/.trae/skills"
-MIMOCODE_DST="${ROOT}/adapters/mimocode/.agents/skills"
-KIT_CURSOR_SKILLS="${ROOT}/adapters/cursor/.cursor/skills"
 
 # Intelligence Layer Skills 源目录
 INTELLIGENCE_SRC="${ROOT}/core/intelligence"
@@ -29,10 +27,10 @@ SKIP_FROM_SYNC=(
 
 usage() {
   cat <<'EOF'
-Usage: sync-skills.sh [--target cursor|trae|mimocode|all] [--dry-run]
+Usage: sync-skills.sh [--target claude|trae|all] [--dry-run]
 
 Syncs skills from:
-  .agents/skills/          -> IDE projection dirs per _manifest.yaml
+  skills/          -> .claude/skills/, .trae/skills/
 EOF
 }
 
@@ -50,7 +48,7 @@ LAYER_FILE="${LAYER_FILE:-skills/_layer.yaml}"
 SKIP_ARCHIVED="${SKIP_ARCHIVED:-true}"
 ALLOWED_SLUGS=""
 if [[ "$SKIP_ARCHIVED" == "true" && -f "$LAYER_FILE" ]]; then
-  # 用 Python 解析 _layer.yaml（避免 yq 路径问题 + trailing newline 问题）
+  # 用 Python 解析 _layer.yaml
   ALLOWED_SLUGS=$(python3 -c "
 import yaml
 with open('$LAYER_FILE') as f:
@@ -132,12 +130,8 @@ sync_from_manifest() {
     slug="${slug%$'\r'}"
     if [[ -d "${SRC}/${slug}" ]]; then
       src_dir="${SRC}/${slug}"
-    elif [[ -d "${KIT_CURSOR_SKILLS}/${slug}" ]]; then
-      src_dir="${KIT_CURSOR_SKILLS}/${slug}"
-    elif [[ -d "${ROOT}/skills/${slug}" ]]; then
-      src_dir="${ROOT}/skills/${slug}"
     else
-      echo "  [skip] ${slug} — not in .agents or kit adapter"
+      echo "  [skip] ${slug} — not found in skills/"
       return 0
     fi
     if [[ "$DRY_RUN" -eq 1 ]]; then
@@ -160,7 +154,6 @@ sync_from_manifest() {
     for d in "${dst_base}"/*; do
       [[ -d "$d" ]] || continue
       slug="$(basename "$d")"
-      [[ "$slug" == "aigc-platform-backend" ]] && continue
       [[ "$slug" == "README.md" || "$slug" == ".DS_Store" ]] && continue
       local found=0
       for a in "${allowed[@]}"; do
@@ -177,9 +170,8 @@ sync_from_manifest() {
     local platform="$1"
     local dst=""
     case "$platform" in
-      cursor) dst="$CURSOR_DST" ;;
+      claude) dst="$CLAUDE_DST" ;;
       trae) dst="$TRAE_DST" ;;
-      mimocode) dst="$MIMOCODE_DST" ;;
       *) echo "Unknown platform: $platform" >&2; return 1 ;;
     esac
     echo "==> Sync ${platform} -> ${dst}"
@@ -196,7 +188,7 @@ sync_from_manifest() {
           break
         fi
       done
-      # Layer 过滤：archived skill 不投影到 IDE（除非 SKIP_ARCHIVED=false）
+      # Layer 过滤：archived skill 不投影到 IDE
       if [[ "$is_skip" -eq 0 && "$SKIP_ARCHIVED" == "true" && -n "$ALLOWED_SLUGS" ]]; then
         if [[ " $ALLOWED_SLUGS " != *" $s "* ]]; then
           echo "  [skip-archived] ${s} — 归档层不投影"
@@ -209,20 +201,18 @@ sync_from_manifest() {
       kept+=("$s")
       copy_skill "$s" "$dst"
     done
-    # prune_extra 使用「最终要保留的 slugs」= 实际同步的 + 第三方保留
+    # prune_extra 使用「最终要保留的 slugs」
     local allowed=("${kept[@]}" "${SKIP_FROM_SYNC[@]}")
     prune_extra "$dst" "${allowed[@]}"
     echo "==> ${platform}: kept=${#kept[@]} of ${#skills[@]} (含 ${#SKIP_FROM_SYNC[@]} 第三方 skip)"
   }
 
   case "$TARGET" in
-    cursor) sync_platform cursor ;;
+    claude) sync_platform claude ;;
     trae) sync_platform trae ;;
-    mimocode) sync_platform mimocode ;;
     all)
-      sync_platform cursor
+      sync_platform claude
       sync_platform trae
-      sync_platform mimocode
       ;;
     *)
       echo "Unknown target: $TARGET" >&2
@@ -231,14 +221,7 @@ sync_from_manifest() {
   esac
 }
 
-# ---- Shared Skills 同步（已废弃） ----
-# Skills 已扁平化，所有 skill 都在同一层级，不再有 shared 子目录概念
-sync_shared() {
-  echo "==> [skip] sync_shared: Skills 已扁平化，不再使用 shared 子目录"
-}
-
 # ---- Intelligence Layer Skills 同步 ----
-# 同步 strategic 层 (Understand-Anything) 和 tactical 层 (CodeGraph) Skills
 sync_intelligence() {
   if [[ ! -d "$INTELLIGENCE_SRC" ]]; then
     echo "Warn: Intelligence layer not found: $INTELLIGENCE_SRC"
@@ -247,19 +230,15 @@ sync_intelligence() {
 
   echo "==> Syncing Intelligence Layer Skills..."
 
-  # Strategic 层 Skills (Understand-Anything)
   local strategic_src="${INTELLIGENCE_SRC}/strategic"
-  local strategic_dst
-
-  # Tactical 层 Skills (CodeGraph)
   local tactical_src="${INTELLIGENCE_SRC}/tactical"
-  local tactical_dst
 
-  for platform in cursor trae; do
+  for platform in claude trae; do
+    local strategic_dst tactical_dst
     case "$platform" in
-      cursor)
-        strategic_dst="${CURSOR_DST}/../rules/intelligence/strategic"
-        tactical_dst="${CURSOR_DST}/../rules/intelligence/tactical"
+      claude)
+        strategic_dst="${CLAUDE_DST}/../rules/intelligence/strategic"
+        tactical_dst="${CLAUDE_DST}/../rules/intelligence/tactical"
         ;;
       trae)
         strategic_dst="${TRAE_DST}/../intelligence/strategic"
@@ -293,18 +272,14 @@ sync_intelligence() {
 
 # ---- 主流程 ----
 case "$TARGET" in
-  shared)
-    sync_shared
-    ;;
   intelligence)
     sync_intelligence
     ;;
   all)
     sync_from_manifest
-    sync_shared
     sync_intelligence
     ;;
-  cursor|trae|mimocode)
+  claude|trae)
     sync_from_manifest
     ;;
   *)

@@ -1,17 +1,17 @@
 ---
 name: auto-compact
-description: "智能上下文压缩：在最佳时机触发压缩，保留关键状态，清理冗余上下文。"
+description: 智能上下文压缩：在最佳时机触发压缩，保留关键状态，清理冗余上下文。
 metadata:
   origin: harness-foundry
   version: 1.0.0
 when_to_use: 调用 auto-compact 时，或上下文接近阈值时
-status: core
+status: peripheral
 tags:
 - code
 domain: code
 category: code.optimization
+version: 1.0.0
 ---
-
 # Auto Compact - 智能上下文压缩
 
 ## 何时使用

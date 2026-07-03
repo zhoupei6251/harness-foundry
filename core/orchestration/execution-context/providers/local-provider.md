@@ -70,4 +70,3 @@ test -r "$(pwd)" && test -w "$(pwd)" || echo "UNHEALTHY: current directory not r
 - Agent 的 `Write/Edit` 操作直接影响主工作区文件
 - Leader 在派发前应确认 WU 文件集无冲突
 - 建议与 Guardrail output 层配合，阻止危险操作写入主分支
-- 多 Agent 并行时需通过 `multi-leader-protocol.md` 协调文件访问

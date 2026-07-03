@@ -57,7 +57,7 @@ harness-foundry/
 ├── examples/          # 示例配置
 ├── agents/            # 全局 Agent 池（已扁平化）
 ├── skills/            # 全局 Skill 池（已扁平化）
-├── adapters/          # 多平台适配（trae/cursor/claude/codex/mimocode）
+├── adapters/          # 平台适配（trae/claude）
 ├── scripts/           # 初始化脚本
 ├── traps-archive/     # 陷阱库（按域分类）
 └── references/        # 参考资料（含持续学习内容）

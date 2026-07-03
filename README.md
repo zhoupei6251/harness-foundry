@@ -2,7 +2,7 @@
 
 > 跨多 IDE 平台的多智能体 AI 工作流编排框架，用于统筹代码开发、小说创作和新闻写作。
 
-统一驱动 **Trae / Claude Code / Cursor / Codex / Mimocode** 五大平台——单一真相源，随时重建。
+统一驱动 **Trae** 和 **Claude Code** 两个平台——单一真相源，随时重建。
 
 [English](README.en.md)
 
@@ -130,10 +130,11 @@ codegraph index
 ## 快速上手
 
 ```bash
+cd harness-foundry
+
 # 1. 投影适配器到你的 IDE
-bash scripts/bootstrap.sh --target all      # 所有平台
+bash scripts/bootstrap.sh --target all      # 所有平台 (trae, claude)
 bash scripts/bootstrap.sh --target trae    # 仅 Trae
-bash scripts/bootstrap.sh --target cursor  # 仅 Cursor
 bash scripts/bootstrap.sh --target claude  # 仅 Claude Code
 
 # 2. 同步 skills
@@ -147,10 +148,24 @@ bash scripts/sync-skills.sh --target all --dry-run
 bash scripts/verify.sh
 ```
 
-**Windows 用户：** 使用 Git Bash 或 WSL 中的 `bash`。bootstrap 有 PowerShell 等价脚本：
-```powershell
-.\scripts\bootstrap.ps1 -Target all
-.\scripts\sync-skills.ps1 -Target all -DryRun
+**Windows 用户：** 使用 Git Bash 或 WSL 中的 `bash`。
+
+## 自举开发
+
+在开发 harness-foundry 自身时，使用自举脚本将 skills/agents 同步到本地投影层：
+
+```bash
+bash scripts/bootstrap-self.sh --target trae,claude  # 同步到两个平台
+bash scripts/bootstrap-self.sh --target trae         # 仅 Trae
+bash scripts/bootstrap-self.sh --dry-run             # 预览
+```
+
+## 模板初始化
+
+将 harness-foundry 作为模板初始化其他项目：
+
+```bash
+bash scripts/init-project.sh /path/to/new-project
 ```
 
 ---
@@ -178,10 +193,7 @@ harness-foundry/
 │
 ├── adapters/                         # 平台物理绑定（薄壳）
 │   ├── trae/                        # Trae IDE 适配器
-│   ├── cursor/                      # Cursor 适配器
-│   ├── claude/                      # Claude Code 适配器
-│   ├── codex/                       # Codex 适配器
-│   └── mimocode/                    # Mimocode 适配器
+│   └── claude/                      # Claude Code 适配器
 │
 ├── skills/                           # ★ 194 个 Skills（扁平结构）
 │   ├── INDEX.md                    # 完整 Skill 索引（自动生成）
@@ -204,23 +216,14 @@ harness-foundry/
 │   ├── memory-keeper.md           # 记忆管理者
 │   └── *.md                      # 其他专项 Agent
 │
-├── hooks/                            # 自动化 Hook + Guardrail
-│   ├── hooks.json                # PreToolUse / PostToolUse / Stop hook
-│   ├── guardrails/               # 双层防护规则
-│   │   ├── guardrail-config.json
-│   │   └── rules/                # Input 5 条 + Output 5 条
-│   ├── observe.sh / observe.ps1  # 运行时监控
-│   └── memory-persistence/       # 记忆持久化
-│
 ├── scripts/                         # Bootstrap 和同步脚本
-│   ├── bootstrap.sh / bootstrap.ps1
-│   ├── sync-skills.sh / sync-skills.ps1
-│   ├── verify.sh                 # CI 验证入口
-│   ├── gen-skill-index.sh / gen-skill-index.ps1
-│   ├── gen-skill-graph.py        # 技能依赖图生成
-│   ├── auto-fill-frontmatter.py  # frontmatter 自动填充
-│   ├── classify-skills.py        # Skill 分类
-│   └── harness-worktree.sh       # Git worktree 沙箱
+│   ├── bootstrap.sh               # 投影适配器到 IDE
+│   ├── bootstrap-self.sh           # 自举脚本（开发 harness 自身）
+│   ├── init-project.sh            # 模板化项目初始化
+│   ├── sync-skills.sh             # 同步 skills 到 IDE
+│   ├── verify.sh                  # CI 验证入口
+│   ├── gen-skill-index.sh         # Skill 索引生成
+│   └── harness-worktree.sh        # Git worktree 沙箱
 │
 ├── traps-archive/               # 历史陷阱存档（402 条规则）
 │   ├── code/00-all.md          # 251 条代码陷阱
@@ -232,9 +235,7 @@ harness-foundry/
 ├── references/                     # 上下文地图、Instinct
 ├── docs/                           # 文档
 │   ├── skill-metadata-spec.md   # Skill 元数据规范
-│   ├── skill-frontmatter-schema.md
-│   ├── skill-dependency-graph.md # 技能依赖图
-│   ├── harness-foundry-knowledge-graph.md # 知识图谱
+│   ├── plans/                   # 设计文档
 │   └── intelligence-layer-*.md   # Intelligence Layer 文档
 │
 └── CLAUDE.md                  # Claude Code 上下文文件

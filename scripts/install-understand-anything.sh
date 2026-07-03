@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
 # Route: code
 # Understand-Anything 多平台集成脚本
-# 集成到 Harness Foundry 支持的所有平台：Claude Code, Cursor, Trae, Codex
+# 仅支持 Trae 和 Claude Code
 #
 # Usage:
 #   bash scripts/install-understand-anything.sh              # 交互式安装
 #   bash scripts/install-understand-anything.sh --all       # 安装所有平台
 #   bash scripts/install-understand-anything.sh --claude      # 仅 Claude Code
 #   bash scripts/install-understand-anything.sh --trae        # 仅 Trae
-#   bash scripts/install-understand-anything.sh --cursor      # 仅 Cursor
-#   bash scripts/install-understand-anything.sh --codex       # 仅 Codex
-#   bash scripts/install-understand-anything.sh --uninstall    # 卸载
 #   bash scripts/install-understand-anything.sh --dry-run     # 预览
 set -euo pipefail
 
@@ -32,11 +29,9 @@ UA_SKILLS_SRC="${UA_PLUGIN_DIR}/skills"
 
 # 各平台 Skills 目标目录
 CLAUDE_SKILLS="${ROOT}/.claude/skills"
-CURSOR_SKILLS="${ROOT}/.cursor/skills"
 TRAE_SKILLS="${ROOT}/.trae/skills"
-CODEX_SKILLS="${HOME}/.agents/skills"
 
-# 全局安装目录（Claude Code, Trae, Codex 共用）
+# 全局安装目录
 GLOBAL_CLAUDE_SKILLS="${HOME}/.claude/skills"
 GLOBAL_TRAE_SKILLS="${HOME}/.trae/skills"
 
@@ -64,29 +59,25 @@ Understand-Anything 多平台集成脚本
 Usage: install-understand-anything.sh [OPTIONS]
 
 选项:
-  --all         安装到所有支持的平台
+  --all         安装到所有支持的平台 (trae, claude)
   --claude      仅 Claude Code
-  --cursor      仅 Cursor
   --trae        仅 Trae
-  --codex       仅 Codex
   --dry-run     预览模式，不实际执行
   --uninstall   卸载所有平台的集成
   -h, --help    显示帮助
 
 示例:
   bash scripts/install-understand-anything.sh --all
-  bash scripts/install-understand-anything.sh --trae --cursor
+  bash scripts/install-understand-anything.sh --trae --claude
 EOF
 }
 
 # === 参数解析 ===
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --all) TARGETS=(claude cursor trae codex); shift ;;
+    --all) TARGETS=(claude trae); shift ;;
     --claude) TARGETS+=(claude); shift ;;
-    --cursor) TARGETS+=(cursor); shift ;;
     --trae) TARGETS+=(trae); shift ;;
-    --codex) TARGETS+=(codex); shift ;;
     --dry-run) DRY_RUN=1; shift ;;
     --uninstall) UNINSTALL=1; shift ;;
     -h|--help) usage; exit 0 ;;
@@ -96,7 +87,7 @@ done
 
 # 默认安装所有平台
 if [[ ${#TARGETS[@]} -eq 0 ]]; then
-  TARGETS=(claude cursor trae codex)
+  TARGETS=(claude trae)
 fi
 
 # === 检查 Understand-Anything 是否可用 ===
@@ -230,15 +221,6 @@ install_claude() {
     return 0
   fi
 
-  # 方法1: Marketplace 安装 (推荐)
-  echo ""
-  echo "Claude Code 推荐使用 Marketplace 安装:"
-  echo "  1. 在 Claude Code 中运行:"
-  echo "     /plugin marketplace add Egonex-AI/Understand-Anything"
-  echo "     /plugin install understand-anything"
-  echo ""
-  echo "  2. 或者手动复制 Skills 到项目目录:"
-
   # 复制到项目 .claude/skills
   if [[ -d "$ROOT/.claude" ]] || [[ "$DRY_RUN" -eq 1 ]]; then
     copy_skills "$UA_SKILLS_SRC" "$CLAUDE_SKILLS" "Claude Code (项目)"
@@ -248,27 +230,6 @@ install_claude() {
   if [[ -d "$GLOBAL_CLAUDE_SKILLS" ]] || [[ "$DRY_RUN" -eq 1 ]]; then
     copy_skills "$UA_SKILLS_SRC" "$GLOBAL_CLAUDE_SKILLS" "Claude Code (全局)"
   fi
-}
-
-# === Cursor 安装 ===
-install_cursor() {
-  echo ""
-  echo -e "${BLUE}==> Cursor 安装${NC}"
-  echo "================================"
-
-  if [[ "$UNINSTALL" -eq 1 ]]; then
-    if [[ -d "$CURSOR_SKILLS" ]]; then
-      for skill in $(list_skills); do
-        rm -rf "$CURSOR_SKILLS/$skill" 2>/dev/null || true
-      done
-      success "已卸载 Cursor Skills"
-    else
-      info "Cursor Skills 不存在，跳过"
-    fi
-    return 0
-  fi
-
-  copy_skills "$UA_SKILLS_SRC" "$CURSOR_SKILLS" "Cursor"
 }
 
 # === Trae 安装 ===
@@ -298,33 +259,12 @@ install_trae() {
   fi
 }
 
-# === Codex 安装 ===
-install_codex() {
-  echo ""
-  echo -e "${BLUE}==> Codex 安装${NC}"
-  echo "================================"
-
-  if [[ "$UNINSTALL" -eq 1 ]]; then
-    if [[ -d "$CODEX_SKILLS" ]]; then
-      for skill in $(list_skills); do
-        rm -rf "$CODEX_SKILLS/$skill" 2>/dev/null || true
-      done
-      success "已卸载 Codex Skills"
-    else
-      info "Codex Skills 不存在，跳过"
-    fi
-    return 0
-  fi
-
-  # Codex 使用 ~/.agents/skills 作为标准位置
-  link_skills "$UA_SKILLS_SRC" "$CODEX_SKILLS" "Codex"
-}
-
 # === 主流程 ===
 main() {
   echo ""
   echo "=============================================="
   echo "  Understand-Anything 多平台集成"
+  echo "  (仅支持 Trae 和 Claude Code)"
   echo "=============================================="
   echo ""
 
@@ -342,9 +282,7 @@ main() {
   for target in "${TARGETS[@]}"; do
     case "$target" in
       claude) install_claude ;;
-      cursor) install_cursor ;;
       trae) install_trae ;;
-      codex) install_codex ;;
       *)
         warn "未知平台: $target"
         ;;
@@ -363,9 +301,7 @@ main() {
   echo "下一步:"
   echo ""
   echo "  Claude Code: 重启后使用 /understand 开始分析"
-  echo "  Cursor: 重启后使用 /understand 开始分析"
   echo "  Trae: 重启后使用 /understand 开始分析"
-  echo "  Codex: 重启后使用 /understand 开始分析"
   echo ""
   echo "  文档: $UA_PLUGIN_DIR/README.md"
   echo ""

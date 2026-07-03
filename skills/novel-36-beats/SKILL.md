@@ -12,13 +12,12 @@ metadata:
   - outline
 version: 1.0.0
 when_to_use: 用户要求规划小说大纲、设计情节结构、拆解章节节奏、或使用三幕式结构组织长篇创作时
-status: must-core
+status: peripheral
 tags:
 - novel
 domain: novel
 category: novel.structure
 ---
-
 # Novel 36-Beats — 结构化节拍写作框架
 
 > 借鉴 The Crucible Writing System 的 36-beat framework，为长篇网文提供三幕式结构化写作指导。

@@ -68,13 +68,6 @@ tags: [Standard]
 - **Forbidden:** 末 WU 返回即声称完成
 - **Degraded:** 无
 
-### orchestration.continuous-loop
-
-- **Requires:** 用户 opt-in
-- **Produces:** HANDOFF 衔接
-- **Forbidden:** 默认启用
-- **Degraded:** Claude/generic 多会话人工 HANDOFF
-
 ### roles.coder
 
 - **Requires:** 代码类 WU

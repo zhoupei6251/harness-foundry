@@ -14,6 +14,5 @@
 |------|------|------|
 | `interaction.structured-ask` | degraded | 对话式单选，无法使用 AskUserQuestion |
 | `hooks.session-lifecycle` | manual | 用户自行配置 `.claude/settings.json` |
-| `orchestration.continuous-loop` | manual | 多会话 HANDOFF 人工衔接 |
 
 parity 全表：`capability-matrix.yaml`；绑定映射：`bindings.md`

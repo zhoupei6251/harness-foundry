@@ -14,8 +14,10 @@ metadata:
   - 断点续传
 domain: novel
 category: novel.publish
+tags:
+- 番茄
+- 自动发布
 ---
-
 # fanqie-novel-auto-publish
 # 番茄小说创作发布一条龙技能
 

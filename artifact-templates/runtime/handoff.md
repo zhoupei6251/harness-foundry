@@ -55,5 +55,4 @@ context_version: <n>
 
 ## 降级记录
 
-- `capability orchestration.continuous-loop: manual（HANDOFF 人工衔接）`
 - `capability interaction.structured-ask: degraded（无 AskQuestion 工具）`

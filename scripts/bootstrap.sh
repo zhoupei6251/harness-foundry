@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Route: code|novel|news
 # Harness Foundry 一键初始化：检查环境，投影 adapters，创建运行时目录，生成 MEMORY.md
+# 仅支持 Trae 和 Claude Code
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-KIT="${ROOT}/harness-foundry"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+KIT="${ROOT}"
 TARGET="all"
 ROUTE="code"
 FORCE=0
@@ -12,15 +13,12 @@ DRY_RUN=0
 
 usage() {
   cat <<'EOF'
-Usage: bootstrap.sh [--target cursor|trae|claude|codex|mimocode|all] [--route code|novel|news] [--force] [--dry-run]
+Usage: bootstrap.sh [--target trae|claude|all] [--route code|novel|news] [--force] [--dry-run]
 
 Projects harness-foundry adapters to workspace:
-  adapters/cursor/.cursor/  -> .cursor/
   adapters/trae/.trae/      -> .trae/
-  adapters/claude/.claude/  -> .claude/
-  adapters/codex/           -> .codex/
-  adapters/mimocode/        -> .mimocode/
-  adapters/agents/AGENTS.md -> AGENTS.md
+  adapters/claude/.claude/   -> .claude/
+  adapters/agents/AGENTS.md  -> AGENTS.md
 
 --route:   域标识 (code|novel|news)，影响 MEMORY.md 模板与运行时目录
 --dry-run: 仅打印计划，不实际写入
@@ -47,10 +45,6 @@ check_env() {
       missing=1
     fi
   done
-  if [[ ! -d "${KIT}" ]]; then
-    echo "[error] harness-foundry 目录不存在: ${KIT}" >&2
-    exit 1
-  fi
   if [[ "$missing" -eq 1 ]]; then
     exit 1
   fi
@@ -91,6 +85,8 @@ copy_tree() {
 }
 
 # ---- Adapter 投影 ----
+
+# Trae 投影
 bootstrap_trae() {
   local src="${KIT}/adapters/trae/.trae"
   local dst="${ROOT}/.trae"
@@ -121,71 +117,15 @@ bootstrap_trae() {
   bash "${KIT}/scripts/sync-skills.sh" --target trae
 }
 
-bootstrap_cursor() {
-  local src="${KIT}/adapters/cursor/.cursor"
-  local dst="${ROOT}/.cursor"
-  local sub
-
-  if [[ "$DRY_RUN" -eq 1 ]]; then
-    echo "[dry] Cursor: would sync ${src}/{agents,rules,hooks,mcp} -> ${dst}/"
-    for sub in agents rules hooks mcp; do
-      if [[ -d "${src}/${sub}" ]]; then
-        echo "    [dry] copy ${src}/${sub}/ -> ${dst}/${sub}/"
-      fi
-    done
-    bash "${KIT}/scripts/sync-skills.sh" --target cursor --dry-run
-    return 0
-  fi
-
-  for sub in agents rules hooks mcp; do
-    if [[ -d "${src}/${sub}" ]]; then
-      mkdir -p "${dst}/${sub}"
-      if command -v rsync >/dev/null 2>&1; then
-        rsync -a --delete "${src}/${sub}/" "${dst}/${sub}/"
-      else
-        cp -a "${src}/${sub}/." "${dst}/${sub}/" 2>/dev/null || cp -a "${src}/${sub}"/* "${dst}/${sub}/"
-      fi
-      echo "[ok] Cursor ${sub}: ${src}/${sub} -> ${dst}/${sub}"
-    fi
-  done
-
-  if [[ -f "${dst}/hooks.json" ]] && [[ "$FORCE" -eq 0 ]]; then
-    echo "[keep] .cursor/hooks.json (use --force to overwrite from example)"
-  elif [[ -f "${KIT}/adapters/cursor/.cursor/hooks.json.example" ]] && [[ ! -f "${dst}/hooks.json" ]]; then
-    cp "${KIT}/adapters/cursor/.cursor/hooks.json.example" "${dst}/hooks.json.example"
-    echo "[hint] Copy hooks.json.example to hooks.json to enable hooks"
-  fi
-  bash "${KIT}/scripts/sync-skills.sh" --target cursor
-}
-
+# Claude Code 投影
 bootstrap_claude() {
   local src="${KIT}/adapters/claude/.claude"
   local dst="${ROOT}/.claude"
   if [[ -d "$src" ]]; then
     mkdir -p "$dst"
     copy_tree "$src" "$dst" "Claude Code"
-  fi
-}
-
-bootstrap_codex() {
-  if [[ -f "${KIT}/adapters/codex/entrypoints/AGENTS.harness.md" ]]; then
-    mkdir -p "${ROOT}"
-    if [[ -f "${ROOT}/AGENTS.md" ]] && [[ "$FORCE" -eq 0 ]]; then
-      echo "[keep] AGENTS.md exists; Codex section in harness-foundry/adapters/codex/entrypoints/AGENTS.harness.md"
-    else
-      cp "${KIT}/adapters/agents/AGENTS.md" "${ROOT}/AGENTS.md"
-      echo "[ok] AGENTS.md <- adapters/agents/AGENTS.md (includes Codex pointer)"
-    fi
-  fi
-  echo "[ok] Codex: Read harness-foundry/adapters/codex/entrypoints/AGENTS.harness.md"
-}
-
-bootstrap_mimocode() {
-  local src="${KIT}/adapters/mimocode"
-  local dst="${ROOT}/.mimocode"
-  if [[ -d "$src" ]]; then
-    mkdir -p "$dst"
-    copy_tree "$src" "$dst" "MimoCode"
+    # 同步 skills
+    bash "${KIT}/scripts/sync-skills.sh" --target claude
   fi
 }
 
@@ -326,18 +266,12 @@ EOF
 check_env
 
 case "$TARGET" in
-  cursor) bootstrap_cursor ;;
   trae) bootstrap_trae ;;
   claude) bootstrap_claude ;;
-  codex) bootstrap_codex ;;
-  mimocode) bootstrap_mimocode ;;
   all)
     bootstrap_agents
-    bootstrap_cursor
     bootstrap_trae
     bootstrap_claude
-    bootstrap_codex
-    bootstrap_mimocode
     bootstrap_mcp
     ;;
   *)

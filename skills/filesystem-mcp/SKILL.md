@@ -2,8 +2,7 @@
 name: filesystem-mcp
 description: Filesystem operations via official Filesystem MCP. Read, write, list,
   search, and manage files and directories using mcp__filesystem__* tools. Use when
-  you need structured filesystem operations beyond Claude Code built-in tools, or when
-  working with specific directory paths in agent workflows.
+  you need structured filesystem operations bey...
 metadata:
   origin: harness-foundry
   version: 1.0.0
@@ -13,6 +12,7 @@ tags:
 - shared
 domain: code
 category: shared.workflow
+version: 1.0.0
 ---
 # Filesystem MCP
 

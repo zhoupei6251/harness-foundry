@@ -1,6 +1,7 @@
 ---
 name: novel-self-review
-description: 写作自评机制，writer 写完后先进行5项轻量自检（字数/钩子/AI痕迹/人物一致/伏笔），达标后输出给 reviewer，减少 reviewer 负担
+description: 写作自评机制，writer 写完后先进行5项轻量自检（字数/钩子/AI痕迹/人物一致/伏笔），达标后输出给 reviewer，减少 reviewer
+  负担
 metadata:
   domain: novel
   priority: P1
@@ -10,13 +11,12 @@ metadata:
   - pre-review
 version: 1.0.0
 when_to_use: writer 写完初稿后、提交 reviewer 前
-status: core
+status: peripheral
 tags:
 - novel
 domain: novel
 category: novel.review
 ---
-
 # Novel Self-Review — 写作自评机制
 
 > 轻量级自检流程，5 维标准。writer 写完后先自我审查，达标才提交 reviewer，减少返修次数。

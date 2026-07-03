@@ -6,7 +6,7 @@ tags: [Rules, Runbook, Memory]
 
 # AGENTS.md — Harness Foundry 统一入口
 
-> 一个文件，所有平台。Cursor / Trae / Claude Code / Codex / MimoCode 共用的唯一真相源。
+> 一个文件，所有平台。Trae / Claude Code 共用的唯一真相源。
 
 ## 规范优先级
 
@@ -14,11 +14,8 @@ tags: [Rules, Runbook, Memory]
 2. `harness-foundry/core/intent-routing.md` — 意图路由 + 阶段门禁（所有平台强制）
 3. `harness-foundry/core/NEVER.md` — 禁止清单（所有平台强制）
 4. 平台入口规则（按当前平台自动选一个加载）：
-   - Cursor: `harness-foundry/adapters/cursor/.cursor/rules/ENTRY.mdc`
    - Trae: `harness-foundry/adapters/trae/.trae/rules/ENTRY.md`
    - Claude Code: `harness-foundry/adapters/claude/.claude/rules/ENTRY.md`
-   - Codex: 本文件直接作为 `AGENTS.md`
-   - MimoCode: `harness-foundry/adapters/mimocode/bindings.md`
 
 ## 每任务必做
 
@@ -121,16 +118,15 @@ tags: [Rules, Runbook, Memory]
 
 | 触发词 | 看什么 | 做什么 |
 |--------|--------|--------|
-| 设计/方案/怎么搞/架构 | `harness-foundry/core/intent-routing.md` § design | brainstorming → 写 spec → 暂停等确认 |
-| 计划/拆分/WBS | `harness-foundry/core/intent-routing.md` § plan | writing-plans → 写 plan → 暂停等确认 |
-| OK/开始/执行/做吧 | `harness-foundry/core/intent-routing.md` § implement | 拆 WU → 并行派兵 |
-| 修 bug/报错/改一下 | Leader 直做 或 debugger | 排查修复 |
-| 审查/code review | `harness-foundry/agents/reviewer.md` | 五轴审查 |
-| 测试/单测/补测试 | `harness-foundry/agents/test-engineer.md` | 先写测试再实现 |
-| commit/merge/push/MR | git-xywh skill | git-xywh 工作流 |
-| 搜/查/调研 | WebSearch → WebFetch | 信息收集 |
-| 后端开发 | Read `.cursor/rules/Backend-Develop-Rule.mdc` 或对应 adapter 的后端规范 | Java 后端通用规范 |
-| 多 WU/写到第N个 | `harness-foundry/core/orchestration/dispatcher-workflow.md` | 拆 WU → 并行派兵 |
+| 设计/方案/怎么搞/架构 | `harness-foundry/core/intent-routing.md` § design | brainstorming → 写 spec → **暂停等确认** |
+| 计划/拆分/列出任务/WBS、排期 | `harness-foundry/core/intent-routing.md` § plan | writing-plans → 写 plan → **暂停等确认** |
+| OK/可以/开始/做吧/执行/就按这个、批准了 | `harness-foundry/core/intent-routing.md` § implement | 拆 WU → 并行派兵 |
+| 修/bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵 |
+| 审查/review/code review | `harness-foundry/agents/reviewer.md` | 五轴审查 |
+| 测试/单测/E2E、写test、补测试 | `harness-foundry/agents/test-engineer.md` | 先写测试再实现 |
+| commit/merge/rebase/push/MR | git-xywh skill | git-xywh 工作流 |
+| 查/搜/调研/资料、怎么回事 | WebSearch → WebFetch | 信息收集 |
+| 卖给/产品化/大学生/前端页面/后端接口 | product | `brainstorming` → 场景路由 → product 域 |
 
 ---
 
@@ -170,16 +166,12 @@ tags: [Rules, Runbook, Memory]
 | 平台 | 配置文件 | 格式 |
 |------|---------|------|
 | **Claude Code** | `harness-foundry/adapters/claude/.claude/rules/ENTRY.md` | Markdown |
-| **Cursor** | `harness-foundry/adapters/cursor/.cursor/rules/ENTRY.mdc` | Markdown + YAML frontmatter |
 | **Trae** | `harness-foundry/adapters/trae/.trae/rules/ENTRY.md` | Markdown |
-| **Codex** | `AGENTS.md` (直接读取) | Markdown |
-| **MimoCode** | `harness-foundry/adapters/mimocode/bindings.md` | Markdown |
 
 ## Bootstrap
 
 ```bash
 bash harness-foundry/scripts/bootstrap.sh          # 投影所有适配器
 bash harness-foundry/scripts/bootstrap.sh --target trae     # 仅 Trae
-bash harness-foundry/scripts/bootstrap.sh --target cursor   # 仅 Cursor
 bash harness-foundry/scripts/bootstrap.sh --target claude   # 仅 Claude Code
 ```

@@ -31,13 +31,11 @@ tags: [Orchestration, Runbook]
 
 ---
 
-## 步骤 0：读记忆 + 注册平台
+## 步骤 0：读记忆
 
 **派发前必须：**
-1. Read 对应 runtime 的 `memory/state.json` — 了解当前活跃平台和 WU
+1. Read 对应 runtime 的 `memory/state.json` — 了解当前状态
 2. 检查 `active_wus` 文件覆盖是否有冲突
-3. 在 `active_platforms` 中注册自己
-4. 遵循对应 `multi-leader-protocol.md` 冲突避免规则
 
 ## 步骤 0.5：环境初始化
 

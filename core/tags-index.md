@@ -58,7 +58,6 @@ tags: [Reference]
 | `core/capabilities/registry.md` | 能力注册表 |
 | `core/orchestration/skill-preferences.md` | Skill 路由 |
 | `core/orchestration/roles.md` | 角色定义 |
-| `core/multi-leader-protocol.md` | 多平台协作 |
 
 ## 加载策略
 

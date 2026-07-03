@@ -82,7 +82,7 @@ domains:
     # 次 Skill（按需加载）
     secondary_skills:
       - simplify               # /simplify 精简代码
-      - technical-writer       # 写技术文档
+      - tech-writer            # 写技术文档（已有 agent）
       - humanizer-zh           # 文档去 AI 味
       - web-tools-guide        # 查资料
       - playwright             # E2E 测试 / 浏览器自动化（test-engineer E2E 主工具）
@@ -192,6 +192,90 @@ domains:
       - web-tools-guide        # 查资料
       - summarize              # 生成简报
       - humanizer-zh           # 稿件去 AI 味
+
+  product:
+    # 执行环境：产品交付，不需要 worktree 隔离
+    execution:
+      default_provider: local
+      fallback_provider: local
+      isolation_level: none
+      auto_cleanup: false
+
+    # CEO → Domain Leader 派发
+    leader: leader-product
+    workers:
+      - product-writer
+      - product-reviewer
+
+    primary_agents:
+      - leader-product
+      - product-writer
+      - product-reviewer
+
+    secondary_agents:
+      - tech-writer            # 写技术文档/交付说明（已有 agent）
+
+    # 场景预设（按客户类型路由）
+    scenarios:
+      college-frontend:
+        description: "只想要前端页面的大学生"
+        triggers:
+          - 前端
+          - 页面
+          - HTML
+          - Vue
+          - React
+          - 只想前端
+        skills:
+          - frontend-design
+          - web-design-guidelines
+        deliverables:
+          - 页面代码
+          - 部署说明
+          - 使用文档
+
+      college-backend:
+        description: "只想要后端接口的大学生"
+        triggers:
+          - 后端
+          - 接口
+          - API
+          - Spring
+          - 只想后端
+        skills:
+          - backend-doc-generator
+        deliverables:
+          - 后端代码
+          - API 文档
+          - 部署说明
+
+      college-fullstack:
+        description: "前后端都要的大学生"
+        triggers:
+          - 全栈
+          - 前后端
+          - 完整
+          - 都要
+        skills:
+          - frontend-design
+          - backend-doc-generator
+        deliverables:
+          - 前端代码
+          - 后端代码
+          - 接口文档
+          - 部署说明
+          - 使用文档
+
+    primary_skills:
+      - brainstorming           # 场景选择 + 需求理解
+      - frontend-design         # 前端交付
+      - backend-doc-generator   # 后端交付
+      - tech-writer             # 技术文档（用 agent）
+
+    secondary_skills:
+      - superdesign             # 前端设计指南（已有 skill）
+      - humanizer-zh           # 中文去 AI 味
+      - humanizer              # 英文去 AI 味
 
 # === 运行时目录 ===
 # handoff 机制已移除。Leader 直接对用户负责。

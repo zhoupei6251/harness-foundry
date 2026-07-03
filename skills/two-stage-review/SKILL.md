@@ -1,8 +1,14 @@
 ---
 name: two-stage-review
-description: "两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。"
+description: 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。
+version: 1.0.0
+when_to_use: 调用 two-stage-review 时
+status: peripheral
+tags:
+- shared
+domain: shared
+category: workflow
 ---
-
 # Two-Stage Review
 
 > 将审查分为两个独立阶段：Spec 合规（阶段 1）和代码质量（阶段 2）。

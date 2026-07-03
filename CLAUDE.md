@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Harness Foundry — CLAUDE.md
 
 > An AI coding workflow framework for multiple IDEs.
-> Unified driver across **Trae / Claude Code / Cursor / Codex / Mimocode**.
+> Unified driver across **Trae** and **Claude Code**.
 
 ## What This Project Is
 
@@ -19,7 +19,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture
 
-**Truth Source + Projection Model**: Only modify files under `core/` and `adapters/`. IDEs read from projection directories (`.trae/`, `.cursor/`, `.claude/`) rebuilt by `bootstrap.sh` and gitignored.
+**Truth Source + Projection Model**: Only modify files under `core/` and `adapters/`. IDEs read from projection directories (`.trae/`, `.claude/`) rebuilt by `bootstrap.sh` and gitignored.
 
 ```
 core/                          # Platform-agnostic truth source
@@ -36,10 +36,7 @@ core/                          # Platform-agnostic truth source
 
 adapters/                      # Platform-specific physical bindings
 ├── trae/ .trae/              # Trae IDE adapter + projection
-├── cursor/ .cursor/          # Cursor adapter + projection
-├── claude/ .claude/          # Claude Code adapter + projection
-├── codex/                    # Codex adapter
-└── mimocode/                 # Mimocode adapter
+└── claude/ .claude/          # Claude Code adapter + projection
 
 skills/                        # ★ 194 skills (flat structure)
 ├── INDEX.md                  # Auto-generated index
@@ -61,9 +58,12 @@ docs/                         # Documentation & guides
 ## Key Commands
 
 ```bash
-# Bootstrap IDE adapters (rebuilds .trae/ .cursor/ .claude/ projections)
+# Bootstrap IDE adapters (rebuilds .trae/ .claude/ projections)
 bash scripts/bootstrap.sh --target all --dry-run    # Preview first
 bash scripts/bootstrap.sh --target all              # Execute
+
+# Self-bootstrap for developing harness-foundry itself
+bash scripts/bootstrap-self.sh --target trae,claude # Sync skills/agents to local projections
 
 # Sync skills to IDE projections
 bash scripts/sync-skills.sh --target all --dry-run  # Preview first
@@ -71,13 +71,6 @@ bash scripts/sync-skills.sh --target all            # Execute
 
 # CI verification (4 checks: bash syntax, bootstrap dry-run, sync dry-run, skill structure)
 bash scripts/verify.sh
-
-# Single test runs
-bash tests/L1-static/validate-agent-format.sh
-bash tests/L1-static/validate-skill-meta.sh
-bash tests/L1-static/validate-never.sh
-bash tests/L2-integration/validate-routing.sh
-bash tests/L2-integration/validate-domain-config.sh
 
 # Intelligence Layer installation
 bash scripts/install-intelligence-deps.sh
@@ -126,10 +119,10 @@ Route: <code|novel|news>
 
 **Flat structure**: `skills/<slug>/SKILL.md`. Optional `_meta.json` metadata.
 
-**Loading priority** (Cursor example):
-1. `.cursor/skills/<slug>/SKILL.md` (projection, gitignored)
+**Loading priority** (Claude Code example):
+1. `.claude/skills/<slug>/SKILL.md` (projection, gitignored)
 2. `skills/<slug>/SKILL.md` (truth source)
-3. `~/.cursor/skills/<slug>/SKILL.md` (user global)
+3. `~/.claude/skills/<slug>/SKILL.md` (user global)
 
 **Skill routing**: `core/orchestration/skill-preferences.md` maps `agent_role + wu_type → skill slugs`.
 

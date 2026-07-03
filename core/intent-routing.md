@@ -26,6 +26,7 @@ tags: [Rules, Runbook]
 | 测试、单测、E2E、写test、补测试 | test | `/test-driven-development` |
 | commit、merge、rebase、push、MR | git | `/git-xywh` |
 | 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
+| 卖给、产品化、大学生、前端页面、后端接口 | product | `/brainstorming` → 场景路由 → product 域 |
 
 ## Never 清单
 
@@ -44,6 +45,7 @@ Read `harness-foundry/core/NEVER.md` — 所有禁止项的详细说明。
 | 并行实现 | `dispatcher-workflow.md` | 按角色读 `agents/*.md` | 其他 |
 | 写 spec/plan | brainstorming / writing-plans skill | — | orchestration 层 |
 | Code Review | requesting-code-review skill | — | orchestration 层 |
+| 产品交付（卖给大学生等） | `brainstorming` + product 域配置 | `domain-config.yaml` § scenarios | — |
 
 **会话开始只读两件事：**
 1. `state.json`（如果存在）— 了解上下文

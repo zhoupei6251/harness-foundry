@@ -10,7 +10,7 @@ tags: [Standard]
 
 本文档是 Harness **子 Agent 应加载哪些 skill** 的**唯一维护入口**（文档维护，**不是** skill 文件）。
 
-- 项目内置**能力副本**在 `.cursor/skills/`（TDD、verification 等），由 Cursor 发现；升级用 `bash harness-foundry/scripts/sync-cursor-skills.sh`。
+- 项目内置**能力副本**在 `.trae/skills/` 或 `.claude/skills/`（TDD、verification 等），由 IDE 发现；升级用 `bash harness-foundry/scripts/sync-skills.sh`。
 - **编排步骤**见 `core/orchestration/dispatcher-workflow.md`。
 
 ---
@@ -167,29 +167,29 @@ intelligence:
 
 ## 全局禁止（不得传给子 Agent）
 
-`brainstorming`, `writing-plans`, `cursor-orchestration`, 「claude-orchestration」, 「using-superpowers」, 「git-xywh」, `dispatching-parallel-agents`, `subagent-driven-development`
+`brainstorming`, `writing-plans`, `claude-orchestration`, 「harness-orchestration」, 「using-superpowers」, 「git-xywh」, `dispatching-parallel-agents`, `subagent-driven-development`
 
 ---
 
 ## 内置能力副本
 
-| slug | 用途 | Cursor 路径 | Trae 路径 | Claude Code 路径 |
-| --- | --- | --- | --- | --- |
-| test-driven-development | 先测后实现 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
-| systematic-debugging | 根因调查 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
-| requesting-code-review | 独立审查 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
-| receiving-code-review | 按审查意见改代码 | `.cursor/skills/` | `.trae/skills/` | `harness-foundry/skills/` |
-| ui-ux-pro-max | UI/UX 设计系统 | `~/.trae/skills/` | `~/.trae/skills/` | `harness-foundry/skills/` |
-| frontend-design | UI 实现审美 | 全局复制 | `~/.trae/skills/` | `harness-foundry/skills/` |
+| slug | 用途 | Trae 路径 | Claude Code 路径 |
+| --- | --- | --- | --- |
+| test-driven-development | 先测后实现 | `.trae/skills/` | `.claude/skills/` |
+| systematic-debugging | 根因调查 | `.trae/skills/` | `.claude/skills/` |
+| requesting-code-review | 独立审查 | `.trae/skills/` | `.claude/skills/` |
+| receiving-code-review | 按审查意见改代码 | `.trae/skills/` | `.claude/skills/` |
+| ui-ux-pro-max | UI/UX 设计系统 | `~/.trae/skills/` | `~/.claude/skills/` |
+| frontend-design | UI 实现审美 | `~/.trae/skills/` | `~/.claude/skills/` |
 
-副本来源登记：`adapters/cursor/.cursor/skills/_vendor-sources.yaml`。
+副本来源登记：`skills/_vendor-sources.yaml`（如有）。
 
 ### 仅 Leader / 不在子 Agent 列表
 
 | slug | 位置 |
 | --- | --- |
-| cursor-orchestration | `.agents/skills/` |
-| brainstorming, writing-plans, git-xywh | 用户全局 |
+| claude-orchestration | IDE 内置或 `skills/` |
+| brainstorming, writing-plans, git-xywh | `skills/` |
 
 ---
 
@@ -309,30 +309,23 @@ intelligence:
 
 ## 加载顺序（路径）
 
-### Cursor / 通用
-1. `.cursor/skills/<slug>/SKILL.md`
-2. `~/.cursor/skills/<slug>/SKILL.md`
-3. `~/.agents/skills/<slug>/SKILL.md`
-
 ### Claude Code
 1. `.claude/skills/<slug>/SKILL.md`（项目级）
 2. `~/.claude/skills/<slug>/SKILL.md`（用户全局）
+3. `skills/<slug>/SKILL.md`（真相源）
 
 ### Trae IDE
 1. `.trae/skills/<slug>/SKILL.md`（项目级）
 2. `~/.trae/skills/<slug>/SKILL.md`（用户全局）
+3. `skills/<slug>/SKILL.md`（真相源）
 
-> Trae 的 Skill 工具调用会自动发现 `.trae/skills/` 目录下的 skill，无需手动指定路径。
-
-### MiMo Code
-1. `harness-foundry/adapters/mimocode/.agents/skills/<slug>/SKILL.md`（项目级）
-2. `.cursor/skills/<slug>/SKILL.md`（共享 Cursor 副本）
-3. `~/.agents/skills/<slug>/SKILL.md`（用户全局）
+> IDE 的 Skill 工具调用会自动发现投影目录下的 skill，无需手动指定路径。
 
 ---
 
 ## 维护
 
-- 改路由：**只改本文档** § 默认路由表；plan 执行图见 `artifact-templates/dispatch.harness-overlay.md`。
-- 升级能力副本：`bash harness-foundry/scripts/sync-cursor-skills.sh`。
-- 项目专有 skill：放在 `.cursor/skills/<name>/`，在 plan 的 `wu_skills` 手写或 `overrides` 追加。
+- 改路由：**只改本文档** § 默认路由表
+- 升级能力副本：`bash harness-foundry/scripts/sync-skills.sh`
+- 项目专有 skill：放在 `.trae/skills/<name>/` 或 `.claude/skills/<name>/`，在 plan 的 `wu_skills` 手写或 `overrides` 追加
+- 自举开发：用 `bash harness-foundry/scripts/bootstrap-self.sh` 同步 skills/agents 到本地投影层

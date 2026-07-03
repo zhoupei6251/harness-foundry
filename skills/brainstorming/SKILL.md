@@ -3,7 +3,7 @@ name: brainstorming
 description: You MUST use this before any creative work - creating features, building
   components, adding functionality, or modifying behavior. Explores user intent, requirements
   and design before implementation.
-version: 1.1.0
+version: 1.2.0
 when_to_use: 调用 brainstorming 时
 status: peripheral
 tags:
@@ -12,6 +12,7 @@ tags:
 domain: shared
 category: shared.planning
 ---
+
 # Brainstorming Ideas Into Designs
 
 ## Overview
@@ -19,6 +20,36 @@ category: shared.planning
 Help turn ideas into fully formed designs and specs through natural collaborative dialogue.
 
 Start by understanding the current project context, then ask questions one at a time to refine the idea. Once you understand what you're building, present the design in small sections (200-300 words), checking after each section whether it looks right so far.
+
+## 场景检测（首轮执行）
+
+### 自动识别场景
+
+如果用户提到以下任一关键词，自动识别场景并注入对应配置：
+
+| 场景 | 关键词 |
+|------|--------|
+| product (前端) | 前端、页面、HTML、Vue、React、卖给大学生 |
+| product (后端) | 后端、接口、API、Spring |
+| product (全栈) | 全栈、前后端都要、完整 |
+
+**识别到 product 场景时：**
+1. 在对话开头输出：`「Route: product」`
+2. 告知用户识别到的场景类型
+3. 询问确认或让用户选择
+4. 加载对应场景的 skills 和 deliverables 配置
+
+### 无法自动识别
+
+无法识别时，问用户选择题：
+
+```
+请问您要服务的客户是哪种类型？
+1. 只想要前端页面的大学生（HTML/Vue/React）
+2. 只想要后端接口的大学生（Spring/Express 等）
+3. 前后端都要的大学生（全栈）
+4. 其他（请描述）
+```
 
 <HARD-GATE>
 在设计被用户批准前，禁止：

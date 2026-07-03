@@ -1,8 +1,14 @@
 ---
 name: agent-shield
-description: "安全审计：扫描配置漏洞、注入风险、MCP 安全问题。保护 Harness Foundry 免受提示注入、权限过度、Hook 注入等攻击。"
+description: 安全审计：扫描配置漏洞、注入风险、MCP 安全问题。保护 Harness Foundry 免受提示注入、权限过度、Hook 注入等攻击。
+version: 1.0.0
+when_to_use: 调用 agent-shield 时
+status: peripheral
+tags:
+- shared
+domain: shared
+category: workflow
 ---
-
 # AgentShield
 
 ## 功能概述

@@ -1,0 +1,12 @@
+{
+  "slug": "security-auditor",
+  "category": "code.security",
+  "domain": "code",
+  "tags": [
+    "security",
+    "audit"
+  ],
+  "complements": [
+    "code-review"
+  ]
+}
