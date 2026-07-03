@@ -89,6 +89,31 @@ Every session starts by reading `core/intent-routing.md`. The first output must 
 Route: <code|novel|news>
 ```
 
+### Intent Routing Enforcement (CRITICAL)
+
+**This is not a suggestion — this is how routing ACTUALLY happens.**
+
+Before ANY response, check if the user's input matches the routing table keywords:
+
+| Keywords | Action |
+|----------|--------|
+| 设计、方案、怎么搞、架构、选型 | → MUST invoke `brainstorming` skill |
+| 计划、拆分、列出任务、WBS、排期 | → MUST invoke `writing-plans` skill |
+| 写小说、写章节、续写、大纲 | → MUST invoke `novel-orchestrator` skill |
+| 审稿、评分、评价小说 | → MUST invoke `novel-evaluator` skill |
+| 润色、去AI味 | → MUST invoke `humanizer-zh` skill |
+| 测试、单测、E2E、写test | → MUST invoke `test-driven-development` skill |
+| commit、merge、rebase、push、MR | → MUST invoke `git-xywh` skill |
+| 审查、review、code review | → MUST invoke `requesting-code-review` skill |
+
+**How to apply:**
+1. Read `core/intent-routing.md` at session start
+2. Check user input against the keyword table
+3. If match found → invoke corresponding skill BEFORE any other action
+4. If no match → proceed with normal code domain behavior
+
+**This is the bridge from "rules exist" to "rules execute".**
+
 ### Three Domains
 
 | Domain | Stage Gates | Workers |

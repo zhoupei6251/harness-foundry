@@ -202,7 +202,7 @@ else
   if [[ "$DRY_RUN" -eq 1 ]]; then
     echo "[dry] 生成 CLAUDE.md"
   else
-    cat > "$claude_file" <<EOF
+    cat > "$claude_file" <<'CLAUDEEOF'
 # CLAUDE.md
 
 This file provides guidance to Claude Code when working with code in this repository.
@@ -228,6 +228,28 @@ This file provides guidance to Claude Code when working with code in this reposi
 bash harness-foundry/scripts/bootstrap-self.sh --target trae,claude
 ```
 
+### 意图路由强制执行 (CRITICAL)
+
+**每次回复前，检查用户输入是否匹配以下关键词：**
+
+| 关键词 | 动作 |
+|--------|------|
+| 设计、方案、怎么搞、架构、选型 | → 必须调用 `brainstorming` skill |
+| 计划、拆分、列出任务、WBS、排期 | → 必须调用 `writing-plans` skill |
+| 写小说、写章节、续写、大纲 | → 必须调用 `novel-orchestrator` skill |
+| 审稿、评分、评价小说 | → 必须调用 `novel-evaluator` skill |
+| 润色、去AI味 | → 必须调用 `humanizer-zh` skill |
+| 测试、单测、E2E、写test | → 必须调用 `test-driven-development` skill |
+| commit、merge、rebase、push、MR | → 必须调用 `git-xywh` skill |
+| 审查、review、code review | → 必须调用 `requesting-code-review` skill |
+
+**应用流程：**
+1. 检查用户输入是否包含关键词
+2. 如匹配 → 在任何其他动作之前调用对应 skill
+3. 如不匹配 → 正常执行
+
+**这是从"规则存在"到"规则执行"的关键桥梁。**
+
 ### 核心命令
 
 | 命令 | 说明 |
@@ -236,7 +258,7 @@ bash harness-foundry/scripts/bootstrap-self.sh --target trae,claude
 | /plan | 制定实施计划 |
 | /test | TDD 模式 |
 | /review | 代码审查 |
-EOF
+CLAUDEEOF
     ok "生成 CLAUDE.md"
   fi
 fi
