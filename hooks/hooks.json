@@ -53,6 +53,11 @@
               "type": "command",
               "command": "bash hooks/extract-instincts.sh",
               "description": "Instinct 自动提取"
+            },
+            {
+              "type": "command",
+              "command": "node core/memory/continuous-learning/extractor.js --domain code",
+              "description": "Code 域连续学习：会话结束时自动提取经验模式"
             }
           ]
         }

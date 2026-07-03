@@ -155,6 +155,56 @@ Before ANY response, check if the user's input matches the routing table keyword
 
 **Skill layers**: `_layer.yaml` classifies skills as `must-core` (~50) or `optional` (~140)
 
+## Memory System (v2.0)
+
+Three-domain memory system with shared architecture and domain isolation.
+
+### Architecture
+
+```
+core/memory/
+├── state-schema.yaml              # Unified state template (all domains)
+├── domain-config/
+│   ├── code.yaml                  # Code domain memory config
+│   ├── novel.yaml                 # Novel domain memory config
+│   └── news.yaml                  # News domain memory config
+└── continuous-learning/
+    ├── protocol.md                # Continuous learning protocol
+    └── extractor.js               # Session pattern extractor (--domain <code|novel|news>)
+```
+
+### Three-Layer Isolation
+
+| Layer | Location | Content | Isolation |
+|-------|---------|---------|-----------|
+| Domain | `{project}/MEMORY.md` | Domain-specific memory | Domain tag |
+| Project | Per-project root | Independent MEMORY.md | Path isolation |
+| Global | `~/.claude/GLOBAL-MEMORY.md` | Project index (no details) | Index only |
+
+### Key Roles
+
+- **memory-keeper** (`agents/memory-keeper.md`): Cross-domain memory sync agent
+- **memory-manager** (`skills/memory-manager/SKILL.md`): Universal memory engine skill
+
+### Auto-Update Triggers
+
+```
+Session start  → Read MEMORY.md + state.json
+WU start       → Append active WU
+WU done        → Update index + module state + extract patterns
+Session end    → Compress + write back + continuous learning
+```
+
+### Continuous Learning
+
+Stop hooks auto-extract session patterns:
+```bash
+node core/memory/continuous-learning/extractor.js --domain code
+node core/memory/continuous-learning/extractor.js --domain novel
+node core/memory/continuous-learning/extractor.js --domain news
+```
+Results stored at `~/.claude/memory/learned/<domain>/`.
+
 ## Intelligence Layer
 
 Integrates Understand-Anything (strategic) and CodeGraph (tactical) for smart code comprehension:

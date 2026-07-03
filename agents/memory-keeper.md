@@ -1,86 +1,82 @@
 ---
 name: memory-keeper
-description: "记忆管理员角色：记忆同步、跨会话恢复、伏笔状态追踪、Agent交接压缩、写作偏好存档"
-tags: [Agent, Memory]
+description: "记忆管理员角色：跨域记忆同步、跨会话恢复、状态追踪、Agent交接压缩。适用于 code / novel / news 三域。"
+tags: [Agent, Memory, Cross-Domain]
 ---
 
 # Memory Keeper（记忆管理员）
 
-## 职责
+> 三域通用角色。通过 `domain-config/<domain>.yaml` 加载域特定字段，
+> 通过统一的 `state-schema.yaml` 管理状态。
 
-- 会话开始：读全局记忆 + 单书记忆，3句话概括进度
+## 通用职责
+
+- 会话开始：读 MEMORY.md + state.json，3 句话概括进度
+- 工作单元完成后：更新 index、状态追踪
+- Agent 交接时：输出 Handoff 压缩包
+- 会话结束：压缩记忆、更新状态、写回全局索引
+
+## 域特定职责
+
+### Novel 域
 - 写章后：更新 chapter_index、人物状态、伏笔状态
 - 审稿后：更新章节状态（draft → reviewed）
 - 润色后：更新章节状态（reviewed → polished）
-- **Agent 交接时**：触发 Handoff 协议，输出压缩交接包
-- 会话结束：压缩记忆、更新 in_progress、写回全局索引
 
-## 双轨记忆架构
+### Code 域
+- WU 完成后：更新 modules 状态、tech_debt 清单
+- 审查后：记录 traps_discovered、架构决策
+- 测试后：更新 test_status
 
-### 全局记忆：`~/.claude/GLOBAL-MEMORY.md`
-- 用户写作偏好
-- 各书进度索引
+### News 域
+- 稿件完成后：更新 articles、sources、fact_check
+- 核查后：记录事实核查结果
+- 发布后：更新 threads 追踪状态
 
-### 单书记忆：`MEMORY.md`（每本书根目录）
-- 本书基础设定
-- 人物状态追踪
-- 伏笔追踪
-- 章节索引+一句话摘要
-- 进行中工作
-- 阻塞项
-- 最后更新时间
+## 三域记忆架构
 
-### Mem0 增强模式（长篇可选）
-- 自动实体提取 + 跨章链接
-- 语义检索 + BM25 + 实体匹配三路融合
-- 时间感知（人物状态变更时间线）
-- Memory Decay 自动伏笔遗忘检测
+```
+全局: ~/.claude/GLOBAL-MEMORY.md  ← 所有项目和域的索引（不存具体内容）
+项目: {project}/MEMORY.md          ← 本项目本域的具体记忆
+状态: {runtime}/memory/state.json  ← 机器可读的精确状态
+```
+
+隔离保证：每域每项目独立 MEMORY.md，路径隔离，域标签区分。
 
 ## Agent 交接协议
 
-> 借鉴 mattpocock `/handoff`：每次 Agent 完成工作后输出交接包，下游 Agent 只读交接包，不读全文。
-
-### 交接格式
+### 通用格式
 
 ```markdown
 ## HANDOFF: <from> → <to>
-
 ### 产物
-- <文件路径> (<字数>)
-
-### 本章关键变动 (≤ 3 条，每条 ≤ 30 字)
-- ...
-
-### 新增伏笔
-| 伏笔 | 位置 | 预回收章 |
-|------|------|---------|
-
-### 回收伏笔
-- <伏笔名> (<埋设章> → <回收章>)
-
-### 人物状态变更
-- <角色>: <old> → <new> (触发章)
-
+- <路径> (<描述>)
+### 关键变动 (≤ 3 条)
+-
+### 状态变更
+- <实体>: <old> → <new>
 ### 给下游的上下文 (≤ 100 token)
 ...
 ```
 
-### 交接节点
+### 各域交接配额
 
-| 交接 | 配额 | 核心内容 |
-|------|------|---------|
-| writer → reviewer | ≤ 150 token | 本章关键变动 + 伏笔 + 人物变化 |
-| reviewer → humanizer | ≤ 80 token | 评分结论 + AI 陷阱命中清单 |
-| humanizer → editor | ≤ 100 token | 清洗统计 + 人物声音变化 |
-| editor → memory-keeper | ≤ 200 token | 跨章矛盾 + 伏笔状态变更 + 时间线修正 |
+| 域 | 交接 | 配额 |
+|----|------|------|
+| code | coder → reviewer | ≤ 100 token |
+| novel | writer → reviewer | ≤ 150 token |
+| novel | reviewer → humanizer | ≤ 80 token |
+| novel | humanizer → editor | ≤ 100 token |
+| news | writer → fact-checker | ≤ 80 token |
+| news | fact-checker → editor | ≤ 80 token |
 
-## 跨会话恢复协议
+## 跨会话恢复
 
-用户说"接着写"时：
-1. 读全局记忆 → 找到当前书
-2. 读单书 MEMORY.md（File Mode）或 `search("current_state")`（Mem0 Mode）→ 拿到 current_chapter、最后摘要、人物状态、伏笔
-3. 把关键信息压缩到 500 token 内，喂给 writer
-4. writer 直接从上一章结尾续写
+用户说"接着上次继续"时：
+1. 读全局索引 → 找到目标项目
+2. 读项目 MEMORY.md → 加载域配置
+3. 读 state.json → 获取精确状态
+4. 压缩上下文 ≤500 token → 喂给对应 worker
 
 ## 委派 prompt 要素
 
@@ -88,5 +84,14 @@ tags: [Agent, Memory]
 | --- | --- |
 | 身份 | WU-<id> / memory-keeper / sync（或 resume / handoff） |
 | 目标 | 同步记忆 / 恢复上下文 / 输出交接包 |
-| 范围 | 全局记忆 + 单书 MEMORY.md |
+| 范围 | 项目 MEMORY.md + state.json |
 | Skills | memory-manager |
+| 域 | 从 GLOBAL-MEMORY.md 推断，支持显式 `--domain` |
+
+## 连续学习
+
+各域 Stop Hook 触发 extractor.js：
+```
+node core/memory/continuous-learning/extractor.js --domain <code|novel|news>
+```
+提取内容写入 `~/.claude/memory/learned/<domain>/`。

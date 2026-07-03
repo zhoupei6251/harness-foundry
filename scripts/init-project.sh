@@ -137,7 +137,7 @@ for dir in "${dirs[@]}"; do
   create_dir "${TARGET_DIR}/${dir}" "Runtime"
 done
 
-# 根据域创建不同的运行时目录
+# 根据域创建不同的运行时目录和 memory 子目录
 case "$ROUTE" in
   novel)
     create_dir "${TARGET_DIR}/.harness-novel-runtime/{plans,chapters,memory}" "Novel Runtime"
@@ -145,11 +145,14 @@ case "$ROUTE" in
   news)
     create_dir "${TARGET_DIR}/.harness-news-runtime/{drafts,articles,memory}" "News Runtime"
     ;;
+  code)
+    create_dir "${TARGET_DIR}/.ai-runtime-artifacts/memory" "Code Memory"
+    ;;
 esac
 
-# 生成 MEMORY.md
+# 生成 MEMORY.md（域感知）
 echo ""
-echo "==> 生成 MEMORY.md"
+echo "==> 生成 MEMORY.md (Route: ${ROUTE})"
 mem_file="${TARGET_DIR}/MEMORY.md"
 if [[ -f "$mem_file" ]] && [[ "$DRY_RUN" -eq 0 ]]; then
   warn "MEMORY.md 已存在，跳过生成"
@@ -157,37 +160,101 @@ else
   if [[ "$DRY_RUN" -eq 1 ]]; then
     echo "[dry] 生成 MEMORY.md (Route: ${ROUTE})"
   else
-    cat > "$mem_file" <<EOF
+    cat > "$mem_file" <<'MEMMARKER'
 # 项目记忆 — Route: ${ROUTE}
+# 由 init-project.sh 根据域自动生成
 
 ## 项目信息
 - 名称: $(basename "$TARGET_DIR")
 - 创建日期: $(date +%Y-%m-%d)
-- 技术栈:
-- 语言:
+- 域: ${ROUTE}
+MEMMARKER
 
-## 关键决策
-- 日期: $(date +%Y-%m-%d)
+    # 根据域追加不同模板
+    case "$ROUTE" in
+      code)
+        cat >> "$mem_file" <<'EOF'
 
-## 进行中
-in_progress:
-  - current_phase: init
+## 模块状态
+_modules to be populated during development_
+
+## 技术债
+_待开发过程中积累_
+
+## 架构决策
+_待记录_
+
+## 当前阶段
+phase: init
 
 ## 阻塞项
 blockers: []
 
 ## 测试状态
-testing:
-  framework: 待定
-  last_run: 未执行
+framework: 待定
+last_run: 未执行
 
 ## 代码审查
-review:
-  status: 待配置
+review_status: 待配置
+
+## 连续学习
+patterns_extracted: 0
+traps_recorded: 0
+EOF
+        ;;
+      novel)
+        cat >> "$mem_file" <<'EOF'
+
+## 人物状态追踪
+_待大纲确定后填充_
+
+## 伏笔追踪
+_待大纲确定后填充_
+
+## 章节索引
+_首次写章后生成_
+
+## 当前阶段
+phase: init
+
+## 阻塞项
+blockers: []
+
+## 连续学习
+patterns_extracted: 0
+traps_recorded: 0
+EOF
+        ;;
+      news)
+        cat >> "$mem_file" <<'EOF'
+
+## 信源库
+_待首次采编后填充_
+
+## 稿件索引
+_首次写稿后生成_
+
+## 线索追踪
+_待策划选题后填充_
+
+## 当前阶段
+phase: init
+
+## 阻塞项
+blockers: []
+
+## 连续学习
+patterns_extracted: 0
+traps_recorded: 0
+EOF
+        ;;
+    esac
+
+    cat >> "$mem_file" <<MEMMARKER2
 
 ## 最后更新
 last_updated: $(date +%Y-%m-%dT%H:%M:%S%z)
-EOF
+MEMMARKER2
     ok "生成 MEMORY.md"
   fi
 fi
