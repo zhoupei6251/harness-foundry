@@ -111,8 +111,11 @@ Before ANY response, check if the user's input matches the routing table keyword
 | 安全重构、重构但不改行为 | → MUST invoke `refactor-safely` skill |
 | commit、merge、rebase、push、MR | → MUST invoke `git-xywh` skill |
 | 查、搜、调研、资料 | → MUST invoke `web-tools-guide` skill |
-| 写小说、写章节、续写、大纲 | → MUST invoke `novel-orchestrator` skill |
+| 写小说、写章节、续写、大纲 | → MUST invoke `novel-guidelines` skill FIRST |
+| 情节矛盾、角色冲突、伏笔遗漏 | → MUST invoke `novel-debug` skill |
+| 章节自查、简洁度检查 | → MUST invoke `novel-simplify` skill |
 | 审稿、评分、评价小说 | → MUST invoke `novel-evaluator` skill |
+| 返修、小改、章节修改 | → MUST invoke `novel-safe-revision` skill |
 | 润色、去AI味 | → MUST invoke `humanizer-zh` skill |
 | 写新闻、写稿、新闻稿、报道 | → MUST invoke `news-generator` skill |
 | 事实核查、核实新闻、验证信息 | → MUST invoke `fact-check` skill |
@@ -135,7 +138,22 @@ Test-green → Small-step → Verify-each → Commit-atomic → Rollback-ready
 
 ### Novel Domain Default Baseline
 
-**Every novel task MUST start with `novel-orchestrator`.** Full pipeline: brainstorming → novel-36-beats → writer → self-review → evaluator → humanizer-zh → memory-manager.
+**Every novel writing task MUST start with `novel-guidelines`.** Full pipeline:
+
+```
+novel-guidelines (MUST FIRST)
+    → novel-36-beats (大纲)
+    → novel-writer (写章节)
+    → novel-simplify (写后自查)
+    → novel-evaluator (7维审稿)
+    → humanizer-zh (润色)
+    → memory-manager (记忆同步)
+```
+
+**Debug/Safe-Revision** (if needed):
+```
+novel-debug → 排查矛盾 → novel-safe-revision → 小步返修
+```
 
 ### News Domain Default Baseline
 

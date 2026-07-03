@@ -310,8 +310,11 @@ bash harness-foundry/scripts/bootstrap-self.sh --target trae,claude
 | 简化、精简、清理 | → 必须调用 `simplify` skill |
 | 安全重构、重构但不改行为 | → 必须调用 `refactor-safely` skill |
 | commit、merge、rebase、push、MR | → 必须调用 `git-xywh` skill |
-| 写小说、写章节、续写、大纲 | → 必须调用 `novel-orchestrator` skill |
+| 写小说、写章节、续写、大纲 | → 必须调用 `novel-guidelines` skill FIRST |
+| 情节矛盾、角色冲突、伏笔遗漏 | → 必须调用 `novel-debug` skill |
+| 章节自查、简洁度检查 | → 必须调用 `novel-simplify` skill |
 | 审稿、评分、评价小说 | → 必须调用 `novel-evaluator` skill |
+| 返修、小改、章节修改 | → 必须调用 `novel-safe-revision` skill |
 | 润色、去AI味 | → 必须调用 `humanizer-zh` skill |
 | 写新闻、写稿、新闻稿、报道 | → 必须调用 `news-generator` skill |
 | 事实核查、核实新闻 | → 必须调用 `fact-check` skill |

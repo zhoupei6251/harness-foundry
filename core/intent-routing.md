@@ -27,8 +27,11 @@ tags: [Rules, Runbook]
 | 安全重构、重构但、不改行为 | safe-refactor | `/refactor-safely` |
 | commit、merge、rebase、push、MR | git | `/git-xywh` |
 | 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
-| 写小说、写章节、续写、大纲、分卷 | novel | `/novel-orchestrator` → 36-beats → writer → evaluator → humanizer |
+| 写小说、写章节、续写、大纲、分卷 | novel | `/novel-guidelines` FIRST → 36-beats → writer |
+| 情节矛盾、角色冲突、伏笔遗漏 | novel-debug | `/novel-debug` → 排查 → 修复 |
+| 章节自查、简洁度检查 | novel-simplify | `/novel-simplify` → 写后审稿前自查 |
 | 审稿、评分、评价小说 | novel-review | `/novel-evaluator` |
+| 返修、小改、章节修改 | novel-revision | `/novel-safe-revision` → 小步返修 |
 | 润色、去AI味、文风清洗 | novel-polish | `/humanizer-zh` |
 | 写新闻、写稿、新闻稿、报道 | news-write | `/news-generator` → fact-check → polish |
 | 事实核查、核实新闻、验证信息 | fact-check | `/fact-check`（新闻域必做） |

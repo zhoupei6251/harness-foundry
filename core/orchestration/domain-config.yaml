@@ -126,9 +126,13 @@ domains:
     # 编排与路由
     primary_skills:
       # 核心路由
+      - novel-guidelines           # 写作前思维基线（MUST FIRST）
+      - novel-debug               # 情节排查
+      - novel-simplify            # 章节自查简洁度
+      - novel-safe-revision       # 安全返修
       - novel-orchestrator       # 完整编排（复杂任务）
       - novel-quick-write        # 快速写作（单章）
-      - novel-batch-write        # 批量写作）
+      - novel-batch-write        # 批量写作
       - novel-36-beats           # 结构化节拍框架（三幕式大纲）
 
       # 质量保障
