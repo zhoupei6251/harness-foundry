@@ -18,14 +18,21 @@ tags: [Rules, Runbook]
 | 设计、方案、怎么搞、怎么弄、架构、选型 | design | `/brainstorming` → 写 spec → **暂停等确认** |
 | 计划、拆分、列出任务、WBS、排期 | plan | `/writing-plans` → 写 plan → **暂停等确认** |
 | OK、可以、开始、做吧、执行、就按这个、批准了 | implement | 拆 WU → 并行派兵 |
-| 修、bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵 |
-| 审查、review、code review | review | `/requesting-code-review` |
-| 写小说、写章节、续写、大纲、分卷 | novel | `/novel-orchestrator` |
-| 审稿、评分、评价小说 | novel-review | `/novel-evaluator` |
-| 润色、去AI味、文风清洗 | novel-polish | `/humanizer-zh` |
+| 写代码、实现、重构、加功能、写个、帮我写 | code-write | `/karpathy-guidelines` FIRST → TDD → simplify → review |
+| 修、bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵（仍须 karpathy-guidelines） |
+| 调试、排查、debug、为什么、不工作、报错 | debug | `/systematic-debugging` FIRST → 复现→定位→修复 |
 | 测试、单测、E2E、写test、补测试 | test | `/test-driven-development` |
+| 审查、review、code review | review | `/requesting-code-review` |
+| 简化、精简、清理、优化代码 | simplify | `/simplify`（写后自查简洁度） |
+| 安全重构、重构但、不改行为 | safe-refactor | `/refactor-safely` |
 | commit、merge、rebase、push、MR | git | `/git-xywh` |
 | 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
+| 写小说、写章节、续写、大纲、分卷 | novel | `/novel-orchestrator` → 36-beats → writer → evaluator → humanizer |
+| 审稿、评分、评价小说 | novel-review | `/novel-evaluator` |
+| 润色、去AI味、文风清洗 | novel-polish | `/humanizer-zh` |
+| 写新闻、写稿、新闻稿、报道 | news-write | `/news-generator` → fact-check → polish |
+| 事实核查、核实新闻、验证信息 | fact-check | `/fact-check`（新闻域必做） |
+| 新闻编辑、审校、排版 | news-edit | `/news-polish` → news-editor |
 | 卖给、产品化、大学生、前端页面、后端接口 | product | `/brainstorming` → 场景路由 → product 域 |
 
 ## Never 清单

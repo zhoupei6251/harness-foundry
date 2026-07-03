@@ -303,17 +303,30 @@ bash harness-foundry/scripts/bootstrap-self.sh --target trae,claude
 |--------|------|
 | 设计、方案、怎么搞、架构、选型 | → 必须调用 `brainstorming` skill |
 | 计划、拆分、列出任务、WBS、排期 | → 必须调用 `writing-plans` skill |
+| 写代码、实现、重构、加功能 | → 必须最先调用 `karpathy-guidelines` skill |
+| 调试、排查、debug、不工作 | → 必须最先调用 `systematic-debugging` skill |
+| 测试、单测、E2E、写test | → 必须调用 `test-driven-development` skill |
+| 审查、review、code review | → 必须调用 `requesting-code-review` skill |
+| 简化、精简、清理 | → 必须调用 `simplify` skill |
+| 安全重构、重构但不改行为 | → 必须调用 `refactor-safely` skill |
+| commit、merge、rebase、push、MR | → 必须调用 `git-xywh` skill |
 | 写小说、写章节、续写、大纲 | → 必须调用 `novel-orchestrator` skill |
 | 审稿、评分、评价小说 | → 必须调用 `novel-evaluator` skill |
 | 润色、去AI味 | → 必须调用 `humanizer-zh` skill |
-| 测试、单测、E2E、写test | → 必须调用 `test-driven-development` skill |
-| commit、merge、rebase、push、MR | → 必须调用 `git-xywh` skill |
-| 审查、review、code review | → 必须调用 `requesting-code-review` skill |
+| 写新闻、写稿、新闻稿、报道 | → 必须调用 `news-generator` skill |
+| 事实核查、核实新闻 | → 必须调用 `fact-check` skill |
+| 新闻编辑、审校、排版 | → 必须调用 `news-polish` skill |
+| 卖给、产品化、大学生、前端页面 | → 必须调用 `brainstorming` → product 域 |
 
 **应用流程：**
 1. 检查用户输入是否包含关键词
 2. 如匹配 → 在任何其他动作之前调用对应 skill
 3. 如不匹配 → 正常执行
+
+**完整流水线（code 域）：**
+```
+karpathy-guidelines → TDD → 写代码 → simplify → code-review
+```
 
 **这是从"规则存在"到"规则执行"的关键桥梁。**
 
