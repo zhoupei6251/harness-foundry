@@ -108,6 +108,12 @@ Before ANY response, check if the user's input matches the routing table keyword
 | 测试、单测、E2E、写test | → MUST invoke `test-driven-development` skill |
 | commit、merge、rebase、push、MR | → MUST invoke `git-xywh` skill |
 | 审查、review、code review | → MUST invoke `requesting-code-review` skill |
+| 写代码、实现、重构、修、修bug、改、加功能 | → MUST invoke `karpathy-guidelines` skill FIRST |
+| 简化、精简、清理 | → invoke `simplify` skill after `karpathy-guidelines` |
+
+### Code Domain Default Baseline
+
+**Every code-writing or code-modifying task MUST start with `karpathy-guidelines`.** This is not optional. The 9 principles (think first, keep simple, precise edits, goal-driven, read-before-write, use tools, never silent-fail, surface conflicts, self-review) are the mandatory pre-flight checklist for all code work. After writing, self-check with §9 checklist, then pass to `simplify` (if applicable) or `code-review`.
 
 **How to apply:**
 1. Read `core/intent-routing.md` at session start
