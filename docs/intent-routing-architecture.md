@@ -29,15 +29,26 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 
 | 操作 | 基线 Skill | 强制？ | 说明 |
 |------|-----------|:--:|------|
-| 写章节 | `novel-orchestrator` | MUST | 写作编排入口 |
-| 大纲/分卷 | `brainstorming` + `novel-36-beats` | 规划时 | 结构化框架 |
+| 写章节/大纲 | `novel-guidelines` | MUST FIRST | 写作前思维基线 |
+| 情节矛盾/角色冲突 | `novel-debug` | 排查时 | 情节系统排查 |
+| 章节自查 | `novel-simplify` | 写后审前 | 简洁度自检 |
 | 审稿 | `novel-evaluator` | MUST | 7 维评分 |
+| 返修 | `novel-safe-revision` | 返修时 | 小步安全返修 |
 | 润色 | `humanizer-zh` | MUST | AI 痕迹检测 |
 | 统稿 | `memory-manager` | 跨章时 | 一致性检查 |
 
 **完整流水线：**
 ```
-brainstorming → novel-36-beats → novel-writer → self-review → novel-evaluator → humanizer-zh → memory-manager
+novel-guidelines (MUST FIRST)
+    → novel-36-beats (大纲)
+    → novel-writer (写章节)
+    → novel-simplify (自查)
+    → novel-evaluator (审稿)
+    → humanizer-zh (润色)
+    → memory-manager (记忆)
+
+Debug/Safe-Revision:
+novel-debug → 排查 → novel-safe-revision → 小步返修
 ```
 
 ### News 域基线
