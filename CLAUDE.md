@@ -102,18 +102,35 @@ Before ANY response, check if the user's input matches the routing table keyword
 |----------|--------|
 | 设计、方案、怎么搞、架构、选型 | → MUST invoke `brainstorming` skill |
 | 计划、拆分、列出任务、WBS、排期 | → MUST invoke `writing-plans` skill |
+| 写代码、实现、重构、修、修bug、改、加功能 | → MUST invoke `karpathy-guidelines` skill FIRST |
+| 测试、单测、E2E、写test | → MUST invoke `test-driven-development` skill |
+| 审查、review、code review | → MUST invoke `requesting-code-review` skill |
+| 调试、排查、debug、为什么 | → MUST invoke `systematic-debugging` skill FIRST |
+| 简化、精简、清理 | → MUST invoke `simplify` skill |
+| commit、merge、rebase、push、MR | → MUST invoke `git-xywh` skill |
+| 查、搜、调研、资料 | → MUST invoke `web-tools-guide` skill |
 | 写小说、写章节、续写、大纲 | → MUST invoke `novel-orchestrator` skill |
 | 审稿、评分、评价小说 | → MUST invoke `novel-evaluator` skill |
 | 润色、去AI味 | → MUST invoke `humanizer-zh` skill |
-| 测试、单测、E2E、写test | → MUST invoke `test-driven-development` skill |
-| commit、merge、rebase、push、MR | → MUST invoke `git-xywh` skill |
-| 审查、review、code review | → MUST invoke `requesting-code-review` skill |
-| 写代码、实现、重构、修、修bug、改、加功能 | → MUST invoke `karpathy-guidelines` skill FIRST |
-| 简化、精简、清理 | → invoke `simplify` skill after `karpathy-guidelines` |
+| 写新闻、写稿、新闻稿 | → MUST invoke `news-generator` skill |
+| 事实核查、核实、验证 | → MUST invoke `fact-check` skill |
 
 ### Code Domain Default Baseline
 
-**Every code-writing or code-modifying task MUST start with `karpathy-guidelines`.** This is not optional. The 9 principles (think first, keep simple, precise edits, goal-driven, read-before-write, use tools, never silent-fail, surface conflicts, self-review) are the mandatory pre-flight checklist for all code work. After writing, self-check with §9 checklist, then pass to `simplify` (if applicable) or `code-review`.
+**Every code-writing or code-modifying task MUST start with `karpathy-guidelines`.** The 9 principles are the mandatory pre-flight checklist for all code work. After writing, self-check with §9 checklist, then pass to `simplify` or `code-review`.
+
+**Debug workflow** (systematic-debugging):
+```
+Reproduce → Minimize → Hypothesize → Instrument → Fix → Regression-test
+```
+
+### Novel Domain Default Baseline
+
+**Every novel writing task MUST start with `novel-orchestrator`.** The full pipeline: brainstorming → novel-36-beats → writer → self-review → evaluator → humanizer-zh → memory-manager.
+
+### News Domain Default Baseline
+
+**Every news writing task MUST start with `news-generator`.** Follow with `fact-check` (mandatory before publication), then `news-polish`.
 
 **How to apply:**
 1. Read `core/intent-routing.md` at session start
