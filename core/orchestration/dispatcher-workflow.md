@@ -225,12 +225,14 @@ writer 写初稿 → self-review 自检 → 修正循环（≤2轮）→ reviewe
 | **novel** | 跳过 worktree 关闭 → `Destroy(ctx)` (local no-op) |
 | **news** | 跳过 worktree 关闭 → `Destroy(ctx)` (local no-op) |
 
-更新对应 `memory/state.json`：
+更新对应 `memory/state.json`：（P0-6 扩展为三域）
 - 更新 `active_wus` 状态
 - 更新 `active_phase`（如全部完成则设为 `idle`）
 - 更新 `last_updated` 时间戳
-- code 域额外：从 `active_platforms` 注销本平台
-- novel 域额外：更新单书 `MEMORY.md`（chapter_index、人物状态、伏笔状态）
+- code 域额外：更新 `memory.code.modules`、`memory.code.tech_debt`
+- novel 域额外：更新 `memory.novel.characters`、`memory.novel.foreshadowing`、`memory.novel.chapters`
+- news 域额外：更新 `memory.news.articles`、`memory.news.sources`
+- 触发连续学习：`extractor.js --domain <domain>`（非阻塞）
 - **新增**：记录 execution-context 生命周期指标（provision/active/destroy 时长）到 tracking
 
 ---

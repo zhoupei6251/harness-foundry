@@ -160,7 +160,7 @@ else
   if [[ "$DRY_RUN" -eq 1 ]]; then
     echo "[dry] 生成 MEMORY.md (Route: ${ROUTE})"
   else
-    cat > "$mem_file" <<'MEMMARKER'
+    cat > "$mem_file" <<MEMMARKER
 # 项目记忆 — Route: ${ROUTE}
 # 由 init-project.sh 根据域自动生成
 

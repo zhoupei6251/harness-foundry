@@ -28,7 +28,10 @@ core/                          # Platform-agnostic truth source
 ├── principles.md              # 10 core principles
 ├── capabilities/             # Capability ID registry
 ├── intelligence/             # Intelligence Layer config
-├── memory/                   # Memory management protocol
+├── memory/                   # Memory management (v2.0: 3-domain)
+│   ├── state-schema.yaml     # Unified state template
+│   ├── domain-config/       # Domain-specific configs
+│   └── continuous-learning/ # Session extractor
 └── orchestration/            # Dispatcher, roles, skill routing
     ├── domain-config.yaml    # Domain → agent/skill mapping
     ├── dispatcher-workflow.md # Parallel dispatch workflow (≤5 workers)
