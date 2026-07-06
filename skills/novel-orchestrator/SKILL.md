@@ -46,22 +46,33 @@ category: novel.orchestration
    [门禁：每章自检（字数 + AI套路检查）]
 
 3. 审稿 → reviewer 7 维评分 + 逐条原文举证
-   │    ├─ ≥70 分 → 进入润色
+   │    ├─ ≥70 分 → 进入 Guardian 核查
    │    └─ <70 分 → 返修（最多 2 次）→ 仍不通过则通知用户
    [门禁：审稿通过]
+
+3.5 守护 → guardian 法医式事实核查 (★ v2.0 新增)
+   │    ├─ 角色连续性（名字/外貌/性格/关系/位置）
+   │    ├─ 时间线连续性（事件顺序/间隔/年龄）
+   │    ├─ 世界观连续性（地理/设定/能力体系）
+   │    ├─ 情节连续性（伏笔回收/因果/信息传递）
+   │    ├─ 记忆健康度检查（逾期伏笔/沉默角色/遗忘设定）
+   │    ├─ 通过 → 进入润色
+   │    └─ 不通过 → 阻塞，必须修复连续性矛盾
+   [门禁：Guardian 通过]
 
 4. 润色 → humanizer 文风清洗
    │    ├─ 单章轻量 → humanizer-zh
    │    └─ 批量深度 → novel-ai-wash
    [门禁：润色完成 + 质量检查]
 
-5. 统稿 → editor 跨章一致性检查
+5. 统稿 → editor 跨章一致性检查 + 角色长期记忆更新
    │    ├─ 人物称呼 / 地名 / 专有名词统一
    │    ├─ 时间线校对
-   │    └─ 伏笔状态核实
+   │    ├─ 伏笔状态核实
+   │    └─ 更新 characters.json（长期角色档案）
    [门禁：统稿通过]
 
-6. 记忆同步 → memory-keeper 更新双轨记忆
+6. 记忆同步 → memory-keeper 更新双轨记忆 + 章节自动摘要
 ```
 
 ## 角色调度
@@ -71,9 +82,10 @@ category: novel.orchestration
 | 开书/规划 | `novel-planner` | `brainstorming`, `junli-ai-novel` | 大纲.md, 人物设定/, 章节目录.md |
 | 正文写作 | `novel-writer` | `junli-ai-novel`, `humanizer-zh` | 章节正文/第XXX章_标题.md |
 | 审稿评分 | `novel-reviewer` | `novel-evaluator` | 审稿报告（评分+问题清单+结论） |
+| 守护核查 | `guardian` | `novel-guardian` | 连续性报告 + 记忆健康度 |
 | 润色清洗 | `humanizer` | `humanizer-zh` (轻量) / `novel-ai-wash` (深度) | 润色后章节 |
-| 统稿检查 | `editor` | `memory-manager`, `junli-ai-novel` | 一致性报告 |
-| 记忆同步 | `memory-keeper` | `memory-manager` | 更新 MEMORY.md + GLOBAL-MEMORY.md |
+| 统稿检查 | `editor` | `memory-manager`, `junli-ai-novel` | 一致性报告 + characters.json |
+| 记忆同步 | `memory-keeper` | `memory-manager` | 更新 MEMORY.md + GLOBAL-MEMORY.md + 章节摘要 |
 
 ## 并行策略
 
