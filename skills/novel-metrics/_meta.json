@@ -1,0 +1,8 @@
+{
+  "slug": "novel-metrics",
+  "category": "novel.analytics",
+  "domain": "novel",
+  "tags": ["metrics", "statistics", "analytics"],
+  "auto_classified": false,
+  "purpose": "写作指标追踪，统计字数、速度、质量趋势"
+}

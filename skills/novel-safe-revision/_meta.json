@@ -1,0 +1,8 @@
+{
+  "slug": "novel-safe-revision",
+  "category": "novel.revision",
+  "domain": "novel",
+  "tags": ["revision", "safe-revision", "modify"],
+  "auto_classified": false,
+  "purpose": "安全返修流程：小步返修、逐次确认、保留历史版本"
+}

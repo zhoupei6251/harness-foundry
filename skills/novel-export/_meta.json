@@ -1,0 +1,8 @@
+{
+  "slug": "novel-export",
+  "category": "novel.export",
+  "domain": "novel",
+  "tags": ["export", "epub", "pdf", "publishing"],
+  "auto_classified": false,
+  "purpose": "多格式小说导出系统，支持 EPUB/PDF/HTML/番茄小说/起点中文格式输出"
+}

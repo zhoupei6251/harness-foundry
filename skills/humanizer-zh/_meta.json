@@ -2,7 +2,7 @@
   "slug": "humanizer-zh",
   "category": "novel.polish",
   "domain": "novel",
-  "tags": [],
-  "auto_classified": true,
+  "tags": ["polish", "humanize", "chinese"],
+  "auto_classified": false,
   "purpose": "中文 AI 文风清洗，消除 AI 生成特征，去套路化，句式重构，人物声音分化"
 }

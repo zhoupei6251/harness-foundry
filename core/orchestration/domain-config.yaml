@@ -134,10 +134,13 @@ domains:
       - novel-quick-write        # 快速写作（单章）
       - novel-batch-write        # 批量写作
       - novel-36-beats           # 结构化节拍框架（三幕式大纲）
+      - novel-writer-cn          # 人物设定与剧情框架
+      - novel-generator          # 爽文自动生成
 
       # 质量保障
       - novel-evaluator          # 7维审稿评分
       - novel-receiving-review    # 接收审稿反馈
+      - novel-self-review        # 写后自检（5维）
       - novel-mechanical-scorer  # 机械评分器（无LLM）
       - novel-guardian            # 法医式事实核查
       - novel-foreshadowing-dag   # 伏笔DAG管理
@@ -153,9 +156,12 @@ domains:
       # 初始化
       - novel-init               # 新书创建向导
       - novel-recovery           # 会话恢复
+      - novel-templates          # 创作模板库
 
     secondary_skills:
       - novel-ai-wash           # 深度文风清洗
+      - novel-export             # 多格式导出
+      - novel-mcp-server         # MCP服务接口
       - web-tools-guide          # 查资料
       - summarize               # 总结内容
       - memory-manager          # 记忆同步

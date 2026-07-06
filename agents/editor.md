@@ -33,4 +33,7 @@ tags: [Agent, Editor]
 | 项 | 内容 |
 | --- | --- |
 | 身份 | WU-<id> / editor / cross-chapter-check |
+| 范围 | 本轮产出的所有章节 |
+| Skills | memory-manager, novel-contexts |
 | 产物 | 一致性报告 + HANDOFF: editor → memory-keeper |
+| 交接 | 输出 HANDOFF: editor → memory-keeper（见 `handoff/novel-handoff-protocol.md` H5 格式） |

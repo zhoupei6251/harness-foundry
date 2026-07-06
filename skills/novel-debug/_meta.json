@@ -1,0 +1,8 @@
+{
+  "slug": "novel-debug",
+  "category": "novel.debug",
+  "domain": "novel",
+  "tags": ["debug", "debugging", "consistency"],
+  "auto_classified": false,
+  "purpose": "情节矛盾/角色冲突/伏笔遗漏排查与修复"
+}

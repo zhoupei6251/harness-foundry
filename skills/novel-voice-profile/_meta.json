@@ -1,0 +1,8 @@
+{
+  "slug": "novel-voice-profile",
+  "category": "novel.tools",
+  "domain": "novel",
+  "tags": ["voice", "character", "dialogue"],
+  "auto_classified": false,
+  "purpose": "人物声音档案，为每个角色建立独特的语言指纹和说话风格"
+}
