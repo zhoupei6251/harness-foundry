@@ -82,6 +82,7 @@ domains:
     # 次 Skill（按需加载）
     secondary_skills:
       - simplify               # /simplify 精简代码
+      - ralph                  # Ralph Loop 防偷懒循环
       - tech-writer            # 写技术文档（已有 agent）
       - humanizer-zh           # 文档去 AI 味
       - web-tools-guide        # 查资料

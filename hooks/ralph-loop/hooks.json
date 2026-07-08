@@ -1,0 +1,15 @@
+{
+  "description": "Ralph Loop stop hook — intercepts session exit when .claude/ralph-loop.local.md exists, feeds same prompt back until completion promise met or max iterations reached",
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash hooks/ralph-loop/stop-hook.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

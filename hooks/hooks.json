@@ -58,6 +58,11 @@
               "type": "command",
               "command": "node core/memory/continuous-learning/extractor.js --domain code",
               "description": "Code 域连续学习：会话结束时自动提取经验模式"
+            },
+            {
+              "type": "command",
+              "command": "bash hooks/ralph-loop/stop-hook.sh",
+              "description": "Ralph Loop 拦截 — 检测 Completion Promise，未完成则重新喂入 prompt"
             }
           ]
         }

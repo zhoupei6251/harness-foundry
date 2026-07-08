@@ -86,7 +86,8 @@ temp/
 .aider*
 
 # === Reference projects (external sources, not part of this repo) ===
-reference_github/
+reference_github/*
+!reference_github/README.md
 
 # === Local development overrides ===
 *.local.*
