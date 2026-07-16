@@ -8,7 +8,7 @@
 Intelligence Layer
 ├── strategic/    # 战略层 - Understand-Anything
 │   └── 项目理解、架构分析、自然语言问答
-└── tactical/     # 战术层 - CodeGraph
+└── tactical/     # 战术层 - codebase-memory / ripgrep / LSP
     └── 索引查询、符号定位、影响分析
 ```
 

@@ -13,7 +13,7 @@ layer: tactical
 
 # /get-callers
 
-使用 CodeGraph 查找调用指定符号的所有代码。
+使用 codebase-memory 的 `trace_path(direction="inbound")` 查找调用指定符号的所有代码；LSP `textDocument/references` 可作为语义级交叉验证。
 
 ## 使用场景
 
@@ -27,7 +27,7 @@ layer: tactical
 ## 调用方式
 
 ```markdown
-使用 CodeGraph 的 get-callers 能力：
+使用 codebase-memory 的 trace_path(direction="inbound") 工具：
 - symbol: {符号名称}
 - depth: 1 (调用深度，默认1层)
 ```

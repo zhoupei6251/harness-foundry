@@ -38,7 +38,9 @@ Leader 或子 Agent 看到 **`auto`** 时：
 | **leader-code** | implement | understand-chat | ✅ 战略层 |
 | coder | feature, bugfix, refactor | test-driven-development, requesting-code-review | ✅ 战术层 |
 | coder | feature, bugfix, refactor | query-symbol | ✅ 战术层 |
+| coder | feature, bugfix, refactor | ripgrep-search, lsp-query | ✅ 战术层 |
 | coder | ui | ui-ux-pro-max, frontend-design, test-driven-development, requesting-code-review | ✅ 战术层 |
+| coder | ui | ripgrep-search, lsp-query | ✅ 战术层 |
 | coder | review-fix | receiving-code-review, test-driven-development, requesting-code-review | ✅ 战术层 |
 | implementer | docs, config, chore | **无** | ❌ |
 | **explorer** | explore, * | understand-chat | ✅ 战略层 |
@@ -47,9 +49,11 @@ Leader 或子 Agent 看到 **`auto`** 时：
 | debugger | ui-bug | systematic-debugging, query-symbol | ✅ 战术层 |
 | web-investigator | research, * | agent-browser | ❌ |
 | **reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
+| **reviewer** | review, * | ripgrep-search, lsp-query | ✅ 战术层 |
 | **code-reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
 | **spec-compliance-reviewer** | review, * | two-stage-review | ❌ |
 | test-engineer | test | test-driven-development, analyze-impact | ✅ 战术层 |
+| test-engineer | test | ripgrep-search, lsp-query | ✅ 战术层 |
 | test-engineer | e2e | agent-browser | ❌ |
 
 ### Intelligence Layer Skills 自动注入说明
@@ -72,7 +76,7 @@ Leader 或子 Agent 看到 **`auto`** 时：
 | coder | feature, bugfix, refactor | understand-project | 理解项目时 |
 | explorer | explore | understand-project, analyze-architecture | 探查项目时 |
 
-### 战术层 (CodeGraph)
+### 战术层 (codebase-memory)
 
 | agent_role | wu_type | 建议加载的 skill | 调用时机 |
 | --- | --- | --- | --- |

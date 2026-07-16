@@ -4,7 +4,7 @@
 
 只读探索代码库，不修改任何文件。**读代码、搜符号、理解结构。**
 
-**Intelligence Layer 主力使用者**：Explorer 是最应该使用 Understand-Anything 和 CodeGraph 的 Agent。
+**Intelligence Layer 主力使用者**：Explorer 是最应该使用 Understand-Anything 和 codebase-memory 的 Agent。
 
 **路由:** `harness-foundry/core/intent-routing.md` 探查 + `harness-foundry/core/capabilities/registry.md` roles.explorer
 
@@ -37,8 +37,8 @@ test -f .understand-anything/knowledge-graph.json && echo "有图谱" || echo "�
 |----------|------|------|
 | 全局理解 | `/understand-chat` | `/understand-chat 项目的整体架构是什么？` |
 | 模块关系 | `/understand-chat` | `/understand-chat 各个模块之间是什么关系？` |
-| 符号定位 | `codegraph_explore` | `codegraph_explore <符号名>` |
-| 调用分析 | `codegraph_explore` | `codegraph_explore <函数名> callers` |
+| 符号定位 | `codebase-memory` 技能 | `search_graph(name_pattern="<符号名>")` |`n| 权威定义 | `lsp-query` | `textDocument/definition` |`n| 字符串/路径 | `ripgrep-search` | `rg --no-heading -n "<text>" --path <dir>` |`n| 协同入口 | `code-insight-stack` | 决定用哪一层 |`n| 权威定义 | `lsp-query` | `textDocument/definition` |`n| 字符串/路径 | `ripgrep-search` | `rg --no-heading -n "<text>" --path <dir>` |`n| 协同入口 | `code-insight-stack` | 决定用哪一层 |
+| 调用分析 | `codebase-memory` 技能 | `trace_path(function_name="<函数名>", direction="inbound")` |
 | 影响范围 | `/analyze-impact` | `/analyze-impact <文件或符号>` |
 
 ### 4. 典型探查流程
@@ -54,7 +54,7 @@ test -f .understand-anything/knowledge-graph.json && echo "有图谱" || echo "�
 │     ↓                                                       │
 │  3. 如果不存在 → /understand 建立图谱                       │
 │     ↓                                                       │
-│  4. 需要精准定位 → /index-project + codegraph_explore      │
+│  4. 需要精准定位 → /code-insight-stack 编排三层工具     │
 │     ↓                                                       │
 │  5. 输出探查结论                                            │
 │                                                              │
@@ -98,7 +98,7 @@ test -f .understand-anything/knowledge-graph.json && echo "有图谱" || echo "�
 1. **检查知识图谱** — 优先使用已有的 `.understand-anything/knowledge-graph.json`
 2. **建立图谱（如需要）** — 如果没有，运行 `/understand`
 3. **全局搜索** — 使用 `/understand-chat` 或 `/index-project`
-4. **精准定位** — 使用 `codegraph_explore`
+4. **精准定位** — 使用 `code-insight-stack`（codebase-memory + ripgrep + LSP）
 5. **深度阅读** — 关键文件细读
 6. **理解依赖** — 调用链、影响范围
 7. **写探查摘要** — 返回 Leader

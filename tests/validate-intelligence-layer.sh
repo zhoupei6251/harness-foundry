@@ -58,6 +58,9 @@ strategic_skills=(
 )
 
 tactical_skills=(
+  "ripgrep-search.md"
+  "lsp-query.md"
+  "code-insight-stack.md"
   "index-project.md"
   "query-symbol.md"
   "get-callers.md"
@@ -108,22 +111,24 @@ else
   test_fail "Understand-Anything.json 不存在"
 fi
 
-if [[ -f "${KIT}/mcp-config/CodeGraph.json" ]]; then
-  test_pass "CodeGraph.json 存在"
-else
-  test_fail "CodeGraph.json 不存在"
-fi
 
 # === Test 5: 检查配置内容 ===
 echo ""
 echo "5. 检查配置内容..."
 
-if grep -q "codegraph" "${KIT}/mcp-config/CodeGraph.json"; then
-  test_pass "CodeGraph.json 包含 codegraph 配置"
+if grep -q "codebase-memory" "${KIT}/core/intelligence/tactical/_config.yaml"; then
+  test_pass "tactical/_config.yaml 使用 codebase-memory"
 else
-  test_fail "CodeGraph.json 缺少 codegraph 配置"
+  test_fail "tactical/_config.yaml 缺少 codebase-memory"
 fi
 
+for tool in "index_repository" "search_graph" "trace_path" "detect_changes"; do
+  if grep -q "$tool" "${KIT}/core/intelligence/tactical/_config.yaml"; then
+    test_pass "配置包含 $tool"
+  else
+    test_fail "配置缺少 $tool"
+  fi
+done
 if grep -q "understand-anything" "${KIT}/mcp-config/Understand-Anything.json"; then
   test_pass "Understand-Anything.json 包含 understand-anything 配置"
 else
@@ -204,16 +209,16 @@ fi
 echo ""
 echo "10. 检查脚本语法..."
 
-if bash -n "${KIT}/core/intelligence/tactical/scripts/install-codegraph.sh" 2>/dev/null; then
-  test_pass "install-codegraph.sh 语法正确"
+if bash -n "${KIT}/scripts/install-intelligence-deps.sh" 2>/dev/null; then
+  test_pass "install-intelligence-deps.sh 语法正确"
 else
-  test_fail "install-codegraph.sh 语法错误"
+  test_fail "install-intelligence-deps.sh 语法错误"
 fi
 
-if bash -n "${KIT}/core/intelligence/tactical/scripts/init-index.sh" 2>/dev/null; then
-  test_pass "init-index.sh 语法正确"
+if grep -q "codebase-memory" "${KIT}/core/intelligence/tactical/_config.yaml"; then
+  test_pass "核心规则使用 codebase-memory"
 else
-  test_fail "init-index.sh 语法错误"
+  test_fail "核心规则缺少 codebase-memory"
 fi
 
 # === 总结 ===

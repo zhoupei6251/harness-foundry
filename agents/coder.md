@@ -47,46 +47,60 @@ Worker 启动时上下文仅包含：
 
 ### Intelligence Layer Skills 使用指南
 
-> CodeGraph 集成：使用 Intelligence Skills 提升代码理解和定位效率
+> codebase-memory + ripgrep + LSP 集成：使用 `code-insight-stack` 提升代码理解和定位效率
 
-**推荐工作流：**
+**推荐工作流（codebase-memory + ripgrep + LSP）：**
 
 ```
-1. 实现前：使用 /query-symbol 定位要修改的代码
-   - 快速找到类/函数的定义位置
-   - 避免手动 grep 搜索
+1. 实现前：使用 /code-insight-stack 选择最便宜的工具组合
+   ├─ /query-symbol 找跨文件结构
+   ├─ /ripgrep-search 找字符串/注释/路径
+   └─ /lsp-query definition 拿权威定义
 
-2. 实现前：使用 /get-callers 查看调用方
-   - 了解修改会影响到哪些地方
+2. 实现前：使用 /lsp-query references 或 /get-callers 查看调用方
+   - 了解修改会影响到哪些地方（含继承/重写）
    - 提前规划测试范围
 
 3. 重构前：使用 /analyze-impact 评估影响范围
    - 综合评估变更风险
    - 制定回归测试计划
 
-4. 实现后：使用 /query-symbol 验证修改位置
-   - 确认修改正确
+4. 实现后：使用 /lsp-query diagnostic 验证编译通过
+   - 用 /ripgrep-search 复核关键字位置
+   - 用 /query-symbol 确认修改位置
 ```
 
 **MCP 调用示例：**
 
 ```markdown
 # 定位 UserService 类
-MCP Call: codegraph.search-nodes
+MCP Call: search_graph
 {
   "query": "UserService",
   "node_types": ["class"]
 }
 
+# 2. 字符串 / 注释 / 路径 兜底
+Bash: rg --no-heading -n --color never "UserService" --path src
+
+# 3. 权威定义 / 引用
+LSP: textDocument/definition
+{"textDocument": {"uri": "file://<project>/src/service/UserService.java"}, "position": {"line": 15, "character": 17}}
+
 # 查看 login 方法被谁调用
-MCP Call: codegraph.get-callers
+# 调用方：LSP references（语义，跨别名/继承）
+LSP: textDocument/references
+{"textDocument": {"uri": "file://<project>/src/service/UserService.java"}, "position": {"line": 15, "character": 17}, "context": {"includeDeclaration": false}}
+
+# 兜底：codebase-memory 图查询
+MCP Call: trace_path(direction="inbound")
 {
   "symbol": "UserService.login",
   "depth": 1
 }
 
 # 评估修改影响
-MCP Call: codegraph.get-impact-radius
+MCP Call: detect_changes
 {
   "file": "src/service/UserService.java",
   "symbol": "login"

@@ -141,7 +141,7 @@ bootstrap_mcp() {
   if [[ -d "$src" ]]; then
     mkdir -p "$dst"
     copy_tree "$src" "$dst" "MCP Config (Intelligence Layer)"
-    echo "[hint] MCP configs: Understand-Anything.json, CodeGraph.json"
+    echo "[hint] MCP configs: Understand-Anything.json; codebase-memory is provided as a skill"
   fi
 }
 

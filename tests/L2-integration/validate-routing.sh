@@ -47,6 +47,14 @@ check_ref "hooks/hooks.json" "hooks 配置"
 # tracking 引用
 check_ref "core/orchestration/tracking/schema.md" "追踪 schema"
 
+echo "--- tactical 引用 ---"
+# tactical 层技能 (codebase-memory / ripgrep / LSP 三层栈)
+check_ref "core/intelligence/tactical/_config.yaml" "tactical 配置 (codebase-memory + ripgrep + LSP)"
+check_ref "skills/ripgrep-search/SKILL.md" "ripgrep-search 技能"
+check_ref "skills/lsp-query/SKILL.md" "lsp-query 技能"
+check_ref "skills/code-insight-stack/SKILL.md" "code-insight-stack 编排"
+
+
 echo ""
 if [ "$ISSUES" -gt 0 ]; then
     echo "❌ Routing 完整性: $ISSUES dead links found"

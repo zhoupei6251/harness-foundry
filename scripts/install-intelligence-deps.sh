@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # install-intelligence-deps.sh
-# Intelligence Layer 一键安装脚本
+# Intelligence Layer 依赖检查脚本
+# codebase-memory 由 Codex skill 提供，不需要 npm 全局安装。
 # 用法: bash scripts/install-intelligence-deps.sh [--init-index]
 
 set -euo pipefail
@@ -9,7 +10,6 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 INIT_INDEX=false
 
-# 解析参数
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --init-index) INIT_INDEX=true; shift ;;
@@ -17,7 +17,7 @@ while [[ $# -gt 0 ]]; do
       echo "用法: bash scripts/install-intelligence-deps.sh [--init-index]"
       echo ""
       echo "选项:"
-      echo "  --init-index    初始化项目索引（需要进入目标项目目录）"
+      echo "  --init-index    输出 codebase-memory 索引初始化提示"
       exit 0
       ;;
     *) echo "未知选项: $1"; exit 1 ;;
@@ -25,141 +25,73 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo "=============================================="
-echo "  Intelligence Layer 依赖安装"
+echo "  Intelligence Layer 依赖检查"
 echo "=============================================="
 echo ""
 
-# 颜色输出
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
-
-info() { echo -e "${GREEN}[INFO]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-error() { echo -e "${RED}[ERROR]${NC} $1"; }
-success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
-
-# === 1. 检查 Node.js ===
-echo ">>> 检查 Node.js..."
-NODE_VERSION=$(node -v 2>/dev/null | cut -d'v' -f2 | cut -d'.' -f1) || NODE_VERSION=0
-
-if [[ "$NODE_VERSION" -lt 20 ]]; then
-  error "Node.js 版本过低: $(node -v)"
-  echo "   CodeGraph 需要 Node.js >= 20"
-  echo ""
-  echo "   请升级 Node.js:"
-  echo "   - macOS: brew install node@20"
-  echo "   - Linux: curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash - && sudo apt-get install -y nodejs"
-  echo "   - Windows: https://nodejs.org/"
-  exit 1
-fi
-
-info "Node.js 版本检查通过: $(node -v)"
-echo ""
-
-# === 2. 安装 CodeGraph ===
-echo ">>> 安装 CodeGraph..."
-
-if command -v codegraph &> /dev/null; then
-  CODEGRAPH_VERSION=$(codegraph --version 2>/dev/null || echo "unknown")
-  info "CodeGraph 已安装: $CODEGRAPH_VERSION"
+echo ">>> 检查 codebase-memory (知识图谱)..."
+if [[ -f "$ROOT/core/intelligence/tactical/_config.yaml" ]]; then
+  echo "[OK] tactical 配置 (codebase-memory + ripgrep + LSP): $ROOT/core/intelligence/tactical/_config.yaml"
 else
-  info "正在安装 CodeGraph..."
-
-  if command -v npm &> /dev/null; then
-    npm install -g @colbymchenry/codegraph
-  elif command -v pnpm &> /dev/null; then
-    pnpm add -g @colbymchenry/codegraph
+  echo "[WARN] tactical 配置未找到，请检查 core/intelligence/tactical/_config.yaml"
+fi
+for sk in ripgrep-search lsp-query code-insight-stack; do
+  if [[ -f "$ROOT/skills/$sk/SKILL.md" ]]; then
+    echo "[OK] skill/$sk 已自包含在仓库内"
   else
-    error "未找到 npm 或 pnpm"
-    exit 1
+    echo "[WARN] skill/$sk 缺失，请同步 skills/ 目录"
   fi
+done
 
-  if command -v codegraph &> /dev/null; then
-    success "CodeGraph 安装成功: $(codegraph --version)"
-  else
-    error "CodeGraph 安装失败"
-    exit 1
+echo ">>> 检查 ripgrep (文本搜索)..."
+if command -v rg &> /dev/null; then
+  echo "[OK] ripgrep: $(rg --version | head -n 1)"
+else
+  echo "[WARN] ripgrep 未安装；将降级到 grep + rg 文本兜底（仅 ripgrep-search skill 不可用）"
+  echo "       安装: https://github.com/BurntSushi/ripgrep#installation"
+fi
+
+echo ">>> 检查 LSP (语言服务)..."
+found_lsp=0
+for cmd in typescript-language-server pyright gopls rust-analyzer clangd jdtls omnisharp-roslyn; do
+  if command -v "$cmd" &> /dev/null; then
+    echo "[OK] LSP available: $cmd"
+    found_lsp=1
+    break
   fi
+done
+if [[ $found_lsp -eq 0 ]]; then
+  echo "[WARN] 未检测到任何 language server；lsp-query skill 仍可调用（由 IDE 暴露 LSP）"
 fi
 echo ""
 
-# === 3. 检查 Understand-Anything ===
 echo ">>> 检查 Understand-Anything..."
-
 UA_PATH="$ROOT/reference_github/Understand-Anything"
 if [[ -d "$UA_PATH" ]]; then
-  info "Understand-Anything 源码已存在: $UA_PATH"
+  echo "[INFO] Understand-Anything 源码已存在: $UA_PATH"
 else
-  warn "Understand-Anything 源码未找到"
-  echo ""
-  echo "   Understand-Anything 是可选的智能代码理解工具"
-  echo "   如需使用，请手动安装:"
-  echo ""
-  echo "   # 克隆源码"
-  echo "   git clone https://github.com/Understand-Anything/understand-anything.git"
-  echo "   cd understand-anything"
-  echo ""
-  echo "   # 安装依赖"
-  echo "   pnpm install"
-  echo ""
-  echo "   # 构建"
-  echo "   pnpm --filter @understand-anything/core build"
-  echo "   pnpm --filter @understand-anything/skill build"
-  echo ""
-  echo "   详见: https://github.com/Understand-Anything/understand-anything"
+  echo "[WARN] Understand-Anything 源码未找到（可选）"
+  echo "       如需使用，请按 mcp-config/Understand-Anything.json 配置。"
 fi
-echo ""
 
-# === 4. 初始化项目索引（可选）===
 if [[ "$INIT_INDEX" == "true" ]]; then
-  echo ">>> 初始化项目索引..."
-  cd "$ROOT"
-
-  if [[ -d ".git" ]]; then
-    info "检测到 Git 项目: $ROOT"
-
-    # 检查是否已有 .codegraph
-    if [[ -d ".codegraph" ]]; then
-      warn ".codegraph 目录已存在，将重新初始化"
-      rm -rf .codegraph
-    fi
-
-    info "初始化 CodeGraph..."
-    codegraph init
-
-    info "建立代码索引..."
-    codegraph index
-
-    success "项目索引初始化完成"
-    echo ""
-    echo "   索引数据存储在: .codegraph/"
-    echo "   如需更新索引: codegraph sync"
-  else
-    warn "当前目录不是 Git 项目，跳过索引初始化"
-  fi
+  echo ""
+  echo ">>> codebase-memory 索引初始化提示"
+  echo "[INFO] 请在 AI 会话中调用 codebase-memory 的 index_repository 工具。"
+  echo "[INFO] 不要手动删除或操作其内部索引目录。"
 fi
 
-# === 完成 ===
 echo ""
 echo "=============================================="
-success "Intelligence Layer 安装完成!"
+echo "[SUCCESS] Intelligence Layer 检查完成"
 echo "=============================================="
 echo ""
 echo "下一步:"
-echo ""
-echo "  1. 在 Harness Foundry 中使用 Skills:"
-echo "     - /understand-project   # 理解项目"
-echo "     - /analyze-architecture # 分析架构"
-echo "     - /query-symbol         # 定位代码"
-echo "     - /analyze-impact       # 评估影响"
-echo ""
-echo "  2. 如需初始化项目索引:"
-echo "     cd your-project"
-echo "     codegraph init"
-echo "     codegraph index"
-echo ""
-echo "  3. 查看文档:"
-echo "     cat docs/intelligence-layer-user-guide.md"
+echo "  - /code-insight-stack       # 战术层统一入口（codebase-memory + ripgrep + LSP）"
+echo "  - /understand-project       # 战略层：理解项目"
+echo "  - /analyze-architecture     # 战略层：分析架构"
+echo "  - /query-symbol             # 战术层：定位代码（图）"
+echo "  - /ripgrep-search           # 战术层：定位字符串/正则"
+echo "  - /lsp-query                # 战术层：权威定义/引用/类型/诊断"
+echo "  - /analyze-impact           # 战术层：评估影响"
 echo ""

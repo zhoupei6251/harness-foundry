@@ -14,7 +14,7 @@ layer: tactical
 
 # /query-symbol
 
-使用 CodeGraph 快速定位代码符号（类、函数、方法、变量等）。
+使用 codebase-memory 知识图谱快速定位代码符号（类、函数、方法、变量等）；命中后再用 LSP `textDocument/definition` 取得权威定义。
 
 ## 使用场景
 
@@ -28,7 +28,7 @@ layer: tactical
 ## 调用方式
 
 ```markdown
-使用 CodeGraph 的 search-nodes 能力：
+使用 codebase-memory 的 search_graph 工具：
 - query: {符号名称}
 - node_types: ["class", "function", "method", "variable"] (可选)
 ```

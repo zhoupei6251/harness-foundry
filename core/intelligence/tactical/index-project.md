@@ -12,7 +12,7 @@ layer: tactical
 
 # /index-project
 
-使用 CodeGraph 为项目建立代码索引。
+使用 codebase-memory / ripgrep / LSP 三层查询栈时，先建立/确认项目代码索引。
 
 ## 使用场景
 
@@ -25,7 +25,7 @@ layer: tactical
 ## 调用方式
 
 ```markdown
-使用 CodeGraph 的 index-project 能力：
+使用 codebase-memory 的 index_repository 工具：
 - project_path: {项目路径}
 - languages: ["java", "python", "typescript"] (自动检测)
 ```
@@ -36,20 +36,12 @@ layer: tactical
 1. 扫描项目文件结构
 2. 解析 AST 提取符号
 3. 构建引用关系图
-4. 存储到 SQLite 数据库
+4. 由 codebase-memory 管理索引生命周期
 ```
 
-## 索引存储位置
+## 索引生命周期
 
-索引存储在项目的 `.codegraph/` 目录：
-
-```
-/path/to/project/.codegraph/
-├── graph.db           # SQLite 索引数据库
-├── symbols.json       # 符号映射
-└── watch-list.json    # 监视文件列表
-```
-
+索引由 `codebase-memory` skill 管理。Harness 不假设固定的数据库文件、目录结构或本地 CLI；需要查询时直接使用 `index_status`、`search_graph` 和 `get_code_snippet`。
 ## 索引后可用工具
 
 | 工具 | 用途 |
@@ -82,12 +74,12 @@ AI:   调用 /index-project
 
 ## 增量索引
 
-项目代码变更后，CodeGraph 支持增量索引：
+项目代码变更后，codebase-memory 支持通过 detect_changes 检测变更：
 
 ```bash
 # 仅索引变更的文件
-codegraph sync
+detect_changes
 
 # 监视文件变更，自动索引
-codegraph watch
+index_status
 ```

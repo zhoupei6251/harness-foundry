@@ -85,36 +85,49 @@
 
 ### Intelligence Layer Skills 使用指南
 
-> CodeGraph 集成：使用 Intelligence Skills 加速缺陷定位
+> codebase-memory + ripgrep + LSP 集成：使用 `code-insight-stack` 加速缺陷定位
 
-**推荐工作流：**
+**推荐工作流（codebase-memory + ripgrep + LSP）：**
 
 ```
-1. 定位阶段：使用 /query-symbol 快速找到相关代码
-   - 搜索异常信息中的类名
-   - 定位错误栈中的方法
+1. 定位阶段
+   ├─ /ripgrep-search '<错误信息/异常名>'  找到错误消息出处
+   ├─ /query-symbol '<错误信息中的类名>'   找类定义
+   └─ /lsp-query definition              拿权威定义
 
-2. 分析阶段：使用 /get-callers 查看调用链
-   - 追踪 bug 的传入路径
-   - 找到数据来源
+2. 分析阶段
+   ├─ /lsp-query references              看所有引用（语义）
+   └─ /get-callers                        看图上的调用链
 
-3. 根因分析：使用 /get-callees 查看被调用方
-   - 追踪 bug 的传出路径
-   - 找到数据去向
+3. 根因分析
+   ├─ /get-callees                        看被调用方
+   └─ /lsp-query hover                    看类型/签名
 ```
 
 **MCP 调用示例：**
 
 ```markdown
 # 定位 NullPointerException 中的类
-MCP Call: codegraph.search-nodes
+MCP Call: search_graph
 {
   "query": "UserService",
   "node_types": ["class"]
 }
 
+# ripgrep 兜底
+Bash: rg --no-heading -n --color never "NullPointerException" --path src
+
+# LSP 拿权威定义
+LSP: textDocument/definition
+{"textDocument": {"uri": "file://<project>/src/service/UserService.java"}, "position": {"line": 15, "character": 17}}
+
 # 查看方法调用链
-MCP Call: codegraph.get-callers
+# LSP 拿引用（语义、含继承）
+LSP: textDocument/references
+{"textDocument": {"uri": "file://<project>/src/service/UserService.java"}, "position": {"line": 25, "character": 17}}
+
+# 兜底：图查询
+MCP Call: trace_path(direction="inbound")
 {
   "symbol": "UserService.process",
   "depth": 2

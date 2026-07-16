@@ -1,141 +1,66 @@
 #!/usr/bin/env bash
-# test-mcp-config.sh - MCP 配置测试
+# test-mcp-config.sh - MCP 与 codebase-memory 配置测试
 
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 KIT="${ROOT}"
-
-echo "=============================================="
-echo "  Intelligence Layer - MCP 配置测试"
-echo "=============================================="
-echo ""
-
 PASS=0
 FAIL=0
 
-test_pass() {
-  echo "  [PASS] $1"
-  PASS=$((PASS + 1))
-}
+echo "=============================================="
+echo "  Intelligence Layer - 配置测试"
+echo "=============================================="
+echo ""
 
-test_fail() {
-  echo "  [FAIL] $1"
-  FAIL=$((FAIL + 1))
-}
-
-# === Test: MCP 配置文件存在 ===
+test_pass() { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
+test_fail() { echo "  [FAIL] $1"; FAIL=$((FAIL + 1)); }
 
 echo "1. 检查 MCP 配置文件..."
+config_file="${KIT}/mcp-config/Understand-Anything.json"
+if [[ -f "$config_file" ]]; then
+  test_pass "Understand-Anything.json 存在"
+else
+  test_fail "Understand-Anything.json 不存在"
+fi
 
-mcp_configs=(
-  "mcp-config/Understand-Anything.json"
-  "mcp-config/CodeGraph.json"
-)
+if [[ -f "$config_file" ]] && grep -q "mcpServers" "$config_file" && grep -q "understand-anything" "$config_file"; then
+  test_pass "Understand-Anything.json 配置有效"
+else
+  test_fail "Understand-Anything.json 配置无效"
+fi
 
-for config in "${mcp_configs[@]}"; do
-  if [[ -f "${KIT}/${config}" ]]; then
-    test_pass "${config} 存在"
+echo ""
+echo "2. 检查 codebase-memory 配置..."
+if grep -q "codebase-memory" "${KIT}/core/intelligence/tactical/_config.yaml"; then
+  test_pass "tactical/_config.yaml 使用 codebase-memory"
+else
+  test_fail "tactical/_config.yaml 缺少 codebase-memory"
+fi
+
+for tool in "index_repository" "search_graph" "trace_path" "detect_changes" "ripgrep-search" "lsp-query" "code-insight-stack"; do
+  if grep -q "$tool" "${KIT}/core/intelligence/tactical/_config.yaml"; then
+    test_pass "配置包含 $tool"
   else
-    test_fail "${config} 不存在"
+    test_fail "配置缺少 $tool"
   fi
 done
 
-# === Test: CodeGraph 配置内容 ===
-
 echo ""
-echo "2. 检查 CodeGraph 配置..."
-
-config_file="${KIT}/mcp-config/CodeGraph.json"
-if [[ -f "$config_file" ]]; then
-  # 检查 JSON 格式 (使用 node 或简单语法检查)
-  if grep -q "mcpServers" "$config_file" && grep -q "codegraph" "$config_file"; then
-    test_pass "CodeGraph.json JSON 格式正确"
-  else
-    test_fail "CodeGraph.json JSON 格式错误"
-  fi
-
-  # 检查必需字段
-  if grep -q "codegraph" "$config_file"; then
-    test_pass "包含 codegraph 服务器配置"
-  else
-    test_fail "缺少 codegraph 服务器配置"
-  fi
-
-  if grep -q "command" "$config_file"; then
-    test_pass "包含 command 字段"
-  else
-    test_fail "缺少 command 字段"
-  fi
-fi
-
-# === Test: Understand-Anything 配置内容 ===
-
-echo ""
-echo "3. 检查 Understand-Anything 配置..."
-
-config_file="${KIT}/mcp-config/Understand-Anything.json"
-if [[ -f "$config_file" ]]; then
-  # 检查 JSON 格式 (使用 node 或简单语法检查)
-  if grep -q "mcpServers" "$config_file" && grep -q "understand-anything" "$config_file"; then
-    test_pass "Understand-Anything.json JSON 格式正确"
-  else
-    test_fail "Understand-Anything.json JSON 格式错误"
-  fi
-
-  # 检查必需字段
-  if grep -q "understand-anything" "$config_file"; then
-    test_pass "包含 understand-anything 服务器配置"
-  else
-    test_fail "缺少 understand-anything 服务器配置"
-  fi
-
-  if grep -q "command" "$config_file"; then
-    test_pass "包含 command 字段"
-  else
-    test_fail "缺少 command 字段"
-  fi
-fi
-
-# === Test: bootstrap.sh 包含 MCP 配置同步 ===
-
-echo ""
-echo "4. 检查 bootstrap.sh..."
-
-if grep -q "bootstrap_mcp" "${KIT}/scripts/bootstrap.sh"; then
-  test_pass "bootstrap.sh 包含 bootstrap_mcp"
+echo "3. 检查 bootstrap/sync 集成..."
+if grep -q "bootstrap_mcp" "${KIT}/scripts/bootstrap.sh" && grep -q "mcp-config" "${KIT}/scripts/bootstrap.sh"; then
+  test_pass "bootstrap.sh 同步 mcp-config"
 else
-  test_fail "bootstrap.sh 缺少 bootstrap_mcp"
+  test_fail "bootstrap.sh 未同步 mcp-config"
 fi
 
-if grep -q "mcp-config" "${KIT}/scripts/bootstrap.sh"; then
-  test_pass "bootstrap.sh 引用 mcp-config"
+if grep -q "sync_intelligence" "${KIT}/scripts/sync-skills.sh" && grep -q "INTELLIGENCE_SRC" "${KIT}/scripts/sync-skills.sh"; then
+  test_pass "sync-skills.sh 同步 Intelligence Layer"
 else
-  test_fail "bootstrap.sh 未引用 mcp-config"
+  test_fail "sync-skills.sh 未同步 Intelligence Layer"
 fi
-
-# === Test: sync-skills.sh 包含 Intelligence 同步 ===
 
 echo ""
-echo "5. 检查 sync-skills.sh..."
-
-if grep -q "sync_intelligence" "${KIT}/scripts/sync-skills.sh"; then
-  test_pass "sync-skills.sh 包含 sync_intelligence"
-else
-  test_fail "sync-skills.sh 缺少 sync_intelligence"
-fi
-
-if grep -q "INTELLIGENCE_SRC" "${KIT}/scripts/sync-skills.sh"; then
-  test_pass "sync-skills.sh 定义 INTELLIGENCE_SRC"
-else
-  test_fail "sync-skills.sh 未定义 INTELLIGENCE_SRC"
-fi
-
-# === 总结 ===
-
-echo ""
-echo "=============================================="
-echo "  测试结果"
 echo "=============================================="
 echo "  通过: ${PASS}"
 echo "  失败: ${FAIL}"

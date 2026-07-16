@@ -277,7 +277,7 @@ Harness Foundry
      │
      └─ Execute 阶段
           └─ Worker 使用图谱结果
-               └─ /query-symbol (CodeGraph)
+               └─ /query-symbol (codebase-memory)
 ```
 
 ### 数据流

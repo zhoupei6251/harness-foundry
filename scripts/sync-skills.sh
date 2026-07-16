@@ -265,7 +265,7 @@ sync_intelligence() {
       mkdir -p "$(dirname "$tactical_dst")"
       rm -rf "$tactical_dst"
       cp -a "$tactical_src" "$tactical_dst"
-      echo "  [ok] ${platform}: tactical layer (CodeGraph)"
+      echo "  [ok] ${platform}: tactical layer (codebase-memory + ripgrep + LSP)"
     fi
   done
 }

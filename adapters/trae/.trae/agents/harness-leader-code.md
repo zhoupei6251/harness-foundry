@@ -75,7 +75,7 @@ brainstorming → [门禁：用户确认 spec]
 
 ## Intelligence Layer 集成（自动使用）
 
-> Intelligence Layer 分两层：战略层（Understand-Anything）+ 战术层（CodeGraph）
+> Intelligence Layer 分两层：战略层（Understand-Anything）+ 战术层（codebase-memory）
 > **Leader 自动为 Worker 提供 Intelligence 支持**
 
 ### 自动调用规则
@@ -96,7 +96,17 @@ brainstorming → [门禁：用户确认 spec]
 | 架构评审 | `/analyze-architecture` | design 阶段 | 按需 |
 | 全局理解 | `/understand-chat` | 任何阶段 | 按需 |
 
-### 战术层使用 (CodeGraph)
+### 战术层使用（codebase-memory + ripgrep + LSP）
+
+战术层由三层工具组成，按"图 → 文本 → 语义"递进；`code-insight-stack` 是统一编排入口。
+
+| 场景 | Skill | 时机 | 自动 |
+|------|-------|------|------|
+| 建立/检查索引 | `/index-project` / `codebase-memory.index_status` | plan 阶段 | ✅ |
+| 跨文件结构关系 | `/query-symbol` / `codebase-memory.search_graph` | implement 阶段 | ✅ |
+| 字符串/注释/配置/路径 | `ripgrep-search` (`rg`) | implement 阶段 | ✅ |
+| 权威定义/引用/类型/诊断 | `lsp-query` (textDocument/*) | implement / verify 阶段 | ✅ |
+| 三层协同编排 | `code-insight-stack` | 跨阶段默认入口 | ✅ |
 
 | 场景 | Skill | 时机 | 自动 |
 |------|-------|------|------|
@@ -117,7 +127,9 @@ brainstorming → [门禁：用户确认 spec]
 │    └─ /index-project       → 建立代码索引（大型项目自动）       │
 │                                                              │
 │  implement 阶段:                                             │
-│    ├─ /query-symbol         → 定位要修改的代码               │
+│    ├─ /query-symbol         → 定位要修改的代码
+    ├─ /ripgrep-search       → 字符串/注释/配置快速搜索
+    ├─ /lsp-query             → 权威定义/引用/类型/诊断               │
 │    ├─ /get-callers          → 查看调用方（重构时自动）         │
 │    └─ /get-callees          → 查看被调用方                    │
 │                                                              │
