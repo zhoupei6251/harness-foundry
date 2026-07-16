@@ -1,7 +1,7 @@
 # Harness Foundry — 完整知识图谱
 
 > 生成时间: 2026-06-30
-> 数据来源: CodeGraph + 源码分析
+> 数据来源: codebase-memory + 源码分析
 
 ---
 
@@ -44,7 +44,7 @@ flowchart TB
     end
 
     subgraph IntelligenceLayer["🧠 Intelligence Layer"]
-        CodeGraph["CodeGraph<br/>战术层"]
+        codebase-memory["codebase-memory<br/>战术层"]
         UAPlugin["Understand-Anything<br/>战略层"]
     end
 
@@ -56,7 +56,7 @@ flowchart TB
     Orchestration --> Agents
     Hooks --> Traps
     Intelligence --> IntelligenceLayer
-    IntelligenceLayer --> CodeGraph
+    IntelligenceLayer --> codebase-memory
     IntelligenceLayer --> UAPlugin
 ```
 
@@ -383,7 +383,7 @@ graph TD
     Strategic --> Understand["understand-project.md"]
     Strategic --> Analyze["analyze-architecture.md"]
     
-    Tactical --> CodeGraph["CodeGraph (MCP)"]
+    Tactical --> codebase-memory["codebase-memory (MCP)"]
     
     Adapters --> Trae["trae/ .trae/"]
     Adapters --> Claude["claude/ .claude/"]
@@ -442,7 +442,7 @@ flowchart LR
         Tactical["⚡ 战术层"]
         
         Strategic --> UA["Understand-Anything"]
-        Tactical --> CG["CodeGraph"]
+        Tactical --> CG["codebase-memory"]
         
         UA --> Dashboard["📊 可视化仪表盘"]
         UA --> Tours["🧭 引导学习"]

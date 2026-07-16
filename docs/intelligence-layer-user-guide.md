@@ -9,7 +9,7 @@ Intelligence Layer 为 Harness Foundry 提供智能代码理解能力，由两�
 | 层次 | 工具 | 回答什么 | 使用时机 |
 |------|------|---------|---------|
 | **战略层** | Understand-Anything | 项目是什么/为什么这样设计 | 新项目、架构分析 |
-| **战术层** | CodeGraph | 符号在哪里/改动会影响谁 | 定位代码、评估影响 |
+| **战术层** | codebase-memory | 符号在哪里/改动会影响谁 | 定位代码、评估影响 |
 
 ## 快速开始
 
@@ -53,11 +53,8 @@ bash scripts/install-understand-anything.sh --uninstall
 ```bash
 cd your-project
 
-# 初始化 CodeGraph
-codegraph init
-
-# 建立索引
-codegraph index
+# 在当前会话中调用 codebase-memory 的索引工具
+index_repository(project_path="your-project")
 ```
 
 ### 开始使用
@@ -249,105 +246,38 @@ AI:   [调用 /analyze-impact]
 A: 对于大型项目，可以先索引核心模块：
 
 ```bash
-codegraph index --paths src/main/java
+index_repository(paths=["src/main/java"])
 ```
 
 ### Q: 索引占用空间大？
 
-A: 索引存储在 `.codegraph/` 目录，可以添加到 `.gitignore`：
+A: 索引由 codebase-memory skill 管理，不要手动操作内部存储目录。
 
-```bash
-echo ".codegraph/" >> .gitignore
-```
 
 ### Q: 如何更新索引？
 
 ```bash
 # 增量更新
-codegraph sync
+detect_changes
 
 # 全量重建
-codegraph index --force
+index_repository(force=true)
 ```
 
-## IDE MCP 配置
+## IDE 集成
 
-### Claude Code
+`codebase-memory` 是由当前 Codex 会话提供的 Skill/MCP 工具能力，不需要在每个项目中单独启动一个 `codebase-memory serve` 进程，也不需要维护单独的 npm 全局安装。
 
-在 `~/.claude/settings.json` 中添加：
+使用前确认当前会话已经加载 `codebase-memory` skill。常用工具：
 
-```json
-{
-  "mcpServers": {
-    "codegraph": {
-      "command": "npx",
-      "args": ["-y", "@colbymchenry/codegraph", "serve", "--mcp"]
-    }
-  }
-}
-```
+- `index_repository`：建立或更新项目索引
+- `index_status`：检查索引状态
+- `search_graph`：搜索符号和结构关系
+- `trace_path`：追踪调用方或被调用方
+- `detect_changes`：评估当前变更影响
+- `get_code_snippet`：读取精确源码片段
 
-### Cursor
-
-在 `.cursor/mcp.json` 中添加：
-
-```json
-{
-  "mcpServers": {
-    "codegraph": {
-      "command": "npx",
-      "args": ["-y", "@colbymchenry/codegraph", "serve", "--mcp"]
-    }
-  }
-}
-```
-
-### 配置说明
-
-- MCP 服务器启动后会自动与 IDE 连接
-- CodeGraph 的 MCP 会读取项目中的 `.codegraph/` 目录
-- 详见配置模板: `mcp-config/CodeGraph.json`
-
-## 常见问题
-
-### Q: CodeGraph MCP 连接失败？
-
-A: 确保已安装 CodeGraph 并运行：
-
-```bash
-# 检查安装
-codegraph --version
-
-# 启动 MCP 服务器
-codegraph serve --mcp
-```
-
-### Q: 索引很慢怎么办？
-
-A: 对于大型项目，可以先索引核心模块：
-
-```bash
-codegraph index --paths src/main/java
-```
-
-### Q: 索引占用空间大？
-
-A: 索引存储在 `.codegraph/` 目录，可以添加到 `.gitignore`：
-
-```bash
-echo ".codegraph/" >> .gitignore
-```
-
-### Q: 如何更新索引？
-
-```bash
-# 增量更新
-codegraph sync
-
-# 全量重建
-codegraph index --force
-```
-
+项目配置只需要保留已有的 `mcp-config/Understand-Anything.json`；codebase-memory 的索引生命周期由 skill 管理。
 ## 后续步骤
 
 - 查看完整设计文档: `docs/plans/2026-06-30-intelligence-layer-integration-design.md`

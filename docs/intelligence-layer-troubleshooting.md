@@ -1,386 +1,107 @@
-# Intelligence Layer 故障排查手册
+# Intelligence Layer 故障排除
 
-> Intelligence Layer 常见问题与解决方案
+> 本文只描述 Harness Foundry 当前的 Intelligence Layer：战略层使用 Understand-Anything，战术层使用 `codebase-memory` skill。
 
-## 目录
+## 1. codebase-memory skill 不可用
 
-- [CodeGraph 问题](#codegraph-问题)
-- [Understand-Anything 问题](#understand-anything-问题)
-- [MCP 连接问题](#mcp-连接问题)
-- [性能问题](#性能问题)
+**症状**：无法调用 `search_graph`、`trace_path` 或 `index_repository`。
 
----
+**排查**：
 
-## CodeGraph 问题
+1. 确认当前 AI 会话已加载 `codebase-memory` skill。
+2. 用 `index_status` 检查项目是否已登记。
+3. 如果项目未建立索引，调用 `index_repository`。
+4. 如果仍然失败，记录工具返回的完整错误，不要改用全库 grep 假装完成结构分析。
 
-### 问题 1: 索引失败
+## 2. 建立索引失败
 
-**症状**: `codegraph index` 执行失败
+**建议顺序**：
 
-**可能原因**:
-1. Node.js 版本不兼容
-2. 缺少依赖
-3. 项目路径不存在
+```text
+list_projects
+  ↓
+index_status
+  ↓
+index_repository(project_path="<project>")
+```
 
-**排查步骤**:
+检查项目路径、语言支持和当前会话的工具权限。大型项目可以先索引核心目录，再逐步扩大范围。
+
+## 3. 符号搜索没有结果
+
+**可能原因**：
+
+- 索引尚未建立或已经过期；
+- 符号名不准确；
+- 目标代码被排除在索引范围之外；
+- 使用了错误的节点类型或查询条件。
+
+**建议**：
+
+```text
+index_status
+search_graph(name_pattern=".*UserService.*")
+get_code_snippet(qualified_name="<exact-qualified-name>")
+```
+
+先用 `search_graph` 找到精确名称，再用 `get_code_snippet` 读取源码，不要猜路径。
+
+## 4. 调用链或影响分析不完整
+
+按以下顺序查询：
+
+```text
+trace_path(function_name="<function>", direction="both", depth=3)
+detect_changes()
+query_graph(<按需使用 Cypher 查询>)
+```
+
+- `direction="inbound"`：查找调用方；
+- `direction="outbound"`：查找被调用方；
+- `direction="both"`：同时查看两侧关系。
+
+如果结构关系仍不完整，应先确认索引状态和项目是否已重新索引。
+
+## 5. Understand-Anything 与 codebase-memory 如何分工
+
+| 需求 | 工具 |
+|------|------|
+| 了解陌生项目整体架构 | `/understand-project`、`/understand-chat` |
+| 询问架构和模块关系 | Understand-Anything |
+| 查找函数、类和调用链 | `search_graph`、`trace_path` |
+| 评估本次代码变更影响 | `detect_changes` |
+| 读取精确源码 | `get_code_snippet` |
+
+战略层和战术层可以组合使用：先用 Understand-Anything 建立整体理解，再用 codebase-memory 做精确定位。
+
+## 6. 性能问题
+
+不要设置旧版索引工具的环境变量，也不要手动删除未知的索引目录。优先采用以下方式：
+
+1. 缩小 `index_repository` 的项目路径或文件范围；
+2. 排除测试、构建产物和生成目录；
+3. 分模块建立索引；
+4. 检查 `index_status` 返回的项目规模和耗时；
+5. 将工具返回的错误和耗时记录到 Harness 审计日志。
+
+## 7. 诊断信息
+
+出现问题时请收集：
+
+- 调用的工具名称和完整参数；
+- 工具返回的完整错误；
+- `index_status` 结果；
+- 项目语言和路径；
+- 是否在索引后修改过大量文件。
+
+codebase-memory 的索引由技能运行时管理，Harness 不假设或操作某个固定的本地数据库目录。
+
+## 8. 检查 Harness 配置
 
 ```bash
-# 1. 检查 Node.js 版本
-node -v
-# 需要 >= 20.0.0
-
-# 2. 检查 codegraph 安装
-codegraph --version
-
-# 3. 检查项目路径
-ls -la /path/to/project
-
-# 4. 查看错误日志
-codegraph index --verbose 2>&1 | tee debug.log
+bash scripts/validate-intelligence-layer.sh
+bash tests/L3-intelligence/test-agent-integration.sh
+bash tests/L3-intelligence/test-mcp-config.sh
 ```
 
-**解决方案**:
-
-```bash
-# 重新安装 CodeGraph
-npm uninstall -g @colbymchenry/codegraph
-npm install -g @colbymchenry/codegraph
-
-# 清理并重建索引
-rm -rf .codegraph
-codegraph init
-codegraph index
-```
-
----
-
-### 问题 2: 符号搜索无结果
-
-**症状**: `/query-symbol` 返回空结果
-
-**可能原因**:
-1. 索引未建立
-2. 符号名称拼写错误
-3. 搜索范围不对
-
-**排查步骤**:
-
-```bash
-# 1. 检查索引状态
-codegraph status
-
-# 2. 尝试模糊搜索
-codegraph query "User*" --fuzzy
-
-# 3. 查看索引内容
-ls -la .codegraph/
-```
-
-**解决方案**:
-
-```bash
-# 重建索引
-rm -rf .codegraph
-codegraph init
-codegraph index
-
-# 搜索特定类型
-codegraph search --types class,interface "ClassName"
-```
-
----
-
-### 问题 3: 查询超时
-
-**症状**: 符号查询响应时间过长
-
-**可能原因**:
-1. 索引文件过大
-2. 磁盘 I/O 慢
-3. 并发查询过多
-
-**排查步骤**:
-
-```bash
-# 1. 检查索引大小
-du -sh .codegraph/
-
-# 2. 检查数据库完整性
-sqlite3 .codegraph/graph.db "PRAGMA integrity_check;"
-
-# 3. 监控资源使用
-htop  # 或 Task Manager
-```
-
-**解决方案**:
-
-```bash
-# 清理缓存
-codegraph clean
-
-# 优化数据库
-sqlite3 .codegraph/graph.db "VACUUM;"
-
-# 限制查询范围
-codegraph query "symbol" --limit 100
-```
-
----
-
-## Understand-Anything 问题
-
-### 问题 1: MCP 服务器无法启动
-
-**症状**: Understand-Anything MCP 连接失败
-
-**可能原因**:
-1. Node.js 版本不兼容
-2. 依赖未安装
-3. 端口被占用
-
-**排查步骤**:
-
-```bash
-# 1. 检查 Node.js 版本
-node -v
-# 需要 >= 22.0.0
-
-# 2. 检查依赖
-cd reference_github/Understand-Anything
-npm install
-
-# 3. 检查端口
-netstat -an | grep 3000
-```
-
-**解决方案**:
-
-```bash
-# 完整安装
-cd reference_github/Understand-Anything
-rm -rf node_modules package-lock.json
-npm install
-
-# 构建插件
-pnpm --filter @understand-anything/core build
-pnpm --filter @understand-anything/skill build
-
-# 启动 MCP 服务器
-node dist/index.js --port 3000
-```
-
----
-
-### 问题 2: 项目分析失败
-
-**症状**: `/understand-project` 执行失败
-
-**可能原因**:
-1. 项目路径不存在
-2. 权限不足
-3. 文件系统问题
-
-**排查步骤**:
-
-```bash
-# 1. 验证路径
-ls -la /path/to/project
-
-# 2. 检查权限
-test -r /path/to/project && test -x /path/to/project
-
-# 3. 检查磁盘空间
-df -h /path/to/project
-```
-
-**解决方案**:
-
-```bash
-# 使用绝对路径
-codegraph understand --path /absolute/path/to/project
-
-# 限制扫描范围
-codegraph understand --path /project --max-depth 5
-```
-
----
-
-## MCP 连接问题
-
-### 问题 1: MCP 服务器无法连接
-
-**症状**: MCP 调用返回连接错误
-
-**可能原因**:
-1. MCP 服务器未启动
-2. 端口配置错误
-3. 防火墙阻止
-
-**排查步骤**:
-
-```bash
-# 1. 检查 MCP 服务器状态
-curl http://localhost:3000/health
-
-# 2. 检查配置
-cat mcp-config/CodeGraph.json
-cat mcp-config/Understand-Anything.json
-
-# 3. 检查端口监听
-netstat -an | grep 3000
-```
-
-**解决方案**:
-
-```bash
-# 重启 MCP 服务器
-pkill -f codegraph
-codegraph serve --mcp &
-
-# 检查防火墙
-# Windows
-netsh firewall show state
-
-# Linux/Mac
-sudo iptables -L -n
-```
-
----
-
-### 问题 2: MCP 超时
-
-**症状**: MCP 调用超时
-
-**可能原因**:
-1. 处理时间过长
-2. 网络延迟
-3. 服务器负载高
-
-**排查步骤**:
-
-```bash
-# 1. 检查服务器资源
-top
-df -h
-
-# 2. 查看超时日志
-tail -f logs/mcp.log
-```
-
-**解决方案**:
-
-```bash
-# 减少并发
-echo '{"maxConcurrency": 1}' > mcp-config/local.json
-
-# 增加超时时间
-codegraph serve --mcp --timeout 120
-```
-
----
-
-## 性能问题
-
-### 问题 1: 索引很慢
-
-**症状**: `codegraph index` 执行时间过长
-
-**可能原因**:
-1. 项目文件太多
-2. 硬件性能不足
-3. 并行度设置不当
-
-**排查步骤**:
-
-```bash
-# 1. 统计文件数
-find . -type f \( -name "*.java" -o -name "*.ts" \) | wc -l
-
-# 2. 检查 CPU 使用
-top -bn1 | grep "Cpu(s)"
-
-# 3. 检查内存
-free -h
-```
-
-**解决方案**:
-
-```bash
-# 限制索引范围
-codegraph index --paths src/main/java
-
-# 减少并行度
-CODEGRAPH_PARALLELISM=2 codegraph index
-
-# 跳过测试文件
-codegraph index --exclude '**/*Test.java'
-```
-
----
-
-### 问题 2: 内存不足
-
-**症状**: 索引过程 OOM
-
-**可能原因**:
-1. 项目过大
-2. 内存设置不足
-3. 内存泄漏
-
-**排查步骤**:
-
-```bash
-# 1. 检查可用内存
-free -h
-
-# 2. 监控内存使用
-watch -n 1 free -h
-```
-
-**解决方案**:
-
-```bash
-# 设置内存限制
-NODE_OPTIONS="--max-old-space-size=4096" codegraph index
-
-# 分批索引
-codegraph index --paths src/module1
-codegraph index --paths src/module2
-
-# 清理后重试
-rm -rf .codegraph
-codegraph init
-codegraph index
-```
-
----
-
-## 日志位置
-
-```
-# CodeGraph
-./.codegraph/logs/
-./.codegraph/debug.log
-
-# Understand-Anything
-./.understand-anything/logs/
-./node_modules/.cache/
-```
-
-## 获取帮助
-
-如果以上方案无法解决问题：
-
-1. 收集诊断信息:
-```bash
-codegraph debug --output diagnostic.json
-```
-
-2. 查看完整日志:
-```bash
-tail -n 1000 .codegraph/debug.log > debug_output.txt
-```
-
-3. 提交 Issue:
-   - CodeGraph: https://github.com/colbymchenry/codegraph/issues
-   - Understand-Anything: https://github.com/Understand-Anything/understand-anything/issues
+如果脚本失败，优先修复配置或 Skill 引用，不要通过跳过测试来隐藏问题。

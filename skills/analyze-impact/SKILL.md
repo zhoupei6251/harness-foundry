@@ -14,7 +14,7 @@ category: code.intelligence
 
 # /analyze-impact
 
-使用 CodeGraph 评估代码变更的完整影响范围。
+使用 codebase-memory 评估代码变更的完整影响范围。
 
 ## 使用场景
 
@@ -28,7 +28,7 @@ category: code.intelligence
 ## 调用方式
 
 ```markdown
-使用 CodeGraph 的 get-impact-radius 能力：
+使用 codebase-memory 的 detect_changes 工具：
 - file: {文件路径}
 - symbol: {符号名称} (可选)
 ```

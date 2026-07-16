@@ -15,9 +15,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Parallel dispatch** — up to 5 concurrent subagents via the dispatcher workflow
 - **Skill system** — 194 skills organized in flat directories, auto-discovered
 - **Agent pool** — 30 agents across 3 domains
-- **Intelligence Layer** — Understand-Anything + CodeGraph integration
+- **Intelligence Layer** — Understand-Anything (strategic) + **codebase-memory + ripgrep + LSP** three-layer tactical stack (orchestrated by `code-insight-stack`)
 
 ## Architecture
+
+## Tactical Layer: Three-Layer Insight Stack (v2.1)
+
+The code domain tactical layer is built on three complementary tools. The `code-insight-stack` skill is the unified entrypoint that picks the cheapest tool for each scenario.
+
+| Layer | Skill | Tool | Strong at |
+|---|---|---|---|
+| Graph | `codebase-memory` | `search_graph` / `trace_path` / `detect_changes` | Cross-file structure, call graph, impact |
+| Text | `ripgrep-search` | `rg` | Strings, comments, paths, TODOs |
+| Semantic | `lsp-query` | `textDocument/definition` / `references` / `hover` / `diagnostic` | Compiler-level defs, refs, types, diagnostics |
+
+Quick decision matrix:
+- 'who calls X?' -> lsp-query references (primary) / codebase-memory trace_path (fallback)
+- 'find string/path' -> ripgrep-search
+- 'type/signature' -> lsp-query hover
+- 'cross-service impact' -> codebase-memory detect_changes
+
+If a layer is unavailable, the skill reports degradation explicitly. Don't silently fall back to fuzzy grep.
+
+---
 
 **Truth Source + Projection Model**: Only modify files under `core/` and `adapters/`. IDEs read from projection directories (`.trae/`, `.claude/`) rebuilt by `bootstrap.sh` and gitignored.
 
@@ -264,14 +284,14 @@ Results stored at `~/.claude/memory/learned/<domain>/`.
 
 ## Intelligence Layer
 
-Integrates Understand-Anything (strategic) and CodeGraph (tactical) for smart code comprehension:
+Integrates Understand-Anything (strategic) and codebase-memory (tactical) for smart code comprehension:
 - 5 min to understand unfamiliar projects
 - 57% token reduction
 - 71% tool call reduction
 
 ```bash
 bash scripts/install-intelligence-deps.sh
-codegraph init && codegraph index  # Optional
+index_repository(project_path="<project>")  # Optional
 ```
 
 ## Critical Rules from NEVER.md

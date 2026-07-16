@@ -34,12 +34,15 @@ Route: <code|novel|news>
 
 ## Intelligence Layer (Smart Code Understanding)
 
-Harness Foundry integrates **Understand-Anything** and **CodeGraph** for intelligent code comprehension:
+Harness Foundry integrates **Understand-Anything** and **codebase-memory** for intelligent code comprehension:
 
 | Layer | Tool | Capability |
 |-------|------|------------|
 | **Strategic** | Understand-Anything | Project understanding, architecture analysis, natural language Q&A |
-| **Tactical** | CodeGraph | Index queries, symbol location, impact analysis |
+| **Tactical · Graph** | codebase-memory (`search_graph` / `trace_path` / `detect_changes`) | Cross-file structure, call graphs, impact |
+| **Tactical · Text** | ripgrep (`rg`) | Strings / comments / paths / TODOs |
+| **Tactical · LSP** | LSP (`textDocument/definition` / `references` / `hover` / `diagnostic`) | Compiler-level definitions, refs, types, diagnostics |
+| **Tactical · Orchestration** | `code-insight-stack` | Unified entrypoint for the three-layer stack |
 
 **Benefits**:
 - Understand unfamiliar projects in 5 minutes
@@ -56,11 +59,10 @@ bash scripts/install-intelligence-deps.sh
 .\scripts\install-intelligence-deps.ps1
 
 # Optional: Initialize project index after installation
-codegraph init
-codegraph index
+index_repository(project_path="<project>")
 ```
 
-See: [User Guide](docs/intelligence-layer-user-guide.md) | [Usage Manual](docs/intelligence-layer-usage-guide.md) | [Troubleshooting](docs/intelligence-layer-troubleshooting.md)
+See: [v2.1 Architecture](docs/specs/harness-foundry-v2.1-architecture.md) | [User Guide](docs/intelligence-layer-user-guide.md) | [Usage Manual](docs/intelligence-layer-usage-guide.md) | [Troubleshooting](docs/intelligence-layer-troubleshooting.md)
 
 ---
 
@@ -365,4 +367,4 @@ Inspired by and cherry-picks from:
 - [obra/superpowers](https://github.com/obra/superpowers) — skill-triggered workflow methodology
 - [affaan-m/ECC](https://github.com/affaan-m/ECC) — 60+ agents, 230+ skills, multi-harness ecosystem
 - [Understand-Anything](https://github.com/ollama/ollama) — Strategic code understanding
-- [CodeGraph](https://github.com/salesforce/codegraph) — Tactical code indexing
+- **codebase-memory** — local Codex skill for tactical code indexing

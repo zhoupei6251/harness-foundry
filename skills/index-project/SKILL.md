@@ -14,7 +14,7 @@ category: code.intelligence
 
 # /index-project
 
-使用 CodeGraph 为项目建立代码索引。
+使用 codebase-memory 为项目建立代码索引。
 
 ## 使用场景
 
@@ -45,8 +45,8 @@ category: code.intelligence
 
 ```bash
 # 仅索引变更的文件
-codegraph sync
+detect_changes
 
 # 监视文件变更，自动索引
-codegraph watch
+index_status
 ```

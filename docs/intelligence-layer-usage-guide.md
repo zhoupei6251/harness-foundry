@@ -91,7 +91,7 @@ Explorer 是 Intelligence 的主要使用者：
 ```bash
 # 典型探查流程
 1. /understand-chat <问题>  # 基于图谱回答
-2. codegraph_explore <符号>   # 精准定位
+2. search_graph(name_pattern="<符号>")   # 精准定位
 3. /get-callers <函数>        # 调用分析
 ```
 
@@ -132,7 +132,7 @@ Reviewer 在审查前使用：
 | `/understand-diff` | PR/代码变更 | 分析变更的影响 |
 | `/analyze-architecture` | design 阶段 | 深度架构分析 |
 
-### 战术层 (CodeGraph)
+### 战术层 (codebase-memory)
 
 | Skill | 触发 | 用法 |
 |-------|------|------|
@@ -177,7 +177,7 @@ reviewer:
 可使用：
 - /understand-chat <问题>   # 基于图谱回答
 - /query-symbol <符号>      # 定位代码
-- codegraph_explore <符号>   # 索引查询
+- search_graph(name_pattern="<符号>")   # 索引查询
 ```
 
 ---
@@ -201,7 +201,7 @@ Leader-code:
 用户: 修复 intent-routing 相关的 bug
       ↓
 Leader-code:
-  1. codegraph_explore "intent-routing"
+  1. search_graph(name_pattern="intent-routing")
   2. 派发给 debugger
       ↓
 Debugger:
@@ -254,15 +254,14 @@ ls .understand-anything/knowledge-graph.json
 /understand --full --language zh
 ```
 
-### CodeGraph 索引不存在
+### codebase-memory 索引不存在
 
 ```bash
 # 检查
-ls .codegraph/
+index_status
 
 # 如果不存在，建立
-codegraph init
-codegraph index
+index_repository(project_path="<project>")
 ```
 
 ### Skills 不可用
@@ -286,8 +285,8 @@ bash scripts/sync-skills.sh --target claude
 ├── config.json                  # 配置
 └── intermediate/                # 中间产物
 
-.codegraph/                     # CodeGraph 数据
-├── codegraph.db                 # SQLite 索引
+.understand-anything/               # 另一个战略层数据源`n# codebase-memory 的索引由 skill 管理，不在项目内手工维护
+├── codebase-memory.db                 # SQLite 索引
 └── ...                          # 其他索引文件
 
 core/intelligence/               # Intelligence Layer 配置
@@ -315,4 +314,4 @@ core/intelligence/               # Intelligence Layer 配置
 - [Intelligence Layer 用户指南](intelligence-layer-user-guide.md)
 - [Intelligence Layer 故障排除](intelligence-layer-troubleshooting.md)
 - [Understand-Anything 项目](https://github.com/Egonex-AI/Understand-Anything)
-- [CodeGraph 项目](https://github.com/AfkarSiddiq/CodeGraph)
+- **codebase-memory**（本地 Codex skill）

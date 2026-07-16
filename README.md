@@ -97,12 +97,15 @@ Route: <code|novel|news>
 
 ## Intelligence Layer（智能代码理解）
 
-Harness Foundry 集成了 **Understand-Anything** 和 **CodeGraph**，提供智能代码理解能力：
+Harness Foundry 集成了 **Understand-Anything** 和 **codebase-memory / ripgrep / LSP** 三层查询栈，提供智能代码理解能力：
 
 | 层次 | 工具 | 能力 |
 |------|------|------|
 | **战略层** | Understand-Anything | 项目理解、架构分析、自然语言问答 |
-| **战术层** | CodeGraph | 索引查询、符号定位、影响分析 |
+| **战术层·知识图谱** | codebase-memory (`search_graph` / `trace_path` / `detect_changes`) | 跨文件结构关系、调用图、影响面 |
+| **战术层·文本搜索** | ripgrep (`rg`) | 字符串 / 注释 / 路径 / TODO 兜底 |
+| **战术层·语言服务** | LSP (`textDocument/definition` / `references` / `hover` / `diagnostic`) | 编译器级定义、引用、类型、诊断 |
+| **战术编排** | `code-insight-stack` | 统一入口，按场景选最便宜的工具组合 |
 
 **效果**：
 - 5 分钟理解陌生项目
@@ -119,11 +122,10 @@ bash scripts/install-intelligence-deps.sh
 .\scripts\install-intelligence-deps.ps1
 
 # 安装后初始化项目索引（可选）
-codegraph init
-codegraph index
+index_repository(project_path="<project>")
 ```
 
-详见：[用户指南](docs/intelligence-layer-user-guide.md) | [使用手册](docs/intelligence-layer-usage-guide.md) | [故障排除](docs/intelligence-layer-troubleshooting.md)
+架构详见 [v2.1 架构文档](docs/specs/harness-foundry-v2.1-architecture.md)；使用详见 [用户指南](docs/intelligence-layer-user-guide.md) | [使用手册](docs/intelligence-layer-usage-guide.md) | [故障排除](docs/intelligence-layer-troubleshooting.md)
 
 ---
 
@@ -569,4 +571,4 @@ MIT — 参见 [`LICENSE`](LICENSE)。
 - [obra/superpowers](https://github.com/obra/superpowers) — Skill 触发的工作流方法论
 - [affaan-m/ECC](https://github.com/affaan-m/ECC) — 60+ Agent、230+ Skill、跨多 harness 生态
 - [Understand-Anything](https://github.com/ollama/ollama) — 战略层代码理解
-- [CodeGraph](https://github.com/salesforce/codegraph) — 战术层代码索引
+- **codebase-memory** — 本地 Codex skill，提供战术层代码索引

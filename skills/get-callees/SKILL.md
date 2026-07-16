@@ -14,7 +14,7 @@ category: code.intelligence
 
 # /get-callees
 
-使用 CodeGraph 查找指定符号调用的所有代码。
+使用 codebase-memory 查找指定符号调用的所有代码。
 
 ## 使用场景
 
@@ -28,7 +28,7 @@ category: code.intelligence
 ## 调用方式
 
 ```markdown
-使用 CodeGraph 的 get-callees 能力：
+使用 codebase-memory 的 trace_path(direction="outbound") 工具：
 - symbol: {符号名称}
 - depth: 1 (调用深度，默认1层)
 ```

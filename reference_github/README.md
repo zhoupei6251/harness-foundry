@@ -25,7 +25,7 @@ git clone https://github.com/anthropics/skills.git anthropics
 git clone https://github.com/forrestchang/andrej-karpathy-skills.git andrej-karpathy-skills
 
 # 知识图谱 & 记忆系统
-git clone https://github.com/colbymchenry/codegraph.git codegraph
+# codebase-memory 由 Codex skill 提供，无需单独 clone
 git clone https://github.com/Egonex-AI/Understand-Anything.git Understand-Anything
 git clone https://github.com/topoteretes/cognee.git cognee
 git clone https://github.com/getzep/graphiti.git graphiti
@@ -74,7 +74,7 @@ git clone https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools.git s
 
 | 目录 | 描述 | GitHub |
 |------|------|--------|
-| `codegraph` | 本地优先的代码智能库，基于 tree-sitter 解析和 SQLite 存储，提供 MCP 服务器 | https://github.com/colbymchenry/codegraph |
+| `codebase-memory` | 通过知识图谱工具提供代码结构查询、调用链追踪和影响分析 | 本地 Codex skill |
 | `Understand-Anything` | 将代码库、知识库或文档转换为 AI 编程助手的交互式知识图谱 | https://github.com/Egonex-AI/Understand-Anything |
 | `cognee` | 开源 AI 记忆平台，支持任意格式数据摄入和自托管知识图谱构建 | https://github.com/topoteretes/cognee |
 | `graphiti` | 为 AI Agent 构建时序上下文图谱，支持双时态事实追踪和混合检索 | https://github.com/getzep/graphiti |
@@ -108,7 +108,7 @@ git clone https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools.git s
 
 - 🔧 想提升编程效率？→ Claude Code + Superpowers + ECC
 - 🧠 想构建 Agent 记忆？→ Mem0 + Graphiti + cognee
-- 📊 想理解代码库？→ CodeGraph + Understand-Anything
+- 📊 想理解代码库？→ codebase-memory + Understand-Anything
 - 🎨 想做 UI 设计？→ UI UX Pro Max
 - 📚 想学习 Java？→ JavaGuide
 - 🔄 防 AI 偷懒？→ Ralph Loop (`skills/ralph/`)
