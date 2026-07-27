@@ -1,0 +1,31 @@
+﻿{
+  "permissions": {
+    "allow": [
+      "Bash(git add *)",
+      "Bash(git commit -m *)",
+      "Bash(git *)",
+      "WebSearch",
+      "Bash(codebase-memory-mcp cli search_graph *)",
+      "Bash(codebase-memory-mcp cli query_graph *)",
+      "Bash(codebase-memory-mcp cli trace_path *)",
+      "Bash(bash scripts/install-understand-anything.sh --dry-run)",
+      "Bash(bash scripts/install-understand-anything.sh --claude --trae --cursor --codex)",
+      "Bash(pnpm --version)",
+      "Bash(mkdir -p *)",
+      "Bash(CLAUDE_PLUGIN_ROOT=*)",
+      "Bash(node *)",
+      "Bash(cp -r *)",
+      "Bash(xargs -I {} basename {})",
+      "Bash(grep -E *)",
+      "Bash(python3 scripts/novel/*)",
+      "Bash(python scripts/novel/*)",
+      "Bash(echo *)",
+      "Bash(cat)",
+      "Bash(rm -f *)",
+      "Bash(python3 -c *)",
+      "Bash(node scripts/security/scan.js *)",
+      "Bash(node scripts/security/scan.js)"
+    ],
+    "defaultMode": "bypassPermissions"
+  }
+}

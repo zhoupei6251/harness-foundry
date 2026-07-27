@@ -1,15 +1,13 @@
-{
+﻿{
   "mcpServers": {
-    "codegraph": {
+    "codebase_memory": {
       "command": "npx",
       "args": [
         "-y",
-        "@colbymchenry/codegraph",
-        "serve",
-        "--mcp"
+        "codebase-memory-mcp",
+        "--ui=true"
       ],
       "env": {
-        "CODEGRAPH_DB_PATH": ".codegraph",
         "NODE_ENV": "production"
       }
     }
