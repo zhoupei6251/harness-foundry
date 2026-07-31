@@ -43,6 +43,9 @@ domains:
       - code-reviewer
       - reviewer
       - test-engineer
+      - java-reviewer            # ecc: Java/Spring Boot 专项审查
+      - security-reviewer        # ecc: OWASP/安全漏洞检测
+      - database-reviewer        # ecc: SQL/JPA 查询与 schema 审查
 
     # 次 Agent（按需加载）
     secondary_agents:
@@ -50,6 +53,7 @@ domains:
       - implementer            # 轻量实现（文档/配置）
       - planner                # 代码域规划（plan 拆分）
       - code-simplifier        # 精简/优化代码时
+      - silent-failure-hunter  # ecc: 静默失败/吞异常/空 catch 检测
       - tech-writer            # 写技术文档时
       - explorer               # 只读探查代码库时
       - web-investigator       # 需要调研时加载
@@ -59,6 +63,7 @@ domains:
     primary_skills:
       - brainstorming
       - architecture-patterns
+      - springboot-patterns       # ecc: Spring Boot 编码基线（karpathy 之后、写代码之前）
       - test-driven-development
       - code-review
       - refactor-safely
@@ -82,6 +87,7 @@ domains:
     # 次 Skill（按需加载）
     secondary_skills:
       - simplify               # /simplify 精简代码
+      - silent-failure-hunter  # ecc: 静默失败/吞异常/空 catch 检测
       - ralph                  # Ralph Loop 防偷懒循环
       - tech-writer            # 写技术文档（已有 agent）
       - humanizer-zh           # 文档去 AI 味

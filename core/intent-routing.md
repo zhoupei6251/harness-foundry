@@ -18,12 +18,12 @@ tags: [Rules, Runbook]
 | 设计、方案、怎么搞、怎么弄、架构、选型 | design | `/brainstorming` → 写 spec → **暂停等确认** |
 | 计划、拆分、列出任务、WBS、排期 | plan | `/writing-plans` → 写 plan → **暂停等确认** |
 | OK、可以、开始、做吧、执行、就按这个、批准了 | implement | 拆 WU → 并行派兵 |
-| 写代码、实现、重构、加功能、写个、帮我写 | code-write | `/karpathy-guidelines` FIRST → TDD → simplify → review |
-| 修、bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵（仍须 karpathy-guidelines） |
+| 写代码、实现、重构、加功能、写个、帮我写 | code-write | `/karpathy-guidelines` + `/springboot-patterns` FIRST → TDD → `/simplify` + `/silent-failure-hunter` → ecc 三合一 review |
+| 修、bug、改一下、加行日志、改个名、空指针、小问题 | quick-fix | Leader 直改，不派兵（仍须 karpathy-guidelines + springboot-patterns） |
 | 调试、排查、debug、为什么、不工作、报错 | debug | `/systematic-debugging` FIRST → 复现→定位→修复 |
 | 测试、单测、E2E、写test、补测试 | test | `/test-driven-development` |
-| 审查、review、code review | review | `/requesting-code-review` |
-| 简化、精简、清理、优化代码 | simplify | `/simplify`（写后自查简洁度） |
+| 审查、review、code review | review | `/java-reviewer` ∥ `/security-reviewer` ∥ `/database-reviewer`（ecc 三合一并行审查） |
+| 简化、精简、清理、优化代码 | simplify | `/simplify` + `/silent-failure-hunter`（写后自查简洁度 + 静默失败） |
 | 安全重构、重构但、不改行为 | safe-refactor | `/refactor-safely` |
 | commit、merge、rebase、push、MR | git | `/git-xywh` |
 | 查、搜、调研、资料、怎么回事 | research | WebSearch → WebFetch |
@@ -49,12 +49,13 @@ Read `harness-foundry/core/NEVER.md` — 所有禁止项的详细说明。
 | 任务类型 | 必读 | 可选 | 可跳 |
 |----------|------|------|------|
 | 小改动（修 typo、改一行） | `NEVER.md` | — | 所有其他 |
-| 写新代码 | `karpathy-guidelines.md` + `NEVER.md` | `references/traps.md` | orchestration 层 |
-| 改 Spring Boot | `karpathy-guidelines.md` + `NEVER.md` | `references/traps.md` | orchestration 层 |
+| 写新代码 | `karpathy-guidelines.md` + `springboot-patterns.md` + `NEVER.md` | `references/traps.md` | orchestration 层 |
+| 改 Spring Boot | `karpathy-guidelines.md` + `springboot-patterns.md` + `NEVER.md` | `references/traps.md` | orchestration 层 |
 | 写小说章节 | `novel-orchestrator` + `NEVER.md` | `traps-archive/novel/00-all.md` | orchestration 层 |
 | 并行实现 | `dispatcher-workflow.md` | 按角色读 `agents/*.md` | 其他 |
 | 写 spec/plan | brainstorming / writing-plans skill | — | orchestration 层 |
-| Code Review | requesting-code-review skill | — | orchestration 层 |
+| Code Review | `java-reviewer` + `security-reviewer` + `database-reviewer`（ecc 三合一） | — | orchestration 层 |
+| 写完自检 | `simplify` + `silent-failure-hunter`（ecc） | — | orchestration 层 |
 | 产品交付（卖给大学生等） | `brainstorming` + product 域配置 | `domain-config.yaml` § scenarios | — |
 
 **会话开始只读两件事：**

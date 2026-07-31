@@ -37,20 +37,22 @@ Leader 或子 Agent 看到 **`auto`** 时：
 | **leader-code** | plan | understand-project, analyze-architecture | ✅ 战略层 |
 | **leader-code** | implement | understand-chat | ✅ 战略层 |
 | coder | feature, bugfix, refactor | test-driven-development, requesting-code-review | ✅ 战术层 |
+| coder | feature, bugfix, refactor | springboot-patterns | ✅ 战术层 |
 | coder | feature, bugfix, refactor | query-symbol | ✅ 战术层 |
 | coder | feature, bugfix, refactor | ripgrep-search, lsp-query | ✅ 战术层 |
 | coder | ui | ui-ux-pro-max, frontend-design, test-driven-development, requesting-code-review | ✅ 战术层 |
 | coder | ui | ripgrep-search, lsp-query | ✅ 战术层 |
 | coder | review-fix | receiving-code-review, test-driven-development, requesting-code-review | ✅ 战术层 |
+| coder | simplify | simplify, silent-failure-hunter | ❌ |
 | implementer | docs, config, chore | **无** | ❌ |
 | **explorer** | explore, * | understand-chat | ✅ 战略层 |
 | explorer | investigate | systematic-debugging | ✅ 战术层 |
 | **debugger** | bugfix, * | systematic-debugging, query-symbol | ✅ 战术层 |
 | debugger | ui-bug | systematic-debugging, query-symbol | ✅ 战术层 |
 | web-investigator | research, * | agent-browser | ❌ |
-| **reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
+| **reviewer** | review, * | java-reviewer, security-reviewer, database-reviewer（ecc 三合一并行） | ✅ 战术层 |
 | **reviewer** | review, * | ripgrep-search, lsp-query | ✅ 战术层 |
-| **code-reviewer** | review, * | requesting-code-review, analyze-impact | ✅ 战术层 |
+| **code-reviewer** | review, * | java-reviewer, security-reviewer, database-reviewer（ecc 三合一并行） | ✅ 战术层 |
 | **spec-compliance-reviewer** | review, * | two-stage-review | ❌ |
 | test-engineer | test | test-driven-development, analyze-impact | ✅ 战术层 |
 | test-engineer | test | ripgrep-search, lsp-query | ✅ 战术层 |
@@ -257,14 +259,14 @@ intelligence:
 
 | 角色 | Subagent | 典型 wu_type | auto 默认 |
 | --- | --- | --- | --- |
-| Coder | harness-coder | feature / bugfix / refactor | TDD + requesting-code-review |
+| Coder | harness-coder | feature / bugfix / refactor | TDD + springboot-patterns + requesting-code-review + simplify + silent-failure-hunter |
 | Coder | harness-coder | ui | ui-ux-pro-max + frontend-design + TDD + requesting-code-review |
 | Coder | harness-coder | review-fix | receiving-code-review + TDD + requesting-code-review |
 | 轻量执行 | harness-implementer | docs / chore / config | 无 |
 | 探查者 | harness-explorer | explore | 无 |
 | 调试者 | harness-debugger | bugfix | systematic-debugging |
-| 审查者 (通用) | harness-reviewer | review | requesting-code-review |
-| 审查者 (代码专项) | harness-reviewer | review | requesting-code-review + analyze-impact |
+| 审查者 (通用) | harness-reviewer | review | java-reviewer + security-reviewer + database-reviewer（ecc 三合一并行） |
+| 审查者 (代码专项) | harness-reviewer | review | java-reviewer + security-reviewer + database-reviewer（ecc 三合一并行） |
 | **审查者 (Spec 合规)** | harness-spec-compliance-reviewer | review | two-stage-review |
 | 测试工程师 | harness-test-engineer | test | TDD |
 | 测试工程师 | harness-test-engineer | e2e | agent-browser |
@@ -290,6 +292,7 @@ intelligence:
 | 只读摸底 | harness-explorer | explorer |
 | 调查 bug | harness-debugger | debugger |
 | 实现后审查 | harness-reviewer | reviewer |
+| **实现后审查（Java/Spring Boot）** | `ecc:java-reviewer` ∥ `ecc:security-reviewer` ∥ `ecc:database-reviewer`（三合一并行） | — |
 | **Spec 合规审查** | harness-spec-compliance-reviewer | spec-review | two-stage-review |
 | 补测试 / 集成测试 | harness-test-engineer | test-engineer + test |
 | E2E 验收 | harness-test-engineer | test-engineer + e2e |
