@@ -35,64 +35,15 @@ domains:
       - reviewer
       - test-engineer
 
-    # 主 Agent（必须加载）
+    # spawn 子代理（直接派，不调 Skill 工具）
     primary_agents:
-      - leader-code
-      - coder
-      - debugger
-      - code-reviewer
-      - reviewer
-      - test-engineer
-      - java-reviewer            # ecc: Java/Spring Boot 专项审查
+      - java-reviewer            # ecc: Java/Spring Boot 审查
       - security-reviewer        # ecc: OWASP/安全漏洞检测
       - database-reviewer        # ecc: SQL/JPA 查询与 schema 审查
 
-    # 次 Agent（按需加载）
     secondary_agents:
-      - architect              # 涉及架构设计时加载
-      - implementer            # 轻量实现（文档/配置）
-      - planner                # 代码域规划（plan 拆分）
-      - code-simplifier        # 精简/优化代码时
-      - silent-failure-hunter  # ecc: 静默失败/吞异常/空 catch 检测
-      - tech-writer            # 写技术文档时
-      - explorer               # 只读探查代码库时
-      - web-investigator       # 需要调研时加载
-      - shared-researcher      # 通用调研时加载
-
-    # 主 Skill（必须加载）
-    primary_skills:
-      - brainstorming
-      - architecture-patterns
-      - springboot-patterns       # ecc: Spring Boot 编码基线（karpathy 之后、写代码之前）
-      - test-driven-development
-      - code-review
-      - refactor-safely
-
-    # Intelligence Layer Skills（代码理解）
-    intelligence_skills:
-      # 战略层 - Understand-Anything
-      strategic:
-        - understand-project      # 项目理解
-        - analyze-architecture   # 架构分析
-        - query-knowledge-graph   # 图谱查询
-
-      # 战术层 - codebase-memory
-      tactical:
-        - index-project          # 索引建立
-        - query-symbol           # 符号定位
-        - get-callers           # 调用方分析
-        - get-callees           # 被调用方分析
-        - analyze-impact         # 影响评估
-
-    # 次 Skill（按需加载）
-    secondary_skills:
-      - simplify               # /simplify 精简代码
-      - silent-failure-hunter  # ecc: 静默失败/吞异常/空 catch 检测
-      - ralph                  # Ralph Loop 防偷懒循环
-      - tech-writer            # 写技术文档（已有 agent）
-      - humanizer-zh           # 文档去 AI 味
-      - web-tools-guide        # 查资料
-      - playwright             # E2E 测试 / 浏览器自动化（test-engineer E2E 主工具）
+      - code-simplifier          # 精简/优化代码
+      - silent-failure-hunter    # 静默失败/吞异常检测
 
   novel:
     # 执行环境（P0-1: Harness/Compute 分离）
