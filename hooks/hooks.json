@@ -14,6 +14,11 @@
           "hooks": [
             {
               "type": "prompt",
+              "prompt": "【ROUTE ENFORCEMENT】在修改业务代码之前，确认本会话已声明 Route（首句格式：'「Route：code」「小改动，直接处理」' 或 '「Route：code」「<任务类型>」'）。如果未声明：1) 立即停止当前编辑 2) 在回复中使用对应 Route 重新开始 3) 对于非小改动的代码写入，必须确保已加载 karpathy-guidelines + springboot-patterns。参考 harness-foundry/core/intent-routing.md § 意图路由。",
+              "description": "Route声明强制检查"
+            },
+            {
+              "type": "prompt",
               "prompt": "检查修改后代码的语法正确性和编译可行性，确保逻辑通顺",
               "description": "语法检查"
             }

@@ -6,11 +6,11 @@ tags: [Rules, Never]
 
 # 🚫 NEVER 清单
 
-> 完整版（402 条，按域分类）见 `harness-foundry/traps-archive/`
+> 完整版（241 条，按域分类）见 `harness-foundry/traps-archive/`
 >
-> - 代码域：`traps-archive/code/00-all.md`（251 条）
-> - 小说域：`traps-archive/novel/00-all.md`（82 条）
-> - 新闻域：`traps-archive/news/00-all.md`（69 条）
+> - 代码域：`traps-archive/code/00-all.md`（160 条）
+> - 小说域：`traps-archive/novel/00-all.md`（47 条）
+> - 新闻域：`traps-archive/news/00-all.md`（34 条）
 >
 > 违反任何一条，代码审查必须打回。
 

@@ -305,13 +305,13 @@ index_repository(project_path="<project>")  # Optional
 - `SELECT *` forbidden — list required fields explicitly
 - Never auto-push or merge without review
 
-**Novel domain** (82 traps in `traps-archive/novel/00-all.md`):
+**Novel domain** (47 traps in `traps-archive/novel/00-all.md`):
 - Leader never writes main text directly — Tier 2+ must dispatch Workers
 - Must pause at stage gates — never skip confirmation
 - Novel must use `novel-orchestrator` — never `harness-orchestration`
 - Use full-width Chinese punctuation (，。？！……)
 
-**News domain** (69 traps in `traps-archive/news/00-all.md`):
+**News domain** (34 traps in `traps-archive/news/00-all.md`):
 - Fact-checking mandatory before publication
 - Source verification required
 
@@ -356,4 +356,4 @@ index_repository(project_path="<project>")  # Optional
 - Execution context providers (worktree/local) defined but not fully wired
 - Three planned domains (essay/math/academic) are stubs in `domain-config.yaml`
 - CI only runs on Linux (shell scripts); Windows uses PowerShell equivalents
-- **Intent routing depends on LLM instruction-following** — Claude Code has no PreMessage hook for automatic input interception. See [Intent Routing Architecture](docs/intent-routing-architecture.md) for details and roadmap.
+- **Intent routing has a PreToolUse enforcement hook** — `hooks/hooks.json` § code.PreToolUse checks Route declaration before any Edit/Write to code files. Still not a true PreMessage interception (Claude Code limitation), but catches the most common bypass pattern (editing without declaring Route). See [Intent Routing Architecture](docs/intent-routing-architecture.md) for details and roadmap.
