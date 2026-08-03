@@ -47,7 +47,8 @@ tags: [Rules, Runbook]
 ```
 自检 traps-archive/code/springboot-checklist.md § 写完自检
   ↓
-spawn ecc:java-reviewer
+spawn ecc:java-reviewer（prompt 必带：按 rules/code/java/patterns.md「编码标准基准」逐条核对
+  Alibaba Java Coding Guidelines + Google Java Style + Clean Code 的禁止/必须清单，违反即打回重构）
   ↓ （以下按条件自动触发，独立的可并行）
 ├── 新接口/权限/用户输入 → spawn ecc:security-reviewer
 ├── SQL/DDL/schema → spawn ecc:database-reviewer
