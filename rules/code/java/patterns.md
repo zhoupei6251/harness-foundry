@@ -14,7 +14,7 @@
 |--------|----------|
 | 巨型方法 | 方法体 > 60 行；或嵌套 ≥ 3 层、多出口 return |
 | 巨型 Controller | > 300 行；或单方法混编业务编排 + 持久化 + 外部调用 |
-| Service 超长 | `*ServiceImpl` 单文件 > 500 行；或单方法 > 60 行 |
+| Service 超长 | `*ServiceImpl` 单文件 > 1000 行；或单方法 > 60 行 |
 | 重复代码 | 同段逻辑出现 2 处以上（抽取私有方法/工具类） |
 | 隐式异常 | 空 catch、吞异常不记日志、catch 后静默继续、不抛不滚 |
 | 魔法数字 | 业务含义裸数字/裸字符串；必须提取常量/枚举并注释含义 |
@@ -53,6 +53,6 @@
 
 ## 代码组织
 - 包结构：controller / service / repository / model / config / util
-- Service 类不超过 500 行，超过则拆分
+- Service 类不超过 1000 行，超过则拆分
 - 工具类使用静态方法，禁止实例化（private constructor）
 - 常量使用 enum 或 static final，禁止魔法值
