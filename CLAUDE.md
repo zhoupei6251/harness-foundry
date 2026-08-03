@@ -11,6 +11,8 @@
 | 文件 | 内容 |
 |------|------|
 | `traps-archive/code/springboot-checklist.md` | Java/Spring Boot 编码自检清单（内联 karpathy + springboot-patterns） |
+| `traps-archive/novel/novel-checklist.md` | Novel 创作自检清单（8 AI红线 + 5维自评 + 流水线） |
+| `traps-archive/news/news-checklist.md` | News 采编自检清单（倒金字塔 + 9项检查 + 6红线） |
 | `traps-archive/code/00-all.md` | 160 条代码陷阱 |
 | `core/NEVER.md` | 硬性禁止事项 |
 | `core/intent-routing.md` | 意图路由 + 写完代码必做 spawn 规则 |

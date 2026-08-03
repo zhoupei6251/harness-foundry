@@ -8,7 +8,7 @@ tags: [Rules, Runbook]
 
 > superpowers + ecc 覆盖全部开发阶段，零手动触发。
 
-## 路由
+## 代码域路由
 
 | 用户说 | 动作 |
 |--------|------|
@@ -22,6 +22,25 @@ tags: [Rules, Runbook]
 | mvn compile 报错 | spawn ecc:java-build-resolver |
 | commit、merge、push、MR | Skill(git-xywh) |
 | 查、搜、调研 | WebSearch → WebFetch |
+
+## Novel 域路由
+
+| 用户说 | 动作 |
+|--------|------|
+| 写章节、继续写、下一章 | 读 MEMORY.md → 自检 `traps-archive/novel/novel-checklist.md` → 写 → 5维自检 |
+| 审稿、评分、评测 | 跑 novel-evaluator（7维评分+原文举证）→ 报告 |
+| 大纲、世界观、设定 | Skill(brainstorming) → 产出大纲 |
+| 润色、去AI味 | 跑 humanizer-zh |
+| 写前查设定 | 读 MEMORY.md → 参考已有伏笔/人物 |
+
+## News 域路由
+
+| 用户说 | 动作 |
+|--------|------|
+| 写稿件、写新闻 | 自检 `traps-archive/news/news-checklist.md` → 写 → 交付前自检 |
+| 事实核查、核实 | 跑 fact-check |
+| 追热点、选题 | WebSearch → 素材整理 |
+| 审校、编辑 | 倒金字塔复查 + 6 红线自检 |
 
 ## 写完代码必做（无论改动大小）
 
@@ -56,5 +75,7 @@ spawn ecc:java-build-resolver（专修编译，不改业务逻辑）
 | 场景 | 看 |
 |------|-----|
 | 写完自检 | `traps-archive/code/springboot-checklist.md` |
+| Novel 写前/写后 | `traps-archive/novel/novel-checklist.md` |
+| News 写前/写后 | `traps-archive/news/news-checklist.md` |
 | 更多陷阱 | `traps-archive/code/00-all.md` |
 | 禁止事项 | `core/NEVER.md` |
