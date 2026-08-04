@@ -1,0 +1,50 @@
+{
+  "_comment": "harness-foundry Claude skills → Codex Desktop skill mappings",
+  "mappings": {
+    "brainstorming": {
+      "claude": "superpowers:brainstorming",
+      "codex": "superpowers:brainstorming",
+      "type": "design"
+    },
+    "writing-plans": {
+      "claude": "superpowers:writing-plans",
+      "codex": "superpowers:writing-plans",
+      "type": "plan"
+    },
+    "code-review": {
+      "claude": "requesting-code-review",
+      "codex": "requesting-code-review",
+      "type": "review"
+    },
+    "verification": {
+      "claude": "superpowers:verification-before-completion",
+      "codex": "superpowers:verification-before-completion",
+      "type": "verification"
+    },
+    "systematic-debugging": {
+      "claude": "superpowers:systematic-debugging",
+      "codex": "superpowers:systematic-debugging",
+      "type": "debug"
+    },
+    "git-xywh": {
+      "claude": "git-xywh",
+      "codex": "git-xywh",
+      "type": "git"
+    },
+    "refactor-safely": {
+      "claude": "refactor-safely",
+      "codex": "refactor-safely",
+      "type": "code"
+    },
+    "ruoyi-aigc-backend-developer": {
+      "claude": "ruoyi-aigc-backend-developer",
+      "codex": "ruoyi-aigc-backend-developer",
+      "type": "code"
+    },
+    "dispatching-parallel-agents": {
+      "claude": "superpowers:dispatching-parallel-agents",
+      "codex": "superpowers:dispatching-parallel-agents",
+      "type": "orchestration"
+    }
+  }
+}
