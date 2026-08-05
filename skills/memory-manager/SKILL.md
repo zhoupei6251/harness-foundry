@@ -6,6 +6,8 @@ metadata:
   priority: P0
   tags: [memory, state, persistence, cross-domain]
 version: 2.0.0
+status: stable
+tags: [memory, state, persistence, cross-domain]
 when_to_use: 调用 memory-manager 时
 domain: all
 category: shared.memory

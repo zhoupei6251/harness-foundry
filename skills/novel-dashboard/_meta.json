@@ -2,7 +2,9 @@
   "slug": "novel-dashboard",
   "category": "novel.dashboard",
   "domain": "novel",
-  "tags": ["dashboard", "status", "progress"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "dashboard"
+  ],
   "purpose": "小说进度仪表板，显示当前书籍状态、章节进度、人物和伏笔状态"
 }

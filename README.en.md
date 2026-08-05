@@ -62,7 +62,7 @@ bash scripts/install-intelligence-deps.sh
 index_repository(project_path="<project>")
 ```
 
-See: [v2.1 Architecture](docs/specs/harness-foundry-v2.1-architecture.md) | [User Guide](docs/intelligence-layer-user-guide.md) | [Usage Manual](docs/intelligence-layer-usage-guide.md) | [Troubleshooting](docs/intelligence-layer-troubleshooting.md)
+See: [v2.1 Architecture](docs/specs/harness-foundry-v2.1-architecture.md) | [User Guide](docs/intelligence-layer-user-guide.md) | [Troubleshooting](docs/intelligence-layer-troubleshooting.md)
 
 ---
 
@@ -122,13 +122,13 @@ harness-foundry/
 │   ├── codex/                      # Codex adapter
 │   └── mimocode/                   # Mimocode adapter
 │
-├── skills/                            # ★ 194 Skills (flat structure)
+├── skills/                            # ★ 141 Skills (flat structure)
 │   ├── INDEX.md                    # Complete skill index (auto-generated)
-│   ├── categories.yaml            # 26 category definitions
+│   ├── categories.yaml            # 57 category definitions
 │   ├── _layer.yaml                # Skill layer classification
 │   └── <slug>/SKILL.md           # Each skill in its own directory
 │
-├── agents/                             # ★ 30 Agents (flat structure)
+├── agents/                             # ★ 35 Agents (flat structure)
 │   ├── leader-code.md              # Domain leader (code)
 │   ├── leader-novel.md            # Domain leader (novel)
 │   ├── leader-news.md             # Domain leader (news)
@@ -170,10 +170,8 @@ harness-foundry/
 ├── rules/                          # Tech-stack-specific coding rules
 ├── references/                     # Context maps, instincts
 ├── docs/                           # Documentation
-│   ├── skill-metadata-spec.md   # Skill metadata spec
-│   ├── skill-frontmatter-schema.md
+│   ├── skill-frontmatter-schema.md # Skill metadata spec
 │   ├── skill-dependency-graph.md # Skill dependency graph
-│   ├── harness-foundry-knowledge-graph.md # Knowledge graph
 │   └── intelligence-layer-*.md   # Intelligence Layer docs
 │
 └── CLAUDE.md                   # Claude Code context file
@@ -199,15 +197,15 @@ harness-foundry/
 
 ## Skill System
 
-**194 Skills** in a flat `skills/<slug>/SKILL.md` structure.
+**141 Skills** in a flat `skills/<slug>/SKILL.md` structure.
 
-### Category System (26 Categories)
+### Category System (57 Categories)
 
 | Category | Count | Description |
 |----------|-------|-------------|
-| code | 11 | Full code development lifecycle |
-| novel | 4 | Novel writing and editing |
-| news | 2 | News writing and fact-checking |
+| code | 18 | Full code development lifecycle |
+| novel | 26 | Novel writing and editing |
+| news | 3 | News writing and fact-checking |
 | shared | 6 | Cross-domain skills |
 | biz | 2 | Business analysis |
 | crypto | 1 | Cryptography related |
@@ -217,8 +215,9 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  must-core:   # Core skills to sync (~50)
-  optional:    # Optional skills (~140)
+  core:        # Core skills (123) — synced to IDE projections by default
+  peripheral:  # Peripheral skills (73) — synced on demand
+  archived:    # Archived skills — not synced
 ```
 
 ### Skill Metadata
@@ -337,12 +336,11 @@ shellcheck scripts/*.sh
 | Domain config | [`core/orchestration/domain-config.yaml`](core/orchestration/domain-config.yaml) |
 | All skills | [`skills/INDEX.md`](skills/INDEX.md) |
 | Skill categories | [`skills/categories.yaml`](skills/categories.yaml) |
-| Skill metadata spec | [`docs/skill-metadata-spec.md`](docs/skill-metadata-spec.md) |
+| Skill metadata spec | [`docs/skill-frontmatter-schema.md`](docs/skill-frontmatter-schema.md) |
 | Skill dependency graph | [`docs/skill-dependency-graph.md`](docs/skill-dependency-graph.md) |
 | All agents | [`agents/README.md`](agents/README.md) |
 | Hooks & guardrails | [`hooks/README.md`](hooks/README.md) |
 | **Intelligence Layer** | [`docs/intelligence-layer-user-guide.md`](docs/intelligence-layer-user-guide.md) |
-| Knowledge graph | [`docs/harness-foundry-knowledge-graph.md`](docs/harness-foundry-knowledge-graph.md) |
 | Trae quick ref | [`adapters/trae/trae-quick-ref.md`](adapters/trae/trae-quick-ref.md) |
 
 ---

@@ -67,7 +67,88 @@ fi
 # ---- 基于 manifest 的平台同步 ----
 sync_from_manifest() {
   if [[ ! -f "$MANIFEST" ]]; then
-    echo "Warn: manifest not found: $MANIFEST" >&2
+    echo "Warn: manifest not found: $MANIFEST — 降级为按 _layer.yaml 层配置投影" >&2
+    # 降级: 用 _layer.yaml 的 core+peripheral 构建目标列表（等效 manifest include_layers）
+    build_target_list() {
+      local platform="$1"  # 忽略（降级模式两平台同构）
+      # 只投影仓库 skills/ 里实际存在的技能（插件技能由插件运行时加载，无需投影）
+      python3 -c "
+import yaml, os, sys
+root = r'$ROOT'.replace('/d/', 'D:/', 1)
+with open(root + '/skills/_layer.yaml') as f:
+    d = yaml.safe_load(f)
+skills_dir = root + '/skills'
+for s in sorted(set(d.get('core', []) + d.get('peripheral', []))):
+    if os.path.isdir(skills_dir + '/' + s):
+        print(s)
+"
+    }
+    sync_platform() {
+      local platform="$1"
+      local dst=""
+      case "$platform" in
+        claude) dst="$CLAUDE_DST" ;;
+        trae) dst="$TRAE_DST" ;;
+        *) echo "Unknown platform: $platform" >&2; return 1 ;;
+      esac
+      echo "==> Sync ${platform} -> ${dst}"
+      mkdir -p "$dst"
+      mapfile -t skills < <(build_target_list "$platform")
+      local s kept=()
+      for s in "${skills[@]}"; do
+        local is_skip=0
+        for skip in "${SKIP_FROM_SYNC[@]}"; do
+          if [[ "$s" == "$skip" ]]; then
+            echo "  [skip-from-sync] ${s} — 第三方来源，保留本地副本"
+            is_skip=1
+            break
+          fi
+        done
+        if [[ "$is_skip" -eq 1 ]]; then continue; fi
+        kept+=("$s")
+        # copy_skill 内联（降级分支无法引用外层函数）
+        s="${s%$'\r'}"  # 剥离 CRLF（Windows mapfile 行尾）
+        if [[ -d "${SRC}/${s}" ]]; then
+          if [[ "$DRY_RUN" -eq 1 ]]; then
+            echo "  [dry] ${s} -> ${dst}/${s}"
+          else
+            mkdir -p "${dst}"
+            rm -rf "${dst}/${s}"
+            cp -a "${SRC}/${s}" "${dst}/${s}"
+            echo "  [ok] ${s}"
+          fi
+        else
+          echo "  [skip] ${s} — not found in skills/"
+        fi
+      done
+      local allowed=("${kept[@]}" "${SKIP_FROM_SYNC[@]}")
+      # prune_extra 定义在下方主分支，此处降级分支需自带
+      if [[ "$DRY_RUN" -eq 0 && -d "$dst" ]]; then
+        for d in "${dst}"/*; do
+          [[ -d "$d" ]] || continue
+          slug="$(basename "$d")"
+          [[ "$slug" == "README.md" || "$slug" == ".DS_Store" ]] && continue
+          local found=0
+          for a in "${allowed[@]}"; do
+            [[ "$slug" == "$a" ]] && found=1 && break
+          done
+          if [[ "$found" -eq 0 ]]; then
+            echo "  [prune] ${dst}/${slug}"
+            rm -rf "$d"
+          fi
+        done
+      fi
+      echo "==> ${platform}: kept=${#kept[@]} of ${#skills[@]} (含 ${#SKIP_FROM_SYNC[@]} 第三方 skip)"
+    }
+    case "$TARGET" in
+      claude) sync_platform claude ;;
+      trae) sync_platform trae ;;
+      all)
+        sync_platform claude
+        sync_platform trae
+        ;;
+      *) echo "Unknown target: $TARGET" >&2; exit 1 ;;
+    esac
     return 0
   fi
 

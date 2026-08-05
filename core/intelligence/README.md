@@ -26,4 +26,4 @@ Intelligence Layer
 
 ## 详细设计
 
-参见: `docs/plans/2026-06-30-intelligence-layer-integration-design.md`
+参见: `docs/specs/harness-foundry-v2.1-architecture.md`（Intelligence Layer 架构设计）

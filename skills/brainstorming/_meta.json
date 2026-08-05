@@ -5,12 +5,5 @@
   "tags": [
     "头脑风暴",
     "设计"
-  ],
-  "requires": [
-    "writing-plans"
-  ],
-  "complements": [
-    "planning-with-files",
-    "project-planner"
   ]
 }

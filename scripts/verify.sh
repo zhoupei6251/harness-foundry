@@ -27,27 +27,31 @@ BOOTSTRAP_LOG="${TMP_DIR}/bootstrap-dryrun.log"
 SYNC_LOG="${TMP_DIR}/sync-skills-dryrun.log"
 
 # 1. 验证 bash 脚本语法
-echo "==> [1/6] 验证 bash 脚本语法"
+echo "==> [1/7] 验证 bash 脚本语法"
 for script in scripts/*.sh; do
   bash -n "$script" && echo "  [ok] $script"
 done
 
 # 2. 验证 dry-run（不会真实修改文件）
 echo ""
-echo "==> [2/6] bootstrap dry-run"
+echo "==> [2/7] 规则冲突检测"
+bash scripts/check-rule-conflicts.sh > "$TMP_DIR/rule-conflicts.log" 2>&1 && echo "  [ok] 规则冲突检测通过" || { echo "  [FAIL] 规则冲突检测"; cat "$TMP_DIR/rule-conflicts.log"; exit 1; }
+
+echo ""
+echo "==> [3/7] bootstrap dry-run"
 bash scripts/bootstrap.sh --target all --dry-run > "$BOOTSTRAP_LOG" 2>&1 && \
   echo "  [ok] bootstrap --target all --dry-run" || \
   { echo "  [FAIL] bootstrap --dry-run"; cat "$BOOTSTRAP_LOG"; exit 1; }
 
 echo ""
-echo "==> [3/6] sync-skills dry-run"
+echo "==> [4/7] sync-skills dry-run"
 bash scripts/sync-skills.sh --target all --dry-run > "$SYNC_LOG" 2>&1 && \
   echo "  [ok] sync-skills --target all --dry-run" || \
   { echo "  [FAIL] sync-skills --dry-run"; cat "$SYNC_LOG"; exit 1; }
 
 # 4. 验证 skill 目录结构
 echo ""
-echo "==> [4/6] 验证 skill 目录结构（每个 skill 必须有 SKILL.md）"
+echo "==> [5/7] 验证 skill 目录结构（每个 skill 必须有 SKILL.md）"
 missing=0
 for skill_dir in skills/*/; do
   if [[ -d "$skill_dir" ]]; then
@@ -67,7 +71,7 @@ fi
 
 # 5. 验证 Skill frontmatter
 echo ""
-echo "==> [5/6] 验证 Skill frontmatter"
+echo "==> [6/7] 验证 Skill frontmatter"
 FRONTMATTER_RC=0
 bash tests/L1-static/validate-skill-frontmatter.sh 2>&1 | tail -n 50 || FRONTMATTER_RC=$?
 if [[ $FRONTMATTER_RC -eq 0 ]]; then
@@ -78,7 +82,7 @@ fi
 
 # 6. 验证 Skill _meta.json
 echo ""
-echo "==> [6/6] 验证 Skill _meta.json"
+echo "==> [7/7] 验证 Skill _meta.json"
 META_RC=0
 bash tests/L1-static/validate-skill-meta.sh 2>&1 | tail -n 50 || META_RC=$?
 if [[ $META_RC -eq 0 ]]; then
@@ -90,7 +94,7 @@ fi
 # 总体状态：前 4 步必须全过；5/6 步 partial fail 记入日志不阻塞（Wave 5 修复）
 if [[ $FRONTMATTER_RC -ne 0 || $META_RC -ne 0 ]]; then
   echo ""
-  echo "==> [note] 5/6 步为 partial FAIL（属预期，详见 Wave 5 auto-fill 任务）"
+  echo "==> [note] 6/7 步为 partial FAIL（属预期，详见 Wave 5 auto-fill 任务）"
   echo "All core CI checks passed (1-4); frontmatter/_meta 由 Wave 5 auto-fill 闭环."
   exit 0
 fi

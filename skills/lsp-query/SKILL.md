@@ -3,7 +3,7 @@ name: lsp-query
 description: "通过 Language Server Protocol（typescript-language-server / pyright / gopls 等）做结构化代码查询：定义、引用、悬停信息、符号、代码诊断。触发：找定义、找引用、找类型、看类型签名、go to definition、find references、hover、diagnostics、rename、检查类型错误。"
 version: 1.0.0
 when_to_use: 需要语言服务器提供的精确类型/定义/引用/诊断信息时
-status: core
+status: stable
 tags:
 - code
 - lsp

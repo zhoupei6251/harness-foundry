@@ -5,6 +5,9 @@ tags: [Debug, Novel]
 domain: novel
 category: novel.baseline
 priority: P0
+version: 1.0.0
+when_to_use: "情节矛盾、角色冲突、伏笔遗漏、节奏失控时排查"
+status: stable
 ---
 
 # Novel Debug — 情节系统排查

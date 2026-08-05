@@ -5,6 +5,9 @@ tags: [Rules, Code, Baseline]
 domain: code
 category: code.baseline
 priority: P0
+version: 1.0.0
+when_to_use: "写代码、审查代码、重构代码时的行为准则基线"
+status: stable
 ---
 
 # Karpathy Guidelines Skill

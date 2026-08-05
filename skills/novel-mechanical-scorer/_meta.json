@@ -2,7 +2,9 @@
   "slug": "novel-mechanical-scorer",
   "category": "novel.quality",
   "domain": "novel",
-  "tags": ["scoring", "mechanical", "quality", "rules"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "quality"
+  ],
   "purpose": "无LLM的确定性章节质量评分器，在LLM审稿前做纯规则检查"
 }

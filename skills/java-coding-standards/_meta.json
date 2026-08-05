@@ -2,7 +2,9 @@
   "slug": "java-coding-standards",
   "category": "code.architecture",
   "domain": "code",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "code",
+    "architecture"
+  ],
   "purpose": "Java coding standards for Spring Boot and Quarkus services: naming, immutability, Optional usage, streams, exceptions, generics, CDI, reactive patterns, and project layout. Automatically applies frame"
 }

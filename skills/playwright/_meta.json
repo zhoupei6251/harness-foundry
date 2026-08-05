@@ -5,8 +5,5 @@
   "tags": [
     "browser",
     "automation"
-  ],
-  "complements": [
-    "agent-browser"
   ]
 }

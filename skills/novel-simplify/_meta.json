@@ -1,8 +1,10 @@
 {
   "slug": "novel-simplify",
-  "category": "novel.self-review",
+  "category": "novel.baseline",
   "domain": "novel",
-  "tags": ["simplify", "self-review", "concise"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "baseline"
+  ],
   "purpose": "章节自查简洁度检查，识别冗余、重复、堆砌问题"
 }

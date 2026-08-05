@@ -5,6 +5,9 @@ tags: [Rules, Novel, Baseline]
 domain: novel
 category: novel.baseline
 priority: P0
+version: 1.0.0
+when_to_use: "写章节、大纲、续写前 MUST FIRST 加载"
+status: stable
 ---
 
 # Novel Guidelines — 小说写作前思维基线

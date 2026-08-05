@@ -2,7 +2,9 @@
   "slug": "novel-metrics",
   "category": "novel.analytics",
   "domain": "novel",
-  "tags": ["metrics", "statistics", "analytics"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "analytics"
+  ],
   "purpose": "写作指标追踪，统计字数、速度、质量趋势"
 }

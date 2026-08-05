@@ -5,6 +5,9 @@ tags: [Refactor, Novel]
 domain: novel
 category: novel.baseline
 priority: P0
+version: 1.0.0
+when_to_use: "审稿后返修、小改、章节修改时"
+status: stable
 ---
 
 # Novel Safe Revision — 安全返修

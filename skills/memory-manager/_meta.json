@@ -1,8 +1,10 @@
 {
   "slug": "memory-manager",
-  "category": "novel.memory",
-  "domain": "novel",
-  "tags": ["memory", "state", "persistence", "long-form", "mem0", "handoff"],
-  "auto_classified": false,
+  "category": "shared.memory",
+  "domain": "all",
+  "tags": [
+    "all",
+    "memory"
+  ],
   "purpose": "小说项目记忆管理引擎，双轨架构+Mem0增强模式，伏笔状态机，Agent交接压缩协议"
 }

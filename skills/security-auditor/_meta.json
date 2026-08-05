@@ -5,8 +5,5 @@
   "tags": [
     "security",
     "audit"
-  ],
-  "complements": [
-    "code-review"
   ]
 }

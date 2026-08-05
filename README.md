@@ -125,7 +125,7 @@ bash scripts/install-intelligence-deps.sh
 index_repository(project_path="<project>")
 ```
 
-架构详见 [v2.1 架构文档](docs/specs/harness-foundry-v2.1-architecture.md)；使用详见 [用户指南](docs/intelligence-layer-user-guide.md) | [使用手册](docs/intelligence-layer-usage-guide.md) | [故障排除](docs/intelligence-layer-troubleshooting.md)
+架构详见 [v2.1 架构文档](docs/specs/harness-foundry-v2.1-architecture.md)；使用详见 [用户指南](docs/intelligence-layer-user-guide.md) | [故障排除](docs/intelligence-layer-troubleshooting.md)
 
 ---
 
@@ -197,13 +197,13 @@ harness-foundry/
 │   ├── trae/                        # Trae IDE 适配器
 │   └── claude/                      # Claude Code 适配器
 │
-├── skills/                           # ★ 194 个 Skills（扁平结构）
+├── skills/                           # ★ 141 个 Skills（扁平结构）
 │   ├── INDEX.md                    # 完整 Skill 索引（自动生成）
-│   ├── categories.yaml             # 26 个分类定义
-│   ├── _layer.yaml                 # Skill 层分级（must-core / optional）
+│   ├── categories.yaml             # 57 个分类定义
+│   ├── _layer.yaml                 # Skill 层分级（core / peripheral）
 │   └── <slug>/SKILL.md            # 每个 Skill 独占一个目录
 │
-├── agents/                           # ★ 30 个 Agent（扁平结构）
+├── agents/                           # ★ 35 个 Agent（扁平结构）
 │   ├── leader-code.md              # 域 Leader（code）
 │   ├── leader-novel.md            # 域 Leader（novel）
 │   ├── leader-news.md            # 域 Leader（news）
@@ -236,7 +236,7 @@ harness-foundry/
 ├── rules/                          # 技术栈专属编码规则
 ├── references/                     # 上下文地图、Instinct
 ├── docs/                           # 文档
-│   ├── skill-metadata-spec.md   # Skill 元数据规范
+│   ├── skill-frontmatter-schema.md # Skill 元数据规范
 │   ├── plans/                   # 设计文档
 │   └── intelligence-layer-*.md   # Intelligence Layer 文档
 │
@@ -263,15 +263,15 @@ harness-foundry/
 
 ## Skill 系统
 
-**194 个 Skill**，扁平目录结构 `skills/<slug>/SKILL.md`。
+**141 个 Skill**，扁平目录结构 `skills/<slug>/SKILL.md`。
 
-### 分类体系（26 类）
+### 分类体系（57 类）
 
 | 分类 | 数量 | 说明 |
 |------|------|------|
-| code | 11 类 | 代码开发全生命周期 |
-| novel | 4 类 | 小说创作与编辑 |
-| news | 2 类 | 新闻写作与核查 |
+| code | 18 类 | 代码开发全生命周期 |
+| novel | 26 类 | 小说创作与编辑 |
+| news | 3 类 | 新闻写作与核查 |
 | shared | 6 类 | 跨域通用技能 |
 | biz | 2 类 | 商业分析 |
 | crypto | 1 类 | 加密相关 |
@@ -281,8 +281,9 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  must-core:   # 必须同步的核心技能（约 50 个）
-  optional:    # 可选技能（约 140 个）
+  core:        # 核心技能（123 个），默认同步到 IDE 投影层
+  peripheral:  # 外围技能（73 个），按需同步
+  archived:    # 已归档技能，不同步
 ```
 
 ### Skill 元数据
@@ -311,7 +312,7 @@ _layer.yaml:
 
 ## Agent 池
 
-**30 个 Agent** 覆盖 3 个域。每个 Agent 是一个带 YAML frontmatter 的 Markdown 文件。
+**35 个 Agent** 覆盖 3 个域。每个 Agent 是一个带 YAML frontmatter 的 Markdown 文件。
 
 | 域 | Leader | 主要 Worker |
 |---|--------|-----------|

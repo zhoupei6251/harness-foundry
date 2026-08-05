@@ -5,9 +5,5 @@
   "tags": [
     "review",
     "quality"
-  ],
-  "complements": [
-    "refactor-safely",
-    "requesting-code-review"
   ]
 }

@@ -3,7 +3,7 @@ name: code-insight-stack
 description: "编排 codebase-memory + ripgrep + LSP 三层查询栈，按场景选择最便宜的工具组合。触发：探索陌生代码库、定位修改点、调查 bug、准备 refactor、计划实现、跨文件影响分析。"
 version: 1.0.0
 when_to_use: 在 code 域做结构化查询前，先决定用哪个/哪些工具组合
-status: core
+status: stable
 tags:
 - code
 - orchestration

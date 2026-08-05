@@ -3,7 +3,7 @@ name: ripgrep-search
 description: "使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。"
 version: 1.0.0
 when_to_use: 需要按文本/正则定位代码中出现的字符串、标识符、引用或注解时
-status: core
+status: stable
 tags:
 - code
 - search

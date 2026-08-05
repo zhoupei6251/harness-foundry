@@ -2,7 +2,9 @@
   "slug": "novel-contexts",
   "category": "novel.context",
   "domain": "novel",
-  "tags": ["context", "consistency", "world-building"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "context"
+  ],
   "purpose": "小说上下文管理，维护角色设定、世界观、时间线的全局一致性"
 }

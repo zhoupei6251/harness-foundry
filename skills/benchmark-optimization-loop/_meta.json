@@ -2,7 +2,9 @@
   "slug": "benchmark-optimization-loop",
   "category": "code.testing",
   "domain": "code",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "code",
+    "testing"
+  ],
   "purpose": "Use when the user asks to make something faster, try many variants, run recursive optimization, benchmark latency/throughput/cost, or choose the best implementation by repeated measured tests."
 }

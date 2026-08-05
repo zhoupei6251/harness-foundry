@@ -5,6 +5,9 @@ tags: [Simplify, Novel]
 domain: novel
 category: novel.baseline
 priority: P0
+version: 1.0.0
+when_to_use: "章节写完后、审稿前自查"
+status: stable
 ---
 
 # Novel Simplify — 章节自查简洁度

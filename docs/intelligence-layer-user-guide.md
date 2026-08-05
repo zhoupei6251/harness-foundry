@@ -280,6 +280,6 @@ index_repository(force=true)
 项目配置只需要保留已有的 `mcp-config/Understand-Anything.json`；codebase-memory 的索引生命周期由 skill 管理。
 ## 后续步骤
 
-- 查看完整设计文档: `docs/plans/2026-06-30-intelligence-layer-integration-design.md`
+- 查看完整设计文档: `docs/specs/harness-foundry-v2.1-architecture.md`
 - 查看多智能体设计: `core/intelligence/strategic/multi-agent-design.md`
 - 查看 MCP 配置: `mcp-config/`

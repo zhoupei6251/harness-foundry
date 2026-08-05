@@ -2,7 +2,9 @@
   "slug": "receiving-code-review",
   "category": "code.review",
   "domain": "code",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "code",
+    "review"
+  ],
   "purpose": ""
 }

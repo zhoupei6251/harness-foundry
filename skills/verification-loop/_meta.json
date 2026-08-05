@@ -2,7 +2,9 @@
   "slug": "verification-loop",
   "category": "code.testing",
   "domain": "code",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "code",
+    "testing"
+  ],
   "purpose": "A comprehensive verification system for Claude Code sessions."
 }

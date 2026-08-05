@@ -2,7 +2,9 @@
   "slug": "novel-receiving-review",
   "category": "novel.review",
   "domain": "novel",
-  "tags": ["review", "feedback", "revision"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "review"
+  ],
   "purpose": "接收审稿反馈，正确处理修改建议，不是盲目接受或机械执行"
 }

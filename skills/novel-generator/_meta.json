@@ -2,7 +2,9 @@
   "slug": "novel-generator",
   "category": "novel.creation",
   "domain": "novel",
-  "tags": ["generator", "quick-start", "shuangwen"],
-  "auto_classified": false,
+  "tags": [
+    "爽文",
+    "生成"
+  ],
   "purpose": "根据用户提供的内容方向自动生成提示词并创作爽文小说"
 }

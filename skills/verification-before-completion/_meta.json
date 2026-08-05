@@ -5,8 +5,5 @@
   "tags": [
     "verify",
     "completion"
-  ],
-  "complements": [
-    "test-driven-development"
   ]
 }

@@ -208,4 +208,4 @@ node scripts/eval/run-skill-eval.js --skill brainstorming --json
 
 ## 参考
 
-- 参考计划：`docs/plans/2026-07-02-code-domain-improvement-plan.md` § Task 4
+- 参考计划：历史实现计划中的 § Task 4

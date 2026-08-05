@@ -2,7 +2,9 @@
   "slug": "golang-patterns",
   "category": "code.architecture",
   "domain": "code",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "code",
+    "architecture"
+  ],
   "purpose": "Idiomatic Go patterns, best practices, and conventions for building robust, efficient, and maintainable Go applications."
 }

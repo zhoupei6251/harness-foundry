@@ -2,7 +2,9 @@
   "slug": "docker-patterns",
   "category": "code.architecture",
   "domain": "code",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "code",
+    "architecture"
+  ],
   "purpose": "Docker and Docker Compose patterns for local development, container security, networking, volume strategies, and multi-service orchestration."
 }

@@ -5,11 +5,5 @@
   "tags": [
     "UI",
     "UX"
-  ],
-  "complements": [
-    "superdesign"
-  ],
-  "conflicts": [
-    "frontend-design"
   ]
 }

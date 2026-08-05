@@ -5,9 +5,5 @@
   "tags": [
     "review",
     "workflow"
-  ],
-  "complements": [
-    "code-review",
-    "verification-before-completion"
   ]
 }

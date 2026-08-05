@@ -38,10 +38,10 @@
 
 | slug | 来源 | 版本 | 用途 |
 | --- | --- | --- | --- |
-| `subagent-driven-development` | [Superpowers](https://github.com/obra/superpowers) | 6.0.3 | SDD 核心流程：每 Task 派发新 implementer + 任务级审查 + 终局大审查 |
-| `dispatching-parallel-agents` | [Superpowers](https://github.com/obra/superpowers) | 6.0.3 | 并行派发独立任务的判断准则（2+ 独立任务时） |
-| `using-git-worktrees` | [Superpowers](https://github.com/obra/superpowers) | 6.0.3 | Worktree 隔离工作流（优先平台原生，git 作为 fallback） |
-| `executing-plans` | [Superpowers](https://github.com/obra/superpowers) | 6.0.3 | 跨 session 执行 plan（fallback，已有 subagent 时优先 SDD） |
+| `subagent-driven-development` | [Superpowers](https://github.com/obra/superpowers) | 6.2.0 | SDD 核心流程：每 Task 派发新 implementer + 任务级审查 + 终局大审查 |
+| `dispatching-parallel-agents` | [Superpowers](https://github.com/obra/superpowers) | 6.2.0 | 并行派发独立任务的判断准则（2+ 独立任务时） |
+| `using-git-worktrees` | [Superpowers](https://github.com/obra/superpowers) | 6.2.0 | Worktree 隔离工作流（优先平台原生，git 作为 fallback） |
+| `executing-plans` | [Superpowers](https://github.com/obra/superpowers) | 6.2.0 | 跨 session 执行 plan（fallback，已有 subagent 时优先 SDD） |
 
 **升级流程：** 上游发布新版本时，diff `_meta.json` 的 `source_version`，用 `git diff` 比对本地副本后手动覆盖。
 

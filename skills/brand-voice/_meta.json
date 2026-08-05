@@ -2,7 +2,9 @@
   "slug": "brand-voice",
   "category": "shared.docs",
   "domain": "shared",
-  "tags": [],
-  "auto_classified": true,
+  "tags": [
+    "shared",
+    "docs"
+  ],
   "purpose": "Build a source-derived writing style profile from real posts, essays, launch notes, docs, or site copy, then reuse that profile across content, outreach, and social workflows. Use when the user wants "
 }

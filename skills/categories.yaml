@@ -111,6 +111,119 @@ categories:
     title: 技能管理与自检
     description: find-skills、vetter、stocktake、verify
 
+  # ============ 实际使用扩展（29 类）============
+
+  - id: code.baseline
+    title: 代码基线
+    description: Karpathy 准则、编码基线
+
+  - id: code.design
+    title: 前端/UI 设计
+    description: 网页设计规范、设计指南
+
+  - id: code.intelligence
+    title: 代码智能
+    description: 图谱查询、LSP、ripgrep、影响分析
+
+  - id: code.lsp
+    title: 语言服务器
+    description: LSP 查询、定义引用
+
+  - id: code.optimization
+    title: 性能优化
+    description: 上下文压缩、Token 优化
+
+  - id: code.search
+    title: 代码搜索
+    description: ripgrep 搜索、定位
+
+  - id: news.production
+    title: 新闻生产
+    description: 生成、润色、发布
+
+  - id: novel.analytics
+    title: 小说分析
+    description: 写作指标、进度追踪
+
+  - id: novel.baseline
+    title: 小说基线
+    description: 写作前准则、自查、返修
+
+  - id: novel.batch-write
+    title: 批量写作
+    description: 批量章节写作
+
+  - id: novel.context
+    title: 小说上下文
+    description: 角色/世界观/时间线一致性
+
+  - id: novel.dashboard
+    title: 小说仪表板
+    description: 进度仪表板
+
+  - id: novel.debug
+    title: 情节排查
+    description: 矛盾/伏笔/节奏排查
+
+  - id: novel.guardian
+    title: 一致性核查
+    description: 法医式连续性检查
+
+  - id: novel.init
+    title: 小说初始化
+    description: 新书创建向导
+
+  - id: novel.integration
+    title: 小说集成
+    description: MCP 服务、外部工具
+
+  - id: novel.memory
+    title: 小说记忆
+    description: 记忆管理、状态机
+
+  - id: novel.orchestration
+    title: 小说编排
+    description: 全链路调度、阶段门禁
+
+  - id: novel.plot
+    title: 情节结构
+    description: 伏笔 DAG、节拍
+
+  - id: novel.progress
+    title: 写作进度
+    description: 检查点、进度管理
+
+  - id: novel.quality
+    title: 质量评分
+    description: 确定性评分、机械评分
+
+  - id: novel.quick-write
+    title: 快速写作
+    description: 单章快速写作
+
+  - id: novel.recovery
+    title: 会话恢复
+    description: 中断恢复、上下文恢复
+
+  - id: novel.review
+    title: 小说审稿
+    description: 评估、接收反馈
+
+  - id: novel.revision
+    title: 小说修订
+    description: 安全返修、修订
+
+  - id: novel.self-review
+    title: 小说自查
+    description: 自查、简化
+
+  - id: novel.tools
+    title: 小说工具
+    description: 写作工具集
+
+  - id: novel.voice
+    title: 人物声音
+    description: 角色语言指纹
   # ============ 其他（4 类）============
   - id: biz.finance
     title: 财务与账单

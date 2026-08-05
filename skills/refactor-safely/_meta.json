@@ -5,12 +5,5 @@
   "tags": [
     "refactor",
     "safe"
-  ],
-  "requires": [
-    "test-driven-development"
-  ],
-  "complements": [
-    "code-review",
-    "simplify"
   ]
 }

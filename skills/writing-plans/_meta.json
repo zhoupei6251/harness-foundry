@@ -5,12 +5,5 @@
   "tags": [
     "plan",
     "writing"
-  ],
-  "requires": [
-    "brainstorming"
-  ],
-  "complements": [
-    "executing-plans",
-    "planning-with-files"
   ]
 }

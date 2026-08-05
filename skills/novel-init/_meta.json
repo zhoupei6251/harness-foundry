@@ -2,7 +2,9 @@
   "slug": "novel-init",
   "category": "novel.init",
   "domain": "novel",
-  "tags": ["init", "onboarding", "new-book"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "init"
+  ],
   "purpose": "新书创作向导，帮助用户从零开始创建小说项目"
 }

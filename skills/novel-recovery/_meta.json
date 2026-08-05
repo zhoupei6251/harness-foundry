@@ -1,8 +1,10 @@
 {
   "slug": "novel-recovery",
-  "category": "novel.progress",
+  "category": "novel.recovery",
   "domain": "novel",
-  "tags": ["recovery", "resume", "session"],
-  "auto_classified": false,
+  "tags": [
+    "novel",
+    "recovery"
+  ],
   "purpose": "会话恢复工具，恢复中断的写作任务和上下文"
 }

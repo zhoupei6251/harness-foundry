@@ -5,6 +5,7 @@
 
 core:
   # === 代码域核心 ===
+  - git-xywh
   - brainstorming
   - writing-plans
   - test-driven-development
@@ -49,7 +50,6 @@ core:
   - understand-onboard
   - understand-dashboard
   - codebase-onboarding
-  - architecture-decision-records
 
   # === 编排与调度 ===
   - claude-orchestration
@@ -114,9 +114,7 @@ core:
   - hot-topic-research
 
   # === Product 域核心 ===
-  - frontend-design
   - web-design-guidelines
-  - backend-doc-generator
 
   # === 编码规范 ===
   - coding-standards
@@ -197,7 +195,6 @@ peripheral:
   - dynamic-workflow-mode
   - ecc-guide
   - ecc-tools-cost-audit
-  - edge-tts
   - enterprise-agent-ops
   - eval-harness
   - exa-search
@@ -236,8 +233,6 @@ peripheral:
   - customer-billing-ops
   - finance-billing-ops
   - knowledge-ops
-  - flox-environments
   - generator
-  - gan-style-harness
 
 archived: []
