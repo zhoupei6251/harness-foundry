@@ -58,14 +58,18 @@ strategic_skills=(
 )
 
 tactical_skills=(
-  "ripgrep-search.md"
-  "lsp-query.md"
-  "code-insight-stack.md"
   "index-project.md"
   "query-symbol.md"
   "get-callers.md"
   "get-callees.md"
   "analyze-impact.md"
+)
+
+# ripgrep/lsp-query/code-insight-stack 是 skills/ 目录的完整 SKILL 形态
+tactical_skill_dirs=(
+  "ripgrep-search"
+  "lsp-query"
+  "code-insight-stack"
 )
 
 for skill in "${strategic_skills[@]}"; do
@@ -81,6 +85,14 @@ for skill in "${tactical_skills[@]}"; do
     test_pass "tactical/${skill} 存在"
   else
     test_fail "tactical/${skill} 不存在"
+  fi
+done
+
+for skill in "${tactical_skill_dirs[@]}"; do
+  if [[ -f "${KIT}/skills/${skill}/SKILL.md" ]]; then
+    test_pass "skills/${skill}/SKILL.md 存在"
+  else
+    test_fail "skills/${skill}/SKILL.md 不存在"
   fi
 done
 
@@ -105,10 +117,10 @@ check_frontmatter "${KIT}/core/intelligence/tactical/query-symbol.md" "query-sym
 echo ""
 echo "4. 检查 MCP 配置..."
 
-if [[ -f "${KIT}/mcp-config/Understand-Anything.json" ]]; then
-  test_pass "Understand-Anything.json 存在"
+if [[ -f "${KIT}/mcp-config/codebase-memory.json" ]]; then
+  test_pass "codebase-memory.json 存在"
 else
-  test_fail "Understand-Anything.json 不存在"
+  test_fail "codebase-memory.json 不存在"
 fi
 
 
@@ -129,10 +141,10 @@ for tool in "index_repository" "search_graph" "trace_path" "detect_changes"; do
     test_fail "配置缺少 $tool"
   fi
 done
-if grep -q "understand-anything" "${KIT}/mcp-config/Understand-Anything.json"; then
-  test_pass "Understand-Anything.json 包含 understand-anything 配置"
+if grep -q "codebase-memory" "${KIT}/mcp-config/codebase-memory.json"; then
+  test_pass "codebase-memory.json 包含 codebase-memory 配置"
 else
-  test_fail "Understand-Anything.json 缺少 understand-anything 配置"
+  test_fail "codebase-memory.json 缺少 codebase-memory 配置"
 fi
 
 # === Test 6: 检查 skill-preferences.md ===

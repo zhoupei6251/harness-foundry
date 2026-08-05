@@ -1,6 +1,6 @@
 # install-intelligence-deps.ps1
 # Intelligence Layer 依赖检查脚本 (Windows PowerShell)
-# codebase-memory 由 Codex skill 提供，不需要 npm 全局安装。
+# codebase-memory-mcp 由 MCP 服务器提供（mcp-config/codebase-memory.json）。
 
 param(
     [switch]$InitIndex
@@ -17,22 +17,14 @@ function Write-Info { param($msg) Write-Host "[INFO] $msg" -ForegroundColor Gree
 function Write-Warn { param($msg) Write-Host "[WARN] $msg" -ForegroundColor Yellow }
 function Write-Success { param($msg) Write-Host "[SUCCESS] $msg" -ForegroundColor Green }
 
-Write-Host ">>> 检查 codebase-memory..."
-Write-Info "codebase-memory 由 Codex skill 提供，无需 npm 全局安装。"
+Write-Host ">>> 检查 codebase-memory-mcp..."
+if (Test-Path (Join-Path $PSScriptRoot "..\mcp-config\codebase-memory.json")) {
+    Write-Info "MCP 配置存在: mcp-config/codebase-memory.json"
+} else {
+    Write-Warn "MCP 配置未找到: mcp-config/codebase-memory.json"
+}
 Write-Info "结构化查询使用 index_repository、search_graph、trace_path、detect_changes。"
 Write-Host ""
-
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-$rootDir = Split-Path -Parent $scriptDir
-$uaPath = Join-Path $rootDir "reference_github\Understand-Anything"
-
-Write-Host ">>> 检查 Understand-Anything..."
-if (Test-Path $uaPath) {
-    Write-Info "Understand-Anything 源码已存在: $uaPath"
-} else {
-    Write-Warn "Understand-Anything 源码未找到（可选）"
-    Write-Host "       如需使用，请按 mcp-config/Understand-Anything.json 配置。"
-}
 
 if ($InitIndex) {
     Write-Host ""
@@ -69,11 +61,11 @@ Write-Success "Intelligence Layer 检查完成"
 Write-Host "=============================================="
 Write-Host ""
 Write-Host "下一步:"
-Write-Host "  - /code-insight-stack       # 战术层统一入口（codebase-memory + ripgrep + LSP）"
-Write-Host "  - /understand-project       # 战略层：理解项目"
-Write-Host "  - /analyze-architecture     # 战略层：分析架构"
-Write-Host "  - /query-symbol             # 战术层：定位代码（图）"
-Write-Host "  - /ripgrep-search           # 战术层：定位字符串/正则"
-Write-Host "  - /lsp-query                # 战术层：权威定义/引用/类型/诊断"
-Write-Host "  - /analyze-impact           # 战术层：评估影响"
+Write-Host "  - /code-insight-stack       # 统一入口（codebase-memory + ripgrep + LSP）"
+Write-Host "  - /understand-project       # 理解项目（codebase-memory: index_repository + get_architecture）"
+Write-Host "  - /analyze-architecture     # 分析架构（codebase-memory: get_architecture）"
+Write-Host "  - /query-symbol             # 定位代码（图）"
+Write-Host "  - /ripgrep-search           # 定位字符串/正则"
+Write-Host "  - /lsp-query                # 权威定义/引用/类型/诊断"
+Write-Host "  - /analyze-impact           # 评估影响"
 Write-Host ""

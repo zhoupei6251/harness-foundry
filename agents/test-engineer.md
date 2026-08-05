@@ -1,3 +1,8 @@
+---
+name: test-engineer
+description: "Harness Foundry 测试工程师 — 单元测试、E2E 测试、覆盖率保障（TDD）"
+---
+
 # Test Engineer Agent（Cursor 测试工程师）
 
 ## 角色

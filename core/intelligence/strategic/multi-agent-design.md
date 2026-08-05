@@ -1,107 +1,77 @@
-# Understand-Anything Multi-Agent Collaboration Design
+# 多智能体协同工作流程设计
 
-> 多智能体协同工作流程设计
+> 多智能体协同工作流程设计 —— 基于 codebase-memory-mcp 图谱 + 分层 agent 查询
 
 ## 概述
 
-Understand-Anything 使用多个专业智能体协同分析项目，每个智能体负责特定任务。
+使用 cbm 分层 agent（cbm-scout → cbm-verify → cbm-auditor）配合 codebase-memory-mcp 知识图谱，完成从快速发现到深度审计的代码理解。
 
 ## 智能体架构
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                  Understand-Anything                        │
+│                  Intelligence Layer                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  ┌─────────────┐                                           │
-│  │ Orchestrator │ ←── 总指挥协调                             │
-│  └──────┬──────┘                                           │
-│         │                                                   │
-│  ┌──────┴──────┬──────────┬──────────┐                    │
-│  ↓             ↓          ↓          ↓                      │
-│ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐              │
-│ │Project │ │ File   │ │Architecture│ │ Graph │          │
-│ │Scanner │ │Analyzer│ │ Analyzer │ │Builder │          │
-│ └────────┘ └────────┘ └────────┘ └────────┘              │
-│                                                              │
+│  ┌─────────────┐   ┌───────────┐   ┌───────────┐           │
+│  │ cbm-scout   │   │ cbm-verify│   │cbm-auditor│           │
+│  │ (Tier 1)    │ → │ (Tier 2)  │ → │ (Tier 3)  │           │
+│  └──────┬──────┘   └─────┬─────┘   └─────┬─────┘           │
+│         │                │               │                   │
+│  ┌──────┴────────────────┴───────────────┴──────┐          │
+│  │        codebase-memory-mcp 知识图谱            │          │
+│  └───────────────────────────────────────────────┘          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ## 智能体职责
 
-### 1. ProjectScanner
+### 1. cbm-scout（Tier 1 快速发现）
 
-**职责**: 扫描项目结构
-
-```
-任务:
-1. 递归扫描项目目录
-2. 识别项目语言
-3. 检测框架类型
-4. 识别构建工具
-5. 统计代码规模
-
-输出:
-- 项目结构树
-- 语言分布
-- 框架列表
-- 文件统计
-```
-
-### 2. FileAnalyzer (并行)
-
-**职责**: 分析每个文件
+**职责**: 快速初步搜索
 
 ```
 任务:
-1. 解析 AST (抽象语法树)
-2. 提取符号 (类、函数、变量)
-3. 识别导入依赖
-4. 分析代码复杂度
-5. 识别注释和文档
+1. 按名称/模式搜索符号 (search_graph name_pattern)
+2. 检查函数/路由存在性
+3. 快速调用链速写 (trace_path)
+4. 架构速览 (get_architecture)
 
 输出:
-- 文件符号表
-- 依赖列表
-- 复杂度指标
-- 文档摘要
+- 初步线索 (3-4 个窄查询)
+- 精确验证交给 cbm-verify
 ```
 
-### 3. ArchitectureAnalyzer
+### 2. cbm-verify（Tier 2 证据核实）
 
-**职责**: 架构分析
+**职责**: 定向取证
 
 ```
 任务:
-1. 识别架构模式
-2. 分析模块边界
-3. 识别依赖关系
-4. 提取设计模式
-5. 生成架构图
+1. 确认谁调用 X (trace_path inbound)
+2. X 调用了什么 (trace_path outbound)
+3. 影响范围/爆炸半径 (trace_path + Read)
+4. 死代码确认 (query_graph)
+5. 跨服务路径 (trace_path cross_service)
 
 输出:
-- 架构模式
-- 模块依赖图
-- 设计模式列表
-- 架构建议
+- 图证据 + 源码精确范围双重确认
 ```
 
-### 4. GraphBuilder
+### 3. cbm-auditor（Tier 3 结构审计）
 
-**职责**: 构建知识图谱
+**职责**: 有界范围的结构审计
 
 ```
 任务:
-1. 合并 FileAnalyzer 结果
-2. 构建调用图
-3. 识别关系类型
-4. 存储图谱数据
-5. 生成导览
+1. 死代码审计
+2. 高扇出/高扇入分析
+3. 重构候选
+4. 架构热点
+5. 依赖评审
 
 输出:
-- 知识图谱 (nodes + edges)
-- 调用链
-- 导览数据
+- 审计报告（限定当前索引范围）
 ```
 
 ## 协同流程
@@ -111,155 +81,25 @@ Understand-Anything 使用多个专业智能体协同分析项目，每个智能
 │                     协同流程                                  │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  1. Orchestrator 接收任务                                     │
-│     └─ "理解 /path/to/project"                               │
+│  1. 接收任务: "理解 /path/to/project"                        │
 │                                                              │
-│  2. ProjectScanner 执行 (顺序)                                │
-│     └─ 扫描目录结构                                           │
-│     └─ 输出: 项目结构                                         │
+│  2. index_status → 未索引则 index_repository                  │
 │                                                              │
-│  3. FileAnalyzer 执行 (并行，多实例)                          │
-│     ├─ 实例1: 分析 src/controller/*.java                      │
-│     ├─ 实例2: 分析 src/service/*.java                        │
-│     └─ 实例3: 分析 src/repository/*.java                     │
+│  3. cbm-scout 执行 (并行)                                    │
+│     ├─ 搜索符号/模块                                          │
+│     └─ 速写调用链                                             │
 │                                                              │
-│  4. ArchitectureAnalyzer 执行 (顺序)                         │
-│     └─ 基于扫描+分析结果进行架构分析                          │
-│     └─ 输出: 架构报告                                        │
+│  4. cbm-verify 执行 (并行)                                   │
+│     ├─ 核实调用关系                                            │
+│     └─ 确认影响范围                                            │
 │                                                              │
-│  5. GraphBuilder 执行 (顺序)                                  │
-│     └─ 合并所有结果                                           │
-│     └─ 构建知识图谱                                           │
-│     └─ 生成导览                                               │
+│  5. cbm-auditor 执行 (按需)                                  │
+│     └─ 结构审计 / 死代码 / 重构候选                            │
 │                                                              │
-│  6. Orchestrator 返回最终结果                                 │
-│     └─ 项目概述                                               │
-│     └─ 架构分析                                               │
-│     └─ 知识图谱                                               │
-│     └─ 导览                                                   │
+│  6. 汇总最终结果                                              │
+│     └─ 项目概述 + 架构分析 + 影响评估                          │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
-```
-
-## 并行策略
-
-### FileAnalyzer 并行化
-
-```python
-# 并行分析策略
-PARALLELISM = {
-    "small_project": 2,    # < 100 文件
-    "medium_project": 4,   # 100-500 文件
-    "large_project": 8,   # > 500 文件
-}
-
-# 并行执行
-analyzers = [FileAnalyzer() for _ in range(PARALLELISM[current_size])]
-results = parallel_execute(analyzers, file_groups)
-```
-
-### 任务调度
-
-```
-优先级队列:
-1. 核心文件 (入口、配置) - 高优先级
-2. 业务逻辑文件 (.java/.ts) - 中优先级
-3. 测试文件 - 低优先级
-4. 文档/配置文件 - 低优先级
-```
-
-## 数据共享
-
-### 中间结果存储
-
-```
-.understand-anything/
-├── intermediate/           # 中间产物
-│   ├── scanner/           # 扫描结果
-│   │   └── structure.json
-│   ├── analyzer/          # 分析结果
-│   │   ├── file-001.json
-│   │   ├── file-002.json
-│   │   └── ...
-│   ├── architecture/      # 架构分析
-│   │   └── report.json
-│   └── graph/            # 图谱构建
-│       └── knowledge-graph.json
-├── cache/                # 缓存
-└── tours/               # 导览
-    └── *.md
-```
-
-### 结果合并
-
-```python
-# GraphBuilder 合并逻辑
-def merge_results(scanner_result, analyzer_results, architecture_result):
-    # 1. 合并文件节点
-    nodes = []
-    for result in analyzer_results:
-        nodes.extend(result.symbols)
-
-    # 2. 合并边
-    edges = []
-    for result in analyzer_results:
-        edges.extend(result.dependencies)
-
-    # 3. 添加架构信息
-    for module in architecture_result.modules:
-        add_module_node(nodes, module)
-        add_module_edges(edges, module)
-
-    # 4. 构建图谱
-    return build_graph(nodes, edges)
-```
-
-## 错误处理
-
-### 容错策略
-
-```
-1. 单文件分析失败
-   └─ 记录错误，继续分析其他文件
-   └─ 最终报告包含失败列表
-
-2. 架构分析失败
-   └─ 回退到基础模式识别
-   └─ 标记分析不完整
-
-3. 内存不足
-   └─ 减少并行度
-   └─ 分批处理
-```
-
-### 恢复机制
-
-```
-失败恢复:
-1. 检查点保存 - 每个阶段完成后保存状态
-2. 增量恢复 - 从检查点恢复
-3. 重试策略 - 失败任务最多重试 3 次
-```
-
-## 性能优化
-
-### 缓存策略
-
-```
-缓存级别:
-1. 项目级缓存 - 项目结构不常变化
-2. 文件级缓存 - 基于文件 hash
-3. 增量更新 - 只重新分析变更文件
-```
-
-### 资源限制
-
-```
-资源限制:
-- 内存: 最大 2GB
-- CPU: 使用系统可用核心的 50%
-- 超时: 单文件分析 30s
-- 总超时: 项目分析 10min
 ```
 
 ## 与 Harness Foundry 集成
@@ -273,11 +113,11 @@ Harness Foundry
      │
      ├─ Plan 阶段
      │    └─ 调用 /understand-project
-     │         └─ Understand-Anything 多智能体协同
+     │         └─ codebase-memory-mcp 建立/查询图谱
      │
      └─ Execute 阶段
           └─ Worker 使用图谱结果
-               └─ /query-symbol (codebase-memory)
+               └─ /query-symbol (search_graph)
 ```
 
 ### 数据流
@@ -287,10 +127,10 @@ Harness Worker
      │
      ├─ 请求理解项目
      │
-     ├─ Understand-Anything 返回
-     │    ├─ 项目概述
-     │    ├─ 架构分析
-     │    └─ 知识图谱
+     ├─ codebase-memory-mcp 返回
+     │    ├─ 项目概述 (get_architecture)
+     │    ├─ 架构分析 (clusters / layers)
+     │    └─ 知识图谱 (search_graph)
      │
      └─ Worker 使用结果
           ├─ 理解代码结构
@@ -298,32 +138,40 @@ Harness Worker
           └─ 分析依赖
 ```
 
-## 配置选项
+## 错误处理
 
-```yaml
-# Understand-Anything 配置
-understand_anything:
-  # 并行度
-  parallelism:
-    auto: true      # 自动根据项目大小调整
-    max_workers: 8  # 最大并行数
+### 容错策略
 
-  # 缓存
-  cache:
-    enabled: true
-    ttl: 3600       # 缓存有效期 (秒)
+```
+1. 项目未索引
+   └─ index_repository 建立索引后再查询
 
-  # 分析范围
-  scope:
-    include_tests: false
-    include_docs: true
-    max_depth: 10
+2. 图谱查询无结果
+   └─ 降级到 ripgrep-search 文本搜索
+   └─ 标记分析不完整
 
-  # 资源限制
-  resources:
-    max_memory_mb: 2048
-    timeout_per_file: 30
-    timeout_total: 600
+3. 索引过期
+   └─ detect_changes 增量更新
+```
+
+## 性能优化
+
+### 缓存策略
+
+```
+缓存级别:
+1. 图谱持久化 - 索引生命周期由 codebase-memory-mcp 管理
+2. 增量更新 - detect_changes 只重新索引变更文件
+3. 查询优先级 - 窄查询优先，避免全图扫描
+```
+
+### 查询层职责划分
+
+```
+- search_graph     → 符号定位 (cbm-scout)
+- trace_path      → 调用链 (cbm-verify)
+- query_graph     → 复杂 Cypher (cbm-auditor)
+- detect_changes  → 变更影响 (cbm-verify)
 ```
 
 ## 未来扩展

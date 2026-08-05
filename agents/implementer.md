@@ -1,3 +1,8 @@
+---
+name: implementer
+description: "Harness Foundry 轻量实现者 — 文档/配置/单点改动，不写业务代码"
+---
+
 # Implementer Agent（轻量实现者 Worker）
 
 ## 角色

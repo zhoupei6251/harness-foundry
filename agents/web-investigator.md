@@ -1,3 +1,8 @@
+---
+name: web-investigator
+description: "Harness Foundry 网探 — 联网搜索取证、网页抓取、资料整理"
+---
+
 # Web Investigator Agent（网探）
 
 ## 角色

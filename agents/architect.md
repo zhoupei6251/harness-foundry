@@ -1,3 +1,8 @@
+---
+name: architect
+description: "Harness Foundry 架构师 — 架构方案、技术选型、依赖分析"
+---
+
 # Architect Agent（代码架构师）
 
 ## 角色

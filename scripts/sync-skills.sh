@@ -334,7 +334,7 @@ sync_intelligence() {
       mkdir -p "$(dirname "$strategic_dst")"
       rm -rf "$strategic_dst"
       cp -a "$strategic_src" "$strategic_dst"
-      echo "  [ok] ${platform}: strategic layer (Understand-Anything)"
+      echo "  [ok] ${platform}: strategic layer (codebase-memory-mcp)"
     fi
 
     # 同步 Tactical 层

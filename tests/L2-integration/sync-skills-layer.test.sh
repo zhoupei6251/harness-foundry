@@ -16,9 +16,9 @@ LAYER_FILE="skills/_layer.yaml"
 output=$(bash scripts/sync-skills.sh --target all --dry-run 2>&1 || true)
 
 # 2. 检查 archived Skill 不在输出中
-arch_count=$(yq '.archived | length' "$LAYER_FILE")
+arch_count=$(python3 -c "import yaml; d=yaml.safe_load(open('$LAYER_FILE')); print(len(d['archived']))")
 hit=0
-for slug in $(yq '.archived | .[]' "$LAYER_FILE"); do
+for slug in $(python3 -c "import yaml; d=yaml.safe_load(open('$LAYER_FILE')); print(' '.join(d['archived']))"); do
   if echo "$output" | grep -q "skills/$slug/"; then
     hit=$((hit + 1))
   fi
@@ -32,20 +32,16 @@ fi
 echo "[ok] $arch_count archived skills filtered out"
 
 # 3. 检查 sync 输出中的 [dry] 行只包含 core + peripheral 的 slug
-#    解析 _layer.yaml 获取允许集
+#    解析 _layer.yaml 获取允许集（core + peripheral 全量）
 allowed_set=$(mktemp)
 {
-  yq '.core + .peripheral | .[]' "$LAYER_FILE"
-  # 第三方保留技能（不在 _layer.yaml 中但 sync 保留）
-  echo "subagent-driven-development"
-  echo "dispatching-parallel-agents"
-  echo "using-git-worktrees"
-  echo "executing-plans"
+  python3 -c "import yaml; d=yaml.safe_load(open('$LAYER_FILE')); print('\n'.join(d['core'] + d['peripheral']))"
 } | sort -u > "$allowed_set"
 
 # 从 sync output 中提取所有 [dry] 行内的 slug（精确匹配行首 + 已知前缀）
+# 注意排除平台标签行（"[dry] claude: strategic -> ..." → awk 截出 "claude"）—— 字面量排除
 sourced_slugs=$(mktemp)
-echo "$output" | grep -oE '^\s*\[(dry|skip-from-sync)\] [a-z0-9][a-z0-9-]*[a-z0-9]' | awk '{print $2}' | sort -u > "$sourced_slugs"
+echo "$output" | grep -oE '^\s*\[(dry|skip-from-sync)\] [a-z0-9][a-z0-9-]*[a-z0-9]' | awk '{print $2}' | grep -vE '^(claude|trae)$' | sort -u > "$sourced_slugs"
 sourced_count=$(wc -l < "$sourced_slugs" | tr -d ' ')
 
 leaked=0
@@ -64,11 +60,12 @@ if [[ "$leaked" -gt 0 ]]; then
   exit 1
 fi
 
-echo "[ok] sync 输出 $sourced_count 个 slug 全部属于 core/peripheral/第三方保留集"
+echo "[ok] sync 输出 $sourced_count 个 slug 全部属于 core/peripheral"
 
-# 4. 抽样核心 skill（test-driven-development / verification-before-completion）必须在输出中
-#    sync output 的格式是: [dry] <slug> -> .../<slug>
-must_present=("test-driven-development" "verification-before-completion" "requesting-code-review")
+# 4. 抽样核心 skill（仓库内 skill）必须在输出中
+#    注意：test-driven-development / verification-before-completion 已与 superpowers
+#    插件去重（运行时加载），不再投影 —— 改用仓库内 skill 断言
+must_present=("requesting-code-review" "two-stage-review" "brainstorming")
 miss=0
 for slug in "${must_present[@]}"; do
   # 匹配 [dry] <slug> 这种行（即 sync 计划实际复制该 skill）

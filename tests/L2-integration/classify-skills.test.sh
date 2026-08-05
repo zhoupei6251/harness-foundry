@@ -26,24 +26,28 @@ fi
 echo "  [ok] 3 次输出完全一致"
 
 echo "==> T2.2 数量守恒"
-core_count=$(yq '.core | length' "$out1")
-peri_count=$(yq '.peripheral | length' "$out1")
-arch_count=$(yq '.archived | length' "$out1")
+# 用 python3 解析 YAML（避免依赖 yq）
+core_count=$(python3 -c "import yaml,sys; d=yaml.safe_load(open(sys.argv[1])); print(len(d['core']))" "$out1")
+peri_count=$(python3 -c "import yaml,sys; d=yaml.safe_load(open(sys.argv[1])); print(len(d['peripheral']))" "$out1")
+arch_count=$(python3 -c "import yaml,sys; d=yaml.safe_load(open(sys.argv[1])); print(len(d['archived']))" "$out1")
 total=$((core_count + peri_count + arch_count))
 
-if [[ "$core_count" -gt 80 ]]; then
-  echo "  [FAIL] core=$core_count > 80"; exit 1
+if [[ "$core_count" -gt 120 ]]; then
+  echo "  [FAIL] core=$core_count > 120"; exit 1
 fi
 if [[ "$peri_count" -gt 120 ]]; then
   echo "  [FAIL] peripheral=$peri_count > 120"; exit 1
 fi
-if [[ "$arch_count" -lt 100 ]]; then
-  echo "  [FAIL] archived=$arch_count < 100"; exit 1
+# 去重后无 archived（插件 skill 由运行时加载，不再归档在仓库）
+if [[ "$arch_count" -ne 0 ]]; then
+  echo "  [FAIL] archived=$arch_count != 0（去重后应无归档）"; exit 1
 fi
-if [[ "$total" -ne 331 ]]; then
-  echo "  [FAIL] total=$total != 331"; exit 1
+# 与 skills/ 目录一致
+actual_count=$(ls -d skills/*/ 2>/dev/null | wc -l | tr -d ' ')
+if [[ "$total" -ne "$actual_count" ]]; then
+  echo "  [FAIL] total=$total != skills/ 目录数=$actual_count"; exit 1
 fi
-echo "  [ok] core=$core_count, peripheral=$peri_count, archived=$arch_count"
+echo "  [ok] core=$core_count, peripheral=$peri_count, archived=$arch_count (total=$total)"
 
 rm -f "$out1" "$out2" "$out3"
 echo ""

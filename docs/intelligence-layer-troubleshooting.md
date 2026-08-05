@@ -1,6 +1,6 @@
 # Intelligence Layer 故障排除
 
-> 本文只描述 Harness Foundry 当前的 Intelligence Layer：战略层使用 Understand-Anything，战术层使用 `codebase-memory` skill。
+> 本文描述 Harness Foundry 当前的 Intelligence Layer：战略层与战术层统一使用 `codebase-memory-mcp`。
 
 ## 1. codebase-memory skill 不可用
 
@@ -62,17 +62,17 @@ query_graph(<按需使用 Cypher 查询>)
 
 如果结构关系仍不完整，应先确认索引状态和项目是否已重新索引。
 
-## 5. Understand-Anything 与 codebase-memory 如何分工
+## 5. 工具分工
 
 | 需求 | 工具 |
 |------|------|
-| 了解陌生项目整体架构 | `/understand-project`、`/understand-chat` |
-| 询问架构和模块关系 | Understand-Anything |
+| 了解陌生项目整体架构 | `get_architecture`、`/understand-project` |
+| 询问架构和模块关系 | `get_architecture(aspects=["clusters", "dependencies"])` |
 | 查找函数、类和调用链 | `search_graph`、`trace_path` |
 | 评估本次代码变更影响 | `detect_changes` |
 | 读取精确源码 | `get_code_snippet` |
 
-战略层和战术层可以组合使用：先用 Understand-Anything 建立整体理解，再用 codebase-memory 做精确定位。
+战略层与战术层统一由 codebase-memory-mcp 提供：先用 `get_architecture` 建立整体理解，再用 `search_graph` / `trace_path` 做精确定位。
 
 ## 6. 性能问题
 
@@ -99,7 +99,7 @@ codebase-memory 的索引由技能运行时管理，Harness 不假设或操作�
 ## 8. 检查 Harness 配置
 
 ```bash
-bash scripts/validate-intelligence-layer.sh
+bash tests/validate-intelligence-layer.sh
 bash tests/L3-intelligence/test-agent-integration.sh
 bash tests/L3-intelligence/test-mcp-config.sh
 ```

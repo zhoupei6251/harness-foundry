@@ -37,7 +37,7 @@ category: code.search
 - 命令：`rg`
 - 依赖：宿主环境安装 ripgrep（`rg --version` ≥ 13）
 - 默认在仓库根目录执行；通过 `--path` 限定子目录
-- 自动忽略 `.git/`、`.understand-anything/`、`dist/`、`node_modules/`、`.codebase-memory/`
+- 自动忽略 `.git/`、`dist/`、`node_modules/`、`.codebase-memory/`
 
 ## 调用方式
 

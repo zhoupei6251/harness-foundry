@@ -27,7 +27,7 @@ skills/
 | **crypto** | 1 类 | 加密相关 |
 | **science** | 1 类 | 科学研究 |
 
-详见：[skills/categories.yaml](categories.yaml) | [docs/skill-frontmatter-schema.md](docs/skill-frontmatter-schema.md)
+详见：[skills/categories.yaml](categories.yaml) | [docs/skill-frontmatter-schema.md](../docs/skill-frontmatter-schema.md)
 
 ## Skill 层分级
 

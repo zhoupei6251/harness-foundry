@@ -51,6 +51,6 @@ domain: code
 category: review
 routing_role: code-reviewer
 references:
-  - ../rules/code/common/patterns.md
+  - ../rules/common/patterns.md
 ---
 ```

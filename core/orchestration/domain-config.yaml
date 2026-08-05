@@ -37,13 +37,13 @@ domains:
 
     # spawn 子代理（直接派，不调 Skill 工具）
     primary_agents:
-      - java-reviewer            # ecc: Java/Spring Boot 审查
-      - security-reviewer        # ecc: OWASP/安全漏洞检测
-      - database-reviewer        # ecc: SQL/JPA 查询与 schema 审查
+      - ecc-java-reviewer        # ecc: Java/Spring Boot 审查（本地 agent 文件）
+      - ecc-security-reviewer    # ecc: OWASP/安全漏洞检测（本地 agent 文件）
+      - ecc-database-reviewer    # ecc: SQL/JPA 查询与 schema 审查（本地 agent 文件）
 
     secondary_agents:
       - code-simplifier          # 精简/优化代码
-      - silent-failure-hunter    # 静默失败/吞异常检测
+      - silent-failure-hunter    # ecc 插件 agent（ecc:silent-failure-hunter，运行时加载）
 
   novel:
     # 执行环境（P0-1: Harness/Compute 分离）
@@ -199,12 +199,29 @@ domains:
       - brainstorming           # 场景选择 + 需求理解
       - frontend-design         # 前端交付
       - backend-doc-generator   # 后端交付
-      - tech-writer             # 技术文档（用 agent）
+      - tech-writer             # 技术文档（agent：agents/tech-writer.md）
 
     secondary_skills:
       - superdesign             # 前端设计指南（已有 skill）
       - humanizer-zh           # 中文去 AI 味
       - humanizer              # 英文去 AI 味
+
+# === Intelligence Layer ===
+# codebase-memory-mcp 驱动（战略层 + 战术层统一），跨域共享
+intelligence_skills:
+  strategic:
+    - understand-project        # index_repository + get_architecture
+    - analyze-architecture      # get_architecture 深入分析
+    - query-knowledge-graph     # search_graph / query_graph
+  tactical:
+    - index-project             # 建立/检查索引
+    - query-symbol              # 定位代码符号
+    - get-callers               # trace_path inbound
+    - get-callees               # trace_path outbound
+    - analyze-impact            # detect_changes 影响评估
+    - ripgrep-search            # 文本/字符串搜索兜底
+    - lsp-query                 # 编译器级定义/引用
+    - code-insight-stack        # 三层协同编排入口
 
 # === 运行时目录 ===
 # handoff 机制已移除。Leader 直接对用户负责。

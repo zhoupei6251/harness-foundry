@@ -1,6 +1,6 @@
 ---
 name: query-knowledge-graph
-description: "查询已生成的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。"
+description: "查询 codebase-memory-mcp 的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。"
 tags: [Intelligence, Code, Strategic]
 triggers:
   - "查询图谱"
@@ -12,7 +12,7 @@ layer: strategic
 
 # /query-knowledge-graph
 
-查询 Understand-Anything 生成的交互式知识图谱。
+查询 codebase-memory-mcp 建立的知识图谱。
 
 ## 使用场景
 
@@ -25,9 +25,9 @@ layer: strategic
 ## 调用方式
 
 ```markdown
-使用 Understand-Anything 的 query-knowledge-graph 能力：
+使用 codebase-memory 的 search_graph 工具：
 - query: {查询语句}
-- filters: {过滤条件}
+- node_types: ["class", "function", "method"] (可选)
 ```
 
 ## 预期输出
@@ -49,3 +49,12 @@ layer: strategic
   ]
 }
 ```
+
+## 进阶查询
+
+| 需求 | 工具 |
+|------|------|
+| 模块/类/函数定义 | `search_graph(query=...)` |
+| 调用链/依赖链 | `trace_path(direction="inbound"/"outbound")` |
+| 复杂多跳关系 | `query_graph(cypher=...)` |
+| 跨文件调用关系 | `trace_path(mode="cross_service")` |

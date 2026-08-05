@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # install-intelligence-deps.sh
 # Intelligence Layer 依赖检查脚本
-# codebase-memory 由 Codex skill 提供，不需要 npm 全局安装。
+# codebase-memory-mcp 由 MCP 服务器提供（mcp-config/codebase-memory.json）。
 # 用法: bash scripts/install-intelligence-deps.sh [--init-index]
 
 set -euo pipefail
@@ -29,7 +29,12 @@ echo "  Intelligence Layer 依赖检查"
 echo "=============================================="
 echo ""
 
-echo ">>> 检查 codebase-memory (知识图谱)..."
+echo ">>> 检查 codebase-memory-mcp (知识图谱)..."
+if [[ -f "$ROOT/mcp-config/codebase-memory.json" ]]; then
+  echo "[OK] MCP 配置: $ROOT/mcp-config/codebase-memory.json"
+else
+  echo "[WARN] MCP 配置未找到，请检查 mcp-config/codebase-memory.json"
+fi
 if [[ -f "$ROOT/core/intelligence/tactical/_config.yaml" ]]; then
   echo "[OK] tactical 配置 (codebase-memory + ripgrep + LSP): $ROOT/core/intelligence/tactical/_config.yaml"
 else
@@ -65,15 +70,6 @@ if [[ $found_lsp -eq 0 ]]; then
 fi
 echo ""
 
-echo ">>> 检查 Understand-Anything..."
-UA_PATH="$ROOT/reference_github/Understand-Anything"
-if [[ -d "$UA_PATH" ]]; then
-  echo "[INFO] Understand-Anything 源码已存在: $UA_PATH"
-else
-  echo "[WARN] Understand-Anything 源码未找到（可选）"
-  echo "       如需使用，请按 mcp-config/Understand-Anything.json 配置。"
-fi
-
 if [[ "$INIT_INDEX" == "true" ]]; then
   echo ""
   echo ">>> codebase-memory 索引初始化提示"
@@ -87,11 +83,11 @@ echo "[SUCCESS] Intelligence Layer 检查完成"
 echo "=============================================="
 echo ""
 echo "下一步:"
-echo "  - /code-insight-stack       # 战术层统一入口（codebase-memory + ripgrep + LSP）"
-echo "  - /understand-project       # 战略层：理解项目"
-echo "  - /analyze-architecture     # 战略层：分析架构"
-echo "  - /query-symbol             # 战术层：定位代码（图）"
-echo "  - /ripgrep-search           # 战术层：定位字符串/正则"
-echo "  - /lsp-query                # 战术层：权威定义/引用/类型/诊断"
-echo "  - /analyze-impact           # 战术层：评估影响"
+echo "  - /code-insight-stack       # 统一入口（codebase-memory + ripgrep + LSP）"
+echo "  - /understand-project       # 理解项目（codebase-memory: index_repository + get_architecture）"
+echo "  - /analyze-architecture     # 分析架构（codebase-memory: get_architecture）"
+echo "  - /query-symbol             # 定位代码（图）"
+echo "  - /ripgrep-search           # 定位字符串/正则"
+echo "  - /lsp-query                # 权威定义/引用/类型/诊断"
+echo "  - /analyze-impact           # 评估影响"
 echo ""

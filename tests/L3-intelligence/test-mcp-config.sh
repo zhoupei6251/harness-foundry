@@ -17,17 +17,17 @@ test_pass() { echo "  [PASS] $1"; PASS=$((PASS + 1)); }
 test_fail() { echo "  [FAIL] $1"; FAIL=$((FAIL + 1)); }
 
 echo "1. 检查 MCP 配置文件..."
-config_file="${KIT}/mcp-config/Understand-Anything.json"
+config_file="${KIT}/mcp-config/codebase-memory.json"
 if [[ -f "$config_file" ]]; then
-  test_pass "Understand-Anything.json 存在"
+  test_pass "codebase-memory.json 存在"
 else
-  test_fail "Understand-Anything.json 不存在"
+  test_fail "codebase-memory.json 不存在"
 fi
 
-if [[ -f "$config_file" ]] && grep -q "mcpServers" "$config_file" && grep -q "understand-anything" "$config_file"; then
-  test_pass "Understand-Anything.json 配置有效"
+if [[ -f "$config_file" ]] && grep -q "mcpServers" "$config_file" && grep -q "codebase-memory" "$config_file"; then
+  test_pass "codebase-memory.json 配置有效"
 else
-  test_fail "Understand-Anything.json 配置无效"
+  test_fail "codebase-memory.json 配置无效"
 fi
 
 echo ""

@@ -75,7 +75,7 @@ brainstorming → [门禁：用户确认 spec]
 
 ## Intelligence Layer 集成（自动使用）
 
-> Intelligence Layer 分两层：战略层（Understand-Anything）+ 战术层（codebase-memory）
+> Intelligence Layer 由 codebase-memory-mcp 驱动（战略层 + 战术层统一）
 > **Leader 自动为 Worker 提供 Intelligence 支持**
 
 ### 自动调用规则
@@ -88,13 +88,13 @@ brainstorming → [门禁：用户确认 spec]
 影响评估   → verify 阶段调用 /analyze-impact
 ```
 
-### 战略层使用 (Understand-Anything)
+### 战略层使用（codebase-memory-mcp）
 
 | 场景 | Skill | 时机 | 自动 |
 |------|-------|------|------|
-| 新项目接手 | `/understand-project` | plan 阶段开始 | ✅ |
-| 架构评审 | `/analyze-architecture` | design 阶段 | 按需 |
-| 全局理解 | `/understand-chat` | 任何阶段 | 按需 |
+| 新项目接手 | `/understand-project`（index_repository + get_architecture） | plan 阶段开始 | ✅ |
+| 架构评审 | `/analyze-architecture`（get_architecture） | design 阶段 | 按需 |
+| 全局理解 | `get_architecture(aspects=["overview", "clusters"])` | 任何阶段 | 按需 |
 
 ### 战术层使用（codebase-memory + ripgrep + LSP）
 
@@ -146,20 +146,20 @@ brainstorming → [门禁：用户确认 spec]
 ```markdown
 ## Intelligence 支持
 
-本项目已建立知识图谱，可使用以下能力：
-- /understand-chat <问题>  # 基于图谱回答问题
-- /query-symbol <符号名>  # 快速定位代码
-- /get-callers <符号名>   # 查看调用方
-- /analyze-impact <符号>  # 评估影响
+本项目已建立 codebase-memory 索引，可使用以下能力：
+- get_architecture  # 架构全貌（overview / clusters / layers）
+- search_graph      # 快速定位代码/符号
+- trace_path        # 调用链（inbound / outbound）
+- get_code_snippet  # 精确源码读取
+- /analyze-impact   # 评估影响
 
-使用方法: 直接在 prompt 中调用这些 Skill
+使用方法: 直接调用 codebase-memory-mcp 的 MCP 工具
 ```
 
-### 知识图谱位置
+### 索引位置
 
 ```
-.understand-anything/
-├── knowledge-graph.json   # 完整知识图谱（本次分析已生成）
-├── meta.json             # 元数据（commit、时间）
-└── config.json           # 配置（语言偏好）
+.codebase-memory/          # 由 codebase-memory-mcp 管理（位置透明）
+├── graph.db               # 知识图谱数据
+└── ...                    # 索引元数据
 ```

@@ -25,14 +25,14 @@
 
 ## Leader 专用（不投影，从 .agents 加载）
 
-- `brainstorming`、`writing-plans`、`git-xywh`、`harness-orchestration`
+- `brainstorming`、`writing-plans`、`git-xywh`
 
 ## WU 级（投影到 .trae/skills）
 
-- `test-driven-development`、`systematic-debugging`
 - `requesting-code-review`、`receiving-code-review`
-- `agent-browser`、`verification-before-completion`
-- `ui-ux-pro-max`、`frontend-design`
+- `agent-browser`、`ui-ux-pro-max`、`frontend-design`
+
+> `test-driven-development`、`systematic-debugging`、`verification-before-completion` 由 superpowers 插件提供（`superpowers:` 前缀，运行时加载），不投影。
 
 ## 项目专属（投影）
 

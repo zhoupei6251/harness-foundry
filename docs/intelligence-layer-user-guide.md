@@ -4,60 +4,38 @@
 
 ## 概述
 
-Intelligence Layer 为 Harness Foundry 提供智能代码理解能力，由两个层次组成：
+Intelligence Layer 为 Harness Foundry 提供智能代码理解能力，由 codebase-memory-mcp 统一驱动：
 
 | 层次 | 工具 | 回答什么 | 使用时机 |
 |------|------|---------|---------|
-| **战略层** | Understand-Anything | 项目是什么/为什么这样设计 | 新项目、架构分析 |
-| **战术层** | codebase-memory | 符号在哪里/改动会影响谁 | 定位代码、评估影响 |
+| **战略层** | codebase-memory-mcp（`index_repository` / `get_architecture`） | 项目是什么/为什么这样设计 | 新项目、架构分析 |
+| **战术层** | codebase-memory（`search_graph` / `trace_path`）+ ripgrep + LSP | 符号在哪里/改动会影响谁 | 定位代码、评估影响 |
 
 ## 快速开始
 
-### 一键安装（推荐）
+### 1. 配置 MCP
 
-```bash
-# Linux/macOS
-bash scripts/install-understand-anything.sh --all
-
-# Windows PowerShell
-.\scripts\install-understand-anything.ps1 -All
+```json
+// mcp-config/codebase-memory.json → 接入宿主 MCP 配置
+{
+  "mcpServers": {
+    "codebase_memory": {
+      "command": "npx",
+      "args": ["-y", "codebase-memory-mcp", "--ui=true"],
+      "env": { "NODE_ENV": "production" }
+    }
+  }
+}
 ```
 
-脚本会自动安装 Understand-Anything Skills 到所有支持的平台：
-- **Claude Code** — 复制到 `.claude/skills/` + `~/.claude/skills/`
-- **Cursor** — 复制到 `.cursor/skills/`
-- **Trae** — 创建符号链接到 `.trae/skills/`
-- **Codex** — 创建符号链接到 `~/.agents/skills/`
-
-### 分平台安装
+### 2. 初始化项目索引
 
 ```bash
-# 仅安装特定平台
-bash scripts/install-understand-anything.sh --claude   # 仅 Claude Code
-bash scripts/install-understand-anything.sh --trae     # 仅 Trae
-bash scripts/install-understand-anything.sh --cursor  # 仅 Cursor
-bash scripts/install-understand-anything.sh --codex   # 仅 Codex
-
-# 预览模式（不实际执行）
-bash scripts/install-understand-anything.sh --dry-run
-```
-
-### 卸载
-
-```bash
-bash scripts/install-understand-anything.sh --uninstall
-```
-
-### 初始化项目索引
-
-```bash
-cd your-project
-
 # 在当前会话中调用 codebase-memory 的索引工具
-index_repository(project_path="your-project")
+index_repository(repo_path="your-project", mode="moderate")
 ```
 
-### 开始使用
+### 3. 开始使用
 
 在 Harness Foundry 中，按需调用 Skills：
 
@@ -81,7 +59,7 @@ index_repository(project_path="your-project")
 
 #### /understand-project
 
-理解项目结构和架构，生成知识图谱。
+使用 codebase-memory-mcp 理解项目结构和架构（`index_repository` + `get_architecture`）。
 
 **触发场景**：
 - 新项目接手
@@ -91,7 +69,7 @@ index_repository(project_path="your-project")
 **示例**：
 ```
 用户: 帮我理解这个项目
-AI:   [调用 /understand-project]
+AI:   [调用 index_status → get_architecture]
       ↓
       项目概述：三层架构的电商系统
       技术栈：Spring Boot, MyBatis-Plus, Redis
@@ -100,7 +78,7 @@ AI:   [调用 /understand-project]
 
 #### /analyze-architecture
 
-深入分析架构，回答架构相关问题。
+使用 `get_architecture` 深入分析架构，回答架构相关问题。
 
 **触发场景**：
 - 询问设计原因
@@ -110,7 +88,7 @@ AI:   [调用 /understand-project]
 **示例**：
 ```
 用户: 为什么要用 Redis 做缓存？
-AI:   [调用 /analyze-architecture]
+AI:   [调用 get_architecture + search_graph]
       ↓
       1. 分布式场景需要
          证据: spring.session.store-type: redis
@@ -122,7 +100,7 @@ AI:   [调用 /analyze-architecture]
 
 #### /index-project
 
-为项目建立代码索引。
+为项目建立代码索引（`index_repository`）。
 
 **触发场景**：
 - 大型项目 (>100 文件)
@@ -132,7 +110,7 @@ AI:   [调用 /analyze-architecture]
 **示例**：
 ```
 用户: 帮我索引这个项目
-AI:   [调用 /index-project]
+AI:   [调用 index_repository]
       ↓
       已解析 1,234 个文件
       已提取 5,678 个符号
@@ -141,7 +119,7 @@ AI:   [调用 /index-project]
 
 #### /query-symbol
 
-快速定位代码符号。
+快速定位代码符号（`search_graph` + `get_code_snippet`）。
 
 **触发场景**：
 - 查找某个类/函数
@@ -151,7 +129,7 @@ AI:   [调用 /index-project]
 **示例**：
 ```
 用户: UserService 在哪里？
-AI:   [调用 /query-symbol]
+AI:   [调用 search_graph]
       ↓
       找到 1 个结果:
       └─ UserService
@@ -160,7 +138,7 @@ AI:   [调用 /query-symbol]
 
 #### /get-callers
 
-查找调用指定符号的所有代码。
+查找调用指定符号的所有代码（`trace_path(direction="inbound")`）。
 
 **触发场景**：
 - 评估影响
@@ -170,7 +148,7 @@ AI:   [调用 /query-symbol]
 **示例**：
 ```
 用户: getOrderById 被谁调用了？
-AI:   [调用 /get-callers]
+AI:   [调用 trace_path inbound]
       ↓
       ├─ OrderController.getOrder() [line 34]
       ├─ OrderService.findById() [line 67]
@@ -179,7 +157,7 @@ AI:   [调用 /get-callers]
 
 #### /analyze-impact
 
-评估代码变更的完整影响范围。
+评估代码变更的完整影响范围（`detect_changes` + `trace_path`）。
 
 **触发场景**：
 - 重构前
@@ -189,7 +167,7 @@ AI:   [调用 /get-callers]
 **示例**：
 ```
 用户: 我想重构 UserService.login，帮我评估影响
-AI:   [调用 /analyze-impact]
+AI:   [调用 detect_changes]
       ↓
       风险等级: 中等
       影响: 2 个调用方，3 个被调用方
@@ -251,8 +229,7 @@ index_repository(paths=["src/main/java"])
 
 ### Q: 索引占用空间大？
 
-A: 索引由 codebase-memory skill 管理，不要手动操作内部存储目录。
-
+A: 索引由 codebase-memory-mcp 管理，不要手动操作内部存储目录。
 
 ### Q: 如何更新索引？
 
@@ -266,18 +243,21 @@ index_repository(force=true)
 
 ## IDE 集成
 
-`codebase-memory` 是由当前 Codex 会话提供的 Skill/MCP 工具能力，不需要在每个项目中单独启动一个 `codebase-memory serve` 进程，也不需要维护单独的 npm 全局安装。
+`codebase-memory-mcp` 以 MCP 服务器形式提供（npx codebase-memory-mcp），不需要在每个项目中单独启动进程，也不需要维护额外的 npm 全局安装。
 
-使用前确认当前会话已经加载 `codebase-memory` skill。常用工具：
+使用前确认当前会话已加载 `codebase-memory` MCP。常用工具：
 
 - `index_repository`：建立或更新项目索引
 - `index_status`：检查索引状态
+- `get_architecture`：架构全貌（packages / layers / clusters / hotspots）
 - `search_graph`：搜索符号和结构关系
 - `trace_path`：追踪调用方或被调用方
 - `detect_changes`：评估当前变更影响
 - `get_code_snippet`：读取精确源码片段
+- `query_graph`：复杂 Cypher 查询
 
-项目配置只需要保留已有的 `mcp-config/Understand-Anything.json`；codebase-memory 的索引生命周期由 skill 管理。
+项目配置只需要保留已有的 `mcp-config/codebase-memory.json`；codebase-memory 的索引生命周期由 MCP 管理。
+
 ## 后续步骤
 
 - 查看完整设计文档: `docs/specs/harness-foundry-v2.1-architecture.md`

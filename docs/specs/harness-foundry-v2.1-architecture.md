@@ -46,7 +46,7 @@ Harness Foundry 的真实目标: 让 AI 在其他项目里更稳定地产出可�
 - reviewer | review, *                | ripgrep-search, lsp-query
 - test-engineer | test                | test-driven-development, analyze-impact
 - test-engineer | test                | ripgrep-search, lsp-query
-- leader-code | refactor              | code-insight-stack, understand-chat
+- leader-code | refactor              | code-insight-stack, get_architecture
 
 ## 7. Agent 工作流 (Code 域)
 ### 7.1 leader-code

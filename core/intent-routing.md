@@ -17,7 +17,7 @@ tags: [Rules, Runbook]
 | 写代码、实现、重构 | 实现 → 自检springboot-checklist → spawn 审查链 |
 | 多个独立修改（文件无调用关系） | Skill(superpowers:dispatching-parallel-agents) 并行派发 |
 | OK、开始、做吧 | 拆task → 实现（同上） |
-| 审查、review | 并行 spawn: java-reviewer + security-reviewer + database-reviewer + pr-test-analyzer |
+| 审查、review | 并行 spawn: ecc:java-reviewer + ecc:security-reviewer + ecc:database-reviewer + ecc:pr-test-analyzer |
 | 测试、单测 | Skill(superpowers:test-driven-development) → 先写测试→验证 |
 | mvn compile 报错 | spawn ecc:java-build-resolver |
 | commit、merge、push、MR | Skill(git-xywh) |
@@ -55,7 +55,7 @@ spawn ecc:java-reviewer（prompt 必带：按 rules/code/java/patterns.md「编�
 ├── 实体/DTO/VO/领域对象变更 → spawn ecc:type-design-analyzer
 ├── 中型以上 → spawn ecc:silent-failure-hunter
 ├── task收尾 → 并行 spawn ecc:code-simplifier + ecc:comment-analyzer
-└── 大型任务尾盘 → 并行 spawn pr-test-analyzer + ecc:refactor-cleaner
+└── 大型任务尾盘 → 并行 spawn ecc:pr-test-analyzer + ecc:refactor-cleaner
 ```
 
 ## 编译失败
@@ -66,10 +66,10 @@ spawn ecc:java-build-resolver（专修编译，不改业务逻辑）
 
 ## 大型任务门禁
 
-1. brainstorm → code-architect → writing-plans → **暂停等确认**
+1. brainstorm → ecc:code-architect → writing-plans → **暂停等确认**
 2. 确认 → 拆 task → 逐个实现（每个 task 走写完代码流程）
-3. 尾盘 → 并行 spawn java-reviewer + security-reviewer + database-reviewer + pr-test-analyzer + refactor-cleaner
-4. 收尾 → code-simplifier + comment-analyzer → Skill(superpowers:finishing-a-development-branch) → 落盘
+3. 尾盘 → 并行 spawn ecc:java-reviewer + ecc:security-reviewer + ecc:database-reviewer + ecc:pr-test-analyzer + ecc:refactor-cleaner
+4. 收尾 → ecc:code-simplifier + ecc:comment-analyzer → Skill(superpowers:finishing-a-development-branch) → 落盘
 
 ## 参考
 

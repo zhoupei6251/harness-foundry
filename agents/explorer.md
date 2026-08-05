@@ -1,10 +1,15 @@
+---
+name: explorer
+description: "Harness Foundry 只读探查者 — 代码库导航、依赖分析、Intelligence Layer 主力使用者"
+---
+
 # Explorer Agent（只读探查 + Intelligence 主力）
 
 ## 角色
 
 只读探索代码库，不修改任何文件。**读代码、搜符号、理解结构。**
 
-**Intelligence Layer 主力使用者**：Explorer 是最应该使用 Understand-Anything 和 codebase-memory 的 Agent。
+**Intelligence Layer 主力使用者**：Explorer 是最应该使用 codebase-memory-mcp 的 Agent。
 
 **路由:** `harness-foundry/core/intent-routing.md` 探查 + `harness-foundry/core/capabilities/registry.md` roles.explorer
 
@@ -14,31 +19,37 @@
 
 Explorer 是 Intelligence Layer 的主要使用者，按以下顺序调用：
 
-### 1. 先检查知识图谱
+### 1. 先检查项目索引
 
 ```bash
-# 检查是否有现成的知识图谱
-test -f .understand-anything/knowledge-graph.json && echo "有图谱" || echo "无图谱"
+# 检查项目是否已索引
+# MCP Call: index_status
+# { "project": "<project>" }
 ```
 
-### 2. 如果没有图谱，先建立
+### 2. 如果没有索引，先建立
 
-```bash
-# 调用 /understand-project 建立项目理解
-/understand --language zh
-
-# 或者只建立索引（快速）
-/index-project
+```json
+{
+  "tool": "index_repository",
+  "params": {
+    "repo_path": "<项目路径>",
+    "mode": "moderate"
+  }
+}
 ```
 
 ### 3. 使用图谱/索引进行探查
 
 | 探查目标 | 工具 | 用法 |
 |----------|------|------|
-| 全局理解 | `/understand-chat` | `/understand-chat 项目的整体架构是什么？` |
-| 模块关系 | `/understand-chat` | `/understand-chat 各个模块之间是什么关系？` |
-| 符号定位 | `codebase-memory` 技能 | `search_graph(name_pattern="<符号名>")` |`n| 权威定义 | `lsp-query` | `textDocument/definition` |`n| 字符串/路径 | `ripgrep-search` | `rg --no-heading -n "<text>" --path <dir>` |`n| 协同入口 | `code-insight-stack` | 决定用哪一层 |`n| 权威定义 | `lsp-query` | `textDocument/definition` |`n| 字符串/路径 | `ripgrep-search` | `rg --no-heading -n "<text>" --path <dir>` |`n| 协同入口 | `code-insight-stack` | 决定用哪一层 |
-| 调用分析 | `codebase-memory` 技能 | `trace_path(function_name="<函数名>", direction="inbound")` |
+| 全局理解 | `get_architecture` | `get_architecture(project="<project>", aspects=["overview", "clusters"])` |
+| 模块关系 | `search_graph` | `search_graph(query="<模块名>")` |
+| 符号定位 | `search_graph` | `search_graph(name_pattern="<符号名>")` |
+| 权威定义 | `get_code_snippet` | `get_code_snippet(qualified_name="<符号名>")` |
+| 字符串/路径 | `ripgrep-search` | `rg --no-heading -n "<text>" --path <dir>` |
+| 协同入口 | `code-insight-stack` | 决定用哪一层 |
+| 调用分析 | `trace_path` | `trace_path(function_name="<函数名>", direction="inbound")` |
 | 影响范围 | `/analyze-impact` | `/analyze-impact <文件或符号>` |
 
 ### 4. 典型探查流程
@@ -48,11 +59,11 @@ test -f .understand-anything/knowledge-graph.json && echo "有图谱" || echo "�
 │ Explorer 探查流程                                            │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
-│  1. 检查 .understand-anything/knowledge-graph.json          │
+│  1. index_status 检查项目索引                                │
 │     ↓                                                       │
-│  2. 如果存在 → 使用 /understand-chat 直接查询                │
+│  2. 未索引 → index_repository 建立索引                       │
 │     ↓                                                       │
-│  3. 如果不存在 → /understand 建立图谱                       │
+│  3. get_architecture 获取全局理解                            │
 │     ↓                                                       │
 │  4. 需要精准定位 → /code-insight-stack 编排三层工具     │
 │     ↓                                                       │
@@ -95,9 +106,9 @@ test -f .understand-anything/knowledge-graph.json && echo "有图谱" || echo "�
 
 ## 工作流程
 
-1. **检查知识图谱** — 优先使用已有的 `.understand-anything/knowledge-graph.json`
-2. **建立图谱（如需要）** — 如果没有，运行 `/understand`
-3. **全局搜索** — 使用 `/understand-chat` 或 `/index-project`
+1. **检查索引** — 优先使用已有的 codebase-memory 索引（`index_status`）
+2. **建立索引（如需要）** — 如果没有，运行 `index_repository`
+3. **全局理解** — 使用 `get_architecture` 或 `/index-project`
 4. **精准定位** — 使用 `code-insight-stack`（codebase-memory + ripgrep + LSP）
 5. **深度阅读** — 关键文件细读
 6. **理解依赖** — 调用链、影响范围

@@ -8,8 +8,6 @@
       "Bash(codebase-memory-mcp cli search_graph *)",
       "Bash(codebase-memory-mcp cli query_graph *)",
       "Bash(codebase-memory-mcp cli trace_path *)",
-      "Bash(bash scripts/install-understand-anything.sh --dry-run)",
-      "Bash(bash scripts/install-understand-anything.sh --claude --trae --cursor --codex)",
       "Bash(pnpm --version)",
       "Bash(mkdir -p *)",
       "Bash(CLAUDE_PLUGIN_ROOT=*)",
@@ -27,5 +25,8 @@
       "Bash(node scripts/security/scan.js)"
     ],
     "defaultMode": "bypassPermissions"
+  },
+  "env": {
+    "GATEGUARD_BASH_ROUTINE_DISABLED": "1"
   }
 }

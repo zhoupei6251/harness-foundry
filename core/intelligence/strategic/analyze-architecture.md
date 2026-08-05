@@ -14,7 +14,7 @@ layer: strategic
 
 # /analyze-architecture
 
-使用 Understand-Anything 进行架构问答，深入分析设计决策。
+使用 codebase-memory-mcp 的 `get_architecture` 进行架构问答，深入分析设计决策。
 
 ## 使用场景
 
@@ -33,14 +33,10 @@ layer: strategic
 
 ```json
 {
-  "tool": "analyze-architecture",
+  "tool": "get_architecture",
   "params": {
-    "question": "为什么要用 Redis 做缓存？",
-    "context": {
-      "project_path": "/path/to/project",
-      "language": "java",
-      "focus_areas": ["缓存", "分布式"]
-    }
+    "project": "<project>",
+    "aspects": ["overview", "structure", "dependencies", "clusters"]
   }
 }
 ```
@@ -49,39 +45,45 @@ layer: strategic
 
 ```json
 {
-  "success": true,
-  "data": {
-    "answer": "采用 Redis 缓存的原因分析",
-    "confidence": 0.95,
-    "reasoning": [
+  "overview": {
+    "name": "项目名称",
+    "description": "一句话描述项目",
+    "language": "主要语言",
+    "packages": ["核心包列表"]
+  },
+  "structure": {
+    "layers": [
       {
-        "point": "分布式场景需要",
-        "evidence": "项目部署在多实例环境",
-        "files": ["config/application.yml"],
-        "code_snippet": "spring.session.store-type: redis"
-      },
-      {
-        "point": "数据一致性要求",
-        "evidence": "本地缓存无法跨实例同步",
-        "files": ["src/config/CacheConfig.java"]
+        "name": "表现层",
+        "path": "src/controller",
+        "responsibility": "处理 HTTP 请求"
       }
     ],
-    "alternatives_considered": [
+    "modules": [
       {
-        "name": "本地缓存 (Caffeine/Guava)",
-        "reason_not_used": "仅适用单机部署"
+        "name": "user",
+        "path": "src/user",
+        "dependencies": ["common"]
       }
-    ],
-    "related_patterns": [
-      "Cache-Aside Pattern",
-      "Read-Through Cache"
-    ],
-    "related_files": [
-      "src/service/CacheService.java",
-      "src/config/RedisConfig.java"
     ]
-  }
+  },
+  "clusters": [
+    {
+      "label": "认证模块",
+      "member_count": 12,
+      "top_nodes": ["AuthService", "AuthController"]
+    }
+  ]
 }
+```
+
+## 深入分析工作流
+
+```
+1. get_architecture(aspects=["overview", "clusters"]) → 模块边界与真实聚类
+2. search_graph(query=...) → 定位具体类/函数
+3. trace_path(direction="both") → 调用链/依赖链
+4. get_code_snippet(qualified_name=...) → 读关键实现
 ```
 
 ## 问题类型与回答模板

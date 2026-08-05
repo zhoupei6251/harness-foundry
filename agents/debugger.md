@@ -1,3 +1,8 @@
+---
+name: debugger
+description: "Harness Foundry 调试者 — 系统化 debug（复现→最小化→根因→修复→回归）"
+---
+
 # Debugger Agent（Cursor 缺陷调查）
 
 ## 角色

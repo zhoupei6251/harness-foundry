@@ -1,3 +1,8 @@
+---
+name: coder
+description: "Harness Foundry 编码者 — 完整代码实现、单测、自测"
+---
+
 # Coder Agent（Cursor 资深开发者）
 
 ## 角色

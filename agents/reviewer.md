@@ -77,6 +77,42 @@ model: sonnet
 
 ---
 
+## Intelligence Layer Skills 使用指南
+
+> codebase-memory-mcp 集成：使用 `code-insight-stack` 加速审查取证
+
+**推荐工作流：**
+
+```
+1. 变更范围
+   ├─ /analyze-impact <文件或符号>  看影响面（detect_changes）
+   └─ /get-callers <符号>          看调用方（trace_path inbound）
+
+2. 代码取证
+   ├─ /query-symbol <类名>         定位定义（search_graph）
+   ├─ get_code_snippet             读精确源码
+   └─ /get-callees <函数>          看被调用方（trace_path outbound）
+
+3. 架构一致性
+   └─ get_architecture(aspects=["clusters", "layers"])  对照模块边界
+```
+
+**MCP 调用示例：**
+
+```markdown
+# 定位 UserService 定义
+MCP Call: search_graph
+{
+  "query": "UserService",
+  "node_types": ["class"]
+}
+
+# 看 OrderService.process 的调用链
+MCP Call: trace_path(function_name="OrderService.process", direction="inbound", depth=2)
+```
+
+---
+
 ## 产物
 
 **你只返回**审查正文（格式见 § 返回格式）；**不要** Write `.ai-runtime-artifacts/`（`harness-reviewer` 为 readonly）。
