@@ -1,11 +1,18 @@
 #!/bin/bash
 # 验证文件引用完整性
 # 用途：确保所有文件引用都存在
+# 用法：
+#   从宿主项目根运行: bash harness-foundry/tests/validate-references.sh
+#   从 harness-foundry 内部运行: bash tests/validate-references.sh（自动检测）
 
 set -e
 
-PROJECT_ROOT="${1:-.}"
-HARNESS_DIR="$PROJECT_ROOT/harness-foundry"
+if [ -n "${1:-}" ]; then
+    PROJECT_ROOT="$1"
+    HARNESS_DIR="$PROJECT_ROOT/harness-foundry"
+else
+    HARNESS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+fi
 
 echo "验证文件引用完整性..."
 echo ""

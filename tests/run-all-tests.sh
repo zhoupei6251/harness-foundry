@@ -3,8 +3,12 @@
 # P2-6 升级：3 层测试体系
 # 用途：一键验证 harness-foundry 配置
 
-PROJECT_ROOT="${1:-.}"
-TESTS_DIR="$PROJECT_ROOT/harness-foundry/tests"
+# 从脚本自身位置定位 tests 目录：
+#   - 在 harness-foundry 根运行: bash tests/run-all-tests.sh
+#   - 从宿主项目根运行:         bash harness-foundry/tests/run-all-tests.sh
+# 两种方式均正确解析；PROJECT_ROOT 参数仅向后兼容保留。
+PROJECT_ROOT="${1:-}"
+TESTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "🧪 运行 harness-foundry 测试套件..."
 echo ""
@@ -40,6 +44,7 @@ run_test "L1-1: Config Schema 验证" "$TESTS_DIR/L1-static/validate-config-sche
 run_test "L1-2: Agent 格式一致性" "$TESTS_DIR/L1-static/validate-agent-format.sh"
 run_test "L1-3: Skill Metadata 完整性" "$TESTS_DIR/L1-static/validate-skill-meta.sh"
 run_test "L1-4: NEVER.md 可检测性" "$TESTS_DIR/L1-static/validate-never.sh"
+run_test "L1-5: 文档数字一致性" "$TESTS_DIR/L1-static/validate-doc-numbers.sh"
 
 # === L2 集成测试（本地） ===
 echo "--- L2 集成测试 ---"
@@ -49,6 +54,7 @@ run_test "L2-1: Routing 完整性" "$TESTS_DIR/L2-integration/validate-routing.s
 run_test "L2-2: Domain Config 引用一致性" "$TESTS_DIR/L2-integration/validate-domain-config.sh"
 
 # 旧的验证脚本（向后兼容）
+# 不传参数：legacy 脚本内部自动检测 harness 根目录（见脚本头部用法说明）
 if [ -f "$TESTS_DIR/validate-config.sh" ]; then
     run_test "L2-3: 配置完整性 (legacy)" "$TESTS_DIR/validate-config.sh"
 fi

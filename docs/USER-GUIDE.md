@@ -1,6 +1,6 @@
 # Harness Foundry 使用指南
 
-> **目标：** 将 Harness Foundry 作为开发工具集，集成到你的项目中
+> **目标：** 将 Harness Foundry 作为独立开发工具集，集成到任何项目中——帮助该项目更好地使用 AI
 
 ---
 
@@ -9,11 +9,12 @@
 1. [快速开始](#快速开始)
 2. [目录结构](#目录结构)
 3. [核心功能](#核心功能)
-4. [Skill 使用](#skill-使用)
-5. [Agent 角色](#agent-角色)
-6. [工作流程](#工作流程)
-7. [配置说明](#配置说明)
-8. [常见问题](#常见问题)
+4. [工作流程](#工作流程)
+5. [Skill 与 Agent](#skill-与-agent)
+6. [Intelligence Layer（智能代码理解）](#intelligence-layer智能代码理解)
+7. [多平台适配](#多平台适配)
+8. [配置说明](#配置说明)
+9. [常见问题](#常见问题)
 
 ---
 
@@ -26,35 +27,44 @@ cd your-project/
 git clone https://github.com/your-org/harness-foundry.git
 ```
 
-### 2. 查看可用命令
+或者作为子模块：
 
 ```bash
-cd harness-foundry
-
-# 查看所有 Skills
-ls skills/
-
-# 查看所有 Agents
-ls agents/
-
-# 查看文档
-ls docs/
+git submodule add https://github.com/your-org/harness-foundry.git harness-foundry
 ```
 
-### 3. 在 Claude Code 中使用
+### 2. 注入宿主项目配置（2 个文件 + 指向）
 
-在你的项目中启动 Claude Code，然后告诉它：
+```bash
+# 复制 CLAUDE 模板到宿主项目的 .claude/CLAUDE.md
+cp harness-foundry/docs/CLAUDE-TEMPLATE.md .claude/CLAUDE.md
+
+# （可选）生成 AGENTS.md 统一入口
+# 见 harness-foundry/adapters/agents/
+```
+
+### 3. 安装依赖插件（一次性）
+
+harness-foundry 是编排层，依赖两个生态插件（**不在仓库内**，运行时从插件加载）：
+
+```bash
+# 方法论插件（superpowers：设计/计划/TDD/调试）
+claude plugin marketplace add claude-plugins-official https://github.com/anthropics/claude-plugins-official
+claude plugin install superpowers@claude-plugins-official
+
+# 专家 Agent 池（ecc：80+ 审查/构建/设计 agent）
+claude plugin marketplace add ecc https://github.com/affaan-m/ECC
+claude plugin install ecc@ecc
+```
+
+> **缺插件不报错**：Claude 会忽略不存在的 skill/agent 引用，静默降级——换机器后务必先装插件。
+
+### 4. 开始使用
+
+在 Claude Code 中启动，然后告诉它：
 
 ```
 我项目根目录有 harness-foundry，请使用它的 skills 和 agents
-```
-
-或者直接使用特定功能：
-
-```
-/skill brainstorming    # 设计阶段
-/skill writing-plans    # 制定计划
-/skill test-driven-development  # TDD 开发
 ```
 
 ---
@@ -63,44 +73,47 @@ ls docs/
 
 ```
 harness-foundry/
-├── core/                    # 核心配置（勿改）
-│   ├── orchestration/       # 编排器和调度器
-│   ├── domain-config.yaml   # 领域配置
-│   ├── intent-routing.md    # 意图路由
-│   ├── NEVER.md            # 禁止事项
-│   └── rules/             # 设计门禁规则
+├── AGENTS.md               # 统一入口：行为准则 R1-R8 + 禁止清单 + 操作手册
+├── CLAUDE.md               # Claude Code 上下文文件
+├── core/                   # 平台无关真相源（勿改）
+│   ├── intent-routing.md   # 意图路由表（每个会话第一个读）
+│   ├── NEVER.md            # 硬性禁止项（402 条陷阱规则）
+│   ├── principles.md       # 10 条核心原则
+│   ├── orchestration/      # 调度 / 角色 / Skill 路由
+│   ├── review/             # 两阶段审查协议
+│   ├── rules/              # 设计门禁规则
+│   ├── memory/             # 记忆管理协议
+│   └── intelligence/       # Intelligence Layer 配置
 │
-├── skills/                  # 所有 Skills（按需使用）
-│   ├── brainstorming/      # 设计阶段
-│   ├── writing-plans/      # 制定计划
-│   ├── test-driven-development/  # TDD
-│   ├── systematic-debugging/     # 调试
-│   ├── requesting-code-review/    # 代码审查
-│   ├── continuous-learning/       # 连续学习
-│   ├── two-stage-review/          # 两阶段审查
-│   ├── auto-compact/              # 智能压缩
-│   └── agent-shield/              # 安全审计
+├── adapters/               # 平台物理绑定（薄壳）
+│   ├── claude/             # Claude Code 适配器
+│   ├── trae/               # Trae IDE 适配器
+│   ├── codex/              # Codex 适配器
+│   ├── workbuddy/          # WorkBuddy 适配器
+│   └── agents/             # AGENTS.md 统一行为准则
 │
-├── agents/                  # Agent 角色定义
-│   ├── coder.md           # 代码实现
-│   ├── reviewer.md        # 代码审查
-│   ├── spec-compliance-reviewer.md  # Spec 审查
-│   ├── debugger.md        # 调试
-│   └── planner.md         # 规划
+├── skills/                 # ★ 84 个 Skills（扁平结构，与 ecc/superpowers 去重）
+│   ├── INDEX.md            # 完整 Skill 索引（自动生成）
+│   └── <slug>/SKILL.md     # 每个 Skill 独占一个目录
 │
-├── hooks/                  # 自动化钩子
-│   ├── pre-implementation/  # 门禁检查
-│   ├── continuous-learning/  # 学习提取
-│   └── security/            # 安全扫描
+├── agents/                 # ★ 34 个 Agent（扁平结构）
+│   ├── leader-*.md         # 域主编（code / novel / news / product）
+│   ├── coder.md            # 编码者
+│   ├── reviewer.md         # 代码审查者
+│   └── ...
 │
-├── scripts/                # 工具脚本
-│   ├── dashboard/          # Dashboard GUI
-│   ├── eval/              # Eval 测试
-│   ├── security/          # 安全扫描
-│   └── visual-companion/   # 可视化工具
-│
-└── docs/                   # 文档
-    └── plans/             # 实施计划模板
+├── hooks/                  # 自动化钩子 + Guardrails（PreToolUse/PostToolUse/Stop）
+├── scripts/                # 工具脚本（bootstrap / sync / verify / dashboard 等）
+├── tests/                  # L1 静态 / L2 集成 / L3 智能测试
+├── commands/               # 快捷命令
+├── contexts/               # 域专属上下文（code / novel / news / review）
+├── rules/                  # 技术栈专属编码规则
+├── references/             # 上下文地图、Instinct、学习模式
+├── traps-archive/          # 历史陷阱存档（402 条规则）
+├── handoff/                # Agent 交接协议
+├── memory/                 # 记忆存储
+├── docs/                   # 文档（QUICKSTART / USER-GUIDE / CLI-REFERENCE 等）
+└── LICENSE
 ```
 
 ---
@@ -130,28 +143,28 @@ harness-foundry/
 5. 批准后才开始实现
 ```
 
+> 规则见 `core/rules/design-gate.md`。小改动可以说"这是单行配置变更，不需要设计，直接改"跳过。
+
 ### 2. 两阶段审查
 
 **作用：** 先检查是否符合设计，再检查代码质量
 
-**阶段 1: Spec 合规**
+**阶段 1: Spec 合规**（`spec-compliance-reviewer`）
 - 实现是否满足设计？
 - 是否有遗漏？
 - 边界情况处理？
 
-**阶段 2: 代码质量**
+**阶段 2: 代码质量**（`reviewer` / `ecc:java-reviewer` 等专项）
 - 代码风格
 - 安全漏洞
 - 测试覆盖
 - 性能问题
 
+> 协议见 `core/review/two-stage-protocol.md`。写完代码必做 `spawn ecc:java-reviewer`（见 `core/intent-routing.md`）。
+
 ### 3. 连续学习
 
-**作用：** 从会话中自动提取有用的模式
-
-**触发时机：**
-- 会话结束（Stop hook）
-- 你说"记住这个"
+**作用：** 从会话中自动提取有用的模式（Stop hook 触发）
 
 **提取内容：**
 - 有效的调试方法
@@ -159,236 +172,31 @@ harness-foundry/
 - 工具使用技巧
 - 错误处理方式
 
-**查看学习成果：**
-```bash
-cat ~/.claude/memory/learned/*.md
-```
+**配置：** `hooks/continuous-learning/`、`hooks/memory-persistence/`
 
-### 4. Token 优化
+### 4. 记忆管理
 
-**模型选择建议：**
-
-| 任务 | 模型 | 理由 |
+| 层级 | 路径 | 说明 |
 |------|------|------|
-| 简单编辑 | sonnet | 性价比高 |
-| 探索搜索 | haiku | 快速廉价 |
-| 多文件实现 | sonnet | 平衡 |
-| 复杂架构 | opus | 深度推理 |
-| 安全审查 | opus | 不可遗漏 |
+| **全局记忆** | `~/.claude/GLOBAL-MEMORY.md` | 跨项目共享 |
+| **项目记忆** | `MEMORY.md`（项目根目录）| 项目专用 |
+| **会话记忆** | `memory/` | 运行时临时存储 |
 
-**压缩时机：**
-- 研究/探索完成后
-- 完成里程碑后
-- 方法失败后
+### 5. Guardrail 双层防护
 
-### 5. Eval 测试
+**作用：** 输入输出双向安全过滤
 
-**作用：** 验证 skill 是否按预期工作
+| 层级 | 类型 | 规则 |
+|------|------|------|
+| **Input**（并行，任一失败即阻断）| prompt injection | SQL 注入 | 命令注入 | prompt 覆盖 | 路径穿越 |
+| **Output**（顺序，阻塞式）| 敏感信息泄露 | canary token 泄露 | NEVER 违规 | AI 写作标记 | 语法检查 |
 
-**运行测试：**
-```bash
-# 单个 skill 测试
-node harness-foundry/scripts/eval/run-skill-eval.js --skill brainstorming
+**配置：** `hooks/guardrails/guardrail-config.json`
+**审计日志：** `.ai-runtime-artifacts/guardrail-audit.jsonl`
 
-# 全部测试
-node harness-foundry/scripts/eval/run-skill-eval.js --all
-```
+### 6. Intelligence Layer（智能代码理解）
 
-### 6. 安全审计
-
-**作用：** 扫描配置中的安全问题
-
-**运行扫描：**
-```bash
-# 扫描整个项目
-node harness-foundry/scripts/security/scan.js
-
-# 扫描 hooks
-node harness-foundry/scripts/security/scan.js --path harness-foundry/hooks
-
-# JSON 格式
-node harness-foundry/scripts/security/scan.js --format json
-```
-
-### 7. Dashboard GUI
-
-**作用：** 可视化浏览所有 skills 和 agents
-
-**启动：**
-```bash
-cd harness-foundry
-npm run dashboard
-# 或
-python scripts/dashboard/dashboard.py
-```
-
----
-
-## Skill 使用
-
-### 设计阶段：brainstorming
-
-```markdown
-# 触发
-/skill brainstorming
-
-# 或者对话中
-"我想实现 X功能，请先设计"
-```
-
-**会做什么：**
-1. 提问澄清需求（一次一个问题）
-2. 提供 2-3 个方案对比
-3. 分块展示设计（每块 200-300 字）
-4. 每块等你确认后再继续
-5. 生成设计文档
-6. 等待你批准
-
-### 计划阶段：writing-plans
-
-```markdown
-# 设计批准后触发
-/skill writing-plans
-
-# 或者对话中
-"设计已批准，请制定实施计划"
-```
-
-**会做什么：**
-1. 将设计拆分为小任务
-2. 每个任务有明确文件和步骤
-3. 提供验证命令
-4. 2-5 分钟可完成一个任务
-
-### 开发阶段：test-driven-development
-
-```markdown
-# 触发
-/skill test-driven-development
-
-# 或对话中
-"用 TDD 方式实现这个功能"
-```
-
-**流程：**
-```
-RED: 写一个失败的测试
-GREEN: 写最小代码让它通过
-REFACTOR: 重构改进
-```
-
-### 调试阶段：systematic-debugging
-
-```markdown
-# 触发
-/skill systematic-debugging
-
-# 或对话中
-"帮我调试这个空指针问题"
-```
-
-**流程：**
-```
-1. 复现问题
-2. 最小化场景
-3. 假设根因
-4. 验证假设
-5. 修复
-6. 回归测试
-```
-
-### 审查阶段：requesting-code-review
-
-```markdown
-# 触发
-/skill requesting-code-review
-
-# 或对话中
-"请审查这段代码"
-```
-
-**两阶段审查：**
-1. **Spec 合规** - 是否满足设计？
-2. **代码质量** - 风格/安全/测试/性能
-
-### 压缩建议：auto-compact
-
-```markdown
-# 触发
-/skill auto-compact
-
-# 或对话中
-"上下文快满了，建议压缩"
-```
-
----
-
-## Agent 角色
-
-### coder - 代码实现
-
-**职责：**
-- 实现功能
-- 写单元测试
-- 自测验证
-
-**何时使用：**
-- 需要实现具体功能时
-
-```markdown
-/coder 实现用户登录功能
-```
-
-### reviewer - 代码审查
-
-**职责：**
-- 通用代码审查
-- 风格检查
-- 安全检查
-
-**何时使用：**
-- 实现完成后
-- 提交前
-
-```markdown
-/reviewer 审查 auth.ts
-```
-
-### spec-compliance-reviewer - Spec 合规审查
-
-**职责：**
-- 验证实现是否符合设计
-- 检查 done criteria
-- 检查边界处理
-
-**何时使用：**
-- 两阶段审查的阶段 1
-
-### debugger - 调试专家
-
-**职责：**
-- 系统化调试
-- 根因分析
-- 修复验证
-
-**何时使用：**
-- Bug 定位困难时
-- 复杂问题调试
-
-```markdown
-/debugger 调试支付失败问题
-```
-
-### planner - 规划师
-
-**职责：**
-- 任务拆分
-- 依赖分析
-- 优先级排序
-
-**何时使用：**
-- 大型功能规划
-- 多任务协调
+见 [第 6 章](#intelligence-layer智能代码理解)。
 
 ---
 
@@ -415,7 +223,7 @@ REFACTOR: 重构改进
 ### 快速流程（小改动）
 
 ```
-1. 快速设计（brainstorming）
+1. 声明「Route: 小改动，直接处理」
    ↓
 2. 直接实现
    ↓
@@ -434,11 +242,96 @@ REFACTOR: 重构改进
 
 ---
 
+## Skill 与 Agent
+
+### 核心 Skills
+
+| Skill | 来源 | 何时用 | 功能 |
+|-------|------|--------|------|
+| `superpowers:brainstorming` | 插件 | 设计新功能 | 提问、展示方案、分块确认 |
+| `superpowers:writing-plans` | 插件 | 制定计划 | 拆分任务、写步骤 |
+| `superpowers:test-driven-development` | 插件 | 开发 | RED-GREEN-REFACTOR |
+| `superpowers:systematic-debugging` | 插件 | 调试 | 根因分析、系统化调试 |
+| `requesting-code-review` | 仓库 | 审查 | 两阶段审查 |
+| `two-stage-review` | 仓库 | 两阶段 | Spec 合规 → 代码质量 |
+| `auto-compact` | 仓库 | 压缩 | 上下文压缩建议 |
+
+> 完整索引见 `skills/INDEX.md`（84 个 skill）。
+
+### Agent 角色
+
+| 域 | Leader | 主要 Worker |
+|---|--------|-----------|
+| **code** | leader-code | coder, debugger, reviewer, test-engineer, explorer |
+| **novel** | leader-novel | novel-writer, novel-planner, novel-reviewer, humanizer, memory-keeper |
+| **news** | leader-news | news-writer, fact-checker, news-editor |
+
+**专项 Reviewer（ecc 插件 Agent）：** `ecc:java-reviewer`（写完代码必做）、`ecc:security-reviewer`（新接口/权限/用户输入）、`ecc:database-reviewer`（SQL/DDL/schema 变更）。仅在 review 阶段显式调用。
+
+---
+
+## Intelligence Layer（智能代码理解）
+
+Harness Foundry 集成 **codebase-memory-mcp**（知识图谱）+ **ripgrep / LSP** 三层查询栈：
+
+| 层次 | 工具 | 能力 |
+|------|------|------|
+| **战略层** | codebase-memory-mcp (`index_repository` / `get_architecture`) | 项目理解、架构分析、自然语言问答 |
+| **战术层·知识图谱** | codebase-memory (`search_graph` / `trace_path` / `detect_changes`) | 跨文件结构关系、调用图、影响面 |
+| **战术层·文本搜索** | ripgrep (`rg`) | 字符串 / 注释 / 路径 / TODO 兜底 |
+| **战术层·语言服务** | LSP (`textDocument/definition` / `references` / `hover` / `diagnostic`) | 编译器级定义、引用、类型、诊断 |
+
+**一键安装：**
+
+```bash
+# Linux/macOS
+bash scripts/install-intelligence-deps.sh
+
+# Windows PowerShell
+.\scripts\install-intelligence-deps.ps1
+```
+
+**使用：**
+- `/understand-project` — 项目理解（建立/查询知识图谱）
+- `/analyze-architecture` — 架构分析
+- `/query-symbol`、`/get-callers`、`/get-callees`、`/analyze-impact` — 符号定位与影响分析
+
+> 详见 [intelligence-layer-user-guide.md](intelligence-layer-user-guide.md) | [故障排除](intelligence-layer-troubleshooting.md)
+
+---
+
+## 多平台适配
+
+| 平台 | 适配器 | 投影位置 |
+|------|--------|---------|
+| **Claude Code** | `adapters/claude/` | `.claude/` |
+| **Trae** | `adapters/trae/` | `.trae/` |
+| **Codex** | `adapters/codex/` | `AGENTS.codex-overlay.md` |
+| **WorkBuddy** | `adapters/workbuddy/` | `.codebuddy/` |
+
+**投影：**
+
+```bash
+# 同步适配器 + skills 到指定平台
+bash scripts/bootstrap.sh --target all          # 所有平台 (trae, claude, workbuddy)
+bash scripts/bootstrap.sh --target trae         # 仅 Trae
+bash scripts/bootstrap.sh --target claude       # 仅 Claude Code
+bash scripts/bootstrap.sh --target workbuddy    # 仅 WorkBuddy
+
+# 同步 skills
+bash scripts/sync-skills.sh --target all
+
+# 先预览（安全 — 不写文件）
+bash scripts/bootstrap.sh --target all --dry-run
+```
+
+---
+
 ## 配置说明
 
 ### 集成到你的项目
 
-在项目根目录创建 `.claude/CLAUDE.md`：
+在项目根目录创建 `.claude/CLAUDE.md`（模板见 `docs/CLAUDE-TEMPLATE.md`）：
 
 ```markdown
 # 我的项目配置
@@ -448,54 +341,57 @@ REFACTOR: 重构改进
 - 技术栈：Node.js + React
 - 规范：参考 harness-foundry/rules/
 
-## 开发规范
-
-### 使用 TDD
-实现功能前先写测试，参考：
-harness-foundry/skills/test-driven-development/SKILL.md
+## Harness Foundry
+本项目使用 harness-foundry 作为开发工具集。
 
 ### 设计门禁
-实现前必须先完成设计并获得批准，参考：
-harness-foundry/core/rules/design-gate.md
+实现前必须先完成设计并获得批准。
+- 参考：harness-foundry/core/rules/design-gate.md
+- 简单改动可以说"直接改，不需要设计"
 
 ### 两阶段审查
-1. Spec 合规审查
-2. 代码质量审查
-参考：harness-foundry/core/review/two-stage-protocol.md
-
-## 可用工具
-
-### Skills
-- brainstorming: 设计阶段
-- writing-plans: 制定计划
-- test-driven-development: TDD 开发
-- systematic-debugging: 调试
-- requesting-code-review: 代码审查
-
-### 命令
-node harness-foundry/scripts/security/scan.js  # 安全扫描
-node harness-foundry/scripts/eval/run-skill-eval.js --all  # 测试
+1. Spec 合规审查（spec-compliance-reviewer）
+2. 代码质量审查（reviewer / ecc:java-reviewer）
+- 参考：harness-foundry/core/review/two-stage-protocol.md
 ```
 
-### 环境变量
+### 命令行工具
 
 ```bash
-# 连续学习开关（默认开启）
-export CONTINUOUS_LEARNING=enabled
+cd harness-foundry
 
-# 安全扫描严格模式
-export SECURITY_SCAN_STRICT=true
+# Dashboard（可视化浏览所有 Skills 和 Agents）
+npm run dashboard
+# 或 python scripts/dashboard/dashboard.py
 
-# Token 优化
-export MAX_THINKING_TOKENS=10000
-export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50
+# 安全扫描
+node scripts/security/scan.js
+
+# Eval 测试（验证 Skills 是否工作）
+node scripts/eval/run-skill-eval.js --all
+
+# 完整 CI 验证
+bash scripts/verify.sh
+```
+
+### 自举开发（开发 harness-foundry 自身时）
+
+```bash
+bash scripts/bootstrap-self.sh --target trae,claude  # 同步到两个平台
+bash scripts/bootstrap-self.sh --dry-run             # 预览
+```
+
+### 模板初始化其他项目
+
+```bash
+bash scripts/init-project.sh /path/to/new-project
 ```
 
 ---
 
 ## 常见问题
 
-### Q1: 如何在不使用全部功能时只选部分？
+### Q1: 如何只使用部分功能？
 
 ```markdown
 # 只使用设计和审查
@@ -521,19 +417,21 @@ export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE=50
 ls harness-foundry/skills/
 ```
 
-或启动 Dashboard：
-```bash
-npm run dashboard
-```
+或打开 `skills/INDEX.md`。
 
 ### Q4: 如何运行测试？
 
 ```bash
-# 测试所有 skills
-node harness-foundry/scripts/eval/run-skill-eval.js --all
+# 完整 CI 验证
+bash harness-foundry/scripts/verify.sh
 
-# 测试特定 skill
-node harness-foundry/scripts/eval/run-skill-eval.js --skill brainstorming
+# L1 静态检查
+bash tests/L1-static/validate-agent-format.sh
+bash tests/L1-static/validate-skill-meta.sh
+
+# L2 集成检查
+bash tests/L2-integration/validate-routing.sh
+bash tests/L2-integration/validate-domain-config.sh
 ```
 
 ### Q5: 如何进行安全扫描？
@@ -549,17 +447,7 @@ node harness-foundry/scripts/security/scan.js --type secrets
 node harness-foundry/scripts/security/scan.js --type hooks
 ```
 
-### Q6: 连续学习提取的成果在哪？
-
-```bash
-# 查看所有学习
-ls ~/.claude/memory/learned/
-
-# 查看统计
-cat ~/.claude/memory/learned/learned.json
-```
-
-### Q7: 如何自定义规则？
+### Q6: 如何自定义规则？
 
 在项目根目录创建 `.claude/rules/`：
 
@@ -569,36 +457,24 @@ cp harness-foundry/rules/*.md .claude/rules/
 # 然后修改你需要的规则
 ```
 
----
+### Q7: 连续学习提取的成果在哪？
 
-## 快捷命令汇总
-
-```bash
-# Dashboard
-npm run dashboard
-
-# 安全扫描
-node harness-foundry/scripts/security/scan.js
-
-# Eval 测试
-node harness-foundry/scripts/eval/run-skill-eval.js --all
-
-# 可视化伴侣
-node harness-foundry/scripts/visual-companion/server.js --open
-```
+- Instinct 提取：`references/instincts/`
+- 学习模式：`references/learned-patterns.md` / `references/learned-traps.md`
+- 经验教训：`references/lessons-learned.md`
 
 ---
 
 ## 版本信息
 
 - **版本：** 1.0.0
-- **更新日期：** 2026-07-02
-- **新增功能：**
-  - 连续学习系统
-  - 强制设计门禁
-  - 两阶段审查
-  - Eval 框架
-  - Token 优化策略
-  - Dashboard GUI
-  - 视觉伴侣
-  - AgentShield 安全审计
+- **更新日期：** 2026-08-05
+- **架构：** v2.1（见 [docs/specs/harness-foundry-v2.1-architecture.md](specs/harness-foundry-v2.1-architecture.md)）
+- **核心能力：**
+  - 意图路由 + 阶段门禁（三域：code / novel / news）
+  - 两阶段审查（Spec 合规 → 代码质量）
+  - 并行派发（dispatcher，≤5 Worker）
+  - Intelligence Layer（codebase-memory-mcp 知识图谱 + ripgrep/LSP）
+  - Guardrail 双层防护 + Canary Token
+  - 连续学习 + 记忆管理
+  - 多平台适配（Claude Code / Trae / Codex / WorkBuddy）

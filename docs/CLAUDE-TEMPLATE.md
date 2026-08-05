@@ -14,44 +14,45 @@
 
 ## Harness Foundry
 
-本项目使用 [harness-foundry](../harness-foundry/) 作为开发工具集。
+本项目使用 [harness-foundry](../) 作为开发工具集。
 
 ### 启用功能
 
 #### 1. 设计门禁（推荐开启）
 实现前必须先完成设计并获得批准：
-- 参考：`../harness-foundry/core/rules/design-gate.md`
+- 参考：`../core/rules/design-gate.md`
 - 简单改动可以说"直接改，不需要设计"
 
 #### 2. 两阶段审查
 实现完成后进行：
 1. Spec 合规审查（是否满足设计）
 2. 代码质量审查（风格/安全/测试）
-- 参考：`../harness-foundry/core/review/two-stage-protocol.md`
+- 参考：`../core/review/two-stage-protocol.md`
 
 #### 3. 连续学习
 从会话中自动提取有用的模式：
 - 保存位置：`~/.claude/memory/learned/`
-- 参考：`../harness-foundry/skills/continuous-learning/SKILL.md`
+- 参考：`../core/memory/continuous-learning/`
 
 ### 开发流程
 
 ```
-想法 → brainstorming → 设计批准 → writing-plans → 实现 → 审查 → 完成
+想法 → superpowers:brainstorming → 设计批准 → superpowers:writing-plans → 实现 → 审查 → 完成
 ```
 
 ### 可用 Skills
 
+> 前 4 个由 superpowers 插件提供（`superpowers:` 前缀），其余为仓库内 skill。
+
 | Skill | 命令 | 何时用 |
 |-------|------|--------|
-| brainstorming | `/skill brainstorming` | 设计新功能 |
-| writing-plans | `/skill writing-plans` | 制定实施计划 |
-| test-driven-development | `/skill test-driven-development` | TDD 开发 |
-| systematic-debugging | `/skill systematic-debugging` | 调试 bug |
-| requesting-code-review | `/skill requesting-code-review` | 代码审查 |
-| two-stage-review | `/skill two-stage-review` | 两阶段审查 |
-| continuous-learning | `/skill continuous-learning` | 查看学习成果 |
-| auto-compact | `/skill auto-compact` | 上下文压缩建议 |
+| `superpowers:brainstorming` | `/skill brainstorming` | 设计新功能 |
+| `superpowers:writing-plans` | `/skill writing-plans` | 制定实施计划 |
+| `superpowers:test-driven-development` | `/skill test-driven-development` | TDD 开发 |
+| `superpowers:systematic-debugging` | `/skill systematic-debugging` | 调试 bug |
+| `requesting-code-review` | `/skill requesting-code-review` | 代码审查 |
+| `two-stage-review` | `/skill two-stage-review` | 两阶段审查 |
+| `auto-compact` | `/skill auto-compact` | 上下文压缩建议 |
 
 ### 可用命令
 

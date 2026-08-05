@@ -1,7 +1,7 @@
 # Agents — 全局 Agent 池
 
 > 三域共用（code / novel / news）。通过 `core/orchestration/domain-config.yaml` 按域加载主次 Agent。
-> 共 **30 个 Agent 文件**（含 3 个 .meta.json 元数据文件）。
+> 共 **34 个 Agent 文件**（含 3 个 .meta.json 元数据文件）。
 
 ## 目录结构
 
@@ -17,11 +17,17 @@ agents/
 ├── debugger.md                  # 调试者（系统化 debug）
 ├── explorer.md                  # 只读探查者（代码库导航）
 ├── architect.md                 # 架构师
+├── planner.md                   # 规划者（复杂功能拆分）
+├── spec-compliance-reviewer.md  # Spec 合规审查（两阶段阶段 1）
 ├── code-simplifier.md           # 代码精简/优化
 ├── tech-writer.md               # 技术文档撰写
 ├── web-investigator.md          # 联网搜索取证
 ├── novel-*.md                   # 小说域专属 agent（5 个）
 ├── news-*.md                    # 新闻域专属 agent（3 个）
+├── leader-product.md            # product 域主编
+├── product-writer.md            # product 域写手
+├── product-reviewer.md          # product 域审查
+├── guardian.md                  # 设定守卫（世界观一致性）
 ├── ecc-*.md                     # ECC 专属审查 agent（3 个 + 3 .meta.json）
 ├── humanizer.md                 # AI 文风清洗
 ├── editor.md                    # 文字校对排版
@@ -92,6 +98,28 @@ agents/
 | **shared-researcher** | 通用调研需求 | 跨领域调研、资料整理 |
 | **web-investigator** | 联网搜索 / 截图 | 网页抓取、截图取证 |
 | **ceo** | 复杂任务统筹 | 多域协调、任务拆分、进度跟踪 |
+
+---
+
+## product 域（4 个）
+
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **leader-product** | 收到产品/交付请求 | 产品交付流程统筹、任务拆分、质量把控 |
+| **product-writer** | 产品文档撰写 | 产品文案、交付说明 |
+| **product-reviewer** | 产品交付审查 | 交付质量审查 |
+| **tech-writer** | 技术文档撰写 | API 文档、用户指南、架构说明 |
+
+---
+
+## 专项 Agent（4 个）
+
+| Agent | 触发时机 | 主要能力 |
+|-------|---------|---------|
+| **planner** | 复杂功能规划 | 任务拆分、实施计划、依赖分析 |
+| **spec-compliance-reviewer** | 两阶段阶段 1 | Spec 合规审查（设计/需求满足度） |
+| **guardian** | 小说设定一致性 | 世界观/伏笔/人物一致性守卫 |
+| **code-simplifier** | 精简/优化代码 | 代码可读性提升、去除冗余、扁平化嵌套 |
 
 ---
 

@@ -1,16 +1,18 @@
 # Harness Foundry 快速开始
 
-> **5 分钟了解 Harness Foundry，在你的项目中使用它**
+> **5 分钟了解 Harness Foundry，集成到任何项目中使用**
 
 ---
 
 ## 1 分钟：什么是 Harness Foundry？
 
-一个**软件开发工具集**，包含：
+一个**独立的软件开发工具集**，可以放到任何项目的目录里，帮助该项目更好地使用 AI：
 - **Skills**：可复用的工作流程（设计、计划、TDD、调试、审查）
 - **Agents**：专业角色（coder、reviewer、debugger）
 - **规则**：强制设计门禁、两阶段审查
 - **工具**：安全扫描、Dashboard、连续学习
+
+harness-foundry 与宿主项目解耦——克隆到任何项目根目录即可使用，不依赖业务代码。
 
 ---
 
@@ -116,11 +118,11 @@ A: 不需要，告诉 Claude 只用你需要的。
 A: 说"这是小改动，直接改"即可。
 
 **Q: 在哪看文档？**
-A: `harness-foundry/docs/USER-GUIDE.md`
+A: `harness-foundry/docs/USER-GUIDE.md`（相对本文件：`./USER-GUIDE.md`）
 
 ---
 
 ## 下一本
 
 - [完整用户指南](./USER-GUIDE.md) - 详细说明
-- [API 参考](./docs/plans/) - 开发者文档
+- [架构文档](./specs/harness-foundry-v2.1-architecture.md) - 开发者文档

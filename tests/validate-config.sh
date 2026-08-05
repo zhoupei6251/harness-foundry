@@ -1,9 +1,16 @@
 #!/bin/bash
 # 验证 harness-foundry 配置完整性
 # 用途：确保所有必需文件和目录存在
+# 用法：
+#   从宿主项目根运行: bash harness-foundry/tests/validate-config.sh
+#   从 harness-foundry 内部运行: bash tests/validate-config.sh（自动检测）
 
-PROJECT_ROOT="${1:-.}"
-HARNESS_DIR="$PROJECT_ROOT/harness-foundry"
+if [ -n "${1:-}" ]; then
+    PROJECT_ROOT="$1"
+    HARNESS_DIR="$PROJECT_ROOT/harness-foundry"
+else
+    HARNESS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+fi
 
 echo "🔍 验证 harness-foundry 配置..."
 echo ""

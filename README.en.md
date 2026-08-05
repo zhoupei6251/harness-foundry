@@ -1,8 +1,8 @@
 # Harness Foundry
 
-> A multi-agent AI workflow framework for orchestrating code development, novel writing, and news reporting across multiple IDE platforms.
+> A standalone multi-agent AI workflow framework that you drop into **any project** to help it use AI better — unified driver for **Claude Code / Trae / Codex / WorkBuddy**, one truth source, rebuilt anytime.
 
-Unified driver for **Trae / Claude Code / Cursor / Codex / Mimocode** — one truth source, rebuilt anytime.
+**Independent of any host project**: harness-foundry is not part of a business repository — it is a portable toolkit. Clone it (or add it as a submodule) into the root of any project to give that project AI workflow capabilities: intent routing, stage gates, expert agents, review chains, and intelligent code understanding.
 
 [中文](README.md)
 
@@ -34,11 +34,11 @@ Route: <code|novel|news>
 
 ## Intelligence Layer (Smart Code Understanding)
 
-Harness Foundry integrates **Understand-Anything** and **codebase-memory** for intelligent code comprehension:
+Harness Foundry integrates **codebase-memory-mcp** (knowledge graph) and **ripgrep / LSP** for intelligent code comprehension:
 
 | Layer | Tool | Capability |
 |-------|------|------------|
-| **Strategic** | Understand-Anything | Project understanding, architecture analysis, natural language Q&A |
+| **Strategic** | codebase-memory-mcp (`index_repository` / `get_architecture`) | Project understanding, architecture analysis, natural language Q&A |
 | **Tactical · Graph** | codebase-memory (`search_graph` / `trace_path` / `detect_changes`) | Cross-file structure, call graphs, impact |
 | **Tactical · Text** | ripgrep (`rg`) | Strings / comments / paths / TODOs |
 | **Tactical · LSP** | LSP (`textDocument/definition` / `references` / `hover` / `diagnostic`) | Compiler-level definitions, refs, types, diagnostics |
@@ -71,18 +71,24 @@ See: [v2.1 Architecture](docs/specs/harness-foundry-v2.1-architecture.md) | [Use
 ```bash
 # 1. Project adapters to your IDE
 bash scripts/bootstrap.sh --target all       # All platforms
-bash scripts/bootstrap.sh --target trae     # Trae only
-bash scripts/bootstrap.sh --target cursor   # Cursor only
-bash scripts/bootstrap.sh --target claude   # Claude Code only
+bash scripts/bootstrap.sh --target trae      # Trae only
+bash scripts/bootstrap.sh --target claude    # Claude Code only
+bash scripts/bootstrap.sh --target workbuddy # WorkBuddy only
 
 # 2. Sync skills
 bash scripts/sync-skills.sh --target all
 
-# 3. Preview first (safe — no writes)
+# 3. Install dependency plugins (one-time; see "Three-Layer Architecture" below)
+claude plugin marketplace add ecc https://github.com/affaan-m/ECC
+claude plugin install ecc@ecc
+claude plugin marketplace add claude-plugins-official https://github.com/anthropics/claude-plugins-official
+claude plugin install superpowers@claude-plugins-official
+
+# 4. Preview first (safe — no writes)
 bash scripts/bootstrap.sh --target all --dry-run
 bash scripts/sync-skills.sh --target all --dry-run
 
-# 4. Verify
+# 5. Verify
 bash scripts/verify.sh
 ```
 
@@ -94,87 +100,133 @@ bash scripts/verify.sh
 
 ---
 
+## Three-Layer Architecture: superpowers + ecc + harness
+
+Harness Foundry is the orchestration layer; it depends on two plugin ecosystems (**not vendored in this repo**, loaded at runtime from plugins):
+
+| Layer | Ecosystem | Version | Role | Install |
+|-------|-----------|---------|------|---------|
+| **Methodology** | [obra/superpowers](https://github.com/obra/superpowers) | 6.2.0 | Process skills: brainstorming / systematic-debugging / TDD / parallel dispatch | `claude plugin install superpowers@claude-plugins-official` |
+| **Expert agent pool** | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 2.0.0 | 80+ review/build/design agents: `java-reviewer`, `security-reviewer`, `code-architect` | `claude plugin install ecc@ecc` |
+| **Orchestration** | harness-foundry (this repo) | — | Routing table + stage gates + review chain + 3 domains | `git clone` this repo |
+
+### Plugin Dependencies: What Breaks If Missing
+
+- **Without superpowers**: `Skill(superpowers:brainstorming)`, `systematic-debugging`, etc. fail silently — design/debug flows degrade
+- **Without ecc**: the mandatory post-code review chain (`spawn ecc:java-reviewer`) in the [routing table](core/intent-routing.md) has no agents to dispatch
+- **No error when missing**: Claude ignores unknown skill/agent references silently — always install plugins on a new machine
+
+### Division of Labor
+
+- **superpowers owns process**: design (brainstorming) → plan (writing-plans) → debug (systematic-debugging) → test (test-driven-development) → finish (finishing-a-development-branch), triggered by [core/intent-routing.md](core/intent-routing.md)
+- **ecc owns experts**: post-code mandatory `ecc:java-reviewer`, conditional security / database / type-design / silent-failure reviews, build failures → `ecc:java-build-resolver` (see [skill-preferences.md](core/orchestration/skill-preferences.md))
+- **harness owns orchestration**: Route declaration → routing table → stage gates → review chain, shared across 3 domains (code/novel/news)
+
+> The 84 skills in `skills/` are harness-specific; 57 skills that duplicated plugin skills (brainstorming, etc.) were deduplicated on 2026-08-05 and are no longer vendored.
+
+---
+
 ## Architecture
 
 ```
 harness-foundry/
-├── core/                              # Platform-agnostic truth source
-│   ├── intent-routing.md              # Intent routing table (read first)
-│   ├── routing.md                    # Compat alias → intent-routing.md
-│   ├── NEVER.md                      # Hard prohibitions (402 trap rules)
-│   ├── principles.md                 # 10 core principles
-│   ├── capabilities/                 # Capability ID registry
-│   │   ├── registry.md
-│   │   └── primitives.md
-│   ├── intelligence/                 # Intelligence Layer config
-│   │   └── README.md
-│   ├── memory/                       # Memory management protocol
-│   └── orchestration/               # Dispatcher, roles, skill routing
-│       ├── domain-config.yaml      # Domain → agent/skill mapping
-│       ├── dispatcher-workflow.md   # Parallel dispatch workflow (≤5 workers)
-│       ├── skill-preferences.md    # WU-level skill routing
-│       └── execution-context/        # Worktree / local provider protocol
+├── AGENTS.md                     # Unified entry: code of conduct R1-R8 + prohibitions + runbook
+├── RULES.md                      # Top-level rules digest
+├── CLAUDE.md                     # Claude Code context file
 │
-├── adapters/                         # Platform physical bindings (thin shells)
-│   ├── trae/                       # Trae IDE adapter (incl. Trae Work / CLI notes)
-│   ├── claude/                     # Claude Code adapter (incl. desktop support)
-│   ├── codex/                      # Codex adapter (ChatGPT desktop / CLI shared)
-│   ├── workbuddy/                  # WorkBuddy adapter (Tencent, = CodeBuddy dual brand)
-│   └── agents/                     # AGENTS.md unified code of conduct
+├── core/                         # Platform-agnostic truth source
+│   ├── ENTRY.md                  # Core entry
+│   ├── intent-routing.md         # Intent routing table (read first)
+│   ├── routing.md                # Compat alias → intent-routing.md
+│   ├── NEVER.md                  # Hard prohibitions (402 trap rules)
+│   ├── principles.md             # 10 core principles
+│   ├── capabilities/             # Capability ID registry
+│   ├── intelligence/             # Intelligence Layer config
+│   ├── memory/                   # Memory management protocol
+│   ├── orchestration/            # Dispatcher, roles, skill routing
+│   │   ├── domain-config.yaml    # Domain → agent/skill mapping
+│   │   ├── dispatcher-workflow.md # Parallel dispatch workflow (≤5 workers)
+│   │   └── skill-preferences.md  # WU-level skill routing
+│   ├── review/                   # Two-stage review protocol
+│   ├── rules/                    # Design gate rules
+│   ├── optimization/             # Token optimization strategy
+│   ├── observability/            # Health protocol / metrics
+│   ├── eval/                     # Eval framework
+│   ├── security/                 # Canary token protocol
+│   └── karpathy-guidelines.md    # Code of conduct original text
 │
-├── skills/                            # ★ 84 Skills (flat structure, deduplicated)
-│   ├── INDEX.md                    # Complete skill index (auto-generated)
-│   ├── categories.yaml            # 57 category definitions
-│   ├── _layer.yaml                # Skill layer classification
+├── adapters/                     # Platform physical bindings (thin shells)
+│   ├── TEMPLATE/                 # New adapter template
+│   ├── agents/                   # AGENTS.md unified code of conduct
+│   ├── claude/                   # Claude Code adapter (incl. desktop support)
+│   ├── trae/                     # Trae IDE adapter (incl. Trae Work / CLI notes)
+│   ├── codex/                    # Codex adapter (ChatGPT desktop / CLI shared)
+│   └── workbuddy/                # WorkBuddy adapter (Tencent, = CodeBuddy dual brand)
+│
+├── skills/                       # ★ 84 Skills (flat structure, deduplicated)
+│   ├── INDEX.md                  # Complete skill index (auto-generated)
+│   ├── categories.yaml           # 57 category definitions
+│   ├── _layer.yaml               # Skill layer classification
 │   └── <slug>/SKILL.md           # Each skill in its own directory
 │
-├── agents/                             # ★ 35 Agents (flat structure)
-│   ├── leader-code.md              # Domain leader (code)
-│   ├── leader-novel.md            # Domain leader (novel)
-│   ├── leader-news.md             # Domain leader (news)
-│   ├── coder.md                   # Code implementation
-│   ├── debugger.md                # Debugging expert
-│   ├── reviewer.md                # Code review
-│   ├── code-reviewer.md           # Dedicated reviewer (with Handoff protocol)
-│   ├── test-engineer.md           # Test engineering
-│   ├── explorer.md               # Code exploration
-│   ├── implementer.md             # Lightweight implementer
-│   ├── humanizer.md              # Text humanization
-│   ├── memory-keeper.md          # Memory manager
+├── agents/                       # ★ 34 Agents (flat structure)
+│   ├── leader-*.md               # Domain leaders (code / novel / news / product)
+│   ├── coder.md / debugger.md    # Coding / debugging
+│   ├── reviewer.md / code-reviewer.md / spec-compliance-reviewer.md  # Review
+│   ├── test-engineer.md / explorer.md / architect.md / planner.md    # Other roles
+│   ├── novel-*.md / news-*.md    # Novel / news domain agents
+│   ├── product-*.md              # Product domain agents
+│   ├── ecc-*.md (+ .meta.json)   # ECC review agents (review phase)
 │   └── *.md                      # Other specialized agents
 │
-├── hooks/                              # Automation hooks + Guardrails
-│   ├── hooks.json                 # PreToolUse / PostToolUse / Stop hooks
-│   ├── guardrails/               # Double-layer protection rules
-│   │   ├── guardrail-config.json
-│   │   └── rules/                # Input 5 + Output 5 rules
-│   ├── observe.sh / observe.ps1  # Runtime monitoring
-│   └── memory-persistence/       # Memory persistence
+├── hooks/                        # Automation hooks + Guardrails
+│   ├── hooks.json                # PreToolUse / PostToolUse / Stop hooks
+│   ├── guardrails/               # Double-layer protection (parallel input + sequential output)
+│   ├── continuous-learning/      # Session learning evaluation
+│   ├── memory-persistence/       # Memory persistence
+│   └── observe.sh / observe.ps1  # Runtime monitoring
 │
-├── scripts/                           # Bootstrap and sync scripts
-│   ├── bootstrap.sh / bootstrap.ps1
-│   ├── sync-skills.sh / sync-skills.ps1
-│   ├── verify.sh                  # CI verification entry
+├── scripts/                      # Utility scripts (30+)
+│   ├── bootstrap.sh / bootstrap.ps1         # Project adapters to your IDE
+│   ├── bootstrap-self.sh                    # Self-bootstrap (developing harness itself)
+│   ├── init-project.sh                      # Template-based project init
+│   ├── sync-skills.sh / sync-skills.ps1     # Sync skills to IDE
+│   ├── verify.sh                            # CI verification entry
 │   ├── gen-skill-index.sh / gen-skill-index.ps1
-│   ├── gen-skill-graph.py        # Skill dependency graph generator
-│   ├── auto-fill-frontmatter.py  # Frontmatter auto-fill
-│   ├── classify-skills.py        # Skill classification
-│   └── harness-worktree.sh       # Git worktree sandbox
+│   ├── gen-skill-graph.py / auto-fill-frontmatter.py / classify-skills.py
+│   ├── skill-quality-check.sh / harness-check.sh / harness-health.js
+│   ├── dashboard/               # Dashboard GUI
+│   ├── eval/                    # Eval testing
+│   ├── security/                # Security scanning
+│   └── visual-companion/        # Visual companion tool
 │
-├── traps-archive/                    # Historical trap archive (402 rules)
-│   ├── code/00-all.md           # 251 code traps
-│   ├── novel/00-all.md         # 82 novel traps
-│   └── news/00-all.md          # 69 news traps
+├── tests/                        # L1 static / L2 integration / L3 intelligence tests
+│   ├── L1-static/               # Agent format, skill meta, NEVER validation
+│   ├── L2-integration/          # Routing / domain config / sync tests
+│   └── L3-eval/ L3-intelligence/ # Eval & Intelligence Layer tests
 │
-├── contexts/                       # Domain-specific contexts
-├── rules/                          # Tech-stack-specific coding rules
-├── references/                     # Context maps, instincts
-├── docs/                           # Documentation
-│   ├── skill-frontmatter-schema.md # Skill metadata spec
-│   ├── skill-dependency-graph.md # Skill dependency graph
-│   └── intelligence-layer-*.md   # Intelligence Layer docs
+├── commands/                     # Quick commands
+├── contexts/                     # Domain-specific contexts (code / novel / news / review)
+├── rules/                        # Tech-stack-specific coding rules
+├── references/                   # Context maps, instincts, learned patterns
+├── traps-archive/                # Historical trap archive (402 rules)
+│   ├── code/00-all.md            # 251 code traps
+│   ├── novel/00-all.md           # 82 novel traps
+│   └── news/00-all.md            # 69 news traps
 │
-└── CLAUDE.md                   # Claude Code context file
+├── handoff/                      # Agent handoff protocol
+├── memory/                       # Memory storage
+├── schemas/                      # JSON schemas
+├── examples/                     # Examples
+├── artifact-templates/           # Artifact templates
+├── docs/                         # Documentation
+│   ├── QUICKSTART.md / USER-GUIDE.md / CLI-REFERENCE.md / CLAUDE-TEMPLATE.md
+│   ├── skill-frontmatter-schema.md / skill-dependency-graph.md
+│   ├── intelligence-layer-*.md   # Intelligence Layer docs
+│   └── specs/                    # Architecture design docs
+│
+├── CHANGELOG.md / CONTRIBUTING.md
+└── LICENSE
 ```
 
 ---
@@ -215,8 +267,8 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  core:        # Core skills (123) — synced to IDE projections by default
-  peripheral:  # Peripheral skills (73) — synced on demand
+  core:        # Core skills (84) — synced to IDE projections by default
+  peripheral:  # Peripheral skills (0) — all merged into core after dedup
   archived:    # Archived skills — not synced
 ```
 
@@ -246,7 +298,7 @@ Each Skill may contain optional `_meta.json`:
 
 ## Agent Pool
 
-**30 Agents** across 3 domains. Each agent is a markdown file with YAML frontmatter.
+**34 Agents** across 3 domains. Each agent is a markdown file with YAML frontmatter.
 
 | Domain | Leader | Primary Workers |
 |--------|--------|---------------|
@@ -254,13 +306,13 @@ Each Skill may contain optional `_meta.json`:
 | **novel** | leader-novel | novel-writer, novel-planner, novel-reviewer, humanizer, memory-keeper |
 | **news** | leader-news | news-writer, fact-checker, news-editor |
 
-### Specialized Reviewers (ECC cherry-pick)
+### Specialized Reviewers (ecc plugin agents)
 
-- `ecc-java-reviewer` — Java specialized review
-- `ecc-security-reviewer` — Security review
-- `ecc-database-reviewer` — Database review
+Provided by the ecc plugin (`spawn ecc:*`), invoked only during the review phase:
 
-Invoked only during the review phase, not in the main flow.
+- `ecc:java-reviewer` — Java specialized review (mandatory after writing code)
+- `ecc:security-reviewer` — Security review (new APIs / permissions / user input)
+- `ecc:database-reviewer` — Database review (SQL / DDL / schema changes)
 
 ### Handoff Protocol
 
@@ -345,6 +397,15 @@ shellcheck scripts/*.sh
 
 ---
 
+## Changelog
+
+| Date | Change |
+|------|--------|
+| **2026-08-05** | Intelligence Layer fully embraces codebase-memory-mcp: removed Understand-Anything (MCP config, install scripts, knowledge-graph references); strategic skills rewritten to `index_repository` / `get_architecture` |
+| **2026-08-05** | Deduplicated against ecc/superpowers plugins: skills 141→84, removed 57 verbatim copies (now loaded from plugins at runtime); routing references prefixed with `superpowers:`/`ecc:`; `_layer.yaml` ghost references cleaned (196→84) |
+
+---
+
 ## Known Limitations
 
 - Canary tokens are generated at runtime — not available for offline use
@@ -364,5 +425,4 @@ Inspired by and cherry-picks from:
 
 - [obra/superpowers](https://github.com/obra/superpowers) — skill-triggered workflow methodology
 - [affaan-m/ECC](https://github.com/affaan-m/ECC) — 60+ agents, 230+ skills, multi-harness ecosystem
-- [Understand-Anything](https://github.com/ollama/ollama) — Strategic code understanding
-- **codebase-memory** — local Codex skill for tactical code indexing
+- **codebase-memory-mcp** — knowledge-graph-driven code understanding (strategic + tactical)

@@ -1,14 +1,14 @@
 # Harness Foundry
 
-> 跨多 IDE 平台的多智能体 AI 工作流编排框架，用于统筹代码开发、小说创作和新闻写作。
+> 独立的多智能体 AI 工作流编排框架，可放入**任何项目**，帮助项目更好地使用 AI——统一驱动 **Claude Code / Trae / Codex / WorkBuddy**，单一真相源，随时重建。
 
-统一驱动 **Trae** 和 **Claude Code** 两个平台——单一真相源，随时重建。
+**独立于宿主项目**：harness-foundry 不是任何业务仓库的一部分，而是一个可移植的工具集。把它克隆（或作为 submodule）到任意项目的根目录，即可为该项目注入 AI 工作流能力：意图路由、阶段门禁、专家 Agent、审查链、智能代码理解。
 
 [English](README.en.md)
 
 ---
 
-## 🚀 快速集成到你的项目
+## 🚀 快速集成到任何项目
 
 ### 5 分钟开始
 
@@ -17,10 +17,16 @@
 cd your-project/
 git clone https://github.com/your-org/harness-foundry.git
 
-# 2. 复制配置模板
+# 2. 将 harness 配置注入宿主项目（2 个文件 + 指向）
 cp harness-foundry/docs/CLAUDE-TEMPLATE.md .claude/CLAUDE.md
 
-# 3. 在 Claude Code 中开始使用
+# 3. 安装依赖插件（一次性，见下文「三层架构」）
+claude plugin marketplace add ecc https://github.com/affaan-m/ECC
+claude plugin install ecc@ecc
+claude plugin marketplace add claude-plugins-official https://github.com/anthropics/claude-plugins-official
+claude plugin install superpowers@claude-plugins-official
+
+# 4. 在 Claude Code 中开始使用
 ```
 
 ### 立即可用
@@ -30,19 +36,10 @@ cp harness-foundry/docs/CLAUDE-TEMPLATE.md .claude/CLAUDE.md
 Claude：[触发设计流程，提问确认需求...]
 ```
 
-### 常用命令
+### 常见命令
 
 ```bash
 cd harness-foundry
-
-# Dashboard（可视化浏览）
-npm run dashboard
-
-# 安全扫描
-node scripts/security/scan.js
-
-# 测试 Skills
-node scripts/eval/run-skill-eval.js --all
 ```
 
 ### 核心功能
@@ -55,6 +52,32 @@ node scripts/eval/run-skill-eval.js --all
 | **Token 优化** | 模型选择策略 + 上下文压缩 |
 | **Eval 测试** | 验证 Skill 是否按预期工作 |
 | **安全审计** | 扫描配置安全问题 |
+
+---
+
+## 三层架构：superpowers + ecc + harness
+
+Harness Foundry 是编排层，底层依赖两个生态插件（**不在仓库内**，运行时从插件加载）：
+
+| 层 | 生态 | 版本 | 角色 | 安装 |
+|----|------|------|------|------|
+| **方法论** | [obra/superpowers](https://github.com/obra/superpowers) | 6.2.0 | 流程 skill：brainstorming / systematic-debugging / TDD / 并行派发等 | `claude plugin install superpowers@claude-plugins-official` |
+| **专家 Agent 池** | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 2.0.0 | 80+ 审查/构建/设计 agent：`java-reviewer`、`security-reviewer`、`code-architect` 等 | `claude plugin install ecc@ecc` |
+| **编排** | harness-foundry（本仓库） | — | 路由表 + 阶段门禁 + 审查链 + 三域工作流 | `git clone` 本仓库 |
+
+### 插件依赖：缺了会怎样
+
+- **缺 superpowers**：`Skill(superpowers:brainstorming)`、`systematic-debugging` 等引用失效，设计/调试流程退化
+- **缺 ecc**：写完代码的强制审查链（`spawn ecc:java-reviewer`）无 agent 可派，[路由表](core/intent-routing.md)「写完代码必做」失效
+- **缺插件不报错**：Claude 会忽略不存在的 skill/agent 引用，静默降级——因此换机器后务必先装插件
+
+### 分工：各管一段
+
+- **superpowers 管流程**：设计（brainstorming）→ 计划（writing-plans）→ 调试（systematic-debugging）→ 测试（test-driven-development）→ 收尾（finishing-a-development-branch），由 [core/intent-routing.md](core/intent-routing.md) 路由触发
+- **ecc 管专家**：写完代码必做 `ecc:java-reviewer`，按条件触发 security / database / type-design / silent-failure 审查，编译失败派 `ecc:java-build-resolver`（见 [skill-preferences.md](core/orchestration/skill-preferences.md)）
+- **harness 管编排**：Route 声明 → 路由表 → 阶段门禁 → 审查链，三域（code/novel/news）共享
+
+> 本仓库 `skills/` 内的 84 个 skill 均为 harness 定制；与插件重名的 skill（brainstorming 等 57 个）已在 2026-08-05 去重，不再本地复制。
 
 ---
 
@@ -97,11 +120,11 @@ Route: <code|novel|news>
 
 ## Intelligence Layer（智能代码理解）
 
-Harness Foundry 集成了 **Understand-Anything** 和 **codebase-memory / ripgrep / LSP** 三层查询栈，提供智能代码理解能力：
+Harness Foundry 集成 **codebase-memory-mcp**（知识图谱）+ **ripgrep / LSP** 三层查询栈，提供智能代码理解能力：
 
 | 层次 | 工具 | 能力 |
 |------|------|------|
-| **战略层** | Understand-Anything | 项目理解、架构分析、自然语言问答 |
+| **战略层** | codebase-memory-mcp (`index_repository` / `get_architecture`) | 项目理解、架构分析、自然语言问答 |
 | **战术层·知识图谱** | codebase-memory (`search_graph` / `trace_path` / `detect_changes`) | 跨文件结构关系、调用图、影响面 |
 | **战术层·文本搜索** | ripgrep (`rg`) | 字符串 / 注释 / 路径 / TODO 兜底 |
 | **战术层·语言服务** | LSP (`textDocument/definition` / `references` / `hover` / `diagnostic`) | 编译器级定义、引用、类型、诊断 |
@@ -135,9 +158,10 @@ index_repository(project_path="<project>")
 cd harness-foundry
 
 # 1. 投影适配器到你的 IDE
-bash scripts/bootstrap.sh --target all      # 所有平台 (trae, claude)
-bash scripts/bootstrap.sh --target trae    # 仅 Trae
-bash scripts/bootstrap.sh --target claude  # 仅 Claude Code
+bash scripts/bootstrap.sh --target all          # 所有平台 (trae, claude, workbuddy)
+bash scripts/bootstrap.sh --target trae         # 仅 Trae
+bash scripts/bootstrap.sh --target claude       # 仅 Claude Code
+bash scripts/bootstrap.sh --target workbuddy    # 仅 WorkBuddy
 
 # 2. 同步 skills
 bash scripts/sync-skills.sh --target all
@@ -176,74 +200,103 @@ bash scripts/init-project.sh /path/to/new-project
 
 ```
 harness-foundry/
-├── core/                              # 平台无关真相源
-│   ├── intent-routing.md              # 意图路由表（每个会话第一个读）
-│   ├── routing.md                    # 兼容别名 → intent-routing.md
-│   ├── NEVER.md                      # 硬性禁止项（402 条陷阱规则）
-│   ├── principles.md                 # 10 条核心原则
-│   ├── capabilities/                 # Capability ID 注册表
-│   │   ├── registry.md
-│   │   └── primitives.md
-│   ├── intelligence/                 # Intelligence Layer 配置
-│   │   └── README.md
-│   ├── memory/                       # 记忆管理协议
-│   └── orchestration/               # 调度 / 角色 / Skill 路由
-│       ├── domain-config.yaml     # 域 → Agent/Skill 映射
-│       ├── dispatcher-workflow.md  # 并行派发工作流（≤5 Worker）
-│       ├── skill-preferences.md    # WU 级 Skill 路由
-│       └── execution-context/       # Worktree / local provider 协议
+├── AGENTS.md                     # 统一入口：行为准则 R1-R8 + 禁止清单 + 操作手册
+├── RULES.md                      # 顶层规则摘要
+├── CLAUDE.md                     # Claude Code 上下文文件
 │
-├── adapters/                         # 平台物理绑定（薄壳）
-│   ├── trae/                        # Trae IDE 适配器（含 Trae Work / CLI 提示）
-│   ├── claude/                      # Claude Code 适配器（含桌面版支持）
-│   ├── codex/                       # Codex 适配器（ChatGPT 桌面版 / CLI 共用）
-│   ├── workbuddy/                   # WorkBuddy 适配器（腾讯，= CodeBuddy 双品牌）
-│   └── agents/                      # AGENTS.md 统一行为准则
+├── core/                         # 平台无关真相源
+│   ├── ENTRY.md                  # 核心入口
+│   ├── intent-routing.md         # 意图路由表（每个会话第一个读）
+│   ├── routing.md                # 兼容别名 → intent-routing.md
+│   ├── NEVER.md                  # 硬性禁止项（402 条陷阱规则）
+│   ├── principles.md             # 10 条核心原则
+│   ├── capabilities/             # Capability ID 注册表
+│   ├── intelligence/             # Intelligence Layer 配置
+│   ├── memory/                   # 记忆管理协议
+│   ├── orchestration/            # 调度 / 角色 / Skill 路由
+│   │   ├── domain-config.yaml    # 域 → Agent/Skill 映射
+│   │   ├── dispatcher-workflow.md # 并行派发工作流（≤5 Worker）
+│   │   └── skill-preferences.md  # WU 级 Skill 路由
+│   ├── review/                   # 两阶段审查协议
+│   ├── rules/                    # 设计门禁规则
+│   ├── optimization/             # Token 优化策略
+│   ├── observability/            # 健康协议 / 指标
+│   ├── eval/                     # Eval 框架
+│   ├── security/                 # Canary Token 协议
+│   └── karpathy-guidelines.md    # 行为准则原文
 │
-├── skills/                           # ★ 84 个 Skills（扁平结构，已与 ecc/superpowers 去重）
-│   ├── INDEX.md                    # 完整 Skill 索引（自动生成）
-│   ├── categories.yaml             # 57 个分类定义
-│   ├── _layer.yaml                 # Skill 层分级（core / peripheral）
-│   └── <slug>/SKILL.md            # 每个 Skill 独占一个目录
+├── adapters/                     # 平台物理绑定（薄壳）
+│   ├── TEMPLATE/                 # 新适配器模板
+│   ├── agents/                   # AGENTS.md 统一行为准则
+│   ├── claude/                   # Claude Code 适配器（含桌面版支持）
+│   ├── trae/                     # Trae IDE 适配器（含 Trae Work / CLI 提示）
+│   ├── codex/                    # Codex 适配器（ChatGPT 桌面版 / CLI 共用）
+│   └── workbuddy/                # WorkBuddy 适配器（腾讯，= CodeBuddy 双品牌）
 │
-├── agents/                           # ★ 35 个 Agent（扁平结构）
-│   ├── leader-code.md              # 域 Leader（code）
-│   ├── leader-novel.md            # 域 Leader（novel）
-│   ├── leader-news.md            # 域 Leader（news）
-│   ├── coder.md                   # 代码实现
-│   ├── debugger.md                # 调试专家
-│   ├── reviewer.md                # 代码审查
-│   ├── code-reviewer.md           # 专职审查（含 Handoff 协议）
-│   ├── test-engineer.md           # 测试工程师
-│   ├── explorer.md                # 代码探索
-│   ├── implementer.md             # 轻量实现者
-│   ├── humanizer.md               # 文本人性化
-│   ├── memory-keeper.md           # 记忆管理者
+├── skills/                       # ★ 84 个 Skills（扁平结构，已与 ecc/superpowers 去重）
+│   ├── INDEX.md                  # 完整 Skill 索引（自动生成）
+│   ├── categories.yaml           # 57 个分类定义
+│   ├── _layer.yaml               # Skill 层分级（core / peripheral）
+│   └── <slug>/SKILL.md           # 每个 Skill 独占一个目录
+│
+├── agents/                       # ★ 34 个 Agent（扁平结构）
+│   ├── leader-*.md               # 域主编（code / novel / news / product）
+│   ├── coder.md / debugger.md    # 编码 / 调试
+│   ├── reviewer.md / code-reviewer.md / spec-compliance-reviewer.md   # 审查
+│   ├── test-engineer.md / explorer.md / architect.md / planner.md     # 其他角色
+│   ├── novel-*.md / news-*.md    # 小说域 / 新闻域专属 agent
+│   ├── product-*.md              # product 域 agent
+│   ├── ecc-*.md（+ .meta.json）  # ECC 专属审查 agent（review 阶段调用）
 │   └── *.md                      # 其他专项 Agent
 │
-├── scripts/                         # Bootstrap 和同步脚本
-│   ├── bootstrap.sh               # 投影适配器到 IDE
-│   ├── bootstrap-self.sh           # 自举脚本（开发 harness 自身）
-│   ├── init-project.sh            # 模板化项目初始化
-│   ├── sync-skills.sh             # 同步 skills 到 IDE
-│   ├── verify.sh                  # CI 验证入口
-│   ├── gen-skill-index.sh         # Skill 索引生成
-│   └── harness-worktree.sh        # Git worktree 沙箱
+├── hooks/                        # 自动化钩子 + Guardrails
+│   ├── hooks.json                # PreToolUse / PostToolUse / Stop hooks
+│   ├── guardrails/               # 双层保护规则（Input 并行 + Output 顺序）
+│   ├── continuous-learning/      # 会话学习评估
+│   ├── memory-persistence/       # 记忆持久化
+│   └── observe.sh / observe.ps1  # 运行时监控
 │
-├── traps-archive/               # 历史陷阱存档（402 条规则）
-│   ├── code/00-all.md          # 251 条代码陷阱
-│   ├── novel/00-all.md         # 82 条小说陷阱
-│   └── news/00-all.md          # 69 条新闻陷阱
+├── scripts/                      # 工具脚本（30+）
+│   ├── bootstrap.sh / bootstrap.ps1         # 投影适配器到 IDE
+│   ├── bootstrap-self.sh                    # 自举脚本（开发 harness 自身）
+│   ├── init-project.sh                      # 模板化项目初始化
+│   ├── sync-skills.sh / sync-skills.ps1     # 同步 skills 到 IDE
+│   ├── verify.sh                            # CI 验证入口
+│   ├── gen-skill-index.sh / gen-skill-index.ps1
+│   ├── gen-skill-graph.py / auto-fill-frontmatter.py / classify-skills.py
+│   ├── skill-quality-check.sh / harness-check.sh / harness-health.js
+│   ├── dashboard/               # Dashboard GUI
+│   ├── eval/                    # Eval 测试
+│   ├── security/                # 安全扫描
+│   └── visual-companion/        # 可视化工具
 │
-├── contexts/                       # 域专属上下文
-├── rules/                          # 技术栈专属编码规则
-├── references/                     # 上下文地图、Instinct
-├── docs/                           # 文档
-│   ├── skill-frontmatter-schema.md # Skill 元数据规范
-│   ├── plans/                   # 设计文档
-│   └── intelligence-layer-*.md   # Intelligence Layer 文档
+├── tests/                        # L1 静态 / L2 集成 / L3 智能测试
+│   ├── L1-static/               # Agent 格式、Skill meta、NEVER 校验
+│   ├── L2-integration/          # 路由 / 域配置 / 同步测试
+│   └── L3-eval/ L3-intelligence/ # Eval 与 Intelligence Layer 测试
 │
-└── CLAUDE.md                  # Claude Code 上下文文件
+├── commands/                     # 快捷命令
+├── contexts/                     # 域专属上下文（code / novel / news / review）
+├── rules/                        # 技术栈专属编码规则
+├── references/                   # 上下文地图、Instinct、学习模式
+├── traps-archive/                # 历史陷阱存档（402 条规则）
+│   ├── code/00-all.md            # 251 条代码陷阱
+│   ├── novel/00-all.md           # 82 条小说陷阱
+│   └── news/00-all.md            # 69 条新闻陷阱
+│
+├── handoff/                      # Agent 交接协议
+├── memory/                       # 记忆存储
+├── schemas/                      # JSON Schema
+├── examples/                     # 示例
+├── artifact-templates/           # 产物模板
+├── docs/                         # 文档
+│   ├── QUICKSTART.md / USER-GUIDE.md / CLI-REFERENCE.md / CLAUDE-TEMPLATE.md
+│   ├── skill-frontmatter-schema.md / skill-dependency-graph.md
+│   ├── intelligence-layer-*.md   # Intelligence Layer 文档
+│   └── specs/                    # 架构设计文档
+│
+├── CHANGELOG.md / CONTRIBUTING.md
+└── LICENSE
 ```
 
 ---
@@ -315,7 +368,7 @@ _layer.yaml:
 
 ## Agent 池
 
-**35 个 Agent** 覆盖 3 个域。每个 Agent 是一个带 YAML frontmatter 的 Markdown 文件。
+**34 个 Agent** 覆盖 3 个域。每个 Agent 是一个带 YAML frontmatter 的 Markdown 文件。
 
 | 域 | Leader | 主要 Worker |
 |---|--------|-----------|
@@ -323,11 +376,13 @@ _layer.yaml:
 | **novel** | leader-novel | novel-writer, novel-planner, novel-reviewer, humanizer, memory-keeper |
 | **news** | leader-news | news-writer, fact-checker, news-editor |
 
-### 专项 Reviewer（ECC cherry-pick）
+### 专项 Reviewer（ecc 插件 Agent）
 
-- `ecc-java-reviewer` — Java 专项审查
-- `ecc-security-reviewer` — 安全审查
-- `ecc-database-reviewer` — 数据库审查
+由 ecc 插件提供（`spawn ecc:*`），仅 review 阶段显式调用：
+
+- `ecc:java-reviewer` — Java 专项审查（写完代码必做）
+- `ecc:security-reviewer` — 安全审查（新接口/权限/用户输入）
+- `ecc:database-reviewer` — 数据库审查（SQL/DDL/schema 变更）
 
 仅在 review 阶段显式调用，不进入主流程。
 
@@ -483,20 +538,32 @@ node scripts/visual-companion/server.js --open
 这是单行配置变更，不需要设计，直接改
 ```
 
+### 三层架构速览
+
+```
+用户意图 → Route 声明 → 路由表 → 阶段门禁 → 并行 Worker → 验证
+                │
+                ├─ superpowers（插件）→ 流程方法论：设计/计划/调试/TDD
+                ├─ ecc（插件）      → 专家 agent：审查链 / 编译修复
+                └─ harness（本仓库）→ 编排：路由 / 门禁 / 审查链 / 三域
+```
+
 ---
 
 ## 核心 Skills 速查
 
-| Skill | 命令 | 何时用 | 功能 |
+| Skill | 来源 | 何时用 | 功能 |
 |-------|------|--------|------|
-| `brainstorming` | `/skill brainstorming` | 设计新功能 | 提问、展示方案、分块确认 |
-| `writing-plans` | `/skill writing-plans` | 制定计划 | 拆分任务、写步骤 |
-| `test-driven-development` | `/skill test-driven-development` | 开发 | RED-GREEN-REFACTOR |
-| `systematic-debugging` | `/skill systematic-debugging` | 调试 | 根因分析、系统化调试 |
-| `requesting-code-review` | `/skill requesting-code-review` | 审查 | 两阶段审查 |
-| `two-stage-review` | `/skill two-stage-review` | 两阶段 | Spec 合规 → 代码质量 |
-| `continuous-learning` | `/skill continuous-learning` | 学习 | 从会话提取模式 |
-| `auto-compact` | `/skill auto-compact` | 压缩 | 上下文压缩建议 |
+| `superpowers:brainstorming` | 插件 | 设计新功能 | 提问、展示方案、分块确认 |
+| `superpowers:writing-plans` | 插件 | 制定计划 | 拆分任务、写步骤 |
+| `superpowers:test-driven-development` | 插件 | 开发 | RED-GREEN-REFACTOR |
+| `superpowers:systematic-debugging` | 插件 | 调试 | 根因分析、系统化调试 |
+| `superpowers:dispatching-parallel-agents` | 插件 | 多独立改动 | 并行派发子 agent |
+| `requesting-code-review` | 仓库 | 审查 | 两阶段审查 |
+| `two-stage-review` | 仓库 | 两阶段 | Spec 合规 → 代码质量 |
+| `auto-compact` | 仓库 | 压缩 | 上下文压缩建议 |
+
+> 上表前 5 个来自 superpowers 插件（`superpowers:` 前缀）；`requesting-code-review` 在 superpowers 中也有同名 skill，仓库内保留的是本地定制版（无前缀引用 = 仓库版本优先）。其余 77 个 skill 见 [skills/INDEX.md](skills/INDEX.md)。
 
 ### 工作流程
 
@@ -538,20 +605,12 @@ Debug 流程：
 
 ---
 
-## 新增功能（2026-07-02）
+## 变更记录
 
-本次更新新增以下功能，对齐 ECC 和 Superpowers 最佳实践：
-
-| 功能 | 文件 | 说明 |
-|------|------|------|
-| 连续学习系统 | `skills/continuous-learning/` | 从会话中自动提取模式 |
-| 强制设计门禁 | `core/rules/design-gate.md` | `<HARD-GATE>` 阻止未批准实现 |
-| 两阶段审查 | `core/review/two-stage-protocol.md` | Spec 合规 + 代码质量分离 |
-| Eval 框架 | `core/eval/` | Skill 行为测试 |
-| Token 优化 | `core/optimization/` | 模型选择 + 上下文压缩 |
-| Dashboard GUI | `scripts/dashboard/` | 可视化组件浏览 |
-| 视觉伴侣 | `scripts/visual-companion/` | brainstorming 时的 mockup 工具 |
-| AgentShield | `skills/agent-shield/` | 安全审计 |
+| 日期 | 变更 |
+|------|------|
+| **2026-08-05** | Intelligence Layer 全面拥抱 codebase-memory-mcp：移除 Understand-Anything（MCP 配置、安装脚本、知识图谱引用），战略层 skill 改写为 `index_repository` / `get_architecture` 驱动 |
+| **2026-08-05** | 与 ecc / superpowers 插件去重：skills 141→84，删除 57 个逐字副本（由插件运行时加载）；路由引用加 `superpowers:`/`ecc:` 前缀；`_layer.yaml` 幽灵引用清理（196→84） |
 
 ---
 
@@ -574,5 +633,4 @@ MIT — 参见 [`LICENSE`](LICENSE)。
 
 - [obra/superpowers](https://github.com/obra/superpowers) — Skill 触发的工作流方法论
 - [affaan-m/ECC](https://github.com/affaan-m/ECC) — 60+ Agent、230+ Skill、跨多 harness 生态
-- [Understand-Anything](https://github.com/ollama/ollama) — 战略层代码理解
-- **codebase-memory** — 本地 Codex skill，提供战术层代码索引
+- **codebase-memory-mcp** — 知识图谱驱动的代码理解（战略层 + 战术层）
