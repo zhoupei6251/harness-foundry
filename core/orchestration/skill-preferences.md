@@ -29,7 +29,7 @@ tags: [Standard]
 | 写章节 | 自检 `traps-archive/novel/novel-checklist.md` → 写 → 自检 5 维 |
 | 审稿 | 跑 `novel-evaluator`（7 维评分 + 原文举证） |
 | 润色 | 跑 `humanizer-zh` |
-| 大纲规划 | Skill(brainstorming) → 产出大纲 |
+| 大纲规划 | Skill(superpowers:brainstorming) → 产出大纲 |
 
 ## News 域路由
 

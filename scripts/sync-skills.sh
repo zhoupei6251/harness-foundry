@@ -18,12 +18,8 @@ TARGET="all"
 DRY_RUN=0
 
 # 第三方来源 skill 列表（cherry-pick 自上游，不参与 sync，避免被覆盖/裁剪）
-SKIP_FROM_SYNC=(
-  "subagent-driven-development"
-  "dispatching-parallel-agents"
-  "using-git-worktrees"
-  "executing-plans"
-)
+# 2026-08-05: superpowers 副本已删除（插件运行时加载），列表留空
+SKIP_FROM_SYNC=()
 
 usage() {
   cat <<'EOF'

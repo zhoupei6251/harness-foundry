@@ -194,10 +194,13 @@ harness-foundry/
 │       └── execution-context/       # Worktree / local provider 协议
 │
 ├── adapters/                         # 平台物理绑定（薄壳）
-│   ├── trae/                        # Trae IDE 适配器
-│   └── claude/                      # Claude Code 适配器
+│   ├── trae/                        # Trae IDE 适配器（含 Trae Work / CLI 提示）
+│   ├── claude/                      # Claude Code 适配器（含桌面版支持）
+│   ├── codex/                       # Codex 适配器（ChatGPT 桌面版 / CLI 共用）
+│   ├── workbuddy/                   # WorkBuddy 适配器（腾讯，= CodeBuddy 双品牌）
+│   └── agents/                      # AGENTS.md 统一行为准则
 │
-├── skills/                           # ★ 141 个 Skills（扁平结构）
+├── skills/                           # ★ 84 个 Skills（扁平结构，已与 ecc/superpowers 去重）
 │   ├── INDEX.md                    # 完整 Skill 索引（自动生成）
 │   ├── categories.yaml             # 57 个分类定义
 │   ├── _layer.yaml                 # Skill 层分级（core / peripheral）
@@ -263,7 +266,7 @@ harness-foundry/
 
 ## Skill 系统
 
-**141 个 Skill**，扁平目录结构 `skills/<slug>/SKILL.md`。
+**84 个 Skill**（2026-08-05 与 ecc/superpowers 去重后），扁平目录结构 `skills/<slug>/SKILL.md`。与 ecc / superpowers 插件重名的 skill 不再本地复制，由插件运行时加载。
 
 ### 分类体系（57 类）
 
@@ -281,8 +284,8 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  core:        # 核心技能（123 个），默认同步到 IDE 投影层
-  peripheral:  # 外围技能（73 个），按需同步
+  core:        # 核心技能（84 个），默认同步到 IDE 投影层
+  peripheral:  # 外围技能（0 个，去重后全部归入 core）
   archived:    # 已归档技能，不同步
 ```
 

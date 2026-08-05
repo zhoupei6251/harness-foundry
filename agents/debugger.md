@@ -78,10 +78,10 @@
 
 | wu_type | 加载 skill |
 |---------|-----------|
-| bugfix, * | `systematic-debugging` |
-| ui-bug | `systematic-debugging` |
+| bugfix, * | `superpowers:systematic-debugging` |
+| ui-bug | `superpowers:systematic-debugging` |
 
-路径：`.cursor/skills/systematic-debugging/SKILL.md` → `~/.cursor/skills/` → `~/.agents/skills/`
+路径：插件 `superpowers:systematic-debugging`（运行时加载）
 
 ### Intelligence Layer Skills 使用指南
 

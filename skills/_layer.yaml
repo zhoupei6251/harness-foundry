@@ -1,238 +1,92 @@
 # Skill 分层配置
-# core: 核心技能（~50个），默认同步到 IDE 投影层
-# peripheral: 外围技能（~100个），按需同步
+# core: 核心技能，默认同步到 IDE 投影层
+# peripheral: 外围技能，按需同步
 # archived: 已归档技能，不同步
 
 core:
-  # === 代码域核心 ===
-  - git-xywh
-  - brainstorming
-  - writing-plans
-  - test-driven-development
-  - refactor-safely
-  - code-review
-  - receiving-code-review
-  - requesting-code-review
-  - systematic-debugging
-  - simplify
-  - verification-before-completion
-
-  # === 架构与设计 ===
-  - architecture-patterns
-  - architecture-decision-records
-  - api-design
-  - backend-patterns
-  - frontend-design
-  - superdesign
-  - design-system
-
-  # === 文档与生成 ===
-  - backend-doc-generator
-  - tech-writer
-  - document-review
-  - documentation-lookup
-  - article-writing
-
-  # === 测试与质量 ===
-  - playwright
-  - e2e-testing
-  - security-auditor
-  - security-review
-  - code-tour
-
-  # === 项目理解 ===
-  - understand
-  - understand-chat
-  - understand-explain
-  - understand-diff
-  - understand-domain
-  - understand-knowledge
-  - understand-onboard
-  - understand-dashboard
-  - codebase-onboarding
-
-  # === 编排与调度 ===
-  - claude-orchestration
-  - dispatching-parallel-agents
-  - executing-plans
-  - subagent-driven-development
-  - using-git-worktrees
-  - planning-with-files
-
-  # === 运维与部署 ===
-  - docker-patterns
-  - deployment-patterns
-  - database-migrations
-  - kubernetes-patterns
-
-  # === Agent 相关 ===
-  - agentic-engineering
-  - ai-first-engineering
-  - ai-regression-testing
-  - autonomous-agent-harness
-  - agent-browser
-  - self-improving
-
-  # === 其他工具 ===
-  - skill-vetter
-  - find-skills
-  - summarize
-  - deep-research
-  - blueprint
-  - benchmark
-  - benchmark-methodology
-  - benchmark-optimization-loop
-
-  # === Novel 域核心 ===
-  - novel-orchestrator
-  - novel-quick-write
-  - novel-batch-write
-  - novel-36-beats
-  - novel-evaluator
-  - novel-receiving-review
-  - novel-mechanical-scorer
-  - novel-guardian
-  - novel-foreshadowing-dag
-  - novel-voice-profile
-  - novel-contexts
-  - novel-dashboard
-  - novel-checkpoint
-  - novel-metrics
-  - novel-init
-  - novel-recovery
-  - humanizer-zh
-  - humanizer
-  - fanqie
-  - fanqie-novel-auto-publish
-  - inkos
-  - memory-manager
-
-  # === News 域核心 ===
-  - news-generator
-  - news-polish
-  - fact-check
-  - hot-topic-research
-
-  # === Product 域核心 ===
-  - web-design-guidelines
-
-  # === 编码规范 ===
-  - coding-standards
-  - java-coding-standards
-  - golang-patterns
-  - dotnet-patterns
-  - cpp-coding-standards
-  - api-connector-builder
-  - error-handling
-
-  # === Intelligence Layer ===
-  - ripgrep-search
-  - lsp-query
-  - code-insight-stack
-
-  - query-symbol
-  - get-callers
-  - get-callees
-  - index-project
-  - analyze-impact
-  - analyze-architecture
-  - understand-project
-  - query-knowledge-graph
-
-  # === 效率工具 ===
-  - excel-xlsx
-  - pptx
-  - auto-updater
-  - harness-health
-  - context-budget
-  - cost-aware-llm-pipeline
-  - cost-tracking
-
-  # === 其他 ===
-  - prompt-engineering-expert
-  - brand-discovery
-  - brand-voice
-  - project-planner
-  - automation-audit-ops
-  - continuous-learning
-  - free-ride
-  - junli-ai-novel
-  - ck
-  - human-writing
-
-peripheral:
-  - accessibility
-  - agent-introspection-debugging
-  - agent-self-evaluation
-  - agent-sort
-  - agentic-os
-  - agent-architecture-audit
-  - agent-eval
-  - agent-harness-construction
-  - agent-payment-x402
-  - fastapi-patterns
-  - jpa-patterns
-  - golang-testing
-  - cpp-testing
-  - csharp-testing
-  - git-workflow
-  - carrier-relationship-management
-  - competitive-platform-analysis
-  - competitive-report-structure
-  - compose-multiplatform-patterns
-  - configure-ecc
-  - connections-optimizer
-  - content-engine
-  - continuous-agent-loop
-  - council
-  - dashboard-builder
-  - data-scraper-agent
-  - data-throughput-accelerator
-  - django-patterns
-  - django-security
-  - django-celery
-  - dmux-workflows
-  - dynamic-workflow-mode
-  - ecc-guide
-  - ecc-tools-cost-audit
-  - enterprise-agent-ops
-  - eval-harness
-  - exa-search
-  - fal-ai-media
-  - flox-environments
-  - frontend-a11y
-  - frontend-design-direction
-  - frontend-patterns
-  - frontend-slides
-  - gan-style-harness
-  - gateguard
-  - generating-python-installer
-  - google-workspace-ops
-  - harness-health
-  - hermes-imports
-  - hexagonal-architecture
-  - hookify-rules
-  - inkos
-  - intent-driven-development
-  - ios-icon-gen
-  - ito-basket-compare
-  - ito-data-atlas-agent
-  - kotlin-patterns
-  - kotlin-coroutines-flows
-  - kotlin-exposed-patterns
-  - kotlin-ktor-patterns
-  - kotlin-testing
-  - latency-critical-systems
-  - laravel-patterns
-  - laravel-plugin-discovery
-  - laravel-security
-  - energy-procurement
-  - investor-materials
-  - investor-outreach
-  - hipaa-compliance
-  - customer-billing-ops
-  - finance-billing-ops
-  - knowledge-ops
-  - generator
-
+- git-xywh
+- brainstorming
+- writing-plans
+- refactor-safely
+- code-review
+- receiving-code-review
+- requesting-code-review
+- simplify
+- architecture-patterns
+- frontend-design
+- superdesign
+- backend-doc-generator
+- document-review
+- playwright
+- security-auditor
+- planning-with-files
+- agent-browser
+- self-improving
+- skill-vetter
+- find-skills
+- summarize
+- novel-orchestrator
+- novel-quick-write
+- novel-batch-write
+- novel-36-beats
+- novel-evaluator
+- novel-receiving-review
+- novel-mechanical-scorer
+- novel-guardian
+- novel-foreshadowing-dag
+- novel-voice-profile
+- novel-contexts
+- novel-dashboard
+- novel-checkpoint
+- novel-metrics
+- novel-init
+- novel-recovery
+- humanizer-zh
+- humanizer
+- fanqie
+- fanqie-novel-auto-publish
+- inkos
+- memory-manager
+- news-generator
+- news-polish
+- fact-check
+- web-design-guidelines
+- ripgrep-search
+- lsp-query
+- code-insight-stack
+- query-symbol
+- get-callers
+- get-callees
+- index-project
+- analyze-impact
+- analyze-architecture
+- understand-project
+- query-knowledge-graph
+- excel-xlsx
+- auto-updater
+- harness-health
+- prompt-engineering-expert
+- project-planner
+- free-ride
+- junli-ai-novel
+- human-writing
+- agent-shield
+- auto-compact
+- ceo-orchestration
+- cursor-orchestration
+- karpathy-guidelines
+- novel-ai-wash
+- novel-debug
+- novel-generator
+- novel-guidelines
+- novel-mcp-server
+- novel-safe-revision
+- novel-simplify
+- novel-writer-cn
+- ralph
+- two-stage-review
+- ui-ux-pro-max
+- web-novel-publishing-readiness-and-quality-check-skill
+- web-tools-guide
+peripheral: []
 archived: []

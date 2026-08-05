@@ -116,13 +116,13 @@ harness-foundry/
 │       └── execution-context/        # Worktree / local provider protocol
 │
 ├── adapters/                         # Platform physical bindings (thin shells)
-│   ├── trae/                       # Trae IDE adapter
-│   ├── cursor/                     # Cursor adapter
-│   ├── claude/                     # Claude Code adapter
-│   ├── codex/                      # Codex adapter
-│   └── mimocode/                   # Mimocode adapter
+│   ├── trae/                       # Trae IDE adapter (incl. Trae Work / CLI notes)
+│   ├── claude/                     # Claude Code adapter (incl. desktop support)
+│   ├── codex/                      # Codex adapter (ChatGPT desktop / CLI shared)
+│   ├── workbuddy/                  # WorkBuddy adapter (Tencent, = CodeBuddy dual brand)
+│   └── agents/                     # AGENTS.md unified code of conduct
 │
-├── skills/                            # ★ 141 Skills (flat structure)
+├── skills/                            # ★ 84 Skills (flat structure, deduplicated)
 │   ├── INDEX.md                    # Complete skill index (auto-generated)
 │   ├── categories.yaml            # 57 category definitions
 │   ├── _layer.yaml                # Skill layer classification
@@ -197,7 +197,7 @@ harness-foundry/
 
 ## Skill System
 
-**141 Skills** in a flat `skills/<slug>/SKILL.md` structure.
+**84 Skills** in a flat `skills/<slug>/SKILL.md` structure (deduplicated against ecc/superpowers plugins on 2026-08-05).
 
 ### Category System (57 Categories)
 
