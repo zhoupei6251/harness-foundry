@@ -2,11 +2,12 @@
 
 # Harness Foundry — Codex Desktop 适配层
 
-> 版本：V1.0 | 日期：2026-07-29 | 平台：Codex Desktop
+> 版本：V1.1 | 日期：2026-08-05 | 平台：Codex Desktop（CLI / IDE 扩展 / ChatGPT 桌面版共享同一配置栈）
 
 ## 加载方式
 
-在主项目 `AGENTS.md` 或 `.codex/rules/` 中引用本文件路径，Codex 会在会话启动时加载。
+在主项目 `AGENTS.md`（或 `.codex/AGENTS.md`）中引用本文件路径，Codex 会在会话启动时加载。
+注意 AGENTS.md 链总预算 32 KiB（`project_doc_max_bytes`）——本文件只做地图，重内容建议封装为 skill（见下）。
 
 ## 按需加载的规则文件
 
@@ -31,16 +32,18 @@
 | 验证 | `superpowers:verification-before-completion` | 编译通过 + 检查清单 |
 | 审查 | `requesting-code-review` | 尾盘产物 |
 
-## Codex Desktop 原生工具绑定
+## Codex 原生工具绑定
 
-| 原语 | Codex Desktop 绑定 |
-|------|--------------------|
-| SpawnWorker | `multi_agent_v1.spawn_agent` + `harness-foundry/agents/<role>.md` |
-| ParallelBatch | 并行 `spawn_agent`（建议 ≤4），`wait_agent` 汇总 |
+| 原语 | Codex 绑定 |
+|------|-----------|
+| SpawnWorker | `spawn_agent`（v2：`task_name`+`message`+`fork_turns`；`multi_agent_v1.` 前缀已过时）+ `.codex/agents/<role>.toml`（官方）或 `agents/<role>.md`（prompt 型，未获官方确认） |
+| ParallelBatch | 并行 `spawn_agent`（官方默认 max_threads=6、max_depth=1 → 单层扇出 ≤6），`wait_agent` 汇总 |
 | ProgressTrack | `update_plan`（`in_progress` / `completed`） |
 | KnowledgeGraph | codebase-memory MCP：`search_graph` / `trace_path` / `get_code_snippet` / `index_status` |
 | Verify | `mvn compile` / `git diff` 等 shell 验证 + `superpowers:verification-before-completion` |
-| MCP 配置 | 项目 `.mcp.json` + `~/.codex/config.toml` `[mcp_servers.codebase_memory]` |
+| Skills | 原生发现：`.agents/skills/<slug>/SKILL.md`（项目 / 仓库根 / 用户级 `~/.agents/skills`），显式 `$skill-name`，description 隐式触发；harness skills 可 symlink 进 `.agents/skills/` |
+| Hooks | `~/.codex/hooks.json` / `.codex/hooks.json`（command 型）：SessionStart / PreToolUse / PostToolUse / UserPromptSubmit / Stop 等 |
+| MCP 配置 | **`.codex/config.toml` `[mcp_servers.<name>]`**（Codex **不读 `.mcp.json`**）|
 
 ## 与 harness-kit 的关系
 

@@ -18,13 +18,14 @@ primitives:
       local: "默认 cwd"
       docker: "不支持"
   SpawnWorker:
-    binding: "multi_agent_v1.spawn_agent + agents/<role>.md；prompt 含 WU id/范围/done criteria"
-    max_parallel: 4
+    binding: "spawn_agent（v2：task_name+message+fork_turns）+ .codex/agents/<role>.toml（官方）或 agents/<role>.md（prompt 型，未获官方确认）；prompt 含 WU id/范围/done criteria"
+    max_parallel: 6
+    notes: "官方默认 max_threads=6、max_depth=1（单层扇出，不嵌套）"
     example: ""
   ParallelBatch:
     binding: "并行 spawn_agent 后 wait_agent；主 agent 整合"
     mechanism: "subagent"
-    max_batch: 4
+    max_batch: 6
   DestroyContext:
     binding: "close_agent；git worktree remove"
     example: ""
@@ -42,11 +43,13 @@ primitives:
     degraded: true
     fallback: "直接文本提问"
   EmitHook:
-    binding: "手动执行（无 hook 机制）"
-    hook_config_path: ""
+    binding: "~/.codex/hooks.json / .codex/hooks.json / config.toml [hooks]（command 型；prompt/agent handler 跳过）"
+    hook_config_path: "~/.codex/hooks.json"
 
 platform_limits:
-  worktree: false
-  hooks: manual
-  parallel_limit: 4
+  worktree: partial
+  notes: "桌面版内置 git worktrees（线程隔离）；CLI 手动 git worktree"
+  hooks: supported
+  notes2: "仅 command 型 handler；PreToolUse 尚不支持 ask 决策；Windows 兼容性未完全确认"
+  parallel_limit: 6
   continuous_loop: manual

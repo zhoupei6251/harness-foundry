@@ -5,14 +5,23 @@
 ## 搜索路径（按序）
 
 ```
-.trae/skills/<slug>/SKILL.md     # 投影（bootstrap 生成）
-.agents/skills/<slug>/SKILL.md   # 真相源
-~/.trae/skills/<slug>/SKILL.md   # 用户全局
+.trae/skills/<slug>/SKILL.md        # 投影（bootstrap 生成）
+.agents/skills/<slug>/SKILL.md      # 真相源
+~/.trae/skills/<slug>/SKILL.md      # 用户全局（国际版）
+~/.trae-cn/skills/<slug>/SKILL.md   # 用户全局（中国版）
 ```
 
 ## 投影清单
 
-见 `.agents/skills/_manifest.yaml`（由 `scripts/sync-skills.sh` 驱动）。
+见 `skills/_layer.yaml`（由 `scripts/sync-skills.sh` 驱动，core + peripheral 层）。
+
+## 其他扩展点（Trae v3.5.x 起）
+
+- `.trae/agents/*.md` — Subagent 角色（frontmatter: name/description/model/tools/disallowedTools/mcpServers；需 Settings > Beta 开启 "Enable Subagents Directory"）
+- `.trae/rules/*.md` — 规则（递归 ≤3 层；frontmatter: alwaysApply/globs/scene）
+- `.trae/hooks.json` — 钩子（2026-06-12 起，格式与 Claude Code hooks.json 同构，官方支持合并 `.claude/settings.json` hook 配置）
+- `.trae/commands/` — 斜杠命令（v3.5.77 起支持三级嵌套目录）
+- `.trae/specs/`、`.trae/documents/` — 内置 Spec/Plan 工作流产物（Work 端亦有 Spec & Plan）
 
 ## Leader 专用（不投影，从 .agents 加载）
 

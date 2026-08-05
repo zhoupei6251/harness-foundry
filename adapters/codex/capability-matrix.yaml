@@ -13,27 +13,27 @@ capabilities:
     notes: null
   orchestration.dispatch:
     status: supported
-    binding: "multi_agent_v1.spawn_agent + harness-foundry/agents/*.md"
-    notes: "Codex Desktop 原生子代理"
+    binding: "spawn_agent（v2：task_name+message+fork_turns；v1 前缀 multi_agent_v1 已过时） + agents/*.md（或 .codex/agents/*.toml）"
+    notes: "Codex 原生 subagents 已 GA（v0.115.0+）；v2 下子代理模型受父模型限制"
   orchestration.leader:
     status: supported
     binding: "主会话 Leader"
     notes: null
   orchestration.parallel-wu:
     status: supported
-    binding: "并行 spawn_agent; 建议 ≤4"
+    binding: "并行 spawn_agent; 官方默认 max_threads=6, max_depth=1（建议单层扇出 ≤6）"
     notes: null
   orchestration.dispatch-track:
     status: supported
     binding: "update_plan in_progress/completed + 子任务文件清单"
     notes: null
   orchestration.worktree-sandbox:
-    status: degraded
-    binding: "spawn_agent fork_context=true 隔离工作区"
-    notes: "无原生 git worktree Provider，可 shell 调 git worktree"
+    status: partial
+    binding: "桌面版内置 git worktrees（线程隔离）；CLI 手动 git worktree"
+    notes: "fork_context=true 隔离工作区；Codex App 原生支持 worktrees"
   orchestration.provision-context:
     status: degraded
-    binding: "fork_context=true 派发"
+    binding: "fork_context=true 派发 / git worktree"
     notes: null
   orchestration.destroy-context:
     status: manual
@@ -85,24 +85,26 @@ capabilities:
     notes: null
   skills.stage-load:
     status: supported
-    binding: "Read SKILL.md 或 skill 工具加载"
-    notes: null
+    binding: "原生 skill 发现：.agents/skills/<slug>/SKILL.md（项目/仓库根/用户级 ~/.agents/skills），显式调用 $skill-name，description 隐式触发"
+    notes: "渐进式披露（先 name+description，选中才加载全文）；superpowers 经 symlink 原生加载"
   interaction.structured-ask:
     status: degraded
     binding: "对话式确认；request_user_input 仅 Plan 模式可用"
     notes: null
   hooks.session-lifecycle:
-    status: unsupported
-    binding: "手动执行"
-    notes: "Codex 无 hook 生命周期机制"
+    status: supported
+    binding: "~/.codex/hooks.json 或 .codex/hooks.json 或 config.toml [hooks]；事件 SessionStart/SubagentStart/PreToolUse/PostToolUse/UserPromptSubmit/SubagentStop/Stop"
+    notes: "仅 command 型 handler 执行（prompt/agent 跳过）；Windows 兼容性未完全确认"
 
 cross_cutting:
   parallel_agents:
-    max: 4
+    max: 6
     mechanism: "subagent"
+    notes: "官方默认 max_threads=6；max_depth=1 不嵌套"
   worktree_sandbox:
-    supported: false
+    supported: true
+    notes: "桌面版内置 git worktrees；CLI 手动"
   guardrail_support:
-    input: false
+    input: true
     output: false
-    notes: "依赖 harness 规则 + 验证证据，无 hook 层拦截"
+    notes: "hooks PreToolUse 可拦截（尚不支持 ask 决策）；PostToolUse/UserPromptSubmit 可审计"

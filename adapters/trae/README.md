@@ -16,11 +16,11 @@
 
 | 维度 | Cursor | Trae |
 | --- | --- | --- |
-| 子 Agent 机制 | `.cursor/agents/` 文件 + Task 工具 | Skill 工具调用 |
-| 规则加载 | `.cursor/rules/*.mdc` | `.trae/rules/*.md` |
+| 子 Agent 机制 | `.cursor/agents/` 文件 + Task 工具 | `.trae/agents/*.md` Subagent（内置 Agent 按 description 自动委派）+ Task 工具（蜂群模式） |
+| 规则加载 | `.cursor/rules/*.mdc` | `.trae/rules/*.md`（递归 ≤3 层；frontmatter：alwaysApply/globs/scene） |
 | 编排框架 | `cursor-orchestration` skill | `harness-orchestration` skill |
-| 技能安装 | `.cursor/skills/` | `.trae/skills/` |
-| Hooks | `.cursor/hooks/` | Trae 内置钩子 |
+| 技能安装 | `.cursor/skills/` | `.trae/skills/`（国际版全局 `~/.trae/skills`，中国版 `~/.trae-cn/skills`） |
+| Hooks | `.cursor/hooks/` | `.trae/hooks.json`（2026-06-12 起支持，与 Claude Code hooks.json 格式同构，官方支持合并 `.claude/settings.json` hook 配置） |
 
 ## 投影规则
 

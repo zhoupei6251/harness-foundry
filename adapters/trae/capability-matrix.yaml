@@ -70,9 +70,9 @@ capabilities:
     status: supported
     binding: "AskUserQuestion"
   hooks.session-lifecycle:
-    status: not-supported
-    binding: "Trae 无 hooks.json 机制"
-    fallback: "会话开始首句 Harness 声明 + Skill 工具按需加载"
+    status: supported
+    binding: ".trae/hooks.json（2026-06-12 起支持；格式与 Claude Code hooks.json 同构，事件 SessionStart/UserPromptSubmit/PreToolUse/PostToolUse/Stop/Notification）"
+    notes: "官方支持读取并合并 Claude Code 的 hook 配置（.claude/settings.json）"
 
 cross_cutting:
   parallel_agents:
@@ -81,6 +81,6 @@ cross_cutting:
   worktree_sandbox:
     supported: false
   guardrail_support:
-    input: false
-    output: false
-    notes: "Trae 无 hook 机制，guardrail 依赖 prompt 内规则"
+    input: true
+    output: true
+    notes: "hooks PreToolUse（拦截/改参/ask）、PostToolUse、UserPromptSubmit（block）、Stop 提供完整 guardrail 能力（2026-06-12 起）"
