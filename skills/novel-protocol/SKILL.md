@@ -24,18 +24,35 @@ tags:
 - **协议重**：具体写作规则在对应 skill 中，按指令只装配需要的
 - **事实外置**：世界观事实来自项目知识库文件，不内联在 skill 中
 
-## 指令路由表
+## 指令路由表（novel 域唯一权威路由）
 
-| 指令 | 装配的协议 | 禁止加载 |
+> 所有 novel 指令先在本表路由，再按需装配协议。本表是唯一权威源——
+> `core/intent-routing.md`、`commands/novel.md`、`rules/novel/README.md` 均引用本表，不另设路由。
+
+| 用户意图 | 装配的协议 | 禁止加载 |
 |------|-----------|---------|
 | 写章节/续写 | `writing-novel` + `novel-guidelines` | 审稿/润色类 |
-| 设计大纲 | `writing-novel` + `novel-36-beats` | 正文类 |
+| 快速写单章 | `novel-quick-write` | 批量类 |
+| 批量写到第 N 章 | `novel-batch-write` | 单章工具类 |
+| 新书创建 | `novel-init` | 正文类 |
+| 会话恢复 | `novel-recovery` | 正文类 |
+| 设计大纲/世界观/设定 | `brainstorming` + `writing-novel` + `novel-36-beats` | 正文类 |
+| 查看进度/统计 | `novel-dashboard` + `novel-metrics` | 写作类 |
+| 上下文一致性检查 | `novel-contexts` | 写作类 |
+| 检查点管理 | `novel-checkpoint` | 写作类 |
+| 复杂任务/完整编排 | `novel-orchestrator` | 单章工具类 |
 | 审稿评分 | `novel-evaluator` + `novel-guardian` | 写作类 |
 | 改良已有作品 | `novel-improver` | 写作类 |
 | 润色去 AI 味 | `humanizer-zh` | 正文类 |
 | 平台专项（番茄）| `piqie-writing` | 起点类 |
 | 平台专项（起点）| `qidian-writing` | 番茄类 |
-| 复杂任务/批量多章 | `novel-orchestrator` | 单章工具类 |
+| 智斗/权谋类型 | `zhi-dou-writing` | 非类型类 |
+| 发布前质检 | `web-novel-publishing-readiness-and-quality-check-skill` | 写作类 |
+| 番茄发布 | `fanqie-novel-auto-publish` | 写作类 |
+| 返修/排查情节 | `novel-debug` + `novel-safe-revision` | 正文类 |
+| 章节自查 | `novel-simplify` | 审稿类 |
+| 跨章记忆/统稿 | `memory-manager` | 单章类 |
+| 写前查设定 | 读 MEMORY.md + `novel-contexts` | — |
 
 ## 执行闭环（每条指令固定五步）
 
@@ -43,7 +60,7 @@ tags:
 2. **协议装配**：按路由表加载对应 skill，只加载需要的
 3. **知识库绑定**：定位并读取项目知识库（见下）
 4. **前置校验**：因果链检查（见下）+ 连续性检查
-5. **交付收束**：输出正文 + 一句话状态报告
+5. **交付收束**：输出正文 + 一句话状态报告；写后自检走 `traps-archive/novel/novel-checklist.md`（5 维 + AI 痕迹红线）
 
 ## 因果链一致性（法典级约束）
 

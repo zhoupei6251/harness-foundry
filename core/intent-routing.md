@@ -25,7 +25,8 @@ tags: [Rules, Runbook]
 
 ## Novel 域路由
 
-> 入口：任何 novel 指令先走 `novel-protocol`（渐进式披露路由 + 因果链一致性，省 76% token），按需装配下表 skill。
+> 入口：任何 novel 指令先走 `novel-protocol`（渐进式披露路由 + 因果链一致性，省 76% token），按需装配。
+> **完整路由表见 `skills/novel-protocol/SKILL.md` § 指令路由表（唯一权威源）**，此处仅列高频意图。
 
 | 用户说 | 动作 |
 |--------|------|

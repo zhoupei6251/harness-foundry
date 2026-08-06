@@ -30,6 +30,8 @@ rules/novel/
 
 ## Skill 路由表
 
+> **唯一权威源**：`skills/novel-protocol/SKILL.md` § 指令路由表。本表仅列高频意图，新增意图先更新权威表。
+
 | 用户意图 | Skill | 说明 |
 |---------|-------|------|
 | 任何 novel 指令（首步） | `novel-protocol` | 渐进式披露路由 + 因果链一致性（入口层） |
