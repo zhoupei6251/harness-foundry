@@ -77,7 +77,7 @@ Harness Foundry 是编排层，底层依赖两个生态插件（**不在仓库�
 - **ecc 管专家**：写完代码必做 `ecc:java-reviewer`，按条件触发 security / database / type-design / silent-failure 审查，编译失败派 `ecc:java-build-resolver`（见 [skill-preferences.md](core/orchestration/skill-preferences.md)）
 - **harness 管编排**：Route 声明 → 路由表 → 阶段门禁 → 审查链，三域（code/novel/news）共享
 
-> 本仓库 `skills/` 内的 79 个 skill 均为 harness 定制；与插件重名的 skill（brainstorming 等 57 个）已在 2026-08-05 去重，不再本地复制。
+> 本仓库 `skills/` 内的 78 个 skill 均为 harness 定制；与插件重名的 skill（brainstorming 等 57 个）已在 2026-08-05 去重，不再本地复制。
 
 ---
 
@@ -235,7 +235,7 @@ harness-foundry/
 │   ├── codex/                    # Codex 适配器（ChatGPT 桌面版 / CLI 共用）
 │   └── workbuddy/                # WorkBuddy 适配器（腾讯，= CodeBuddy 双品牌）
 │
-├── skills/                       # ★ 79 个 Skills（扁平结构，已与 ecc/superpowers 去重）
+├── skills/                       # ★ 78 个 Skills（扁平结构，已与 ecc/superpowers 去重）
 │   ├── INDEX.md                  # 完整 Skill 索引（自动生成）
 │   ├── categories.yaml           # 57 个分类定义
 │   ├── _layer.yaml               # Skill 层分级（core / peripheral）
@@ -321,7 +321,7 @@ harness-foundry/
 
 ## Skill 系统
 
-**79 个 Skill**（2026-08-05 与 ecc/superpowers 去重后），扁平目录结构 `skills/<slug>/SKILL.md`。与 ecc / superpowers 插件重名的 skill 不再本地复制，由插件运行时加载。
+**78 个 Skill**（2026-08-05 与 ecc/superpowers 去重后），扁平目录结构 `skills/<slug>/SKILL.md`。与 ecc / superpowers 插件重名的 skill 不再本地复制，由插件运行时加载。
 
 ### 分类体系（57 类）
 
@@ -339,7 +339,7 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  core:        # 核心技能（79 个），默认同步到 IDE 投影层
+  core:        # 核心技能（78 个），默认同步到 IDE 投影层
   peripheral:  # 外围技能（0 个，去重后全部归入 core）
   archived:    # 已归档技能，不同步
 ```

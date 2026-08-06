@@ -1,6 +1,6 @@
 # Skill 索引
 
-> 自动生成的 Skill 索引 — 共 79 个 Skill，采用扁平目录结构。
+> 自动生成的 Skill 索引 — 共 78 个 Skill，采用扁平目录结构。
 > 最后更新：2026-08-06
 > 生成方式：`bash scripts/gen-skill-index.sh`
 
@@ -53,40 +53,39 @@
 | 43 | `novel-guardian` | 法医式事实核查 Agent，专门检查角色/时间线/世界观/情节的连续性 |
 | 44 | `novel-guidelines` | 小说写作前思维基线：AI 陷阱 + 简洁原则。写章节/大纲/续写前必须加载 |
 | 45 | `novel-init` | 新书创作向导，帮助用户从零开始创建小说项目 |
-| 46 | `novel-mcp-server` | Model Context Protocol 服务器，为写作工具提供 AI 写作能力接口 |
-| 47 | `novel-mechanical-scorer` | 无LLM的确定性章节质量评分器，在LLM审稿前做纯规则检查 |
-| 48 | `novel-metrics` | 写作指标追踪，统计字数、速度、质量趋势 |
-| 49 | `novel-orchestrator` | 小说创作总控调度器，协调 writer→planner→reviewer→humanizer→editor→memory-keeper 全链路，管理阶段门禁和返修闭环 |
-| 50 | `novel-quick-write` | 快速单章写作，无需完整编排流程，适用于写第X章类型的简单写作任务 |
-| 51 | `novel-receiving-review` | 接收审稿反馈，正确处理修改建议，不是盲目接受或机械执行 |
-| 52 | `novel-recovery` | 会话恢复工具，恢复中断的写作任务和上下文 |
-| 53 | `novel-safe-revision` | 安全返修流程：小步返修、逐次确认、保留历史版本 |
-| 54 | `novel-simplify` | 章节自查简洁度检查，识别冗余、重复、堆砌问题 |
-| 55 | `novel-voice-profile` | 人物声音档案，为每个角色建立独特的语言指纹和说话风格 |
-| 56 | `novel-writer-cn` | 创建小说创作框架，包括人物设定、人物关系、剧情发展和多版本结局 |
-| 57 | `planning-with-files` | Implements Manus-style file-based planning to organize and track progress |
-| 58 | `playwright` | Browser automation via Playwright MCP. Navigate websites, click elements, |
-| 59 | `project-planner` | Triage ideas, problems, and feature requests into the right format: |
-| 60 | `prompt-engineering-expert` | Advanced expert in prompt engineering, custom instructions design, and |
-| 61 | `query-knowledge-graph` | 查询 codebase-memory-mcp 的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。 |
-| 62 | `query-symbol` | 快速定位代码符号（类/函数/变量）。触发：需要找某个符号、不知道在哪里、查询定义。 |
-| 63 | `receiving-code-review` | 根据独立审查者的反馈修改代码。 |
-| 64 | `refactor-safely` | Plans and executes safe refactors with small steps, tests, and rollback |
-| 65 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging |
-| 66 | `ripgrep-search` | 使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。 |
-| 67 | `security-auditor` | Use when reviewing code for security vulnerabilities, implementing authentication |
-| 68 | `self-improving` | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. |
-| 69 | `simplify` | Refactor code for clarity, consistency, and maintainability without changing |
-| 70 | `skill-vetter` | Security-first skill vetting for AI agents. Use before installing any |
-| 71 | `summarize` | Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, |
-| 72 | `superdesign` | Expert frontend design guidelines for creating beautiful, modern UIs. |
-| 73 | `two-stage-review` | 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。 |
-| 74 | `ui-ux-pro-max` | UI/UX design intelligence and implementation guidance for building polished |
-| 75 | `understand-project` | 理解项目结构和架构，生成知识图谱。触发：接手新项目、需要了解项目全局、询问架构设计。 |
-| 76 | `web-design-guidelines` | 网页设计规范和最佳实践指南 |
-| 77 | `web-novel-publishing-readiness-and-quality-check-skill` | 小说质量检查技能。触发关键词：检查正文、质量报告、违禁词、套路句、章节衔接、逻辑漏洞、自检、人写感、大纲、人设。执行最大算力深度推理五步链，每章必须跑freq_check.py词频扫描+逐行违禁词扫描双轨制，复核自检通过方可出报告。 |
-| 78 | `web-tools-guide` | Web 工具使用指南：搜索、网页抓取、浏览器自动化。触发：查资料、上网、搜索、打开网站。 |
-| 79 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before |
+| 46 | `novel-mechanical-scorer` | 无LLM的确定性章节质量评分器，在LLM审稿前做纯规则检查 |
+| 47 | `novel-metrics` | 写作指标追踪，统计字数、速度、质量趋势 |
+| 48 | `novel-orchestrator` | 小说创作总控调度器，协调 writer→planner→reviewer→humanizer→editor→memory-keeper 全链路，管理阶段门禁和返修闭环 |
+| 49 | `novel-quick-write` | 快速单章写作，无需完整编排流程，适用于写第X章类型的简单写作任务 |
+| 50 | `novel-receiving-review` | 接收审稿反馈，正确处理修改建议，不是盲目接受或机械执行 |
+| 51 | `novel-recovery` | 会话恢复工具，恢复中断的写作任务和上下文 |
+| 52 | `novel-safe-revision` | 安全返修流程：小步返修、逐次确认、保留历史版本 |
+| 53 | `novel-simplify` | 章节自查简洁度检查，识别冗余、重复、堆砌问题 |
+| 54 | `novel-voice-profile` | 人物声音档案，为每个角色建立独特的语言指纹和说话风格 |
+| 55 | `novel-writer-cn` | 创建小说创作框架，包括人物设定、人物关系、剧情发展和多版本结局 |
+| 56 | `planning-with-files` | Implements Manus-style file-based planning to organize and track progress |
+| 57 | `playwright` | Browser automation via Playwright MCP. Navigate websites, click elements, |
+| 58 | `project-planner` | Triage ideas, problems, and feature requests into the right format: |
+| 59 | `prompt-engineering-expert` | Advanced expert in prompt engineering, custom instructions design, and |
+| 60 | `query-knowledge-graph` | 查询 codebase-memory-mcp 的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。 |
+| 61 | `query-symbol` | 快速定位代码符号（类/函数/变量）。触发：需要找某个符号、不知道在哪里、查询定义。 |
+| 62 | `receiving-code-review` | 根据独立审查者的反馈修改代码。 |
+| 63 | `refactor-safely` | Plans and executes safe refactors with small steps, tests, and rollback |
+| 64 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging |
+| 65 | `ripgrep-search` | 使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。 |
+| 66 | `security-auditor` | Use when reviewing code for security vulnerabilities, implementing authentication |
+| 67 | `self-improving` | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. |
+| 68 | `simplify` | Refactor code for clarity, consistency, and maintainability without changing |
+| 69 | `skill-vetter` | Security-first skill vetting for AI agents. Use before installing any |
+| 70 | `summarize` | Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, |
+| 71 | `superdesign` | Expert frontend design guidelines for creating beautiful, modern UIs. |
+| 72 | `two-stage-review` | 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。 |
+| 73 | `ui-ux-pro-max` | UI/UX design intelligence and implementation guidance for building polished |
+| 74 | `understand-project` | 理解项目结构和架构，生成知识图谱。触发：接手新项目、需要了解项目全局、询问架构设计。 |
+| 75 | `web-design-guidelines` | 网页设计规范和最佳实践指南 |
+| 76 | `web-novel-publishing-readiness-and-quality-check-skill` | 小说质量检查技能。触发关键词：检查正文、质量报告、违禁词、套路句、章节衔接、逻辑漏洞、自检、人写感、大纲、人设。执行最大算力深度推理五步链，每章必须跑freq_check.py词频扫描+逐行违禁词扫描双轨制，复核自检通过方可出报告。 |
+| 77 | `web-tools-guide` | Web 工具使用指南：搜索、网页抓取、浏览器自动化。触发：查资料、上网、搜索、打开网站。 |
+| 78 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before |
 
 ## 按功能分类
 
@@ -305,12 +304,6 @@ _法医式连续性检查_
 _新书创建向导_
 
 - `novel-init` - 新书创作向导，帮助用户从零开始创建小说项目
-
-### 小说集成
-
-_MCP 服务、外部工具_
-
-- `novel-mcp-server` - Model Context Protocol 服务器，为写作工具提供 AI 写作能力接口
 
 ### 小说编排
 

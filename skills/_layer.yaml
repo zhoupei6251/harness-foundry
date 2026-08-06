@@ -75,7 +75,6 @@ core:
 - novel-debug
 - novel-generator
 - novel-guidelines
-- novel-mcp-server
 - novel-safe-revision
 - novel-simplify
 - novel-writer-cn
