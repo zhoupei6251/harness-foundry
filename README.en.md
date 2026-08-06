@@ -122,7 +122,7 @@ Harness Foundry is the orchestration layer; it depends on two plugin ecosystems 
 - **ecc owns experts**: post-code mandatory `ecc:java-reviewer`, conditional security / database / type-design / silent-failure reviews, build failures → `ecc:java-build-resolver` (see [skill-preferences.md](core/orchestration/skill-preferences.md))
 - **harness owns orchestration**: Route declaration → routing table → stage gates → review chain, shared across 3 domains (code/novel/news)
 
-> The 84 skills in `skills/` are harness-specific; 57 skills that duplicated plugin skills (brainstorming, etc.) were deduplicated on 2026-08-05 and are no longer vendored.
+> The 80 skills in `skills/` are harness-specific; 57 skills that duplicated plugin skills (brainstorming, etc.) were deduplicated on 2026-08-05 and are no longer vendored.
 
 ---
 
@@ -164,7 +164,7 @@ harness-foundry/
 │   ├── codex/                    # Codex adapter (ChatGPT desktop / CLI shared)
 │   └── workbuddy/                # WorkBuddy adapter (Tencent, = CodeBuddy dual brand)
 │
-├── skills/                       # ★ 84 Skills (flat structure, deduplicated)
+├── skills/                       # ★ 80 Skills (flat structure, deduplicated)
 │   ├── INDEX.md                  # Complete skill index (auto-generated)
 │   ├── categories.yaml           # 57 category definitions
 │   ├── _layer.yaml               # Skill layer classification
@@ -250,7 +250,7 @@ harness-foundry/
 
 ## Skill System
 
-**84 Skills** in a flat `skills/<slug>/SKILL.md` structure (deduplicated against ecc/superpowers plugins on 2026-08-05).
+**80 Skills** in a flat `skills/<slug>/SKILL.md` structure (deduplicated against ecc/superpowers plugins on 2026-08-05).
 
 ### Category System (57 Categories)
 
@@ -268,7 +268,7 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  core:        # Core skills (84) — synced to IDE projections by default
+  core:        # Core skills (80) — synced to IDE projections by default
   peripheral:  # Peripheral skills (0) — all merged into core after dedup
   archived:    # Archived skills — not synced
 ```
@@ -402,6 +402,7 @@ shellcheck scripts/*.sh
 |------|--------|
 | **2026-08-05** | Intelligence Layer fully embraces codebase-memory-mcp: removed Understand-Anything (MCP config, install scripts, knowledge-graph references); strategic skills rewritten to `index_repository` / `get_architecture` |
 | **2026-08-05** | Deduplicated against ecc/superpowers plugins: skills 141→84, removed 57 verbatim copies (now loaded from plugins at runtime); routing references prefixed with `superpowers:`/`ecc:`; `_layer.yaml` ghost references cleaned (196→84) |
+| **2026-08-06** | Asset-usage audit: removed 4 foreign-ecosystem skills (Clawdbot/OpenClaw), 84→80; wired 4 valuable orphans (`novel-guardian` / `novel-foreshadowing-dag` / `novel-writer-cn` / `document-review`) into routing |
 
 ---
 

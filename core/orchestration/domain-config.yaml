@@ -75,18 +75,13 @@ domains:
       - editor                   # 统稿时
       - memory-keeper            # 记忆同步时
 
-    # 命令入口
-    commands:
-      - /novel                  # 小说创作命令入口
-      - /write                  # 写章节
-      - /outline                # 写大纲
-      - /evaluate               # 审稿评分
-      - /polish                 # 润色
-
     # 编排与路由 — 知识已内联到 novel-checklist.md
     # novel-evaluator 是唯一保留的独立审查 skill（7维评分）
     primary_skills:
       - novel-evaluator          # 7维审稿评分（唯一保留的独立审查器）
+      - novel-guardian           # 法医式连续性核查（角色/时间线/世界观）
+      - novel-foreshadowing-dag  # 伏笔埋设/触发/回收 DAG 追踪
+      - novel-writer-cn          # 中文小说创作框架（人物/剧情/多版本结局）
 
     secondary_skills: []
 

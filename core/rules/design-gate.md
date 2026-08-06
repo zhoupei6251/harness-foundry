@@ -49,6 +49,7 @@ priority: P0
 - 设计文档已写入 `docs/plans/YYYY-MM-DD-<topic>-design.md`
 - 2-3 种方案已评估
 - 推荐方案已说明
+- 设计文档经 `document-review` 系统审查（类型化检查：完整性/一致性/边界/依赖）
 
 ### 3. 用户批准阶段
 - 用户明确批准设计（口头或书面）

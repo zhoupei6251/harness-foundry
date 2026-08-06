@@ -33,6 +33,8 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 | 情节矛盾/角色冲突 | `novel-debug` | 排查时 | 情节系统排查 |
 | 章节自查 | `novel-simplify` | 写后审前 | 简洁度自检 |
 | 审稿 | `novel-evaluator` | MUST | 7 维评分 |
+| 连续性核查 | `novel-guardian` | 审稿时 | 法医式角色/时间线/世界观核查 |
+| 伏笔追踪 | `novel-foreshadowing-dag` | 规划/写作中 | 伏笔埋设/触发/回收 DAG |
 | 返修 | `novel-safe-revision` | 返修时 | 小步安全返修 |
 | 润色 | `humanizer-zh` | MUST | AI 痕迹检测 |
 | 统稿 | `memory-manager` | 跨章时 | 一致性检查 |
@@ -44,8 +46,10 @@ novel-guidelines (MUST FIRST)
     → novel-writer (写章节)
     → novel-simplify (自查)
     → novel-evaluator (审稿)
+    → novel-guardian (连续性核查)
     → humanizer-zh (润色)
     → memory-manager (记忆)
+    （伏笔追踪 novel-foreshadowing-dag 贯穿规划/写作/审稿全程）
 
 Debug/Safe-Revision:
 novel-debug → 排查 → novel-safe-revision → 小步返修

@@ -8,6 +8,11 @@
 ## [Unreleased]
 
 ### Added
+### Removed
+
+- **外来生态 skill 清理**：删除 4 个与编码工作流无关的外来 skill（`auto-updater`、`free-ride`、`excel-xlsx`、`human-writing`），skills 84→80
+- **孤儿资产接入路由**：`novel-guardian`（连续性核查）、`novel-foreshadowing-dag`（伏笔 DAG）、`novel-writer-cn`（中文创作框架）接入 novel 域路由与 domain-config；`document-review` 接入设计门禁
+
 
 - **自动索引生成**：`scripts/gen-skill-index.sh` 从 SKILL.md frontmatter + `_meta.json` 自动生成 `skills/INDEX.md`，支持分类排序与未分类区
 - **Windows 版索引生成**：`scripts/gen-skill-index.ps1` — PowerShell 原生版本，功能与 bash 版等价，无需 WSL
