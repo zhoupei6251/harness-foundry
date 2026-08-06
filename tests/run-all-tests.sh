@@ -47,6 +47,8 @@ run_test "L1-4: NEVER.md 可检测性" "$TESTS_DIR/L1-static/validate-never.sh"
 run_test "L1-5: 文档数字一致性" "$TESTS_DIR/L1-static/validate-doc-numbers.sh"
 run_test "L1-6: 孤儿 Skill 检测" "$TESTS_DIR/L1-static/validate-orphan-skills.sh"
 run_test "L1-8: novel-graph 校验" "$TESTS_DIR/L1-static/validate-novel-graph.sh"
+run_test "L1-9: novel AI 痕迹红线回归" "$TESTS_DIR/L1-static/validate-novel-redlines.sh"
+run_test "L1-10: news 自检清单" "$TESTS_DIR/L1-static/validate-news-checklist.sh"
 
 # === L2 集成测试（本地） ===
 echo "--- L2 集成测试 ---"
@@ -54,6 +56,15 @@ echo ""
 
 run_test "L2-1: Routing 完整性" "$TESTS_DIR/L2-integration/validate-routing.sh"
 run_test "L2-2: Domain Config 引用一致性" "$TESTS_DIR/L2-integration/validate-domain-config.sh"
+run_test "L2-3: 路由触发（意图→路由命中）" "$TESTS_DIR/L2-integration/validate-route-triggers.sh"
+
+# === L3-intelligence（静态，无外部依赖，已收编进 verify.sh） ===
+echo "--- L3 Intelligence 集成测试（静态） ---"
+echo ""
+
+run_test "L3I-1: Skill 路由配置" "$TESTS_DIR/L3-intelligence/test-skill-routing.sh"
+run_test "L3I-2: Agent 集成" "$TESTS_DIR/L3-intelligence/test-agent-integration.sh"
+run_test "L3I-3: MCP 配置" "$TESTS_DIR/L3-intelligence/test-mcp-config.sh"
 
 # 旧的验证脚本（向后兼容）
 # 不传参数：legacy 脚本内部自动检测 harness 根目录（见脚本头部用法说明）
@@ -64,9 +75,9 @@ if [ -f "$TESTS_DIR/validate-references.sh" ]; then
     run_test "L2-4: 文件引用完整性 (legacy)" "$TESTS_DIR/validate-references.sh"
 fi
 
-# === L3 评估（可选，手动触发） ===
+# === L3 评估（未实现，见 L3-eval/eval-with-llm-judge.md） ===
 echo "--- L3 评估 ---"
-echo "  未触发。使用 EVALS=1 手动激活（需要 LLM API 调用）。"
+echo "  未实现。LLM 裁判层脚本不存在（见 tests/L3-eval/eval-with-llm-judge.md 现状盘点）。"
 echo ""
 
 # 汇总结果

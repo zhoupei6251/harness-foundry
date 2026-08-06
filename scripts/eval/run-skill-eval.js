@@ -463,6 +463,10 @@ async function main() {
         console.log(`Passed: ${passed}`);
         console.log(`Failed: ${failed}`);
         console.log(`No tests: ${noTests}`);
+        // --all 模式：任一 skill FAIL 即整体失败（此前只检查最后一个 result，会吞掉前面失败）
+        if (failed > 0) {
+          process.exit(1);
+        }
       }
     } else {
       result = await runner.evaluate(options.skill, options.type);

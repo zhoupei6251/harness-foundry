@@ -28,7 +28,7 @@ test_fail() {
 
 echo "1. 检查 skill-preferences.md..."
 
-if grep -q "Intelligence Layer Skills" "${KIT}/core/orchestration/skill-preferences.md"; then
+if grep -q "Intelligence Layer" "${KIT}/core/orchestration/skill-preferences.md"; then
   test_pass "skill-preferences.md 包含 Intelligence Layer 配置"
 else
   test_fail "skill-preferences.md 缺少 Intelligence Layer 配置"

@@ -53,4 +53,5 @@ jobs:
         run: |
           count=$(find skills -maxdepth 2 -name "SKILL.md" | wc -l)
           echo "total skills: $count"
-          [[ $count -ge 100 ]] || { echo "expected >= 100 skills"; exit 1; }
+          # 2026-08-05 与 ecc/superpowers 去重后 141→84；下限防"技能库被清空"灾难
+          [[ $count -ge 80 ]] || { echo "expected >= 80 skills"; exit 1; }

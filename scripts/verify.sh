@@ -89,7 +89,7 @@ else
   exit 1
 fi
 
-# 8. 验证 agent 格式 + config schema + routing + domain-config（L1/L2 静态与集成）
+# 8. 验证 agent 格式 + config schema + routing + domain-config + intelligence（L1/L2 静态与集成）
 echo ""
 echo "==> [8/9] 运行 tests/ 静态与集成测试套件"
 for t in \
@@ -98,9 +98,15 @@ for t in \
   tests/L1-static/validate-never.sh \
   tests/L1-static/validate-orphan-skills.sh \
   tests/L1-static/validate-novel-graph.sh \
+  tests/L1-static/validate-novel-redlines.sh \
+  tests/L1-static/validate-news-checklist.sh \
   tests/L2-integration/validate-routing.sh \
   tests/L2-integration/validate-domain-config.sh \
-  tests/validate-intelligence-layer.sh; do
+  tests/L2-integration/validate-route-triggers.sh \
+  tests/validate-intelligence-layer.sh \
+  tests/L3-intelligence/test-skill-routing.sh \
+  tests/L3-intelligence/test-agent-integration.sh \
+  tests/L3-intelligence/test-mcp-config.sh; do
   echo "  -- $t"
   if ! bash "$t" 2>&1 | tail -n 40; then
     echo "  [FAIL] $t"
@@ -108,6 +114,15 @@ for t in \
   fi
 done
 echo "  [ok] tests/ 静态与集成测试全部通过"
+
+# Skill 行为测试（eval runner；无测试的 skill 不阻塞，有测试的必须全过）
+echo "  -- node scripts/eval/run-skill-eval.js --all"
+if node scripts/eval/run-skill-eval.js --all 2>&1 | tail -n 15; then
+  echo "  [ok] skill eval"
+else
+  echo "  [FAIL] skill eval"
+  exit 1
+fi
 
 # 9. 总体状态
 echo ""
