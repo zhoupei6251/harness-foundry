@@ -1,6 +1,6 @@
 # Skill 索引
 
-> 自动生成的 Skill 索引 — 共 80 个 Skill，采用扁平目录结构。
+> 自动生成的 Skill 索引 — 共 79 个 Skill，采用扁平目录结构。
 > 最后更新：2026-08-06
 > 生成方式：`bash scripts/gen-skill-index.sh`
 
@@ -70,24 +70,23 @@
 | 60 | `prompt-engineering-expert` | Advanced expert in prompt engineering, custom instructions design, and |
 | 61 | `query-knowledge-graph` | 查询 codebase-memory-mcp 的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。 |
 | 62 | `query-symbol` | 快速定位代码符号（类/函数/变量）。触发：需要找某个符号、不知道在哪里、查询定义。 |
-| 63 | `ralph` | Ralph Loop — 自指循环开发，Stop Hook 拦截会话退出，强制 AI 循环生成直到 Completion Promise 满足或达到最大迭代次数。防 AI 偷懒神器。 |
-| 64 | `receiving-code-review` | 根据独立审查者的反馈修改代码。 |
-| 65 | `refactor-safely` | Plans and executes safe refactors with small steps, tests, and rollback |
-| 66 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging |
-| 67 | `ripgrep-search` | 使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。 |
-| 68 | `security-auditor` | Use when reviewing code for security vulnerabilities, implementing authentication |
-| 69 | `self-improving` | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. |
-| 70 | `simplify` | Refactor code for clarity, consistency, and maintainability without changing |
-| 71 | `skill-vetter` | Security-first skill vetting for AI agents. Use before installing any |
-| 72 | `summarize` | Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, |
-| 73 | `superdesign` | Expert frontend design guidelines for creating beautiful, modern UIs. |
-| 74 | `two-stage-review` | 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。 |
-| 75 | `ui-ux-pro-max` | UI/UX design intelligence and implementation guidance for building polished |
-| 76 | `understand-project` | 理解项目结构和架构，生成知识图谱。触发：接手新项目、需要了解项目全局、询问架构设计。 |
-| 77 | `web-design-guidelines` | 网页设计规范和最佳实践指南 |
-| 78 | `web-novel-publishing-readiness-and-quality-check-skill` | 小说质量检查技能。触发关键词：检查正文、质量报告、违禁词、套路句、章节衔接、逻辑漏洞、自检、人写感、大纲、人设。执行最大算力深度推理五步链，每章必须跑freq_check.py词频扫描+逐行违禁词扫描双轨制，复核自检通过方可出报告。 |
-| 79 | `web-tools-guide` | Web 工具使用指南：搜索、网页抓取、浏览器自动化。触发：查资料、上网、搜索、打开网站。 |
-| 80 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before |
+| 63 | `receiving-code-review` | 根据独立审查者的反馈修改代码。 |
+| 64 | `refactor-safely` | Plans and executes safe refactors with small steps, tests, and rollback |
+| 65 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging |
+| 66 | `ripgrep-search` | 使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。 |
+| 67 | `security-auditor` | Use when reviewing code for security vulnerabilities, implementing authentication |
+| 68 | `self-improving` | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. |
+| 69 | `simplify` | Refactor code for clarity, consistency, and maintainability without changing |
+| 70 | `skill-vetter` | Security-first skill vetting for AI agents. Use before installing any |
+| 71 | `summarize` | Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, |
+| 72 | `superdesign` | Expert frontend design guidelines for creating beautiful, modern UIs. |
+| 73 | `two-stage-review` | 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。 |
+| 74 | `ui-ux-pro-max` | UI/UX design intelligence and implementation guidance for building polished |
+| 75 | `understand-project` | 理解项目结构和架构，生成知识图谱。触发：接手新项目、需要了解项目全局、询问架构设计。 |
+| 76 | `web-design-guidelines` | 网页设计规范和最佳实践指南 |
+| 77 | `web-novel-publishing-readiness-and-quality-check-skill` | 小说质量检查技能。触发关键词：检查正文、质量报告、违禁词、套路句、章节衔接、逻辑漏洞、自检、人写感、大纲、人设。执行最大算力深度推理五步链，每章必须跑freq_check.py词频扫描+逐行违禁词扫描双轨制，复核自检通过方可出报告。 |
+| 78 | `web-tools-guide` | Web 工具使用指南：搜索、网页抓取、浏览器自动化。触发：查资料、上网、搜索、打开网站。 |
+| 79 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before |
 
 ## 按功能分类
 
@@ -99,7 +98,6 @@ _后端架构、API 设计、ADR、DDD_
 
 - `architecture-patterns` - ## WHAT
 - `backend-doc-generator` - 生成标准后端技术文档，包含Mermaid流程图、时序图、类图、状态图。Invoke when user needs to create backend technical documentation or draw system architecture diagrams.
-- `ralph` - Ralph Loop — 自指循环开发，Stop Hook 拦截会话退出，强制 AI 循环生成直到 Completion Promise 满足或达到最大迭代次数。防 AI 偷懒神器。
 
 ### 代码审查与重构
 

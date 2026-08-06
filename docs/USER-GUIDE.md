@@ -92,7 +92,7 @@ harness-foundry/
 │   ├── workbuddy/          # WorkBuddy 适配器
 │   └── agents/             # AGENTS.md 统一行为准则
 │
-├── skills/                 # ★ 80 个 Skills（扁平结构，与 ecc/superpowers 去重）
+├── skills/                 # ★ 79 个 Skills（扁平结构，与 ecc/superpowers 去重）
 │   ├── INDEX.md            # 完整 Skill 索引（自动生成）
 │   └── <slug>/SKILL.md     # 每个 Skill 独占一个目录
 │
@@ -256,7 +256,7 @@ harness-foundry/
 | `two-stage-review` | 仓库 | 两阶段 | Spec 合规 → 代码质量 |
 | `auto-compact` | 仓库 | 压缩 | 上下文压缩建议 |
 
-> 完整索引见 `skills/INDEX.md`（80 个 skill）。
+> 完整索引见 `skills/INDEX.md`（79 个 skill）。
 
 ### Agent 角色
 

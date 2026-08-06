@@ -82,6 +82,8 @@ domains:
       - novel-guardian           # 法医式连续性核查（角色/时间线/世界观）
       - novel-foreshadowing-dag  # 伏笔埋设/触发/回收 DAG 追踪
       - novel-writer-cn          # 中文小说创作框架（人物/剧情/多版本结局）
+      - web-novel-publishing-readiness-and-quality-check-skill  # 发布前质检
+      - fanqie-novel-auto-publish                                # 番茄自动发布
 
     secondary_skills: []
 

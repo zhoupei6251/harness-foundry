@@ -36,13 +36,20 @@ else
     ISSUES=$((ISSUES + 1))
 fi
 
-# --- 3. README.md 的 Agent 数 ---
-README_MD_AGENTS=$(grep -oE '\*\*[0-9]+ 个 Agent\*\*' "$FOUNDRY_DIR/README.md" | grep -oE '[0-9]+' | head -1)
-if [ -n "$README_MD_AGENTS" ]; then
-    if [ "$README_MD_AGENTS" -eq "$ACTUAL_AGENTS" ]; then
-        echo "  [ok] README.md: $README_MD_AGENTS 个 Agent"
+# --- 3. README.md 的 Agent 数（扫描全部声明：正文 + 目录树） ---
+README_MD_AGENTS_ALL=$(grep -oE '\*\*[0-9]+ 个 Agent\*\*|★ [0-9]+ 个 Agent[s]*' "$FOUNDRY_DIR/README.md" | grep -oE '[0-9]+' | sort -u)
+README_MD_AGENTS_FIRST=$(echo "$README_MD_AGENTS_ALL" | head -1)
+if [ -n "$README_MD_AGENTS_FIRST" ]; then
+    AGENTS_MISMATCH=0
+    for n in $README_MD_AGENTS_ALL; do
+        if [ "$n" -ne "$ACTUAL_AGENTS" ]; then
+            echo "  [FAIL] README.md 目录树/声明中出现 Agent 数 $n，实际 $ACTUAL_AGENTS"
+            AGENTS_MISMATCH=1
+        fi
+    done
+    if [ "$AGENTS_MISMATCH" -eq 0 ]; then
+        echo "  [ok] README.md: 所有 Agent 声明均为 $ACTUAL_AGENTS"
     else
-        echo "  [FAIL] README.md 声明 $README_MD_AGENTS 个 Agent，实际 $ACTUAL_AGENTS"
         ISSUES=$((ISSUES + 1))
     fi
 else
@@ -50,13 +57,20 @@ else
     ISSUES=$((ISSUES + 1))
 fi
 
-# --- 4. README.md 的 Skill 数 ---
-README_MD_SKILLS=$(grep -oE '\*\*[0-9]+ 个 Skill[s]*\*\*' "$FOUNDRY_DIR/README.md" | grep -oE '[0-9]+' | head -1)
-if [ -n "$README_MD_SKILLS" ]; then
-    if [ "$README_MD_SKILLS" -eq "$ACTUAL_SKILLS" ]; then
-        echo "  [ok] README.md: $README_MD_SKILLS 个 Skill"
+# --- 4. README.md 的 Skill 数（扫描全部声明：正文 + 目录树 + _layer 注释） ---
+README_MD_SKILLS_ALL=$(grep -oE '\*\*[0-9]+ 个 Skill[s]*\*\*|★ [0-9]+ 个 Skill[s]*|技能（[0-9]+ 个）' "$FOUNDRY_DIR/README.md" | grep -oE '[0-9]+' | sort -u)
+README_MD_SKILLS_FIRST=$(echo "$README_MD_SKILLS_ALL" | head -1)
+if [ -n "$README_MD_SKILLS_FIRST" ]; then
+    SKILLS_MISMATCH=0
+    for n in $README_MD_SKILLS_ALL; do
+        if [ "$n" -ne "$ACTUAL_SKILLS" ]; then
+            echo "  [FAIL] README.md 目录树/声明中出现 Skill 数 $n，实际 $ACTUAL_SKILLS"
+            SKILLS_MISMATCH=1
+        fi
+    done
+    if [ "$SKILLS_MISMATCH" -eq 0 ]; then
+        echo "  [ok] README.md: 所有 Skill 声明均为 $ACTUAL_SKILLS"
     else
-        echo "  [FAIL] README.md 声明 $README_MD_SKILLS 个 Skill，实际 $ACTUAL_SKILLS"
         ISSUES=$((ISSUES + 1))
     fi
 else
@@ -64,13 +78,20 @@ else
     ISSUES=$((ISSUES + 1))
 fi
 
-# --- 5. README.en.md 的 Agent 数 ---
-README_EN_AGENTS=$(grep -oE '\*\*[0-9]+ Agent[s]*\*\*' "$FOUNDRY_DIR/README.en.md" | grep -oE '[0-9]+' | head -1)
-if [ -n "$README_EN_AGENTS" ]; then
-    if [ "$README_EN_AGENTS" -eq "$ACTUAL_AGENTS" ]; then
-        echo "  [ok] README.en.md: $README_EN_AGENTS Agents"
+# --- 5. README.en.md 的 Agent 数（扫描全部声明：正文 + 目录树） ---
+README_EN_AGENTS_ALL=$(grep -oE '\*\*[0-9]+ Agent[s]*\*\*|★ [0-9]+ Agent[s]*' "$FOUNDRY_DIR/README.en.md" | grep -oE '[0-9]+' | sort -u)
+README_EN_AGENTS_FIRST=$(echo "$README_EN_AGENTS_ALL" | head -1)
+if [ -n "$README_EN_AGENTS_FIRST" ]; then
+    EN_AGENTS_MISMATCH=0
+    for n in $README_EN_AGENTS_ALL; do
+        if [ "$n" -ne "$ACTUAL_AGENTS" ]; then
+            echo "  [FAIL] README.en.md 目录树/声明中出现 Agent 数 $n，实际 $ACTUAL_AGENTS"
+            EN_AGENTS_MISMATCH=1
+        fi
+    done
+    if [ "$EN_AGENTS_MISMATCH" -eq 0 ]; then
+        echo "  [ok] README.en.md: 所有 Agent 声明均为 $ACTUAL_AGENTS"
     else
-        echo "  [FAIL] README.en.md 声明 $README_EN_AGENTS Agents，实际 $ACTUAL_AGENTS"
         ISSUES=$((ISSUES + 1))
     fi
 else
@@ -78,13 +99,20 @@ else
     ISSUES=$((ISSUES + 1))
 fi
 
-# --- 6. README.en.md 的 Skill 数 ---
-README_EN_SKILLS=$(grep -oE '\*\*[0-9]+ Skill[s]*\*\*' "$FOUNDRY_DIR/README.en.md" | grep -oE '[0-9]+' | head -1)
-if [ -n "$README_EN_SKILLS" ]; then
-    if [ "$README_EN_SKILLS" -eq "$ACTUAL_SKILLS" ]; then
-        echo "  [ok] README.en.md: $README_EN_SKILLS Skills"
+# --- 6. README.en.md 的 Skill 数（扫描全部声明：正文 + 目录树 + Core layer 注释） ---
+README_EN_SKILLS_ALL=$(grep -oE '\*\*[0-9]+ Skill[s]*\*\*|★ [0-9]+ Skill[s]*|[Cc]ore skills \(([0-9]+)\)' "$FOUNDRY_DIR/README.en.md" | grep -oE '[0-9]+' | sort -u)
+README_EN_SKILLS_FIRST=$(echo "$README_EN_SKILLS_ALL" | head -1)
+if [ -n "$README_EN_SKILLS_FIRST" ]; then
+    EN_SKILLS_MISMATCH=0
+    for n in $README_EN_SKILLS_ALL; do
+        if [ "$n" -ne "$ACTUAL_SKILLS" ]; then
+            echo "  [FAIL] README.en.md 目录树/声明中出现 Skill 数 $n，实际 $ACTUAL_SKILLS"
+            EN_SKILLS_MISMATCH=1
+        fi
+    done
+    if [ "$EN_SKILLS_MISMATCH" -eq 0 ]; then
+        echo "  [ok] README.en.md: 所有 Skill 声明均为 $ACTUAL_SKILLS"
     else
-        echo "  [FAIL] README.en.md 声明 $README_EN_SKILLS Skills，实际 $ACTUAL_SKILLS"
         ISSUES=$((ISSUES + 1))
     fi
 else

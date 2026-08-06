@@ -45,6 +45,7 @@ run_test "L1-2: Agent 格式一致性" "$TESTS_DIR/L1-static/validate-agent-form
 run_test "L1-3: Skill Metadata 完整性" "$TESTS_DIR/L1-static/validate-skill-meta.sh"
 run_test "L1-4: NEVER.md 可检测性" "$TESTS_DIR/L1-static/validate-never.sh"
 run_test "L1-5: 文档数字一致性" "$TESTS_DIR/L1-static/validate-doc-numbers.sh"
+run_test "L1-6: 孤儿 Skill 检测" "$TESTS_DIR/L1-static/validate-orphan-skills.sh"
 
 # === L2 集成测试（本地） ===
 echo "--- L2 集成测试 ---"

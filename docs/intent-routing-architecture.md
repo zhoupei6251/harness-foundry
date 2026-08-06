@@ -37,6 +37,8 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 | 伏笔追踪 | `novel-foreshadowing-dag` | 规划/写作中 | 伏笔埋设/触发/回收 DAG |
 | 返修 | `novel-safe-revision` | 返修时 | 小步安全返修 |
 | 润色 | `humanizer-zh` | MUST | AI 痕迹检测 |
+| 发布质检 | `web-novel-publishing-readiness-and-quality-check-skill` | 发布前 | 违禁词/词频/衔接/逻辑质检 |
+| 番茄发布 | `fanqie-novel-auto-publish` | 发布时 | 番茄平台自动批量发布 |
 | 统稿 | `memory-manager` | 跨章时 | 一致性检查 |
 
 **完整流水线：**
@@ -48,6 +50,8 @@ novel-guidelines (MUST FIRST)
     → novel-evaluator (审稿)
     → novel-guardian (连续性核查)
     → humanizer-zh (润色)
+    → web-novel-publishing-readiness-and-quality-check-skill (发布质检)
+    → fanqie-novel-auto-publish (番茄发布，可选)
     → memory-manager (记忆)
     （伏笔追踪 novel-foreshadowing-dag 贯穿规划/写作/审稿全程）
 
