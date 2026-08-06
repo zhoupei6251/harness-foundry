@@ -197,6 +197,7 @@ harness-foundry/
 │   ├── gen-skill-index.sh / gen-skill-index.ps1
 │   ├── gen-skill-graph.py / auto-fill-frontmatter.py / classify-skills.py
 │   ├── skill-quality-check.sh / harness-check.sh / harness-health.js
+│   ├── novel/                   # Novel tools (novel_graph.py plot graph + causality breaker)
 │   ├── dashboard/               # Dashboard GUI
 │   ├── eval/                    # Eval testing
 │   ├── security/                # Security scanning
@@ -219,7 +220,7 @@ harness-foundry/
 ├── handoff/                      # Agent handoff protocol
 ├── memory/                       # Memory storage
 ├── schemas/                      # JSON schemas
-├── examples/                     # Examples
+├── examples/                     # Examples (novel-graph/ plot-graph sample)
 ├── artifact-templates/           # Artifact templates
 ├── docs/                         # Documentation
 │   ├── QUICKSTART.md / USER-GUIDE.md / CLI-REFERENCE.md / CLAUDE-TEMPLATE.md
@@ -404,6 +405,7 @@ shellcheck scripts/*.sh
 | **2026-08-05** | Intelligence Layer fully embraces codebase-memory-mcp: removed Understand-Anything (MCP config, install scripts, knowledge-graph references); strategic skills rewritten to `index_repository` / `get_architecture` |
 | **2026-08-05** | Deduplicated against ecc/superpowers plugins: skills 141→84, removed 57 verbatim copies (now loaded from plugins at runtime); routing references prefixed with `superpowers:`/`ecc:`; `_layer.yaml` ghost references cleaned (196→84) |
 | **2026-08-06** | Asset-usage audit: removed 4 foreign-ecosystem skills (Clawdbot/OpenClaw), 84→80; wired 4 valuable orphans (`novel-guardian` / `novel-foreshadowing-dag` / `novel-writer-cn` / `document-review`) into routing |
+| **2026-08-06** | Novel-domain chain: novel-protocol entry (progressive disclosure + causality consistency) + novel-graph lite (`kb/graph.yaml` plot graph + causality circuit-breaker script) |
 
 ---
 

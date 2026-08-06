@@ -12,6 +12,7 @@
 |------|------|
 | `traps-archive/code/springboot-checklist.md` | Java/Spring Boot 编码自检清单（内联 karpathy + springboot-patterns） |
 | `traps-archive/novel/novel-checklist.md` | Novel 创作自检清单（8 AI红线 + 5维自评 + 流水线） |
+| `scripts/novel/novel_graph.py` | 剧情知识图谱校验（因果链熔断，配 `kb/graph.yaml`） |
 | `traps-archive/news/news-checklist.md` | News 采编自检清单（倒金字塔 + 9项检查 + 6红线） |
 | `traps-archive/code/00-all.md` | 251 条代码陷阱 |
 | `core/NEVER.md` | 硬性禁止事项 |

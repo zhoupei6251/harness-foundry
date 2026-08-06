@@ -69,11 +69,14 @@ tags:
 任何**重大事件**（核心角色死亡、世界规则改变、Tier-1/2 伏笔回收）必须在前文找到**逻辑先导事件**作为其因：
 
 ```
-检查流程：
-1. 列出本章重大事件
-2. 每个事件向前追溯：前文是否有逻辑先导？
-3. 无先导 → 熔断：报告 FATAL_ERROR: Causality_Chain_Broken
-   并列出缺失的先导事件，要求补写或修正
+检查流程（有 kb/graph.yaml 时，用脚本自动校验）：
+1. 列本章重大事件，更新 kb/graph.yaml（节点 + 边 + chapter_events）
+2. 跑：python scripts/novel/novel_graph.py kb/graph.yaml validate
+   → 熔断：FATAL_ERROR: Causality_Chain_Broken（列出缺失先导的事件/物品）
+   → 补写先导或修正图，重跑直到通过
+3. 用 path 命令回溯关键道具因果链：
+   python scripts/novel/novel_graph.py kb/graph.yaml path <物品id>
+无 kb/graph.yaml 时降级为人工追溯：每个事件向前查前文逻辑先导
 ```
 
 **禁止**：
@@ -97,7 +100,7 @@ tags:
 - 报告绑定失败（列出缺失文件）
 - **禁止捏造设定**——等用户补充或明确授权
 
-## 项目知识库（5 件，用户自行填充）
+## 项目知识库（6 件，用户自行填充）
 
 | 文件 | 内容 | 缺失降级 |
 |------|------|---------|
@@ -106,6 +109,7 @@ tags:
 | `kb/events.md` | 档案事件（已发生的重大事件）| 因果链检查降级为提示 |
 | `kb/style-sample.md` | 文风样本（写作风格基准）| 禁止正文，可大纲 |
 | `kb/world-stone.md` | 世界基石（动态核心，系统自动维护）| 禁止正文 |
+| `kb/graph.yaml` | 剧情知识图谱（角色/地点/物品/事件节点 + 关系边）| 因果链检查降级为人工追溯 |
 
 ## 与现有 skill 的关系
 

@@ -267,6 +267,7 @@ harness-foundry/
 │   ├── gen-skill-index.sh / gen-skill-index.ps1
 │   ├── gen-skill-graph.py / auto-fill-frontmatter.py / classify-skills.py
 │   ├── skill-quality-check.sh / harness-check.sh / harness-health.js
+│   ├── novel/                   # Novel 域工具（novel_graph.py 剧情图谱 + 因果链熔断）
 │   ├── dashboard/               # Dashboard GUI
 │   ├── eval/                    # Eval 测试
 │   ├── security/                # 安全扫描
@@ -289,7 +290,7 @@ harness-foundry/
 ├── handoff/                      # Agent 交接协议
 ├── memory/                       # 记忆存储
 ├── schemas/                      # JSON Schema
-├── examples/                     # 示例
+├── examples/                     # 示例（novel-graph/ 剧情图谱示例图）
 ├── artifact-templates/           # 产物模板
 ├── docs/                         # 文档
 │   ├── QUICKSTART.md / USER-GUIDE.md / CLI-REFERENCE.md / CLAUDE-TEMPLATE.md
@@ -612,6 +613,7 @@ Debug 流程：
 | **2026-08-05** | Intelligence Layer 全面拥抱 codebase-memory-mcp：移除 Understand-Anything（MCP 配置、安装脚本、知识图谱引用），战略层 skill 改写为 `index_repository` / `get_architecture` 驱动 |
 | **2026-08-05** | 与 ecc / superpowers 插件去重：skills 141→84，删除 57 个逐字副本（由插件运行时加载）；路由引用加 `superpowers:`/`ecc:` 前缀；`_layer.yaml` 幽灵引用清理（196→84） |
 | **2026-08-06** | 资产使用率审计：删除 4 个外来生态 skill（Clawdbot/OpenClaw 无关资产），skills 84→80；4 个孤立但有价值的 skill（`novel-guardian` / `novel-foreshadowing-dag` / `novel-writer-cn` / `document-review`）接入路由，消除孤儿资产 |
+| **2026-08-06** | novel 域链路整合：novel-protocol 入口（渐进式披露 + 因果链一致性）+ novel-graph 轻量版（`kb/graph.yaml` 剧情图谱 + 因果链熔断脚本） |
 
 ---
 

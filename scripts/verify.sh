@@ -97,6 +97,7 @@ for t in \
   tests/L1-static/validate-config-schema.sh \
   tests/L1-static/validate-never.sh \
   tests/L1-static/validate-orphan-skills.sh \
+  tests/L1-static/validate-novel-graph.sh \
   tests/L2-integration/validate-routing.sh \
   tests/L2-integration/validate-domain-config.sh \
   tests/validate-intelligence-layer.sh; do
