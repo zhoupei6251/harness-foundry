@@ -58,7 +58,6 @@ done
 
 echo ""
 echo "--- JSON 配置 ---"
-check_json "$FOUNDRY_DIR/hooks/hooks.json"
 check_json "$FOUNDRY_DIR/hooks/guardrails/guardrail-config.json"
 check_json "$FOUNDRY_DIR/hooks/guardrails/audit-log-schema.json"
 

@@ -175,11 +175,11 @@ context-budget 分析长期配置
 ### 与 continuous-learning 配合
 
 ```
-压缩前提取有效模式
+压缩前沉淀有效模式
     ↓
-保存到 ~/.claude/memory/learned/
+写入 references/instincts/（用户确认后）
     ↓
-下次遇到类似任务自动加载
+下次遇到类似任务参考
 ```
 
 ## 最佳实践

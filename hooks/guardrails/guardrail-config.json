@@ -24,7 +24,6 @@
           "action": "block",
           "mode": "active",
           "description": "AgentShield 主动扫描：检测 secrets、注入风险、Hook 安全",
-          "script": "hooks/security/pre-prompt-guard.js",
           "doc": "skills/agent-shield/SKILL.md",
           "enabled": true
         },

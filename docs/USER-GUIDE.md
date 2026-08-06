@@ -102,7 +102,7 @@ harness-foundry/
 │   ├── reviewer.md         # 代码审查者
 │   └── ...
 │
-├── hooks/                  # 自动化钩子 + Guardrails（PreToolUse/PostToolUse/Stop）
+├── hooks/                  # Guardrail 静态配置（不挂载 hooks）
 ├── scripts/                # 工具脚本（bootstrap / sync / verify / dashboard 等）
 ├── tests/                  # L1 静态 / L2 集成 / L3 智能测试
 ├── commands/               # 快捷命令
@@ -172,7 +172,7 @@ harness-foundry/
 - 工具使用技巧
 - 错误处理方式
 
-**配置：** `hooks/continuous-learning/`、`hooks/memory-persistence/`
+**配置：** `core/memory/continuous-learning/protocol.md`（用户触发，非自动）
 
 ### 4. 记忆管理
 
@@ -457,11 +457,10 @@ cp harness-foundry/rules/*.md .claude/rules/
 # 然后修改你需要的规则
 ```
 
-### Q7: 连续学习提取的成果在哪？
+### Q7: 经验沉淀的成果在哪？
 
 - Instinct 提取：`references/instincts/`
-- 学习模式：`references/learned-patterns.md` / `references/learned-traps.md`
-- 经验教训：`references/lessons-learned.md`
+- 陷阱库：`references/traps.md` / `traps-archive/`
 
 ---
 

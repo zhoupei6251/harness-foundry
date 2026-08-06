@@ -1,14 +1,13 @@
 # 连续学习协议
 
-> 会话结束时自动从交互中提取模式、陷阱和经验，持续优化 agent 行为。
+> 从交互中沉淀模式、陷阱和经验，持续优化 agent 行为。由用户触发或手动整理，不依赖 hooks 自动提取。
 
 ## 触发时机
 
 | 触发方式 | 时机 | 说明 |
 |---------|------|------|
-| **Stop Hook** | 会话结束 | 自动触发，非阻塞（exit 0） |
-| **用户触发** | 用户说"记住这个"、"学习这个" | 主动提取 |
-| **手动触发** | `/learn-status`, `/learn-evolve`, `/learn-prune` | 命令行操作 |
+| **用户触发** | 用户说"记住这个"、"学习这个" | 主动提取（推荐） |
+| **手动触发** | 复盘时整理进 `references/` 或记忆系统 | 人工把关，质量更高 |
 
 ## 学习内容类型
 
@@ -128,22 +127,6 @@ count: <出现次数>
 
 ## 与现有系统集成
 
-### 与 hooks.json 集成
-
-```json
-{
-  "Stop": [{
-    "matcher": "",
-    "filePattern": "",
-    "hooks": [{
-      "type": "command",
-      "command": "node hooks/continuous-learning/evaluate-session.js",
-      "description": "会话学习评估"
-    }]
-  }]
-}
-```
-
 ### 与 ECC Instinct 对比
 
 | 特性 | 本协议 | ECC Instinct |
@@ -152,7 +135,7 @@ count: <出现次数>
 | 作用域 | global / project | global / project |
 | 演化目标 | rules / skills | skills / commands / agents |
 | 置信度 | 0.3-0.9 | 0.3-0.9 |
-| 触发方式 | Stop hook | PreToolUse + PostToolUse |
+| 触发方式 | 用户触发 / 手动整理 | PreToolUse + PostToolUse |
 
 ## 禁止事项
 
@@ -161,10 +144,7 @@ count: <出现次数>
 - ❌ 不验证就保存
 - ❌ 保存敏感信息到学习文件
 - ❌ 过期内容不归档（>6 个月）
-- ❌ Hook 中阻塞（必须 exit 0）
 
 ## 相关文件
 
-- `core/memory/continuous-learning/extractor.js` - 会话提取器
-- `hooks/continuous-learning/evaluate-session.js` - Stop Hook 实现
-- `skills/continuous-learning/SKILL.md` - Skill 定义
+- `references/instincts/` - Instinct 存储（global / project）

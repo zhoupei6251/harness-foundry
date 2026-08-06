@@ -63,32 +63,25 @@ http://localhost:3847
 
 ---
 
-## Hooks
+## Guardrail（静态参考）
+
+Guardrail 双层防护配置为静态参考（不挂载 hooks）：
 
 ```bash
-# 检查设计门禁状态
-node hooks/pre-implementation/check-gate.js --status
+# 查看配置（Input 并行 + Output 顺序）
+cat hooks/guardrails/guardrail-config.json
 
-# 清除批准状态
-node hooks/pre-implementation/check-gate.js --clear
-
-# 运行安全预检
-node hooks/security/pre-prompt-guard.js --input "your prompt"
+# 审计日志（运行时人工启用后产生）
+.ai-runtime-artifacts/guardrail-audit.jsonl
 ```
 
 ---
 
-## 连续学习
+## 经验沉淀
 
 ```bash
-# 提取模式（手动触发）
-node core/memory/continuous-learning/extractor.js
-
-# 查看学习成果
-ls ~/.claude/memory/learned/
-
-# 查看统计
-cat ~/.claude/memory/learned/learned.json
+# 用户触发（推荐）：说"记住这个"，写入 references/instincts/
+# 手动整理：复盘时更新 references/traps.md 或 instincts/
 ```
 
 ---

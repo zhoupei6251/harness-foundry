@@ -135,7 +135,7 @@ hot-topic-research → news-generator → fact-check → news-polish → news-ed
 | 意图路由强制调用 | ✅ | CLAUDE.md "MUST invoke" |
 | Skill → Write → Simplify → Review 流水线 | ✅ | Code Domain Default Baseline |
 | 三域记忆系统 | ✅ | state-schema + domain-config |
-| 连续学习自动提取 | ✅ | Stop Hook + extractor.js |
+| 经验沉淀 | ✅ | 用户触发（"记住这个"）→ instincts/ |
 | PreMessage 自动拦截 | ❌ | 等待平台支持 |
 | 子 Agent 自动 skill 加载 | ⚠️ | skill-preferences.md 定义，依赖 Leader 实现 |
 

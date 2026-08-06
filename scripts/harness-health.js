@@ -19,8 +19,7 @@ function checkConfigValidity() {
   const files = [
     'core/orchestration/domain-config.yaml',
     'core/orchestration/config.defaults.yaml',
-    'hooks/guardrails/guardrail-config.json',
-    'hooks/hooks.json'
+    'hooks/guardrails/guardrail-config.json'
   ];
 
   const results = files.map(f => {

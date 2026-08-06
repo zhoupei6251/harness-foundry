@@ -170,19 +170,16 @@ Focus: 先有骨架，再填血肉，最后润色
 
 ---
 
-## 持续学习（借鉴 gstack learnings）
+## 经验沉淀
 
-每章完成后自动从写作过程中提取经验，积累到 `references/learned-patterns-novel.md`。
+用户说"记住这个"时，将写作经验写入 `references/instincts/`；陷阱沉淀进 `traps-archive/novel/00-all.md`。
 
-详见 `hooks/continuous-learning.md` § 小说域
+### 沉淀内容
 
-### 自动提取的内容
-
-| 提取类型 | 说明 | 存储位置 |
+| 沉淀类型 | 说明 | 存储位置 |
 |---------|------|---------|
-| 写作技巧 | 成功的人物塑造手法、情节推进技巧 | `references/learned-patterns-novel.md` |
+| 写作技巧 | 成功的人物塑造手法、情节推进技巧 | `references/instincts/` |
 | 避免的陷阱 | 新发现的 AI 套路、人设崩塌场景 | `traps-archive/novel/00-all.md` 附录 |
-| 经验教训 | 返修中的关键洞察 | `references/lessons-learned-novel.md` |
 
 ---
 
@@ -217,6 +214,5 @@ Focus: 先有骨架，再填血肉，最后润色
 │   │   └── ...
 │   └── 世界观.md
 references/
-├── learned-patterns-novel.md  # 小说域学习积累
-└── lessons-learned-novel.md   # 小说域经验总结
+└── instincts/  # 小说域经验（global / project 分层）
 ```

@@ -86,25 +86,6 @@ fi
 
 echo ""
 
-# 4. 检查 hooks.json 中的脚本引用
-echo "[4] 检查 hooks.json 脚本引用..."
-HOOKS_JSON="$HARNESS_DIR/hooks/hooks.json"
-
-if [ -f "$HOOKS_JSON" ] && command -v jq &> /dev/null; then
-    while read -r cmd; do
-        script=$(echo "$cmd" | grep -oE 'hooks/[a-zA-Z0-9_/-]+\.sh' || true)
-        
-        if [ -n "$script" ] && [ ! -f "$HARNESS_DIR/$script" ]; then
-            echo "  [err] hooks.json 引用了不存在的脚本: $script"
-            ((ERRORS++))
-        fi
-    done < <(jq -r '.. | .command? // empty' "$HOOKS_JSON" 2>/dev/null)
-else
-    echo "  [skip] 跳过 hooks.json 检查（缺少 jq 或文件不存在）"
-fi
-
-echo ""
-
 # 5. 检查 agents 和 skills 目录一致性
 echo "[5] 检查 agents 和 skills 目录..."
 

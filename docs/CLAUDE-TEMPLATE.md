@@ -29,10 +29,9 @@
 2. 代码质量审查（风格/安全/测试）
 - 参考：`../core/review/two-stage-protocol.md`
 
-#### 3. 连续学习
-从会话中自动提取有用的模式：
-- 保存位置：`~/.claude/memory/learned/`
-- 参考：`../core/memory/continuous-learning/`
+#### 3. 经验沉淀
+用户说"记住这个"时，将经验写入 `references/instincts/` 或记忆系统：
+- 参考：`../core/memory/continuous-learning/protocol.md`
 
 ### 开发流程
 

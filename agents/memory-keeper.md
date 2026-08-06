@@ -88,10 +88,6 @@ tags: [Agent, Memory, Cross-Domain]
 | Skills | memory-manager |
 | 域 | 从 GLOBAL-MEMORY.md 推断，支持显式 `--domain` |
 
-## 连续学习
+## 经验沉淀
 
-各域 Stop Hook 触发 extractor.js：
-```
-node core/memory/continuous-learning/extractor.js --domain <code|novel|news>
-```
-提取内容写入 `~/.claude/memory/learned/<domain>/`。
+用户说"记住这个"时，将经验写入 `references/instincts/`（global / project 分层）；复盘时整理进 `references/traps.md` 或记忆系统。

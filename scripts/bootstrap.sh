@@ -149,12 +149,6 @@ bootstrap_workbuddy() {
     if [[ -d "${src}/.codebuddy/rules" ]]; then
       copy_tree "${src}/.codebuddy/rules" "${dst}/rules" "WorkBuddy rules"
     fi
-    # hooks 投影（若有）
-    if [[ -f "${src}/.codebuddy/hooks/hooks.json" ]]; then
-      mkdir -p "${dst}/hooks"
-      cp "${src}/.codebuddy/hooks/hooks.json" "${dst}/hooks/hooks.json"
-      echo "[ok] WorkBuddy hooks: hooks.json"
-    fi
     echo "[hint] WorkBuddy 技能投影复用 .agents/skills/（SKILL.md 开放标准，与 Claude 共用真相源）"
   else
     echo "Warn: missing WorkBuddy source: $src" >&2

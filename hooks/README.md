@@ -44,12 +44,7 @@
 ```
 hooks/
 ├── README.md                          # 本文件
-├── hooks.json                          # Hook 配置（向后兼容旧 prompt hook）
-├── continuous-learning.md              # 持续学习机制
-├── observe.sh / observe.ps1            # 会话观察脚本
-├── memory-persistence/                 # 记忆持久化
-│   └── README.md
-└── guardrails/                         # Guardrail 体系
+└── guardrails/                         # Guardrail 体系（静态配置，不挂载 hooks）
     ├── guardrail-config.json           # Guardrail 配置中心
     ├── audit-log-schema.json           # 审计日志结构定义
     └── rules/                          # Guardrail 规则库

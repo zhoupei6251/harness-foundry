@@ -38,11 +38,6 @@ code:
         - learning.patterns_extracted
       desc: "会话结束压缩并写回全部状态"
 
-  stop_hook:
-    command: "node core/memory/continuous-learning/extractor.js --domain code"
-    timeout_ms: 5000
-    non_blocking: true
-    exit_zero: true
 
   learn_types:
     - debugging

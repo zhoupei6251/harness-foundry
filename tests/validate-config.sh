@@ -27,7 +27,6 @@ REQUIRED_DIRS=(
     "rules"
     "references"
     "traps-archive"
-    "hooks"
     "contexts"
     "commands"
     "examples"
@@ -54,9 +53,6 @@ REQUIRED_FILES=(
     "core/tags-index.md"
     "core/orchestration/domain-config.yaml"
     "references/traps.md"
-    "references/learned-patterns.md"
-    "hooks/hooks.json"
-    "hooks/continuous-learning.md"
 )
 
 for file in "${REQUIRED_FILES[@]}"; do
@@ -117,24 +113,6 @@ echo ""
 
 # 6. 检查记忆持久化钩子
 echo "🪝 检查记忆持久化钩子..."
-HOOKS=(
-    "memory-persistence/session-start.sh"
-    "memory-persistence/session-end.sh"
-    "memory-persistence/extract-patterns.sh"
-    "memory-persistence/README.md"
-)
-
-for hook in "${HOOKS[@]}"; do
-    if [ ! -f "$HARNESS_DIR/hooks/$hook" ]; then
-        echo "  ❌ 缺少钩子: hooks/$hook"
-        ((ERRORS++))
-    else
-        echo "  ✅ hooks/$hook"
-    fi
-done
-
-echo ""
-
 # 7. 检查 agents 和 skills 索引
 echo "📋 检查索引文件..."
 if [ ! -f "$HARNESS_DIR/agents/README.md" ]; then
@@ -153,23 +131,7 @@ fi
 
 echo ""
 
-# 8. 检查 hooks.json 格式
-echo "🔧 验证 hooks.json 格式..."
-if command -v jq &> /dev/null; then
-    if jq empty "$HARNESS_DIR/hooks/hooks.json" 2>/dev/null; then
-        echo "  ✅ hooks.json 格式正确"
-    else
-        echo "  ❌ hooks.json 格式错误"
-        ((ERRORS++))
-    fi
-else
-    echo "  ⚠️  未安装 jq，跳过 JSON 验证"
-    ((WARNINGS++))
-fi
-
-echo ""
-
-# 9. 检查 domain-config.yaml 格式
+# 8. 检查 domain-config.yaml 格式
 echo "🔧 验证 domain-config.yaml 格式..."
 if command -v yq &> /dev/null; then
     if yq eval '.' "$HARNESS_DIR/core/orchestration/domain-config.yaml" > /dev/null 2>&1; then

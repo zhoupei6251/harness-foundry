@@ -232,7 +232,6 @@ writer 写初稿 → self-review 自检 → 修正循环（≤2轮）→ reviewe
 - code 域额外：更新 `memory.code.modules`、`memory.code.tech_debt`
 - novel 域额外：更新 `memory.novel.characters`、`memory.novel.foreshadowing`、`memory.novel.chapters`
 - news 域额外：更新 `memory.news.articles`、`memory.news.sources`
-- 触发连续学习：`extractor.js --domain <domain>`（非阻塞）
 - **新增**：记录 execution-context 生命周期指标（provision/active/destroy 时长）到 tracking
 
 ---

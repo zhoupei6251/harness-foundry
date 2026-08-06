@@ -249,12 +249,12 @@ harness-foundry/
 │   ├── ecc-*.md（+ .meta.json）  # ECC 专属审查 agent（review 阶段调用）
 │   └── *.md                      # 其他专项 Agent
 │
-├── hooks/                        # 自动化钩子 + Guardrails
-│   ├── hooks.json                # PreToolUse / PostToolUse / Stop hooks
-│   ├── guardrails/               # 双层保护规则（Input 并行 + Output 顺序）
-│   ├── continuous-learning/      # 会话学习评估
-│   ├── memory-persistence/       # 记忆持久化
-│   └── observe.sh / observe.ps1  # 运行时监控
+├── hooks/                        # Guardrail 静态配置（不挂载 hooks）
+│   ├── README.md                 # Guardrail 架构说明
+│   ├── guardrails/               # 双层防护规则（Input 并行 + Output 顺序）
+│   │   ├── guardrail-config.json # 规则配置中心
+│   │   └── rules/                # 规则文档（prompt-injection / sensitive-data 等）
+│   └── continuous-learning/      # 经验沉淀协议（用户触发，非自动）
 │
 ├── scripts/                      # 工具脚本（30+）
 │   ├── bootstrap.sh / bootstrap.ps1         # 投影适配器到 IDE
@@ -392,11 +392,9 @@ _layer.yaml:
 
 ---
 
-## Hook 与 Guardrail
+## Guardrail（静态参考）
 
-**PreToolUse / PostToolUse / Stop** Hook 按域定义，位于 `hooks/hooks.json`。
-
-### 双层防护（P0-2）
+**双层防护（P0-2）** 以静态配置形式提供，**不挂载 hooks**（纪律由 AGENTS.md + ecc gateguard 在会话层保障，见「已知局限」）：
 
 | 层级 | 类型 | 规则 |
 |------|------|------|
@@ -404,11 +402,11 @@ _layer.yaml:
 | **Output**（顺序，阻塞式）| 敏感信息泄露 | canary token 泄露 | NEVER 违规 | AI 写作标记 | 语法检查 |
 
 **配置**：`hooks/guardrails/guardrail-config.json`
-**审计日志**：`.ai-runtime-artifacts/guardrail-audit.jsonl`
+**审计日志**：`.ai-runtime-artifacts/guardrail-audit.jsonl`（人工启用后产生）
 
 ### Canary Token
 
-在运行时由 `scripts/canary-rotate.sh` 生成并注入到 Agent prompt 中，用于检测 prompt 泄露。Token 文件（`core/security/canary-tokens.yaml`）在 `.gitignore` 中，不得提交到版本控制。
+`scripts/canary-rotate.sh` 生成 Canary Token 用于检测 prompt 泄露。Token 文件（`core/security/canary-tokens.yaml`）在 `.gitignore` 中，不得提交到版本控制。
 
 ---
 
@@ -420,7 +418,7 @@ _layer.yaml:
 | **项目记忆** | `MEMORY.md`（项目根目录）| 项目专用 |
 | **会话记忆** | `memory/` | 运行时临时存储 |
 
-详见：[hooks/memory-persistence/README.md](hooks/memory-persistence/README.md)
+详见：[hooks/guardrails/guardrail-config.json](hooks/guardrails/guardrail-config.json)
 
 ---
 
@@ -600,7 +598,7 @@ Debug 流程：
 | 域编排配置 | [`core/orchestration/domain-config.yaml`](core/orchestration/domain-config.yaml) |
 | 全部 Skills | [`skills/INDEX.md`](skills/INDEX.md) |
 | 全部 Agents | [`agents/README.md`](agents/README.md) |
-| Hook 与 Guardrail | [`hooks/README.md`](hooks/README.md) |
+| Guardrail 静态配置 | [`hooks/README.md`](hooks/README.md) |
 | **Intelligence Layer** | [`docs/intelligence-layer-user-guide.md`](docs/intelligence-layer-user-guide.md) |
 
 ---

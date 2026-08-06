@@ -42,13 +42,10 @@ tags: [Reference]
 | 文件 | 内容 |
 |------|------|
 | `references/traps.md` | 按域分类致命版（每域 25 条） |
-| `traps-archive/code/00-all.md` | 代码域完整版（160 条） |
-| `traps-archive/novel/00-all.md` | 小说域完整版（47 条） |
-| `traps-archive/news/00-all.md` | 新闻域完整版（34 条） |
+| `traps-archive/code/00-all.md` | 代码域完整版（251 条） |
+| `traps-archive/novel/00-all.md` | 小说域完整版（82 条） |
+| `traps-archive/news/00-all.md` | 新闻域完整版（69 条） |
 | `references/README.md` | 代码范例索引 |
-| `references/learned-patterns.md` | 持续学习：自动提取的模式 |
-| `references/learned-traps.md` | 持续学习：自动提取的陷阱 |
-| `references/lessons-learned.md` | 持续学习：经验总结 |
 
 ### Standard（标准定义）
 
@@ -73,7 +70,7 @@ tags: [Reference]
 | 写 spec/plan | brainstorming / writing-plans skill | — |
 | 尾盘测试 | verification-before-completion skill | — |
 | Code Review | requesting-code-review skill | — |
-| 会话结束 | `hooks/continuous-learning.md` | — |
+| 会话结束 | — | — |
 | 自我进化 | `commands/evolve.md` | — |
 | 配置验证 | `tests/README.md` | — |
 
@@ -87,14 +84,6 @@ tags: [Reference]
 | `contexts/novel.md` | 小说创作 | 行为准则 + 25 条致命陷阱 + 阶段门禁 |
 | `contexts/news.md` | 新闻采编 | 行为准则 + 25 条致命陷阱 + 阶段门禁 |
 | `contexts/review.md` | 审稿/审查 | 审查清单 + 输出格式 + 推荐工具 |
-
-## 自动化机制（hooks/）
-
-| 文件 | 用途 |
-|------|------|
-| `hooks/hooks.json` | 钩子配置文件 |
-| `hooks/continuous-learning.md` | 持续学习机制 |
-| `hooks/` | 项目钩子配置（prompt 类型） |
 
 ## 命令快捷入口（commands/）
 

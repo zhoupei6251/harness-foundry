@@ -35,11 +35,6 @@ novel:
         - learning.last_session_id
         - learning.patterns_extracted
 
-  stop_hook:
-    command: "node core/memory/continuous-learning/extractor.js --domain novel"
-    timeout_ms: 5000
-    non_blocking: true
-    exit_zero: true
 
   learn_types:
     - writing_patterns

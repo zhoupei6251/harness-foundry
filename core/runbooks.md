@@ -43,5 +43,5 @@
 
 ## 通用
 
-### 持续学习
-`continuous-learning` skill → 提取 instinct → 衰减管理 → 定期清理
+### 经验沉淀
+用户说"记住这个" → 写入 `references/instincts/` → 定期整理

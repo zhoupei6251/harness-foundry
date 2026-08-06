@@ -179,12 +179,12 @@ harness-foundry/
 │   ├── ecc-*.md (+ .meta.json)   # ECC review agents (review phase)
 │   └── *.md                      # Other specialized agents
 │
-├── hooks/                        # Automation hooks + Guardrails
-│   ├── hooks.json                # PreToolUse / PostToolUse / Stop hooks
+├── hooks/                        # Guardrail static config (hooks not mounted)
+│   ├── README.md                 # Guardrail architecture
 │   ├── guardrails/               # Double-layer protection (parallel input + sequential output)
-│   ├── continuous-learning/      # Session learning evaluation
-│   ├── memory-persistence/       # Memory persistence
-│   └── observe.sh / observe.ps1  # Runtime monitoring
+│   │   ├── guardrail-config.json # Rules config center
+│   │   └── rules/                # Rule docs (prompt-injection / sensitive-data etc.)
+│   └── continuous-learning/      # Experience protocol (user-triggered, not automatic)
 │
 ├── scripts/                      # Utility scripts (30+)
 │   ├── bootstrap.sh / bootstrap.ps1         # Project adapters to your IDE
@@ -208,7 +208,7 @@ harness-foundry/
 ├── commands/                     # Quick commands
 ├── contexts/                     # Domain-specific contexts (code / novel / news / review)
 ├── rules/                        # Tech-stack-specific coding rules
-├── references/                   # Context maps, instincts, learned patterns
+├── references/                   # Context maps, instincts, traps
 ├── traps-archive/                # Historical trap archive (402 rules)
 │   ├── code/00-all.md            # 251 code traps
 │   ├── novel/00-all.md           # 82 novel traps
@@ -320,11 +320,9 @@ All agent files include built-in Handoff protocol entries to ensure context tran
 
 ---
 
-## Hooks & Guardrails
+## Guardrails (Static Reference)
 
-**PreToolUse / PostToolUse / Stop** hooks per domain, defined in `hooks/hooks.json`.
-
-### Double-Layer Protection (P0-2)
+**Double-Layer Protection (P0-2)** is provided as static config — **hooks are not mounted** (discipline is enforced at session level by AGENTS.md + ecc gateguard; see Known Limitations):
 
 | Layer | Type | Rules |
 |-------|------|-------|
@@ -332,11 +330,11 @@ All agent files include built-in Handoff protocol entries to ensure context tran
 | **Output** (sequential, any-block) | secret leak | canary token leak | NEVER violation | AI writing markers | syntax check |
 
 **Config**: `hooks/guardrails/guardrail-config.json`
-**Audit log**: `.ai-runtime-artifacts/guardrail-audit.jsonl`
+**Audit log**: `.ai-runtime-artifacts/guardrail-audit.jsonl` (produced after manual enablement)
 
 ### Canary Token
 
-Generated at runtime by `scripts/canary-rotate.sh` and injected into agent prompts to detect prompt leakage. Token file (`core/security/canary-tokens.yaml`) is gitignored — never committed.
+`scripts/canary-rotate.sh` generates Canary Tokens to detect prompt leakage. Token file (`core/security/canary-tokens.yaml`) is gitignored — never committed.
 
 ---
 
@@ -348,7 +346,7 @@ Generated at runtime by `scripts/canary-rotate.sh` and injected into agent promp
 | **Project** | `MEMORY.md` (root) | Project-specific |
 | **Session** | `memory/` | Runtime temporary |
 
-See: [hooks/memory-persistence/README.md](hooks/memory-persistence/README.md)
+See: [hooks/guardrails/guardrail-config.json](hooks/guardrails/guardrail-config.json)
 
 ---
 
@@ -391,7 +389,7 @@ shellcheck scripts/*.sh
 | Skill metadata spec | [`docs/skill-frontmatter-schema.md`](docs/skill-frontmatter-schema.md) |
 | Skill dependency graph | [`docs/skill-dependency-graph.md`](docs/skill-dependency-graph.md) |
 | All agents | [`agents/README.md`](agents/README.md) |
-| Hooks & guardrails | [`hooks/README.md`](hooks/README.md) |
+| Guardrails static config | [`hooks/README.md`](hooks/README.md) |
 | **Intelligence Layer** | [`docs/intelligence-layer-user-guide.md`](docs/intelligence-layer-user-guide.md) |
 | Trae quick ref | [`adapters/trae/trae-quick-ref.md`](adapters/trae/trae-quick-ref.md) |
 

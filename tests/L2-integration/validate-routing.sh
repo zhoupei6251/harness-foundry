@@ -42,7 +42,6 @@ check_ref "core/principles.md" "核心原则"
 
 # hooks 引用
 check_ref "hooks/guardrails/guardrail-config.json" "guardrail 配置 (P0-2)"
-check_ref "hooks/hooks.json" "hooks 配置"
 
 # tracking 引用
 check_ref "core/orchestration/tracking/schema.md" "追踪 schema"
