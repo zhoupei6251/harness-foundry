@@ -29,7 +29,11 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 
 | 操作 | 基线 Skill | 强制？ | 说明 |
 |------|-----------|:--:|------|
-| 写章节/大纲 | `novel-guidelines` | MUST FIRST | 写作前思维基线 |
+| 写章节/大纲 | `writing-novel` | MUST FIRST | 500+ 章实战方法论：全流程 + AI 味消除（基础层）|
+| 番茄爆款 | `piqie-writing` | 番茄平台时 | 快节奏爆款专项（3 章一爽/算法适配）|
+| 起点慢热 | `qidian-writing` | 起点平台时 | 慢热品质专项（设定硬/人物真/信息增量）|
+| 智斗权谋 | `zhi-dou-writing` | 智斗类型时 | 顶级智斗技法（真人感/信息差博弈）|
+| 整本改良 | `novel-improver` | 改良已有作品时 | 双平台诊断 + 10 维评分 + 13 项硬指标 |
 | 情节矛盾/角色冲突 | `novel-debug` | 排查时 | 情节系统排查 |
 | 章节自查 | `novel-simplify` | 写后审前 | 简洁度自检 |
 | 审稿 | `novel-evaluator` | MUST | 7 维评分 |
@@ -43,7 +47,7 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 
 **完整流水线：**
 ```
-novel-guidelines (MUST FIRST)
+writing-novel (MUST FIRST，平台层 piqie/qidian 按目标叠加)
     → novel-36-beats (大纲)
     → novel-writer (写章节)
     → novel-simplify (自查)
@@ -54,6 +58,9 @@ novel-guidelines (MUST FIRST)
     → fanqie-novel-auto-publish (番茄发布，可选)
     → memory-manager (记忆)
     （伏笔追踪 novel-foreshadowing-dag 贯穿规划/写作/审稿全程）
+
+整本改良：
+novel-improver → 双平台诊断 → 10 维评分 → 结构性改写
 
 Debug/Safe-Revision:
 novel-debug → 排查 → novel-safe-revision → 小步返修

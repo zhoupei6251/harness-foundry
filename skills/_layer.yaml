@@ -82,5 +82,10 @@ core:
 - ui-ux-pro-max
 - web-novel-publishing-readiness-and-quality-check-skill
 - web-tools-guide
-peripheral: []
+peripheral:
+- writing-novel
+- piqie-writing
+- qidian-writing
+- zhi-dou-writing
+- novel-improver
 archived: []

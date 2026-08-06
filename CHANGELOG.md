@@ -8,6 +8,8 @@
 ## [Unreleased]
 
 ### Added
+- **novel-writing-framework 接入**：引入 5 个实战方法论 skill（writing-novel / piqie-writing / qidian-writing / zhi-dou-writing / novel-improver），源自 500+ 章实战提炼，MIT 许可；接入 novel 域路由与 domain-config
+
 ### Removed
 
 - **外来生态 skill 清理**：删除 4 个与编码工作流无关的外来 skill（`auto-updater`、`free-ride`、`excel-xlsx`、`human-writing`），skills 84→80

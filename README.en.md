@@ -123,7 +123,7 @@ Harness Foundry is the orchestration layer; it depends on two plugin ecosystems 
 - **ecc owns experts**: post-code mandatory `ecc:java-reviewer`, conditional security / database / type-design / silent-failure reviews, build failures → `ecc:java-build-resolver` (see [skill-preferences.md](core/orchestration/skill-preferences.md))
 - **harness owns orchestration**: Route declaration → routing table → stage gates → review chain, shared across 3 domains (code/novel/news)
 
-> The 78 skills in `skills/` are harness-specific; 57 skills that duplicated plugin skills (brainstorming, etc.) were deduplicated on 2026-08-05 and are no longer vendored.
+> The 83 skills in `skills/` are harness-specific; 57 skills that duplicated plugin skills (brainstorming, etc.) were deduplicated on 2026-08-05 and are no longer vendored.
 
 ---
 
@@ -165,7 +165,7 @@ harness-foundry/
 │   ├── codex/                    # Codex adapter (ChatGPT desktop / CLI shared)
 │   └── workbuddy/                # WorkBuddy adapter (Tencent, = CodeBuddy dual brand)
 │
-├── skills/                       # ★ 78 Skills (flat structure, deduplicated)
+├── skills/                       # ★ 83 Skills (flat structure, deduplicated)
 │   ├── INDEX.md                  # Complete skill index (auto-generated)
 │   ├── categories.yaml           # 57 category definitions
 │   ├── _layer.yaml               # Skill layer classification
@@ -251,7 +251,7 @@ harness-foundry/
 
 ## Skill System
 
-**78 Skills** in a flat `skills/<slug>/SKILL.md` structure (deduplicated against ecc/superpowers plugins on 2026-08-05).
+**83 Skills** in a flat `skills/<slug>/SKILL.md` structure (deduplicated against ecc/superpowers plugins on 2026-08-05).
 
 ### Category System (57 Categories)
 
@@ -269,7 +269,7 @@ harness-foundry/
 
 ```yaml
 _layer.yaml:
-  core:        # Core skills (78) — synced to IDE projections by default
+  core:        # Core skills (83) — synced to IDE projections by default
   peripheral:  # Peripheral skills (0) — all merged into core after dedup
   archived:    # Archived skills — not synced
 ```
