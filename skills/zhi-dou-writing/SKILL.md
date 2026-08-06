@@ -1,6 +1,17 @@
 ---
 name: zhi-dou-writing
 description: 智斗小说专属写作技能。融合《第九特区》《犯上者》《诡秘之主》《赘婿》等顶级智斗作品的创作精华，专注于写出有真人感、高智商博弈、强情绪节奏的智斗/权谋小说。触发场景：写智斗小说、写权谋文、写高智商对抗、写末世博弈、写朝堂争斗、写反乌托邦对抗、需要设计智斗情节、需要写人物博弈场景。
+domain: novel
+category: novel.creation
+priority: P1
+version: 1.0.0
+when_to_use: 写智斗/权谋类型小说时
+status: stable
+tags:
+  - novel
+  - zhidou
+  - genre
+  - strategy
 ---
 
 # 智斗小说写作

@@ -1,6 +1,17 @@
 ---
 name: novel-improver
 description: 双平台长篇改进skill。将长篇小说系统性地改良至番茄9.0+或起点精品标准。适用于：用户要求"改良小说"、"提升评分"、"去AI味"、"平台优化"、"让小说达到9.0+"等情况。覆盖多维度评审、结构性改写、语言优化、节奏调整、质量控制等全流程。支持番茄和起点双平台诊断。
+domain: novel
+category: novel.analytics
+priority: P1
+version: 1.0.0
+when_to_use: 改良已有小说/提升评分/去AI味时
+status: stable
+tags:
+  - novel
+  - improvement
+  - analytics
+  - dual-platform
 ---
 
 # 小说改良Skill（番茄+起点双平台）

@@ -6,6 +6,12 @@ category: novel.publish
 priority: P1
 version: 1.0.0
 when_to_use: 写番茄平台小说/爆款章节时
+status: stable
+tags:
+  - novel
+  - fanqie
+  - platform
+  - pacing
 status: peripheral
 ---
 

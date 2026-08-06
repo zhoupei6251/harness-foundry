@@ -21,7 +21,7 @@ rules/novel/
 
 | 命令 | Skill | 说明 |
 |------|-------|------|
-| `/novel` | `novel` command | 统一入口，自动路由 |
+| `/novel` | `novel-protocol` | 统一入口：渐进式披露路由 + 因果链一致性（MUST FIRST） |
 | `/novel quick` | `novel-quick-write` | 快速写作单章 |
 | `/novel new` | `novel-init` | 新书创建向导 |
 | `/novel batch` | `novel-batch-write` | 批量写作 |
@@ -32,6 +32,7 @@ rules/novel/
 
 | 用户意图 | Skill | 说明 |
 |---------|-------|------|
+| 任何 novel 指令（首步） | `novel-protocol` | 渐进式披露路由 + 因果链一致性（入口层） |
 | "写第X章" | `novel-quick-write` | 快速单章写作 |
 | "写到第N章" | `novel-batch-write` | 批量写作 |
 | "写小说" | `novel-init` | 新书创建 |

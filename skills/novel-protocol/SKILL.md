@@ -7,6 +7,11 @@ priority: P0
 version: 1.0.0
 when_to_use: 任何 novel 域写作指令的入口——先路由，再按需装配协议
 status: stable
+tags:
+  - novel
+  - protocol
+  - progressive-disclosure
+  - causality
 ---
 
 # Novel Protocol — 渐进式披露 + 因果链一致性
@@ -30,6 +35,7 @@ status: stable
 | 润色去 AI 味 | `humanizer-zh` | 正文类 |
 | 平台专项（番茄）| `piqie-writing` | 起点类 |
 | 平台专项（起点）| `qidian-writing` | 番茄类 |
+| 复杂任务/批量多章 | `novel-orchestrator` | 单章工具类 |
 
 ## 执行闭环（每条指令固定五步）
 
@@ -88,4 +94,5 @@ status: stable
 
 - 本 skill 是 **novel 域的轻量入口**，不替代任何现有 skill
 - `writing-novel` 是基础方法论（内容层），本 skill 是协议层（路由 + 一致性）
+- `novel-orchestrator` 处理复杂任务的流水线编排（批量多章），本 skill 负责入口路由——复杂任务由本 skill 装配 `novel-orchestrator`
 - `novel-guardian` 做审稿时的连续性核查，本 skill 在**写作前**做因果链预检——互补不冲突

@@ -1,6 +1,17 @@
 ---
 name: writing-novel
 description: 长篇小说写作skill。从500+章实战中提炼的全流程方法论。覆盖大纲设计、逐章写作、质量控制、平台优化、AI味消除。适用于番茄小说等网文平台。触发场景：写小说、写网文、写章节、设计大纲、做人物设定。已编码风格参考：生存质感·冷硬群像+智力解构·从底层反噬系统。
+domain: novel
+category: novel.creation
+priority: P0
+version: 1.0.0
+when_to_use: 写小说/写章节/设计大纲时——novel 域基础方法论层
+status: stable
+tags:
+  - novel
+  - writing
+  - methodology
+  - ai-wash
 ---
 
 # 长篇小说写作Skill（基于500章实战）

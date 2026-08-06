@@ -48,7 +48,8 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 
 **完整流水线：**
 ```
-writing-novel (MUST FIRST，平台层 piqie/qidian 按目标叠加)
+novel-protocol (入口 MUST FIRST：渐进式披露路由 + 因果链一致性)
+    → writing-novel (基础层，平台层 piqie/qidian 按目标叠加)
     → novel-36-beats (大纲)
     → novel-writer (写章节)
     → novel-simplify (自查)

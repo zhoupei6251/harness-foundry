@@ -25,9 +25,12 @@ tags: [Rules, Runbook]
 
 ## Novel 域路由
 
+> 入口：任何 novel 指令先走 `novel-protocol`（渐进式披露路由 + 因果链一致性，省 76% token），按需装配下表 skill。
+
 | 用户说 | 动作 |
 |--------|------|
-| 写章节、继续写、下一章 | 读 MEMORY.md → 自检 `traps-archive/novel/novel-checklist.md` → 写 → 5维自检 |
+| **任何 novel 指令（首步）** | Skill(novel-protocol)：路由 → 装配 → 知识库绑定 → 因果链校验 → 交付 |
+| 写章节、继续写、下一章 | novel-protocol → 读 MEMORY.md → 自检 `traps-archive/novel/novel-checklist.md` → 写 → 5维自检 |
 | 审稿、评分、评测 | 跑 novel-evaluator（7维评分+原文举证）→ 报告 |
 | 大纲、世界观、设定 | Skill(superpowers:brainstorming) → 产出大纲 |
 | 润色、去AI味 | 跑 humanizer-zh |

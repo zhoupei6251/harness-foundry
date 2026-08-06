@@ -6,6 +6,12 @@ category: novel.publish
 priority: P1
 version: 1.0.0
 when_to_use: 写起点平台小说/慢热品质文时
+status: stable
+tags:
+  - novel
+  - qidian
+  - platform
+  - quality
 status: peripheral
 ---
 
