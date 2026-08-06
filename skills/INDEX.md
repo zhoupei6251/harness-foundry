@@ -1,6 +1,6 @@
 # Skill 索引
 
-> 自动生成的 Skill 索引 — 共 83 个 Skill，采用扁平目录结构。
+> 自动生成的 Skill 索引 — 共 84 个 Skill，采用扁平目录结构。
 > 最后更新：2026-08-06
 > 生成方式：`bash scripts/gen-skill-index.sh`
 
@@ -57,40 +57,41 @@
 | 47 | `novel-mechanical-scorer` | 无LLM的确定性章节质量评分器，在LLM审稿前做纯规则检查 |
 | 48 | `novel-metrics` | 写作指标追踪，统计字数、速度、质量趋势 |
 | 49 | `novel-orchestrator` | 小说创作总控调度器，协调 writer→planner→reviewer→humanizer→editor→memory-keeper 全链路，管理阶段门禁和返修闭环 |
-| 50 | `novel-quick-write` | 快速单章写作，无需完整编排流程，适用于写第X章类型的简单写作任务 |
-| 51 | `novel-receiving-review` | 接收审稿反馈，正确处理修改建议，不是盲目接受或机械执行 |
-| 52 | `novel-recovery` | 会话恢复工具，恢复中断的写作任务和上下文 |
-| 53 | `novel-safe-revision` | 安全返修流程：小步返修、逐次确认、保留历史版本 |
-| 54 | `novel-simplify` | 章节自查简洁度检查，识别冗余、重复、堆砌问题 |
-| 55 | `novel-voice-profile` | 人物声音档案，为每个角色建立独特的语言指纹和说话风格 |
-| 56 | `novel-writer-cn` | 创建小说创作框架，包括人物设定、人物关系、剧情发展和多版本结局 |
-| 57 | `piqie-writing` | 番茄平台爆款写作专项：3章一爽、算法适配、新人破零 |
-| 58 | `planning-with-files` | Implements Manus-style file-based planning to organize and track progress |
-| 59 | `playwright` | Browser automation via Playwright MCP. Navigate websites, click elements, |
-| 60 | `project-planner` | Triage ideas, problems, and feature requests into the right format: |
-| 61 | `prompt-engineering-expert` | Advanced expert in prompt engineering, custom instructions design, and |
-| 62 | `qidian-writing` | 起点中文网慢热品质写作专项：设定硬、人物真、信息增量 |
-| 63 | `query-knowledge-graph` | 查询 codebase-memory-mcp 的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。 |
-| 64 | `query-symbol` | 快速定位代码符号（类/函数/变量）。触发：需要找某个符号、不知道在哪里、查询定义。 |
-| 65 | `receiving-code-review` | 根据独立审查者的反馈修改代码。 |
-| 66 | `refactor-safely` | Plans and executes safe refactors with small steps, tests, and rollback |
-| 67 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging |
-| 68 | `ripgrep-search` | 使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。 |
-| 69 | `security-auditor` | Use when reviewing code for security vulnerabilities, implementing authentication |
-| 70 | `self-improving` | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. |
-| 71 | `simplify` | Refactor code for clarity, consistency, and maintainability without changing |
-| 72 | `skill-vetter` | Security-first skill vetting for AI agents. Use before installing any |
-| 73 | `summarize` | Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, |
-| 74 | `superdesign` | Expert frontend design guidelines for creating beautiful, modern UIs. |
-| 75 | `two-stage-review` | 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。 |
-| 76 | `ui-ux-pro-max` | UI/UX design intelligence and implementation guidance for building polished |
-| 77 | `understand-project` | 理解项目结构和架构，生成知识图谱。触发：接手新项目、需要了解项目全局、询问架构设计。 |
-| 78 | `web-design-guidelines` | 网页设计规范和最佳实践指南 |
-| 79 | `web-novel-publishing-readiness-and-quality-check-skill` | 小说质量检查技能。触发关键词：检查正文、质量报告、违禁词、套路句、章节衔接、逻辑漏洞、自检、人写感、大纲、人设。执行最大算力深度推理五步链，每章必须跑freq_check.py词频扫描+逐行违禁词扫描双轨制，复核自检通过方可出报告。 |
-| 80 | `web-tools-guide` | Web 工具使用指南：搜索、网页抓取、浏览器自动化。触发：查资料、上网、搜索、打开网站。 |
-| 81 | `writing-novel` | 500+章实战提炼的长篇网文写作方法论：全流程 + AI 味消除 + 质量控制 |
-| 82 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before |
-| 83 | `zhi-dou-writing` | 智斗/权谋小说写作专项：真人感、信息差博弈、强情绪节奏 |
+| 50 | `novel-protocol` | 渐进式披露路由 + 因果链一致性（入口层，省 76% token） |
+| 51 | `novel-quick-write` | 快速单章写作，无需完整编排流程，适用于写第X章类型的简单写作任务 |
+| 52 | `novel-receiving-review` | 接收审稿反馈，正确处理修改建议，不是盲目接受或机械执行 |
+| 53 | `novel-recovery` | 会话恢复工具，恢复中断的写作任务和上下文 |
+| 54 | `novel-safe-revision` | 安全返修流程：小步返修、逐次确认、保留历史版本 |
+| 55 | `novel-simplify` | 章节自查简洁度检查，识别冗余、重复、堆砌问题 |
+| 56 | `novel-voice-profile` | 人物声音档案，为每个角色建立独特的语言指纹和说话风格 |
+| 57 | `novel-writer-cn` | 创建小说创作框架，包括人物设定、人物关系、剧情发展和多版本结局 |
+| 58 | `piqie-writing` | 番茄平台爆款写作专项：3章一爽、算法适配、新人破零 |
+| 59 | `planning-with-files` | Implements Manus-style file-based planning to organize and track progress |
+| 60 | `playwright` | Browser automation via Playwright MCP. Navigate websites, click elements, |
+| 61 | `project-planner` | Triage ideas, problems, and feature requests into the right format: |
+| 62 | `prompt-engineering-expert` | Advanced expert in prompt engineering, custom instructions design, and |
+| 63 | `qidian-writing` | 起点中文网慢热品质写作专项：设定硬、人物真、信息增量 |
+| 64 | `query-knowledge-graph` | 查询 codebase-memory-mcp 的知识图谱，获取结构化信息。触发：需要查询项目结构、模块关系、依赖关系。 |
+| 65 | `query-symbol` | 快速定位代码符号（类/函数/变量）。触发：需要找某个符号、不知道在哪里、查询定义。 |
+| 66 | `receiving-code-review` | 根据独立审查者的反馈修改代码。 |
+| 67 | `refactor-safely` | Plans and executes safe refactors with small steps, tests, and rollback |
+| 68 | `requesting-code-review` | Use when completing tasks, implementing major features, or before merging |
+| 69 | `ripgrep-search` | 使用 ripgrep（rg）做高速文本搜索，定位引用、字符串、关键字。触发：grep、find、搜索文本、定位字符串、查找引用、查找 TODO/FIXME、查找实现、查找日志、搜索代码。 |
+| 70 | `security-auditor` | Use when reviewing code for security vulnerabilities, implementing authentication |
+| 71 | `self-improving` | Self-reflection + Self-criticism + Self-learning + Self-organizing memory. |
+| 72 | `simplify` | Refactor code for clarity, consistency, and maintainability without changing |
+| 73 | `skill-vetter` | Security-first skill vetting for AI agents. Use before installing any |
+| 74 | `summarize` | Summarize URLs or files with the summarize CLI (web, PDFs, images, audio, |
+| 75 | `superdesign` | Expert frontend design guidelines for creating beautiful, modern UIs. |
+| 76 | `two-stage-review` | 两阶段审查：先验证 Spec 合规，再检查代码质量。code 域实现完成后使用。 |
+| 77 | `ui-ux-pro-max` | UI/UX design intelligence and implementation guidance for building polished |
+| 78 | `understand-project` | 理解项目结构和架构，生成知识图谱。触发：接手新项目、需要了解项目全局、询问架构设计。 |
+| 79 | `web-design-guidelines` | 网页设计规范和最佳实践指南 |
+| 80 | `web-novel-publishing-readiness-and-quality-check-skill` | 小说质量检查技能。触发关键词：检查正文、质量报告、违禁词、套路句、章节衔接、逻辑漏洞、自检、人写感、大纲、人设。执行最大算力深度推理五步链，每章必须跑freq_check.py词频扫描+逐行违禁词扫描双轨制，复核自检通过方可出报告。 |
+| 81 | `web-tools-guide` | Web 工具使用指南：搜索、网页抓取、浏览器自动化。触发：查资料、上网、搜索、打开网站。 |
+| 82 | `writing-novel` | 500+章实战提炼的长篇网文写作方法论：全流程 + AI 味消除 + 质量控制 |
+| 83 | `writing-plans` | Use when you have a spec or requirements for a multi-step task, before |
+| 84 | `zhi-dou-writing` | 智斗/权谋小说写作专项：真人感、信息差博弈、强情绪节奏 |
 
 ## 按功能分类
 
@@ -282,6 +283,7 @@ _写作前准则、自查、返修_
 
 - `novel-debug` - 情节矛盾/角色冲突/伏笔遗漏排查与修复
 - `novel-guidelines` - 小说写作前思维基线：AI 陷阱 + 简洁原则。写章节/大纲/续写前必须加载
+- `novel-protocol` - 渐进式披露路由 + 因果链一致性（入口层，省 76% token）
 - `novel-safe-revision` - 安全返修流程：小步返修、逐次确认、保留历史版本
 - `novel-simplify` - 章节自查简洁度检查，识别冗余、重复、堆砌问题
 

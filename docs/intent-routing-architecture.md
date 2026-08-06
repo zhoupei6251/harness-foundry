@@ -29,6 +29,7 @@ brainstorming → karpathy-guidelines → TDD → 写代码 → simplify → cod
 
 | 操作 | 基线 Skill | 强制？ | 说明 |
 |------|-----------|:--:|------|
+| 写作入口 | `novel-protocol` | MUST FIRST | 渐进式披露路由 + 因果链一致性（入口层，省 76% token）|
 | 写章节/大纲 | `writing-novel` | MUST FIRST | 500+ 章实战方法论：全流程 + AI 味消除（基础层）|
 | 番茄爆款 | `piqie-writing` | 番茄平台时 | 快节奏爆款专项（3 章一爽/算法适配）|
 | 起点慢热 | `qidian-writing` | 起点平台时 | 慢热品质专项（设定硬/人物真/信息增量）|
