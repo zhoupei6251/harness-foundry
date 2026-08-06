@@ -302,12 +302,14 @@ bash scripts/install-intelligence-deps.sh
 
 ## 多平台适配
 
-| 平台 | 适配器 | 投影位置 |
-|------|--------|---------|
-| **Claude Code** | `adapters/claude/` | `.claude/` |
-| **Trae** | `adapters/trae/` | `.trae/` |
-| **Codex** | `adapters/codex/` | `AGENTS.codex-overlay.md` |
-| **WorkBuddy** | `adapters/workbuddy/` | `.codebuddy/` |
+| 平台 | 适配器 | 状态 | 投影位置 |
+|------|--------|------|---------|
+| **Claude Code** | `adapters/claude/` | ✅ 可用 | `.claude/` |
+| **Trae** | `adapters/trae/` | ✅ 可用 | `.trae/` |
+| **Codex** | `adapters/codex/` | 📄 设计文档 | `AGENTS.codex-overlay.md` |
+| **WorkBuddy** | `adapters/workbuddy/` | 📄 设计文档 | `.codebuddy/` |
+
+> 完整状态见 `adapters/README.md`。
 
 **投影：**
 

@@ -225,7 +225,8 @@ harness-foundry/
 │   ├── security/                 # Canary Token 协议
 │   └── karpathy-guidelines.md    # 行为准则原文
 │
-├── adapters/                     # 平台物理绑定（薄壳）
+├── adapters/                     # 平台物理绑定（薄壳，状态见 adapters/README.md）
+│   ├── README.md                 # 适配器状态总览（claude/trae 可用，codex/workbuddy 设计文档）
 │   ├── TEMPLATE/                 # 新适配器模板
 │   ├── agents/                   # AGENTS.md 统一行为准则
 │   ├── claude/                   # Claude Code 适配器（含桌面版支持）

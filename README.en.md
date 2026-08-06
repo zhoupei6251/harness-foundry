@@ -155,7 +155,8 @@ harness-foundry/
 │   ├── security/                 # Canary token protocol
 │   └── karpathy-guidelines.md    # Code of conduct original text
 │
-├── adapters/                     # Platform physical bindings (thin shells)
+├── adapters/                     # Platform physical bindings (thin shells; status: adapters/README.md)
+│   ├── README.md                 # Adapter status overview (claude/trae usable; codex/workbuddy design docs)
 │   ├── TEMPLATE/                 # New adapter template
 │   ├── agents/                   # AGENTS.md unified code of conduct
 │   ├── claude/                   # Claude Code adapter (incl. desktop support)

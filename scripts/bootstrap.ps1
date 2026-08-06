@@ -1,7 +1,7 @@
 # Harness bootstrap (Windows PowerShell)
 # 功能与 bootstrap.sh 对齐：多平台投影 + 运行时目录 + MEMORY.md 生成
 param(
-    [ValidateSet('all','cursor','trae','claude','codex','mimocode')]
+    [ValidateSet('all','claude','trae','workbuddy')]
     [string]$Target = 'all',
     [ValidateSet('code','novel','news')]
     [string]$Route = 'code',
@@ -198,11 +198,6 @@ last_updated: $datetime
 
 # === 平台投影 ===
 
-function Bootstrap-Cursor {
-    Copy-Tree (Join-Path $Kit 'adapters\cursor\.cursor') (Join-Path $Root '.cursor') 'Cursor'
-    Sync-SkillsPlatform 'cursor'
-}
-
 function Bootstrap-Trae {
     Copy-Tree (Join-Path $Kit 'adapters\trae\.trae') (Join-Path $Root '.trae') 'Trae'
     Sync-SkillsPlatform 'trae'
@@ -229,24 +224,19 @@ function Bootstrap-Agents {
     Write-Host '[ok] AGENTS.md'
 }
 
-function Bootstrap-Codex {
+function Bootstrap-WorkBuddy {
+    # WorkBuddy（腾讯）= CodeBuddy 双品牌；配置面 .codebuddy/
+    # 源目录 adapters/workbuddy/.codebuddy/ 当前未提供（设计文档见 adapters/workbuddy/）
     if ($DryRun) {
-        Write-DryRun 'Codex: would copy AGENTS.md'
+        Write-DryRun 'WorkBuddy: would copy adapters/workbuddy/.codebuddy -> .codebuddy/'
         return
     }
-    Bootstrap-Agents
-    Write-Host '[ok] Codex: harness-foundry/adapters/codex/entrypoints/AGENTS.harness.md'
-}
-
-function Bootstrap-Mimocode {
-    if ($DryRun) {
-        Write-DryRun 'MimoCode: would copy adapters/mimocode -> .mimocode/'
-        return
-    }
-    $src = Join-Path $Kit 'adapters\mimocode'
-    $dst = Join-Path $Root '.mimocode'
+    $src = Join-Path $Kit 'adapters\workbuddy\.codebuddy'
+    $dst = Join-Path $Root '.codebuddy'
     if (Test-Path $src) {
-        Copy-Tree $src $dst 'MimoCode'
+        Copy-Tree $src $dst 'WorkBuddy'
+    } else {
+        Write-Warning "WorkBuddy 投影源未提供（适配器为设计文档，见 adapters/workbuddy/README.md）"
     }
 }
 
@@ -267,18 +257,14 @@ if ($missing) { exit 1 }
 Write-Host "[ok] 环境检查通过"
 
 switch ($Target) {
-    'cursor'   { Bootstrap-Cursor }
     'trae'     { Bootstrap-Trae }
     'claude'   { Bootstrap-Claude }
-    'codex'    { Bootstrap-Codex }
-    'mimocode' { Bootstrap-Mimocode }
+    'workbuddy' { Bootstrap-WorkBuddy }
     'all'      {
         Bootstrap-Agents
-        Bootstrap-Cursor
         Bootstrap-Trae
         Bootstrap-Claude
-        Bootstrap-Codex
-        Bootstrap-Mimocode
+        Bootstrap-WorkBuddy
     }
 }
 
