@@ -13,11 +13,12 @@ DRY_RUN=0
 
 usage() {
   cat <<'EOF'
-Usage: bootstrap.sh [--target trae|claude|workbuddy|all] [--route code|novel|news] [--force] [--dry-run]
+Usage: bootstrap.sh [--target trae|claude|codex|workbuddy|all] [--route code|novel|news] [--force] [--dry-run]
 
 Projects harness-foundry adapters to workspace:
   adapters/trae/.trae/       -> .trae/
   adapters/claude/.claude/   -> .claude/
+  adapters/codex/.codex/     -> .codex/
   adapters/workbuddy/        -> .codebuddy/
   adapters/agents/AGENTS.md  -> AGENTS.md
 
@@ -133,6 +134,20 @@ bootstrap_claude() {
 bootstrap_agents() {
   cp "${KIT}/adapters/agents/AGENTS.md" "${ROOT}/AGENTS.md"
   echo "[ok] AGENTS.md"
+}
+
+# Codex 投影（OpenAI Codex Desktop / CLI / ChatGPT 桌面版共享配置栈）
+bootstrap_codex() {
+  local src="${KIT}/adapters/codex/.codex"
+  local dst="${ROOT}/.codex"
+  if [[ -d "$src" ]]; then
+    mkdir -p "$dst"
+    copy_tree "$src" "$dst" "Codex"
+    # 同步 skills（Codex 原生 .agents/skills/ 开放标准）
+    bash "${KIT}/scripts/sync-skills.sh" --target codex
+  else
+    echo "Warn: missing Codex source: $src" >&2
+  fi
 }
 
 # WorkBuddy 投影（腾讯，= CodeBuddy 双品牌；配置面 .codebuddy/）
@@ -289,11 +304,13 @@ check_env
 case "$TARGET" in
   trae) bootstrap_trae ;;
   claude) bootstrap_claude ;;
+  codex) bootstrap_codex ;;
   workbuddy) bootstrap_workbuddy ;;
   all)
     bootstrap_agents
     bootstrap_trae
     bootstrap_claude
+    bootstrap_codex
     bootstrap_workbuddy
     bootstrap_mcp
     ;;

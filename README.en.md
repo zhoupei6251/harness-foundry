@@ -73,6 +73,7 @@ See: [v2.1 Architecture](docs/specs/harness-foundry-v2.1-architecture.md) | [Use
 bash scripts/bootstrap.sh --target all       # All platforms
 bash scripts/bootstrap.sh --target trae      # Trae only
 bash scripts/bootstrap.sh --target claude    # Claude Code only
+bash scripts/bootstrap.sh --target codex     # Codex only
 bash scripts/bootstrap.sh --target workbuddy # WorkBuddy only
 
 # 2. Sync skills
@@ -156,7 +157,7 @@ harness-foundry/
 │   └── karpathy-guidelines.md    # Code of conduct original text
 │
 ├── adapters/                     # Platform physical bindings (thin shells; status: adapters/README.md)
-│   ├── README.md                 # Adapter status overview (claude/trae usable; codex/workbuddy design docs)
+│   ├── README.md                 # Adapter status overview (all four usable)
 │   ├── TEMPLATE/                 # New adapter template
 │   ├── agents/                   # AGENTS.md unified code of conduct
 │   ├── claude/                   # Claude Code adapter (incl. desktop support)

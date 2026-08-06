@@ -158,9 +158,10 @@ index_repository(project_path="<project>")
 cd harness-foundry
 
 # 1. 投影适配器到你的 IDE
-bash scripts/bootstrap.sh --target all          # 所有平台 (trae, claude, workbuddy)
+bash scripts/bootstrap.sh --target all          # 所有平台 (trae, claude, codex, workbuddy)
 bash scripts/bootstrap.sh --target trae         # 仅 Trae
 bash scripts/bootstrap.sh --target claude       # 仅 Claude Code
+bash scripts/bootstrap.sh --target codex        # 仅 Codex
 bash scripts/bootstrap.sh --target workbuddy    # 仅 WorkBuddy
 
 # 2. 同步 skills
@@ -226,7 +227,7 @@ harness-foundry/
 │   └── karpathy-guidelines.md    # 行为准则原文
 │
 ├── adapters/                     # 平台物理绑定（薄壳，状态见 adapters/README.md）
-│   ├── README.md                 # 适配器状态总览（claude/trae 可用，codex/workbuddy 设计文档）
+│   ├── README.md                 # 适配器状态总览（claude/trae/codex/workbuddy 均可用）
 │   ├── TEMPLATE/                 # 新适配器模板
 │   ├── agents/                   # AGENTS.md 统一行为准则
 │   ├── claude/                   # Claude Code 适配器（含桌面版支持）

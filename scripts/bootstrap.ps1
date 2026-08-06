@@ -1,7 +1,7 @@
 # Harness bootstrap (Windows PowerShell)
 # 功能与 bootstrap.sh 对齐：多平台投影 + 运行时目录 + MEMORY.md 生成
 param(
-    [ValidateSet('all','claude','trae','workbuddy')]
+    [ValidateSet('all','claude','trae','codex','workbuddy')]
     [string]$Target = 'all',
     [ValidateSet('code','novel','news')]
     [string]$Route = 'code',
@@ -224,6 +224,21 @@ function Bootstrap-Agents {
     Write-Host '[ok] AGENTS.md'
 }
 
+function Bootstrap-Codex {
+    if ($DryRun) {
+        Write-DryRun 'Codex: would copy adapters/codex/.codex -> .codex/'
+        return
+    }
+    $src = Join-Path $Kit 'adapters\codex\.codex'
+    $dst = Join-Path $Root '.codex'
+    if (Test-Path $src) {
+        Copy-Tree $src $dst 'Codex'
+        & (Join-Path $PSScriptRoot 'sync-skills.ps1') -Target codex
+    } else {
+        Write-Warning "Codex 投影源未提供（见 adapters/codex/README.md）"
+    }
+}
+
 function Bootstrap-WorkBuddy {
     # WorkBuddy（腾讯）= CodeBuddy 双品牌；配置面 .codebuddy/
     # 源目录 adapters/workbuddy/.codebuddy/ 当前未提供（设计文档见 adapters/workbuddy/）
@@ -259,11 +274,13 @@ Write-Host "[ok] 环境检查通过"
 switch ($Target) {
     'trae'     { Bootstrap-Trae }
     'claude'   { Bootstrap-Claude }
+    'codex'    { Bootstrap-Codex }
     'workbuddy' { Bootstrap-WorkBuddy }
     'all'      {
         Bootstrap-Agents
         Bootstrap-Trae
         Bootstrap-Claude
+        Bootstrap-Codex
         Bootstrap-WorkBuddy
     }
 }

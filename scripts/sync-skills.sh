@@ -10,6 +10,9 @@ SRC="${ROOT}/skills"
 # 投影目标目录
 CLAUDE_DST="${ROOT}/.claude/skills"
 TRAE_DST="${ROOT}/.trae/skills"
+# codex/workbuddy 共用 Anthropic Agent Skills 开放标准目录（.agents/skills/）
+CODEX_DST="${ROOT}/.agents/skills"
+WORKBUDDY_DST="${ROOT}/.agents/skills"
 
 # Intelligence Layer Skills 源目录
 INTELLIGENCE_SRC="${ROOT}/core/intelligence"
@@ -23,7 +26,7 @@ SKIP_FROM_SYNC=()
 
 usage() {
   cat <<'EOF'
-Usage: sync-skills.sh [--target claude|trae|all] [--dry-run]
+Usage: sync-skills.sh [--target claude|trae|codex|workbuddy|all] [--dry-run]
 
 Syncs skills from:
   skills/          -> .claude/skills/, .trae/skills/
@@ -85,6 +88,7 @@ for s in sorted(set(d.get('core', []) + d.get('peripheral', []))):
       case "$platform" in
         claude) dst="$CLAUDE_DST" ;;
         trae) dst="$TRAE_DST" ;;
+        codex|workbuddy) dst="$CODEX_DST" ;;
         *) echo "Unknown platform: $platform" >&2; return 1 ;;
       esac
       echo "==> Sync ${platform} -> ${dst}"
@@ -139,9 +143,12 @@ for s in sorted(set(d.get('core', []) + d.get('peripheral', []))):
     case "$TARGET" in
       claude) sync_platform claude ;;
       trae) sync_platform trae ;;
+      codex|workbuddy) sync_platform "$TARGET" ;;
       all)
         sync_platform claude
         sync_platform trae
+        sync_platform codex
+        sync_platform workbuddy
         ;;
       *) echo "Unknown target: $TARGET" >&2; exit 1 ;;
     esac
@@ -249,6 +256,7 @@ for s in sorted(set(d.get('core', []) + d.get('peripheral', []))):
     case "$platform" in
       claude) dst="$CLAUDE_DST" ;;
       trae) dst="$TRAE_DST" ;;
+      codex|workbuddy) dst="$CODEX_DST" ;;
       *) echo "Unknown platform: $platform" >&2; return 1 ;;
     esac
     echo "==> Sync ${platform} -> ${dst}"
@@ -287,9 +295,12 @@ for s in sorted(set(d.get('core', []) + d.get('peripheral', []))):
   case "$TARGET" in
     claude) sync_platform claude ;;
     trae) sync_platform trae ;;
+    codex|workbuddy) sync_platform "$TARGET" ;;
     all)
       sync_platform claude
       sync_platform trae
+      sync_platform codex
+      sync_platform workbuddy
       ;;
     *)
       echo "Unknown target: $TARGET" >&2
@@ -356,7 +367,7 @@ case "$TARGET" in
     sync_from_manifest
     sync_intelligence
     ;;
-  claude|trae)
+  claude|trae|codex|workbuddy)
     sync_from_manifest
     ;;
   *)

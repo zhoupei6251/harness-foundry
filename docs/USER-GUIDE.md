@@ -306,8 +306,8 @@ bash scripts/install-intelligence-deps.sh
 |------|--------|------|---------|
 | **Claude Code** | `adapters/claude/` | ✅ 可用 | `.claude/` |
 | **Trae** | `adapters/trae/` | ✅ 可用 | `.trae/` |
-| **Codex** | `adapters/codex/` | 📄 设计文档 | `AGENTS.codex-overlay.md` |
-| **WorkBuddy** | `adapters/workbuddy/` | 📄 设计文档 | `.codebuddy/` |
+| **Codex** | `adapters/codex/` | ✅ 可用 | `.codex/` |
+| **WorkBuddy** | `adapters/workbuddy/` | ✅ 可用 | `.codebuddy/` |
 
 > 完整状态见 `adapters/README.md`。
 
@@ -315,9 +315,10 @@ bash scripts/install-intelligence-deps.sh
 
 ```bash
 # 同步适配器 + skills 到指定平台
-bash scripts/bootstrap.sh --target all          # 所有平台 (trae, claude, workbuddy)
+bash scripts/bootstrap.sh --target all          # 所有平台 (trae, claude, codex, workbuddy)
 bash scripts/bootstrap.sh --target trae         # 仅 Trae
 bash scripts/bootstrap.sh --target claude       # 仅 Claude Code
+bash scripts/bootstrap.sh --target codex        # 仅 Codex
 bash scripts/bootstrap.sh --target workbuddy    # 仅 WorkBuddy
 
 # 同步 skills
