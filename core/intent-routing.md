@@ -53,6 +53,10 @@ tags: [Rules, Runbook]
   ↓
 spawn ecc:java-reviewer（prompt 必带：按 rules/code/java/patterns.md「编码标准基准」逐条核对
   Alibaba Java Coding Guidelines + Google Java Style + Clean Code 的禁止/必须清单，违反即打回重构）
+  ↓
+返修循环（springboot-checklist.md § 返修循环，最多 2 轮）：
+  reviewer 有发现 → 逐条修复 → 再审（第 2 轮）
+  2 轮后仍有问题 → 提交 reviewer 判定，不静默交付
   ↓ （以下按条件自动触发，独立的可并行）
 ├── 新接口/权限/用户输入 → spawn ecc:security-reviewer
 ├── SQL/DDL/schema → spawn ecc:database-reviewer
