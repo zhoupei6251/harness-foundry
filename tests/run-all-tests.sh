@@ -50,6 +50,7 @@ run_test "L1-8: novel-graph 校验" "$TESTS_DIR/L1-static/validate-novel-graph.s
 run_test "L1-9: novel AI 痕迹红线回归" "$TESTS_DIR/L1-static/validate-novel-redlines.sh"
 run_test "L1-10: news 自检清单" "$TESTS_DIR/L1-static/validate-news-checklist.sh"
 run_test "L1-11: code 自检清单" "$TESTS_DIR/L1-static/validate-code-checklist.sh"
+run_test "L1-20: code 陷阱扫描器" "$TESTS_DIR/L1-static/validate-code-scanner.sh"
 run_test "L1-12: novel continuity 连续性引擎" "$TESTS_DIR/L1-static/validate-novel-continuity.sh"
 run_test "L1-13: novel mechanical scorer" "$TESTS_DIR/L1-static/validate-novel-scorer.sh"
 run_test "L1-14: novel foreshadowing DAG" "$TESTS_DIR/L1-static/validate-novel-foreshadowing.sh"
@@ -66,6 +67,7 @@ echo ""
 run_test "L2-1: Routing 完整性" "$TESTS_DIR/L2-integration/validate-routing.sh"
 run_test "L2-2: Domain Config 引用一致性" "$TESTS_DIR/L2-integration/validate-domain-config.sh"
 run_test "L2-3: 路由触发（意图→路由命中）" "$TESTS_DIR/L2-integration/validate-route-triggers.sh"
+run_test "L2-4: novel 引擎链集成" "$TESTS_DIR/L2-integration/validate-novel-engine-chain.sh"
 
 # === L3-intelligence（静态，无外部依赖，已收编进 verify.sh） ===
 echo "--- L3 Intelligence 集成测试（静态） ---"
