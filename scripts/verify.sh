@@ -109,9 +109,11 @@ for t in \
   tests/L1-static/validate-novel-metrics.sh \
   tests/L1-static/validate-news-checklist.sh \
   tests/L1-static/validate-code-checklist.sh \
+  tests/L1-static/validate-code-scanner.sh \
   tests/L2-integration/validate-routing.sh \
   tests/L2-integration/validate-domain-config.sh \
   tests/L2-integration/validate-route-triggers.sh \
+  tests/L2-integration/validate-novel-engine-chain.sh \
   tests/validate-intelligence-layer.sh \
   tests/L3-intelligence/test-skill-routing.sh \
   tests/L3-intelligence/test-agent-integration.sh \
@@ -123,6 +125,16 @@ for t in \
   fi
 done
 echo "  [ok] tests/ 静态与集成测试全部通过"
+
+# 插件依赖检查（审查链关键路径；--warn 模式：CI 宽容，本地严格）
+echo ""
+echo "==> [8b/9] 插件依赖检查（ecc / superpowers）"
+if bash tests/validate-plugins.sh --warn 2>&1 | tail -n 15; then
+  echo "  [ok] 插件依赖检查完成"
+else
+  echo "  [FAIL] 插件依赖检查"
+  exit 1
+fi
 
 # Skill 行为测试（eval runner；无测试的 skill 不阻塞，有测试的必须全过）
 echo "  -- node scripts/eval/run-skill-eval.js --all"

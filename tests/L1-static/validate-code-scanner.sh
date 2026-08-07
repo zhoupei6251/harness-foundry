@@ -113,6 +113,45 @@ public class Generated {
 }
 EOF
 
+# ---- fixture：误报回归（真实项目校准发现的合法场景，不应命中）----
+mkdir -p "$TMP_DIR/no-false-positive"
+cat > "$TMP_DIR/no-false-positive/FalsePositiveGuard.java" <<'EOF'
+public class FalsePositiveGuard {
+    // @Value 配置注入不是 SQL 拼接
+    @Value("${aigc.api.ali.base-url}")
+    private String aliBaseUrl;
+
+    // DICT_ 字典 key 名不是硬编码密钥
+    private static final String DICT_TYPE_API_KEY = "api_key";
+
+    // 占位符日志不是泄露
+    public void logToken(Long token, int costQuantity) {
+        log.debug("token={} costQuantity={}", token, costQuantity);
+    }
+
+    // 字面量+字面量拼接是合法常量拼接，不是注入
+    @Select("SELECT character_name AS name, alias AS aliases, 'role' AS type FROM aigc_drama_character "
+        + "WHERE drama_id = #{dramaId}")
+    public List<Drama> query(@Param("dramaId") Long dramaId);
+
+    // 重试循环内的 HTTP 是正确模式
+    public void retryCall() {
+        for (int retry = 0; retry < maxRetries; retry++) {
+            httpClient.send(request);
+        }
+    }
+
+    // 超时/调度参数不是魔法数
+    @Scheduled(fixedDelay = 120000, initialDelay = 120000)
+    public void schedule() { }
+
+    public void timeouts() {
+        client.setConnectionTimeout(30000);
+        Duration.ofSeconds(60);
+    }
+}
+EOF
+
 run_scanner() {
   python "$SCANNER" "$1" --json
 }
@@ -146,7 +185,18 @@ for rule in EMPTY_CATCH SELECT_STAR N_PLUS_ONE SQL_CONCAT HARDCODED_SECRET LOG_S
   fi
 done
 
-# 断言 4: --fail-on-error 退出码
+# 断言 4: 误报回归——合法场景 0 命中（校准发现：@Value/字典key/占位符日志/字面量拼接/重试循环/超时参数）
+echo "==> 合法场景应 0 命中（误报回归）"
+FP_JSON="$(run_scanner "$TMP_DIR/no-false-positive")"
+FP_TOTAL="$(echo "$FP_JSON" | python -c "import json,sys; print(json.load(sys.stdin)['total_findings'])")"
+if [[ "$FP_TOTAL" == "0" ]]; then
+  PASS "6 类合法场景 0 命中"
+else
+  FAIL "误报回归失败: total=$FP_TOTAL"
+  echo "$FP_JSON" | python -c "import json,sys; [print(' ', f['rule'], f['line']) for f in json.load(sys.stdin)['findings']]" 2>/dev/null || true
+fi
+
+# 断言 5: --fail-on-error 退出码
 echo "==> 退出码语义"
 if python "$SCANNER" "$TMP_DIR/bad" --fail-on-error > /dev/null 2>&1; then
   FAIL "坏代码 --fail-on-error 应退出 1"

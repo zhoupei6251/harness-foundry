@@ -121,44 +121,61 @@ def _find_empty_catches(content: str) -> List[int]:
 def _find_magic_numbers(content: str) -> List[int]:
     """裸数字魔法数 → 行号列表。
 
-    启发式：只抓明显场景，保守策略——宁可漏报不误报：
-      - 排除: import / package / 注释 / 类型声明（int x = 5）
-      - 命中: return 500; sleep(3000); setMaxResults(100) 等裸数字用法
+    启发式：只抓**无上下文的孤立数字常量**，保守策略——宁可漏报不误报：
+      - 排除: 任何带名字的数字（枚举名、注解参数、赋值、超时、HTTP 状态码、return 0/1/-1、年份）
+      - 命中: 无参数名的孤立数字结尾（如 `result = x * 299;` 中的 299、`return 65;`）
+    行号在**原文本**上计算（删注释保留换行符，避免行号漂移）。
     """
     hits: List[int] = []
-    body = re.sub(r"/\*.*?\*/", "", content, flags=re.DOTALL)
-    body = re.sub(r"//[^\n]*", "", body)
-    for i, line in enumerate(body.split("\n"), 1):
-        stripped = line.strip()
-        if not stripped or stripped.startswith(("import ", "package ")):
+    # 删注释但保留换行符（避免多行块注释删除后行号上移）
+    stripped = re.sub(
+        r"/\*.*?\*/",
+        lambda m: "\n" * m.group(0).count("\n"),
+        content, flags=re.DOTALL
+    )
+    stripped = re.sub(r"//[^\n]*", "", stripped)
+    for i, line in enumerate(stripped.split("\n"), 1):
+        s = line.strip()
+        if not s or s.startswith(("import ", "package ")):
             continue
-        # 类型声明行不算（有名字的初始化）
-        if re.search(r"\b(int|long|double|float|short|byte)\s+\w+\s*=", stripped):
-            continue
-        # 裸数字在调用参数/return 中（return 500; 无括号 / sleep(3000) 有括号）
+        # 任何带名字的数字（字母紧邻数字=标识符/枚举名；赋值、注解参数、超时、HTTP 状态码）→ 排除
         if re.search(
-            r"(?:return\s+[0-9]+\s*;|(?:sleep|wait|setMaxResults|setPageSize|setTimeout|retry|limit|maxAttempts)"
-            r"\s*\(\s*[0-9]+\s*\))", stripped, re.IGNORECASE
+            r"[a-zA-Z_]\d|\d[a-zA-Z_]|=\s*[0-9]+|sleep\s*\(|setTimeout\s*\(|setConnectionTimeout\s*\(|"
+            r"setReadTimeout\s*\(|Duration\.of|\.timeout\s*\(|HTTP_[A-Z_]+|SC_\w+|fixedDelay|initialDelay|"
+            r"acquireTimeout|expire\s*[=:]|return\s+(0|1|-1)\s*;", s
         ):
-            hits.append(i)
-        # 孤立 3-4 位数字结尾（排除年份 19xx/20xx）
-        m = re.search(r"([5-9][0-9]{2,}|[1-9][0-9]{3,})\s*[;),]?\s*$", stripped)
+            continue
+        # 命中：孤立 3-4 位数字结尾（排除年份 19xx/20xx 和 return 2/3 等小数字约定）
+        m = re.search(r"([5-9][0-9]{2,}|[1-9][0-9]{3,})\s*[;),]?\s*$", s)
         if m and not re.match(r"(19|20)\d{2}", m.group(1)):
             hits.append(i)
     return hits
 
 
 def _find_http_in_loop(content: str) -> List[int]:
-    """for/while 循环体内有 HTTP 调用 → 行号列表（启发式，取循环体前 400 字符）"""
+    """for/while 循环体内有同步 HTTP 调用 → 行号列表（启发式，取循环体前 400 字符）。
+
+    排除两类合法模式：
+      - 重试循环（for retry.../for i < maxRetries）——重试本身就该在循环里
+      - 异步提交（循环体里 execute(() -> /submit(() ->）——非串行等待
+    """
     hits: List[int] = []
     http_call = re.compile(
         r"(restTemplate|restClient|okHttp|httpClient|webClient|feignClient|"
         r"\.postForEntity|\.getForObject|\.exchange\(|\.execute\(|"
         r"\b(RpcClient|HttpUtil|HttpRequest|HttpClient|ApiClient)\w*)"
     )
+    async_call = re.compile(r"(execute|submit|submitAsync)\s*\(\s*[()\w\s,]*?->|\.execute\s*\([^)]*\.run\b")
     for m in re.finditer(r"(for\s*\([^)]*\)|while\s*\([^)]*\))\s*\{", content):
+        loop_header = content[m.start() : m.end()]
+        # 重试循环（for (int retry = 0; retry < maxRetries...）不报
+        if re.search(r"retry|maxRetries|attempt", loop_header, re.IGNORECASE):
+            continue
         body = content[m.end() : m.end() + 400]
         if http_call.search(body):
+            # 循环体只含异步提交 → 不报
+            if async_call.search(body) and not re.search(r"\.send\(|\.execute\(\s*(Http|Request|url)|postFor|getForObject|restTemplate", body):
+                continue
             hits.append(_line_of(content, m.start()))
     return hits
 
@@ -195,23 +212,33 @@ def scan_text(content: str, file_path: str) -> List[Finding]:
     for ln in _find_http_in_loop(content):
         result.append(Finding("HTTP_IN_LOOP", "循环内发 HTTP 请求（串行等待）——批量接口或并发", f, ln))
 
-    # 5. ${} 拼接 SQL
-    for m in re.finditer(r"\$\{[^}]*\}", content):
-        if not _is_in_comment(content, m.start()):
-            result.append(Finding("SQL_CONCAT", "${xxx} 直接拼接用户输入——有 SQL 注入风险，改用 #{}", f, _line_of(content, m.start()), "WARN"))
-    # 字符串拼接 SQL
-    for m in re.finditer(r'"[^"]*(SELECT|WHERE|FROM|INSERT|UPDATE|DELETE)[^"]*"\s*\+', content, re.IGNORECASE):
-        if not _is_in_comment(content, m.start()):
-            result.append(Finding("SQL_CONCAT", "字符串拼接 SQL——注入风险且无法复用执行计划", f, _line_of(content, m.start())))
+    # 5. ${} 拼接 SQL（仅 MyBatis XML 中才是注入风险；Java 里 ${} 是配置注入，不算）
+    if file_path.endswith(".xml"):
+        for m in re.finditer(r"\$\{[^}]*\}", content):
+            if not _is_in_comment(content, m.start()):
+                result.append(Finding("SQL_CONCAT", "${xxx} 直接拼接用户输入——有 SQL 注入风险，改用 #{}", f, _line_of(content, m.start()), "WARN"))
+    # 字符串拼接 SQL（仅 .java 源码；只匹配拼接**变量**——字面量+字面量是合法常量拼接）
+    elif file_path.endswith(".java"):
+        for m in re.finditer(
+            r'"[^"]*(SELECT|WHERE|FROM|INSERT|UPDATE|DELETE)[^"]*"\s*\+'
+            r'\s*(?![^"\n]*"[^"\n]*["\n])\w+\s*;',
+            content, re.IGNORECASE
+        ):
+            if not _is_in_comment(content, m.start()):
+                result.append(Finding("SQL_CONCAT", "字符串拼接 SQL 变量——注入风险且无法复用执行计划", f, _line_of(content, m.start())))
 
-    # 6. 硬编码密钥
+    # 6. 硬编码密钥（排除 DICT_/字典 key 名字符串——那是配置引用不是密钥）
     for m in re.finditer(
-        r"(password|passwd|jwtSecret|jwt_secret|apiKey|api_key|accessKey|secretKey|privateKey)\s*[:=]\s*"
+        r"(?<![A-Za-z_])(password|passwd|jwtSecret|jwt_secret|apiKey|api_key|accessKey|secretKey|privateKey)\s*[:=]\s*"
         r"['\"]([^'\"]{%d,})['\"]" % SECRET_MIN_LEN,
         content,
         re.IGNORECASE,
     ):
         if not _is_in_comment(content, m.start()):
+            # 排除 DICT_TYPE_/DICT_KEY_ 等字典引用名
+            prefix = content[max(0, m.start() - 40) : m.start()]
+            if re.search(r"DICT_[A-Z_]*KEY|DICT_KEY_", prefix, re.IGNORECASE):
+                continue
             result.append(Finding("HARDCODED_SECRET", f"硬编码密钥（{m.group(1)}）——应放配置/环境变量", f, _line_of(content, m.start())))
 
     # 7. setnx + expire 手写分布式锁
@@ -222,9 +249,13 @@ def scan_text(content: str, file_path: str) -> List[Finding]:
         if not _is_in_comment(content, m.start()):
             result.append(Finding("SETNX_LOCK", "手写 setnx+expire 分布式锁非原子——用 Redisson tryLock", f, _line_of(content, m.start())))
 
-    # 8. 日志打敏感信息
+    # 8. 日志打敏感信息（排除 {} 占位符的日志——那是参数名不是泄露值）
     for m in re.finditer(r'log\.(info|error|warn|debug)\([^)]*' + SENSITIVE_FIELDS, content, re.IGNORECASE):
         if not _is_in_comment(content, m.start()):
+            log_call = content[m.start() : m.end()]
+            # log.info("token={}", token) → token 是占位符参数名，不报
+            if re.search(SENSITIVE_FIELDS + r"[^)\n]*=\{\}", log_call, re.IGNORECASE):
+                continue
             result.append(Finding("LOG_SENSITIVE", "日志打印敏感信息——脱敏后再记", f, _line_of(content, m.start())))
 
     # 9. System.out
