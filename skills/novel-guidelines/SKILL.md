@@ -13,7 +13,7 @@ status: stable
 # Novel Guidelines — 小说写作前思维基线
 
 Novel 域强制性前置检查。任何小说创作任务启动前必须加载。
-基于 82 条 AI 写作陷阱。
+基于 63 条 AI 写作陷阱。
 
 ## 核心原则
 

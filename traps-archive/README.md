@@ -7,10 +7,10 @@
 | 工作域 | 目录 | 总数 | 精简版 |
 |--------|------|------|--------|
 | **代码** | `traps-archive/code/` | 251 条 | `references/traps.md`（代码域部分） |
-| **小说** | `traps-archive/novel/` | 82 条 | `references/traps.md`（小说域部分） |
+| **小说** | `traps-archive/novel/` | 63 条 | `references/traps.md`（小说域部分） |
 | **新闻** | `traps-archive/news/` | 69 条 | `references/traps.md`（新闻域部分） |
 
-**总计：402 条陷阱规则**
+**总计：417 条陷阱规则**
 
 ## 代码域
 
@@ -22,7 +22,7 @@
 
 | 文件 | 内容 | 条数 |
 |------|------|------|
-| `novel/00-all.md` | 完整小说写作陷阱库 | 47 条 |
+| `novel/00-all.md` | 完整小说写作陷阱库 | 63 条 |
 
 ### 小说陷阱分类
 

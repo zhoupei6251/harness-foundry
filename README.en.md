@@ -139,7 +139,7 @@ harness-foundry/
 │   ├── ENTRY.md                  # Core entry
 │   ├── intent-routing.md         # Intent routing table (read first)
 │   ├── routing.md                # Compat alias → intent-routing.md
-│   ├── NEVER.md                  # Hard prohibitions (402 trap rules)
+│   ├── NEVER.md                  # Hard prohibitions (417 trap rules)
 │   ├── principles.md             # 10 core principles
 │   ├── capabilities/             # Capability ID registry
 │   ├── intelligence/             # Intelligence Layer config
@@ -212,7 +212,7 @@ harness-foundry/
 ├── contexts/                     # Domain-specific contexts (code / novel / news / review)
 ├── rules/                        # Tech-stack-specific coding rules
 ├── references/                   # Context maps, instincts, traps
-├── traps-archive/                # Historical trap archive (402 rules)
+├── traps-archive/                # Historical trap archive (417 rules)
 │   ├── code/00-all.md            # 251 code traps
 │   ├── novel/00-all.md           # 82 novel traps
 │   └── news/00-all.md            # 69 news traps

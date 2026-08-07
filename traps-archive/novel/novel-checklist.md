@@ -46,5 +46,5 @@
 ## 参考
 
 - `skills/novel-protocol/SKILL.md` — 写前入口（路由 + 知识库绑定 + 因果链预检）
-- `traps-archive/novel/00-all.md` — 47 条详细陷阱
+- `traps-archive/novel/00-all.md` — 63 条详细陷阱
 - `skills/novel-evaluator/SKILL.md` — 7 维评分系统（审稿用）

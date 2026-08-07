@@ -49,7 +49,7 @@ rules/novel/
 | 规则 | 文件 | 说明 |
 |------|------|------|
 | 阶段门禁 | `contexts/novel.md` | 6 阶段门禁（开书→规划→正文→审稿→润色→统稿） |
-| 致命陷阱 | `traps-archive/novel/00-all.md` | 82 条陷阱（AI痕迹/节奏/逻辑等） |
+| 致命陷阱 | `traps-archive/novel/00-all.md` | 63 条陷阱（AI痕迹/节奏/逻辑等） |
 | NEVER 禁止 | `core/NEVER.md` | 通用禁止项（novel 域部分） |
 
 ### 叙事规则
@@ -89,7 +89,7 @@ rules/novel/
 
 ## 陷阱分类索引
 
-`traps-archive/novel/00-all.md`（82 条）：
+`traps-archive/novel/00-all.md`（63 条）：
 
 | 分类 | 条数 | 编号 |
 |------|------|------|

@@ -43,7 +43,7 @@ tags: [Reference]
 |------|------|
 | `references/traps.md` | 按域分类致命版（每域 25 条） |
 | `traps-archive/code/00-all.md` | 代码域完整版（251 条） |
-| `traps-archive/novel/00-all.md` | 小说域完整版（82 条） |
+| `traps-archive/novel/00-all.md` | 小说域完整版（63 条） |
 | `traps-archive/news/00-all.md` | 新闻域完整版（69 条） |
 | `references/README.md` | 代码范例索引 |
 

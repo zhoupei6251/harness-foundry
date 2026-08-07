@@ -171,6 +171,6 @@ category: novel.polish
 ## 依赖
 
 - `skills/humanizer-zh/SKILL.md` — 轻量润色（互补工具）
-- `traps-archive/novel/00-all.md` — 47 条小说域陷阱（AI 痕迹清单）
+- `traps-archive/novel/00-all.md` — 63 条小说域陷阱（AI 痕迹清单）
 - `agents/humanizer.md` — 润色师角色定义
 - `core/NEVER.md` — AI 写作禁忌

@@ -139,4 +139,4 @@
 
 - `contexts/novel.md` — 场景上下文
 - `rules/novel/` — 规则库
-- `traps-archive/novel/00-all.md` — 82 条陷阱
+- `traps-archive/novel/00-all.md` — 63 条陷阱

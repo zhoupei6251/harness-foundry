@@ -68,7 +68,7 @@ python scripts/novel/mechanical_scorer.py 章节正文/第1章_xxx.md --json
 
 ## 检查维度（9 大类）
 
-借鉴 autonovel evaluate.py + 融合 traps-archive 82 条陷阱：
+借鉴 autonovel evaluate.py + 融合 traps-archive 63 条陷阱：
 
 | 检查 | 借鉴来源 | 说明 |
 |------|---------|------|
@@ -194,6 +194,6 @@ CLICHE_PATTERNS = [
 
 ## 依赖
 
-- `traps-archive/novel/00-all.md` — 82 条陷阱
+- `traps-archive/novel/00-all.md` — 63 条陷阱
 - `skills/novel-evaluator/` — LLM 7 维审稿
 - `scripts/novel/mechanical_scorer.py` — 本工具

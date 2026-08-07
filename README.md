@@ -209,7 +209,7 @@ harness-foundry/
 │   ├── ENTRY.md                  # 核心入口
 │   ├── intent-routing.md         # 意图路由表（每个会话第一个读）
 │   ├── routing.md                # 兼容别名 → intent-routing.md
-│   ├── NEVER.md                  # 硬性禁止项（402 条陷阱规则）
+│   ├── NEVER.md                  # 硬性禁止项（417 条陷阱规则）
 │   ├── principles.md             # 10 条核心原则
 │   ├── capabilities/             # Capability ID 注册表
 │   ├── intelligence/             # Intelligence Layer 配置
@@ -282,9 +282,9 @@ harness-foundry/
 ├── contexts/                     # 域专属上下文（code / novel / news / review）
 ├── rules/                        # 技术栈专属编码规则
 ├── references/                   # 上下文地图、Instinct、学习模式
-├── traps-archive/                # 历史陷阱存档（402 条规则）
+├── traps-archive/                # 历史陷阱存档（417 条规则）
 │   ├── code/00-all.md            # 251 条代码陷阱
-│   ├── novel/00-all.md           # 82 条小说陷阱
+│   ├── novel/00-all.md           # 63 条小说陷阱
 │   └── news/00-all.md            # 69 条新闻陷阱
 │
 ├── handoff/                      # Agent 交接协议

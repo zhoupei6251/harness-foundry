@@ -77,7 +77,7 @@ harness-foundry/
 ├── CLAUDE.md               # Claude Code 上下文文件
 ├── core/                   # 平台无关真相源（勿改）
 │   ├── intent-routing.md   # 意图路由表（每个会话第一个读）
-│   ├── NEVER.md            # 硬性禁止项（402 条陷阱规则）
+│   ├── NEVER.md            # 硬性禁止项（417 条陷阱规则）
 │   ├── principles.md       # 10 条核心原则
 │   ├── orchestration/      # 调度 / 角色 / Skill 路由
 │   ├── review/             # 两阶段审查协议
@@ -109,7 +109,7 @@ harness-foundry/
 ├── contexts/               # 域专属上下文（code / novel / news / review）
 ├── rules/                  # 技术栈专属编码规则
 ├── references/             # 上下文地图、Instinct、学习模式
-├── traps-archive/          # 历史陷阱存档（402 条规则）
+├── traps-archive/          # 历史陷阱存档（417 条规则）
 ├── handoff/                # Agent 交接协议
 ├── memory/                 # 记忆存储
 ├── docs/                   # 文档（QUICKSTART / USER-GUIDE / CLI-REFERENCE 等）
