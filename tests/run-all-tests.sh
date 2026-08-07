@@ -49,6 +49,9 @@ run_test "L1-6: 孤儿 Skill 检测" "$TESTS_DIR/L1-static/validate-orphan-skill
 run_test "L1-8: novel-graph 校验" "$TESTS_DIR/L1-static/validate-novel-graph.sh"
 run_test "L1-9: novel AI 痕迹红线回归" "$TESTS_DIR/L1-static/validate-novel-redlines.sh"
 run_test "L1-10: news 自检清单" "$TESTS_DIR/L1-static/validate-news-checklist.sh"
+run_test "L1-11: code 自检清单" "$TESTS_DIR/L1-static/validate-code-checklist.sh"
+run_test "L1-12: novel continuity 连续性引擎" "$TESTS_DIR/L1-static/validate-novel-continuity.sh"
+run_test "L1-13: novel mechanical scorer" "$TESTS_DIR/L1-static/validate-novel-scorer.sh"
 
 # === L2 集成测试（本地） ===
 echo "--- L2 集成测试 ---"

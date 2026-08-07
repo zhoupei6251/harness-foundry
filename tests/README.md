@@ -6,10 +6,10 @@
 
 | 层级 | 内容 | 成本 | 速度 | 运行方式 |
 |------|------|------|------|---------|
-| **L1 静态验证** | Config schema / Agent 格式 / Skill meta / NEVER / novel-graph / novel 红线 / news 清单 | 免费 | <2s | `bash tests/run-all-tests.sh` |
+| **L1 静态验证** | Config schema / Agent 格式 / Skill meta / NEVER / novel-graph / novel 红线 / novel 引擎 / news 清单 / code 禁令 | 免费 | <2s | `bash tests/run-all-tests.sh` |
 | **L2 集成测试** | Routing / Domain config / 路由触发 | 免费 | ~5s | `bash tests/run-all-tests.sh` |
 | **L3-intelligence** | Skill 路由 / Agent 集成 / MCP 配置（静态） | 免费 | ~5s | `bash tests/run-all-tests.sh` |
-| **Skill 行为测试** | eval runner（`run-skill-eval.js`，84 skill 中 1 个有测试） | 免费 | ~5s | `node scripts/eval/run-skill-eval.js --all` |
+| **Skill 行为测试** | eval runner（`run-skill-eval.js`，84 skill 中 3 个有测试：brainstorming / code-review / novel-protocol） | 免费 | ~5s | `node scripts/eval/run-skill-eval.js --all` |
 | **L3 LLM 裁判** | 文档质量主观评分 | ~$0.30 | ~30s | 未实现（见 `L3-eval/eval-with-llm-judge.md`） |
 
 ## 测试脚本
@@ -24,7 +24,11 @@
 | `L1-static/validate-never.sh` | 检查 NEVER.md 规则可与 guardrail 的覆盖情况 |
 | `L1-static/validate-novel-graph.sh` | novel-graph 因果链熔断（正向 + 负向） |
 | `L1-static/validate-novel-redlines.sh` | novel AI 痕迹红线回归（A/B 实验语料） |
+| `L1-static/validate-novel-continuity.sh` | novel continuity 连续性引擎（伏笔回收 / 时间线 / 角色矛盾） |
+| `L1-static/validate-novel-scorer.sh` | novel mechanical scorer 机械评分器（AI 高频词 / 字数 / 报告结构） |
 | `L1-static/validate-news-checklist.sh` | news 自检清单（夸大词 / AI 套路 / 单一信源） |
+| `L1-static/validate-code-checklist.sh` | code 自检清单（空 catch / SELECT * / N+1 / 硬编码密钥 / 日志泄敏感等） |
+| `L1-static/validate-code-checklist.sh` | code 自检清单（空 catch / SELECT * / N+1 / 硬编码密钥 / 日志泄敏感等） |
 
 ### L2 集成测试
 

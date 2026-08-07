@@ -99,7 +99,10 @@ for t in \
   tests/L1-static/validate-orphan-skills.sh \
   tests/L1-static/validate-novel-graph.sh \
   tests/L1-static/validate-novel-redlines.sh \
+  tests/L1-static/validate-novel-continuity.sh \
+  tests/L1-static/validate-novel-scorer.sh \
   tests/L1-static/validate-news-checklist.sh \
+  tests/L1-static/validate-code-checklist.sh \
   tests/L2-integration/validate-routing.sh \
   tests/L2-integration/validate-domain-config.sh \
   tests/L2-integration/validate-route-triggers.sh \
