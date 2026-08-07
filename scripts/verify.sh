@@ -101,6 +101,12 @@ for t in \
   tests/L1-static/validate-novel-redlines.sh \
   tests/L1-static/validate-novel-continuity.sh \
   tests/L1-static/validate-novel-scorer.sh \
+  tests/L1-static/validate-novel-foreshadowing.sh \
+  tests/L1-static/validate-novel-memory-health.sh \
+  tests/L1-static/validate-novel-memory-injector.sh \
+  tests/L1-static/validate-novel-checkpoint.sh \
+  tests/L1-static/validate-novel-export.sh \
+  tests/L1-static/validate-novel-metrics.sh \
   tests/L1-static/validate-news-checklist.sh \
   tests/L1-static/validate-code-checklist.sh \
   tests/L2-integration/validate-routing.sh \

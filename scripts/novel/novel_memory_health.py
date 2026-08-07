@@ -160,7 +160,8 @@ def parse_characters_from_memory(memory_content: str, chapters: list) -> List[Ch
     # 尝试解析角色表格
     in_character_section = False
     for line in memory_content.split('\n'):
-        if '人物设定' in line or '角色' in line or '### 主角' in line or '### 配角' in line or '### 反派' in line:
+        # 注意：'### 主角' 等行不能在这里 continue——下面有专门的分支解析它们
+        if '人物设定' in line or '角色' in line:
             in_character_section = True
             continue
 
@@ -232,7 +233,7 @@ def parse_foreshadows_from_memory(memory_content: str) -> List[Foreshadowing]:
                 fs = Foreshadowing(id=parts[0])
                 if len(parts) >= 2:
                     fs.description = parts[1]
-                if len(parts) >= 6:
+                if len(parts) >= 5:
                     # 格式: ID | 内容 | 埋设章节 | 状态 | 回收章节
                     try:
                         fs.planted_chapter = int(re.search(r'(\d+)', parts[2]).group(1)) if re.search(r'(\d+)', parts[2]) else 0

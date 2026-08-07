@@ -26,8 +26,13 @@
 | `L1-static/validate-novel-redlines.sh` | novel AI 痕迹红线回归（A/B 实验语料） |
 | `L1-static/validate-novel-continuity.sh` | novel continuity 连续性引擎（伏笔回收 / 时间线 / 角色矛盾） |
 | `L1-static/validate-novel-scorer.sh` | novel mechanical scorer 机械评分器（AI 高频词 / 字数 / 报告结构） |
+| `L1-static/validate-novel-foreshadowing.sh` | novel foreshadowing DAG 伏笔图（逾期 / 闲置 / 循环 / 孤立 / 状态流转） |
+| `L1-static/validate-novel-memory-health.sh` | novel memory health 记忆健康（健康分 / 角色解析 / 问题清单） |
+| `L1-static/validate-novel-memory-injector.sh` | novel memory injector 记忆注入（提取 / 结构 / token 上限） |
+| `L1-static/validate-novel-checkpoint.sh` | novel checkpoint 检查点（持久化 / 验证 / 容错） |
+| `L1-static/validate-novel-export.sh` | novel export 多格式导出（JSON / JSONL / CSV / HTML / EPUB） |
+| `L1-static/validate-novel-metrics.sh` | novel metrics 写作指标（属性计算 / 仪表板 / 周报） |
 | `L1-static/validate-news-checklist.sh` | news 自检清单（夸大词 / AI 套路 / 单一信源） |
-| `L1-static/validate-code-checklist.sh` | code 自检清单（空 catch / SELECT * / N+1 / 硬编码密钥 / 日志泄敏感等） |
 | `L1-static/validate-code-checklist.sh` | code 自检清单（空 catch / SELECT * / N+1 / 硬编码密钥 / 日志泄敏感等） |
 
 ### L2 集成测试

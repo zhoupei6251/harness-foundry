@@ -453,7 +453,7 @@ class ForeshadowingDAG:
             lines = f.readlines()
 
         for i, line in enumerate(lines, 1):
-            for pattern in self.FORESHAD_MARKERS:
+            for pattern in self.FORESHADOW_MARKERS:
                 if re.search(pattern, line):
                     findings.append({
                         "line": i,

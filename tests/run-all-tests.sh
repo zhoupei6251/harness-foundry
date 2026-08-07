@@ -52,6 +52,12 @@ run_test "L1-10: news 自检清单" "$TESTS_DIR/L1-static/validate-news-checklis
 run_test "L1-11: code 自检清单" "$TESTS_DIR/L1-static/validate-code-checklist.sh"
 run_test "L1-12: novel continuity 连续性引擎" "$TESTS_DIR/L1-static/validate-novel-continuity.sh"
 run_test "L1-13: novel mechanical scorer" "$TESTS_DIR/L1-static/validate-novel-scorer.sh"
+run_test "L1-14: novel foreshadowing DAG" "$TESTS_DIR/L1-static/validate-novel-foreshadowing.sh"
+run_test "L1-15: novel memory health 记忆健康" "$TESTS_DIR/L1-static/validate-novel-memory-health.sh"
+run_test "L1-16: novel memory injector 记忆注入" "$TESTS_DIR/L1-static/validate-novel-memory-injector.sh"
+run_test "L1-17: novel checkpoint 检查点" "$TESTS_DIR/L1-static/validate-novel-checkpoint.sh"
+run_test "L1-18: novel export 多格式导出" "$TESTS_DIR/L1-static/validate-novel-export.sh"
+run_test "L1-19: novel metrics 写作指标" "$TESTS_DIR/L1-static/validate-novel-metrics.sh"
 
 # === L2 集成测试（本地） ===
 echo "--- L2 集成测试 ---"
