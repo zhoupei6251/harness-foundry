@@ -47,6 +47,8 @@ alwaysApply: false
 
 真相源路径：`harness-foundry/skills/<slug>/SKILL.md`
 
+第三方插件技能（运行时加载，不复制进 `skills/`）：`ecc:*`（审查）、`superpowers:*`（流程）、`ponytail:*`（懒惰阶梯 / review / audit）。代码域实现前注入 `ponytail:ponytail`。
+
 ## 禁止项
 
 详见 `harness-foundry/core/NEVER.md`

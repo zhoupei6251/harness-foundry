@@ -25,6 +25,8 @@ claude plugin marketplace add ecc https://github.com/affaan-m/ECC
 claude plugin install ecc@ecc
 claude plugin marketplace add claude-plugins-official https://github.com/anthropics/claude-plugins-official
 claude plugin install superpowers@claude-plugins-official
+claude plugin marketplace add ponytail https://github.com/DietrichGebert/ponytail
+claude plugin install ponytail@ponytail
 
 # 4. 在 Claude Code 中开始使用
 ```
@@ -55,26 +57,34 @@ cd harness-foundry
 
 ---
 
-## 三层架构：superpowers + ecc + harness
+## 工具栈架构：Claude Code + 五件套
 
-Harness Foundry 是编排层，底层依赖两个生态插件（**不在仓库内**，运行时从插件加载）：
+Harness Foundry 是编排层，底层依赖一个 MCP 服务器 + 四个生态插件（**不在仓库内**，运行时从插件/MCP 加载）：
 
-| 层 | 生态 | 版本 | 角色 | 安装 |
-|----|------|------|------|------|
-| **方法论** | [obra/superpowers](https://github.com/obra/superpowers) | 6.2.0 | 流程 skill：brainstorming / systematic-debugging / TDD / 并行派发等 | `claude plugin install superpowers@claude-plugins-official` |
-| **专家 Agent 池** | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 2.0.0 | 80+ 审查/构建/设计 agent：`java-reviewer`、`security-reviewer`、`code-architect` 等 | `claude plugin install ecc@ecc` |
-| **编排** | harness-foundry（本仓库） | — | 路由表 + 阶段门禁 + 审查链 + 三域工作流 | `git clone` 本仓库 |
+| 角色 | 工具 | 定位 | 安装 |
+|------|------|------|------|
+| **项目大脑** | [codebase-memory-mcp](https://github.com/bklieger-groq/codebase-memory) | 知识图谱：跨文件/跨服务/跨仓库的结构关系、调用链、影响分析 | `mcp-config/codebase-memory.json`（`npx codebase-memory-mcp`） |
+| **流程** | [obra/superpowers](https://github.com/obra/superpowers) | 流程 skill：brainstorming / systematic-debugging / TDD / 并行派发 | `claude plugin install superpowers@claude-plugins-official` |
+| **质量** | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 80+ 审查/构建/设计 agent：`java-reviewer`、`security-reviewer`、`code-architect` | `claude plugin install ecc@ecc` |
+| **验证** | [Playwright MCP](https://github.com/microsoft/playwright-mcp) | E2E 浏览器验证（`e2e-tests/` 配套） | `npx @playwright/mcp` |
+| **极简基准** | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) | 懒惰阶梯规则集：YAGNI / 标准库优先 / 一行代码优先，实现阶段常驻 | `claude plugin install ponytail@ponytail` |
+| **编排** | harness-foundry（本仓库） | 路由表 + 阶段门禁 + 审查链 + 三域工作流 | `git clone` 本仓库 |
+
+分工：**codebase-memory 看结构（图）**，**superpowers 管流程**，**ECC 管质量**，**Playwright 管验证**，**ponytail 管极简**，**harness 管编排**。语义检索/重命名等精确操作交给宿主 IDE（IntelliJ IDEA）完成；协同见 [code-insight-stack](.claude/skills/code-insight-stack/SKILL.md)：先 `ripgrep` 缩小 → `codebase-memory` 看结构 → 宿主 IDE 拿权威定义与重命名。
 
 ### 插件依赖：缺了会怎样
 
 - **缺 superpowers**：`Skill(superpowers:brainstorming)`、`systematic-debugging` 等引用失效，设计/调试流程退化
 - **缺 ecc**：写完代码的强制审查链（`spawn ecc:java-reviewer`）无 agent 可派，[路由表](core/intent-routing.md)「写完代码必做」失效
+- **缺 ponytail**：实现阶段的懒惰阶梯（YAGNI / 标准库优先 / 一行优先）不注入，代码域默认退化为 karpathy-guidelines 基线
+- **缺 codebase-memory**：`search_graph` / `trace_path` 等图查询不可用，结构理解退化为逐文件阅读
 - **缺插件不报错**：Claude 会忽略不存在的 skill/agent 引用，静默降级——因此换机器后务必先装插件
 
 ### 分工：各管一段
 
 - **superpowers 管流程**：设计（brainstorming）→ 计划（writing-plans）→ 调试（systematic-debugging）→ 测试（test-driven-development）→ 收尾（finishing-a-development-branch），由 [core/intent-routing.md](core/intent-routing.md) 路由触发
 - **ecc 管专家**：写完代码必做 `ecc:java-reviewer`，按条件触发 security / database / type-design / silent-failure 审查，编译失败派 `ecc:java-build-resolver`（见 [skill-preferences.md](core/orchestration/skill-preferences.md)）
+- **ponytail 管极简**：实现阶段注入懒惰阶梯（YAGNI → 复用 → 标准库 → 平台原生 → 已装依赖 → 一行 → 最小实现），压缩不必要代码；`/ponytail-review` 可对 diff 输出删除清单（见 [skill-preferences.md](core/orchestration/skill-preferences.md)）
 - **harness 管编排**：Route 声明 → 路由表 → 阶段门禁 → 审查链，三域（code/novel/news）共享
 
 > 本仓库 `skills/` 内的 84 个 skill 均为 harness 定制；与插件重名的 skill（brainstorming 等 57 个）已在 2026-08-05 去重，不再本地复制。
@@ -539,14 +549,17 @@ node scripts/visual-companion/server.js --open
 这是单行配置变更，不需要设计，直接改
 ```
 
-### 三层架构速览
+### 工具栈速览
 
 ```
 用户意图 → Route 声明 → 路由表 → 阶段门禁 → 并行 Worker → 验证
                 │
-                ├─ superpowers（插件）→ 流程方法论：设计/计划/调试/TDD
-                ├─ ecc（插件）      → 专家 agent：审查链 / 编译修复
-                └─ harness（本仓库）→ 编排：路由 / 门禁 / 审查链 / 三域
+                ├─ codebase-memory（MCP）→ 项目大脑：结构图 / 调用链 / 影响分析
+                ├─ superpowers（插件）   → 流程方法论：设计/计划/调试/TDD
+                ├─ ecc（插件）          → 质量：审查链 / 编译修复
+                ├─ Playwright（MCP）    → 验证：E2E 浏览器测试
+                ├─ ponytail（插件）      → 极简基准：懒惰阶梯 / 删除清单
+                └─ harness（本仓库）     → 编排：路由 / 门禁 / 审查链 / 三域
 ```
 
 ---

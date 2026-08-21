@@ -12,15 +12,18 @@ tags: [Standard]
 
 | 触发 | spawn 谁 |
 |------|---------|
+| 实现前（任何代码任务） | 注入 `ponytail:ponytail`（懒惰阶梯：YAGNI → 复用 → 标准库 → 平台原生 → 已装依赖 → 一行 → 最小实现） |
 | 写完代码 | `ecc:java-reviewer` |
 | 新接口/权限变更 | `ecc:security-reviewer` |
 | SQL/DDL 变更 | `ecc:database-reviewer` |
 | 实体/DTO/VO 变更 | `ecc:type-design-analyzer` |
-| 精简/优化 | `ecc:code-simplifier` |
+| 精简/优化 | `ponytail:ponytail-review`（diff 删除清单）→ 按需 `ecc:code-simplifier` |
 | 捕获静默失败 | `ecc:silent-failure-hunter` |
 | 编译失败 | `ecc:java-build-resolver` |
 | task 收尾 | `ecc:code-simplifier` + `ecc:comment-analyzer` 并行 |
 | 大型任务尾盘 | `ecc:java-reviewer` + `ecc:security-reviewer` + `ecc:database-reviewer` + `ecc:pr-test-analyzer` + `ecc:refactor-cleaner` 并行 |
+
+> ponytail 强度：默认 full，可用 `/ponytail lite|full|ultra|off` 切换。其「对理解从不懒惰」与 harness R1（先读后写）一致；被显式要求的内容（校验、防数据丢失、安全）不削减。
 
 ## Novel 域路由
 

@@ -14,10 +14,11 @@ tags: [Rules, Runbook]
 |--------|------|
 | 设计、方案、架构、选型 | Skill(superpowers:brainstorming) → spawn ecc:code-architect → 写 spec → **暂停等确认** |
 | 修bug、空指针、不工作 | Skill(superpowers:systematic-debugging) → 复现→缩小→假设→验证→修复→回归 |
-| 写代码、实现、重构 | 实现 → 自检springboot-checklist → spawn 审查链 |
+| 写代码、实现、重构 | 注入 `ponytail:ponytail`（懒惰阶梯）→ 实现 → 自检springboot-checklist → spawn 审查链 |
 | 多个独立修改（文件无调用关系） | Skill(superpowers:dispatching-parallel-agents) 并行派发 |
 | OK、开始、做吧 | 拆task → 实现（同上） |
 | 审查、review | 并行 spawn: ecc:java-reviewer + ecc:security-reviewer + ecc:database-reviewer + ecc:pr-test-analyzer |
+| 精简、优化、删代码、过度设计 | `ponytail:ponytail-review`（diff 删除清单）→ 按需 `ecc:code-simplifier` |
 | 测试、单测 | Skill(superpowers:test-driven-development) → 先写测试→验证 |
 | mvn compile 报错 | spawn ecc:java-build-resolver |
 | commit、merge、push、MR | Skill(git-xywh) |

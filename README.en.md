@@ -84,6 +84,8 @@ claude plugin marketplace add ecc https://github.com/affaan-m/ECC
 claude plugin install ecc@ecc
 claude plugin marketplace add claude-plugins-official https://github.com/anthropics/claude-plugins-official
 claude plugin install superpowers@claude-plugins-official
+claude plugin marketplace add ponytail https://github.com/DietrichGebert/ponytail
+claude plugin install ponytail@ponytail
 
 # 4. Preview first (safe — no writes)
 bash scripts/bootstrap.sh --target all --dry-run
@@ -103,24 +105,27 @@ bash scripts/verify.sh
 
 ## Three-Layer Architecture: superpowers + ecc + harness
 
-Harness Foundry is the orchestration layer; it depends on two plugin ecosystems (**not vendored in this repo**, loaded at runtime from plugins):
+Harness Foundry is the orchestration layer; it depends on three plugin ecosystems (**not vendored in this repo**, loaded at runtime from plugins):
 
 | Layer | Ecosystem | Version | Role | Install |
 |-------|-----------|---------|------|---------|
 | **Methodology** | [obra/superpowers](https://github.com/obra/superpowers) | 6.2.0 | Process skills: brainstorming / systematic-debugging / TDD / parallel dispatch | `claude plugin install superpowers@claude-plugins-official` |
 | **Expert agent pool** | [affaan-m/ECC](https://github.com/affaan-m/ECC) | 2.0.0 | 80+ review/build/design agents: `java-reviewer`, `security-reviewer`, `code-architect` | `claude plugin install ecc@ecc` |
+| **Minimal-code baseline** | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) | 4.9.0 | Lazy-ladder ruleset: YAGNI / stdlib-first / one-line-first, resident during implementation | `claude plugin install ponytail@ponytail` |
 | **Orchestration** | harness-foundry (this repo) | — | Routing table + stage gates + review chain + 3 domains | `git clone` this repo |
 
 ### Plugin Dependencies: What Breaks If Missing
 
 - **Without superpowers**: `Skill(superpowers:brainstorming)`, `systematic-debugging`, etc. fail silently — design/debug flows degrade
 - **Without ecc**: the mandatory post-code review chain (`spawn ecc:java-reviewer`) in the [routing table](core/intent-routing.md) has no agents to dispatch
+- **Without ponytail**: the lazy ladder (YAGNI / stdlib-first / one-line-first) is not injected during implementation; the code domain falls back to the karpathy-guidelines baseline
 - **No error when missing**: Claude ignores unknown skill/agent references silently — always install plugins on a new machine
 
 ### Division of Labor
 
 - **superpowers owns process**: design (brainstorming) → plan (writing-plans) → debug (systematic-debugging) → test (test-driven-development) → finish (finishing-a-development-branch), triggered by [core/intent-routing.md](core/intent-routing.md)
 - **ecc owns experts**: post-code mandatory `ecc:java-reviewer`, conditional security / database / type-design / silent-failure reviews, build failures → `ecc:java-build-resolver` (see [skill-preferences.md](core/orchestration/skill-preferences.md))
+- **ponytail owns minimalism**: injects the lazy ladder (YAGNI → reuse → stdlib → native platform → installed deps → one line → minimal implementation) during implementation; `/ponytail-review` emits a deletion list for a diff (see [skill-preferences.md](core/orchestration/skill-preferences.md))
 - **harness owns orchestration**: Route declaration → routing table → stage gates → review chain, shared across 3 domains (code/novel/news)
 
 > The 84 skills in `skills/` are harness-specific; 57 skills that duplicated plugin skills (brainstorming, etc.) were deduplicated on 2026-08-05 and are no longer vendored.
