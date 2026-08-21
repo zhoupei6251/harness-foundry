@@ -37,6 +37,7 @@ category: code.lsp
 - 通信：LSP over stdin/stdout 或 socket；通过 `lsp-cli` / `lsp_command_*` 调用
 - 覆盖：定义、引用、悬停、符号、诊断、重命名、格式化、范围、类型定义
 - 由 IDE 或 MCP LSP bridge 暴露给 AI；本 skill 只规定协议和调用约定
+- **当前项目未启用 LSP 后端**：语义检索类能力由 `codebase-memory`（结构关系）+ `ripgrep-search`（文本/注释）承担；需要精确语义操作时用宿主 IDE（IntelliJ IDEA）完成
 
 ## 调用方式
 
@@ -96,16 +97,17 @@ LSP: workspace/executeCommand
 
 | 需求 | 优先 | 备用 |
 |------|------|------|
-| 谁调用了 X（语义、含继承/重写） | `lsp-query` (references) | `trace_path(direction="inbound")` |
-| 找文本/字符串 | `ripgrep-search` | `lsp-query` (documentSymbol) |
-| 找 X 的类型/签名 | `lsp-query` (hover) | `get_code_snippet` |
-| 编译期错误 | `lsp-query` (diagnostic) | `simplify` / `tdd` |
-| 跨文件图关系 | `codebase-memory` | `lsp-query` (workspace symbol) |
+| 谁调用了 X（语义、含继承/重写） | `codebase-memory` 的 `trace_path(direction="inbound")` | 宿主 IDE（IntelliJ）Find Usages |
+| 找文本/字符串 | `ripgrep-search` | — |
+| 找 X 的类型/签名 | `codebase-memory` 的 `get_code_snippet` | 宿主 IDE 跳转 |
+| 编译期错误 | 宿主 IDE / `mvn compile` | `simplify` / `tdd` |
+| 跨文件图关系 | `codebase-memory` | `ripgrep-search` |
 
-> 三者协同：`codebase-memory` 跨服务、跨仓库；`lsp-query` 给出当前 workspace 的权威语义；`ripgrep-search` 兜底非语义搜索（注释、字符串、配置）。
+> 协同原则：`codebase-memory` 跨服务、跨仓库；宿主 IDE（IntelliJ IDEA）提供权威语义与重命名；`ripgrep-search` 兜底非语义搜索（注释、字符串、配置）。
 
 ## 失败与边界
 
-- Language server 不可用 → 报告 `tool_unavailable: lsp`，降级到 `codebase-memory` + `ripgrep-search`
-- 索引未完成（首次打开）→ 等待 workspace/symbol，或用 `get_code_snippet` 直接读
+- LSP 后端不可用（未启用 / 启动失败）→ 报告 `tool_unavailable: lsp`，降级到 `codebase-memory` + `ripgrep-search`，**不阻塞任务**
+- 中文注释/字符串语义检索不可用（LSP 不索引注释与字符串）→ 用 `ripgrep-search` 兜底
+- 需要精确语义操作（重命名/Find Usages）→ 交给宿主 IDE（IntelliJ IDEA），AI 不做跨文件手工替换
 - 想跨 IDE 改代码 → 改用 IDE 的 rename/refactor，不要靠 LSP executeCommand
